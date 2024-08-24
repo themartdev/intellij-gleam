@@ -132,6 +132,34 @@ kover {
     }
 }
 
+java {
+    sourceSets {
+        main {
+            java.srcDir("gen")
+            resources.srcDir("resources")
+        }
+
+        test {
+            java.srcDirs("test")
+            resources.srcDir("test/testData")
+        }
+    }
+}
+
+kotlin {
+    sourceSets {
+        main {
+            kotlin.srcDir("src")
+            resources.srcDir("resources")
+        }
+
+        test {
+            kotlin.srcDir("test")
+            resources.srcDir("test/testData")
+        }
+    }
+}
+
 tasks {
     wrapper {
         gradleVersion = providers.gradleProperty("gradleVersion").get()

@@ -3,3 +3,9 @@
 .intellijPlatform
 .qodana
 build
+
+
+# JFlex generator download
+JFlex.jar
+jflex-*.jar
+idea-flex.skeleton

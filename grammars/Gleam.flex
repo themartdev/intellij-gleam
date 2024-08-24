@@ -2,83 +2,49 @@ package com.github.themartdev.intellijgleam.lexer;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import com.intellij.openapi.util.text.StringUtil;
-import static com.intellij.psi.TokenType.*;
+import org.intellij.sdk.language.psi.SimpleTypes;
+import com.intellij.psi.TokenType;
+
 
 import static org.intellij.prisma.lang.psi.PrismaElementTypes.*;
 
 %%
 
-%{
-  public _GleamLexer() {
-    this((java.io.Reader)null);
-  }
-
-  private void handleNewLine() {
-      if (yystate() == DECL && StringUtil.containsLineBreak(yytext())) {
-          yybegin(YYINITIAL);
-      }
-  }
-%}
-
+%public
 %class _GleamLexer
 %implements FlexLexer
 %unicode
 %function advance
 %type IElementType
+%eof{
+    return;
+%eof}
 
-EOL_WS           = \n | \r | \r\n
-LINE_WS          = [\ \t]
-WHITE_SPACE_CHAR = {EOL_WS} | {LINE_WS}
-WHITE_SPACE      = {WHITE_SPACE_CHAR}+
-DIGIT            = [:digit:]
 
-NAME_START       = [a-zA-Z]
-NAME_BODY        = [a-zA-Z0-9\-_]
-IDENTIFIER       = {NAME_START} ({NAME_BODY})*
+CRLF=\R
+WHITE_SPACE=[\ \n\t\f]
+FIRST_VALUE_CHARACTER=[^ \n\f\\] | "\\"{CRLF} | "\\".
+VALUE_CHARACTER=[^\n\f\\] | "\\"{CRLF} | "\\".
+END_OF_LINE_COMMENT=("#"|"!")[^\r\n]*
+SEPARATOR=[:=]
+KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
 
-STRING_LITERAL   = \"([^\\\"\r\n]|\\[^\r\n])*\"?
-NUMERIC_LITERAL  = "-"? {DIGIT}+ ("." {DIGIT}+)?
-
-DOC_COMMENT = "///" .*
-LINE_COMMENT = "//" .*
-
-%state DECL, BLOCK
+%state WAITING_VALUE
 
 %%
 
-<YYINITIAL> {
-    "model"            { yybegin(DECL); return MODEL; }
-    "type"             { yybegin(DECL); return TYPE; }
-    "view"             { yybegin(DECL); return VIEW; }
-    "enum"             { yybegin(DECL); return ENUM; }
-    "generator"        { yybegin(DECL); return GENERATOR; }
-    "datasource"       { yybegin(DECL); return DATASOURCE; }
-}
+<YYINITIAL> {END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return SimpleTypes.COMMENT; }
 
-"Unsupported"      { return UNSUPPORTED; }
+<YYINITIAL> {KEY_CHARACTER}+                                { yybegin(YYINITIAL); return SimpleTypes.KEY; }
 
-"{"                { yybegin(BLOCK); return LBRACE; }
-"}"                { yybegin(YYINITIAL); return RBRACE; }
-"("                { return LPAREN; }
-")"                { return RPAREN; }
-"["                { return LBRACKET; }
-"]"                { return RBRACKET; }
-"="                { return EQ; }
-"."                { return DOT; }
-":"                { return COLON; }
-"?"                { return QUEST; }
-"!"                { return EXCL; }
-"@"                { return AT; }
-"@@"               { return ATAT; }
-","                { return COMMA; }
+<YYINITIAL> {SEPARATOR}                                     { yybegin(WAITING_VALUE); return SimpleTypes.SEPARATOR; }
 
-{IDENTIFIER}       { return IDENTIFIER; }
-{NUMERIC_LITERAL}  { return NUMERIC_LITERAL; }
-{STRING_LITERAL}   { return STRING_LITERAL; }
-{WHITE_SPACE}      { handleNewLine(); return WHITE_SPACE; }
+<WAITING_VALUE> {CRLF}({CRLF}|{WHITE_SPACE})+               { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
 
-{DOC_COMMENT}      { return DOC_COMMENT; }
-{LINE_COMMENT}     { return LINE_COMMENT; }
+<WAITING_VALUE> {WHITE_SPACE}+                              { yybegin(WAITING_VALUE); return TokenType.WHITE_SPACE; }
 
-[^]                { return BAD_CHARACTER; }
+<WAITING_VALUE> {FIRST_VALUE_CHARACTER}{VALUE_CHARACTER}*   { yybegin(YYINITIAL); return SimpleTypes.VALUE; }
+
+({CRLF}|{WHITE_SPACE})+                                     { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
+
+[^]                                                         { return TokenType.BAD_CHARACTER; }

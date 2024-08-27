@@ -1,0 +1,63 @@
+{
+  parserClass='com.github.themartdev.intellijgleam.lang.parser.GleamParser'
+
+  extends='com.intellij.extapi.psi.ASTWrapperPsiElement'
+
+  elementTypeHolderClass='com.github.themartdev.intellijgleam.lang.psi.GleamElementTypes'
+  elementTypeClass='com.github.themartdev.intellijgleam.lang.psi.GleamElementType'
+//  tokenTypeClass='com.github.themartdev.intellijgleam.lang.psi.GleamTokenType'
+
+  psiClassPrefix='Gleam'
+  psiImplClassSuffix='Impl'
+  psiPackage="com.github.themartdev.intellijgleam.lang.psi"
+  psiImplPackage="com.github.themartdev.intellijgleam.lang.psi.impl"
+
+  tokens=[
+    // Generic
+    LBRACE          = '{'
+    RBRACE          = '}'
+    LPAREN          = '('
+    RPAREN          = ')'
+    LBRACK          = '['
+    RBRACK          = ']'
+
+
+    // Language keywords
+    IMPORT='import'
+    AS='as'
+    PUB='pub'
+    FN='fn'
+    DOT='.'
+    COMMA=','
+
+    STRING_LITERAL="regexp:\"([^\"\\]|\\.)*\""
+    IDENTIFIER="regexp:[a-zA-Z_][a-zA-Z0-9_]*"
+
+    WHITE_SPACE     = 'regexp:\s+'
+
+    MODULE_COMMENT        = 'regexp:////.*'
+    FUNCTION_COMMENT      = 'regexp:///.*'
+    LINE_COMMENT          = 'regexp://.*'
+  ]
+}
+
+root ::= Statement*
+
+Statement ::= ImportDeclaration | FunctionDeclaration | Expression
+
+ImportDeclaration ::= 'import' ImportPath ['as' IDENTIFIER] [DOT ImportList]
+ImportPath ::= IDENTIFIER ('/' IDENTIFIER)*
+ImportList ::= '{' IDENTIFIER (',' IDENTIFIER)* '}'
+
+FunctionDeclaration ::= ['pub'] 'fn' IDENTIFIER '(' [ParameterList] ')' Block
+ParameterList ::= Parameter (',' Parameter)*
+Parameter ::= IDENTIFIER
+
+Block ::= '{' Statement* '}'
+
+Expression ::= FunctionCall | StringLiteral | IDENTIFIER
+
+FunctionCall ::= [IDENTIFIER '.'] IDENTIFIER '(' [ArgumentList] ')'
+ArgumentList ::= Expression (',' Expression)*
+
+StringLiteral ::= STRING_LITERAL

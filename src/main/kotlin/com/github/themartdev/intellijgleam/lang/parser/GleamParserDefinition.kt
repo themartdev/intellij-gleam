@@ -1,5 +1,8 @@
 package com.github.themartdev.intellijgleam.lang.parser
 
+import com.github.themartdev.intellijgleam.lang.GleamFileType
+import com.github.themartdev.intellijgleam.lang.lexer.GleamLexer
+import com.github.themartdev.intellijgleam.lang.psi.*
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
 import com.intellij.lang.PsiParser
@@ -12,17 +15,17 @@ import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 
 class GleamParserDefinition : ParserDefinition {
-    override fun createLexer(project: Project?): Lexer = PrismaLexer()
+    override fun createLexer(project: Project?): Lexer = GleamLexer()
 
-    override fun createParser(project: Project?): PsiParser = PrismaParser()
+    override fun createParser(project: Project?): PsiParser = GleamParser()
 
-    override fun getFileNodeType(): IFileElementType = PrismaFileElementType
+    override fun getFileNodeType(): IFileElementType = GleamFileElementType
 
-    override fun getCommentTokens(): TokenSet = PRISMA_COMMENTS
+    override fun getCommentTokens(): TokenSet = GLEAM_COMMENTS
 
-    override fun getStringLiteralElements(): TokenSet = PRISMA_STRINGS
+    override fun getStringLiteralElements(): TokenSet = GLEAM_STRINGS
 
-    override fun createElement(node: ASTNode?): PsiElement = PrismaElementTypes.Factory.createElement(node)
+    override fun createElement(node: ASTNode?): PsiElement = GleamElementTypes.Factory.createElement(node)
 
-    override fun createFile(viewProvider: FileViewProvider): PsiFile = PrismaFile(viewProvider)
+    override fun createFile(viewProvider: FileViewProvider): PsiFile = GleamFile(viewProvider)
 }

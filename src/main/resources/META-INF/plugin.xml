@@ -9,8 +9,17 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <platform.lsp.serverSupportProvider
-                implementation="com.github.themartdev.intellijgleam.lsp.GleamLspServerProvider"/>
-        <fileType name="Gleam" language="Gleam"
-                  implementationClass="com.github.themartdev.intellijgleam.lang.GleamFileType" extensions="gleam"/>
+                implementation="com.github.themartdev.intellijgleam.ide.lsp.GleamLspServerProvider"/>
+        <fileType name="Gleam"
+                  language="Gleam"
+                  implementationClass="com.github.themartdev.intellijgleam.lang.GleamFileType"
+                  extensions="gleam"
+                  fieldName="INSTANCE"/>
+
+        <lang.parserDefinition language="Gleam"
+                               implementationClass="com.github.themartdev.intellijgleam.lang.parser.GleamParserDefinition"/>
+
+        <lang.syntaxHighlighter language="Gleam"
+                                implementationClass="com.github.themartdev.intellijgleam.ide.highlighting.GleamSyntaxHighlighter"/>
     </extensions>
 </idea-plugin>

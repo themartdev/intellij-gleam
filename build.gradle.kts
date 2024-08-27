@@ -38,6 +38,7 @@ idea {
 // Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
 dependencies {
     testImplementation(libs.junit)
+    testImplementation("org.opentest4j:opentest4j:1.3.0")
 
     // IntelliJ Platform Gradle Plugin Dependencies Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
     intellijPlatform {
@@ -53,6 +54,7 @@ dependencies {
         pluginVerifier()
         zipSigner()
         testFramework(TestFrameworkType.Platform)
+        testFramework(TestFrameworkType.JUnit5)
     }
 }
 
@@ -132,33 +134,8 @@ kover {
     }
 }
 
-java {
-    sourceSets {
-        main {
-            java.srcDir("gen")
-            resources.srcDir("resources")
-        }
-
-        test {
-            java.srcDirs("test")
-            resources.srcDir("test/testData")
-        }
-    }
-}
-
-kotlin {
-    sourceSets {
-        main {
-            kotlin.srcDir("src")
-            resources.srcDir("resources")
-        }
-
-        test {
-            kotlin.srcDir("test")
-            resources.srcDir("test/testData")
-        }
-    }
-}
+sourceSets["main"].java.srcDir("gen")
+sourceSets["test"].resources.srcDir("src/test/testData")
 
 tasks {
     wrapper {

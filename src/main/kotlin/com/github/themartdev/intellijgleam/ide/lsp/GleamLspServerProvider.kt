@@ -1,4 +1,6 @@
-package com.github.themartdev.intellijgleam.lsp
+@file:Suppress("UnstableApiUsage")
+
+package com.github.themartdev.intellijgleam.ide.lsp
 
 import com.github.themartdev.intellijgleam.GleamIcons
 import com.intellij.openapi.diagnostic.logger

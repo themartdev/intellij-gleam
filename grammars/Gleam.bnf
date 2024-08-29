@@ -12,8 +12,36 @@
   psiPackage="com.github.themartdev.intellijgleam.lang.psi"
   psiImplPackage="com.github.themartdev.intellijgleam.lang.psi.impl"
 
+  extends(".*Expr")=expression
+
   tokens=[
-    // Generic
+    // Language keywords https://github.com/gleam-lang/gleam/blob/main/compiler-core/src/parse/lexer.rs#L24
+    AS              = 'as'
+    ASSERT          = 'assert'
+    AUTO            = 'auto'
+    CASE            = 'case'
+    CONST           = 'const'
+    DELEGATE        = 'delegate'
+    DERIVE          = 'derive'
+    ECHO            = 'echo'
+    ELSE            = 'else'
+    EXTERNAL        = 'external'
+    FN              = 'fn'
+    IF              = 'if'
+    IMPLEMENT       = 'implement'
+    IMPORT          = 'import'
+    LET             = 'let'
+    MACRO           = 'macro'
+    OPAQUE          = 'opaque'
+    PANIC           = 'panic'
+    PUB             = 'pub'
+    TEST            = 'test'
+    TODO            = 'todo'
+    TRY             = 'try'
+    TYPE            = 'type'
+    USE             = 'use'
+
+    // Grouping symbols
     LBRACE          = '{'
     RBRACE          = '}'
     LPAREN          = '('
@@ -21,43 +49,272 @@
     LBRACK          = '['
     RBRACK          = ']'
 
+    // Operators and punctuation
+    DOT             = '.'
+    COMMA           = ','
+    COLON           = ':'
+    HASH            = '#'
+    BANG            = '!'
+    EQUAL           = '='
+    EQUAL_EQUAL     = '=='
+    NOT_EQUAL       = '!='
+    VBAR            = '|'
+    VBAR_VBAR       = '||'
+    AMPER_AMPER     = '&&'
+    LT_LT           = '<<'
+    GT_GT           = '>>'
+    PIPE            = '|>'
+    R_ARROW         = '->'
+    L_ARROW         = '<-'
+    DOT_DOT         = '..'
+    PLUS            = '+'
+    MINUS           = '-'
+    STAR            = '*'
+    SLASH           = '/'
+    LESS            = '<'
+    GREATER         = '>'
+    LESS_EQUAL      = '<='
+    GREATER_EQUAL   = '>='
+    PERCENT         = '%'
+    PLUS_DOT        = '+.'
+    MINUS_DOT       = '-.'
+    STAR_DOT        = '*.'
+    SLASH_DOT       = '/.'
+    LESS_DOT        = '<.'
+    GREATER_DOT     = '>.'
+    LESS_EQUAL_DOT  = '<=.'
+    GREATER_EQUAL_DOT = '>=.'
+    LT_GT           = '<>'
 
-    // Language keywords
-    IMPORT='import'
-    AS='as'
-    PUB='pub'
-    FN='fn'
-    DOT='.'
-    COMMA=','
+    // Literals
+    STRING_LITERAL  = "regexp:\"([^\"\\]|\\.)*\""
+    INTEGER_LITERAL = "regexp:-?(0[bB][0-1_]+|0[xX][0-9a-fA-F_]+|0[oO][0-7_]+|[0-9][0-9_]*)"
+    FLOAT_LITERAL   = "regexp:-?([0-9][0-9_]*\.[0-9_]+[0-9]*([Ee][+\-]?[0-9]+)?|[0-9][0-9_]*[Ee][+\-]?[0-9]+)"
+    BOOLEAN_LITERAL = "regexp:True|False"
 
-    STRING_LITERAL="regexp:\"([^\"\\]|\\.)*\""
-    IDENTIFIER="regexp:[a-zA-Z_][a-zA-Z0-9_]*"
+    // Identifiers
+    DISCARD_NAME    = "regexp:_[_0-9a-z]*"
+    UP_IDENTIFIER   = "regexp:[A-Z][a-zA-Z0-9_]*"
+    IDENTIFIER      = "regexp:[a-zA-Z_][a-zA-Z0-9_]*"
 
-    WHITE_SPACE     = 'regexp:\s+'
+    // Comments
+    MODULE_COMMENT  = "regexp:////[^\n]*"
+    FUNCTION_COMMENT="regexp:///[^\n]*"
+    LINE_COMMENT    = "regexp://[^\n]*"
 
-    MODULE_COMMENT        = 'regexp:////.*'
-    FUNCTION_COMMENT      = 'regexp:///.*'
-    LINE_COMMENT          = 'regexp://.*'
+    // Whitespace
+    WHITE_SPACE     = "regexp:\s+"
   ]
 }
 
-root ::= Statement*
 
-Statement ::= ImportDeclaration | FunctionDeclaration | Expression
 
-ImportDeclaration ::= 'import' ImportPath ['as' IDENTIFIER] [DOT ImportList]
-ImportPath ::= IDENTIFIER ('/' IDENTIFIER)*
-ImportList ::= '{' IDENTIFIER (',' IDENTIFIER)* '}'
+// Rules
+sourceFile ::= (statement | expressionSeq | targetGroup)*
 
-FunctionDeclaration ::= ['pub'] 'fn' IDENTIFIER '(' [ParameterList] ')' Block
-ParameterList ::= Parameter (',' Parameter)*
-Parameter ::= IDENTIFIER
+statement ::= imports
+            | constant
+            | externalFunction
+            | function
+            | typeDefinition
+            | typeAlias
 
-Block ::= '{' Statement* '}'
+targetGroup ::= IF IDENTIFIER LBRACE statement* RBRACE
 
-Expression ::= FunctionCall | StringLiteral | IDENTIFIER
+// Imports
+module ::= IDENTIFIER (SLASH IDENTIFIER)*
+unqualifiedImport ::= IDENTIFIER (AS IDENTIFIER)? | [TYPE] UP_IDENTIFIER (AS UP_IDENTIFIER)?
+unqualifiedImports ::= LBRACE [unqualifiedImport (COMMA unqualifiedImport)* [COMMA]] RBRACE
+imports ::= IMPORT module [DOT unqualifiedImports] [AS IDENTIFIER]
 
-FunctionCall ::= [IDENTIFIER '.'] IDENTIFIER '(' [ArgumentList] ')'
-ArgumentList ::= Expression (',' Expression)*
+// Types
+constantFunctionParameterTypes ::= LPAREN [constantTypeSpecial (COMMA constantTypeSpecial)* [COMMA]] RPAREN
+constantTypeFunction ::= FN [constantFunctionParameterTypes] R_ARROW constantTypeSpecial
 
-StringLiteral ::= STRING_LITERAL
+constantTuple ::= HASH LPAREN [constantValue (COMMA constantValue)* [COMMA]] RPAREN
+constantTypeTuple ::= HASH LPAREN [constantTypeSpecial (COMMA constantTypeSpecial)* [COMMA]] RPAREN
+
+constantTypeArgument ::= constantTypeSpecial
+constantTypeArguments ::= LPAREN [constantTypeArgument (COMMA constantTypeArgument)* [COMMA]] RPAREN
+
+constantList ::= LBRACK [constantValue (COMMA constantValue)* [COMMA]] RBRACK
+
+constantRecordArgument ::= [label COLON] constantValue
+constantRecordArguments ::= LPAREN [constantRecordArgument (COMMA constantRecordArgument)* [COMMA]] RPAREN
+constantRecord ::= (constructorIdentifier | remoteConstructorIdentifier) [constantRecordArguments]
+
+bitStringSegmentOptionSize ::= IDENTIFIER LPAREN INTEGER_LITERAL RPAREN
+bitStringNamedSegmentOption ::= IDENTIFIER | bitStringSegmentOptionSize
+bitStringSegmentOption ::= bitStringNamedSegmentOption | INTEGER_LITERAL
+bitStringSegmentOptions ::= bitStringSegmentOption (MINUS bitStringSegmentOption)* [MINUS]
+constantBitStringSegment ::= constantValue [COLON bitStringSegmentOptions]
+constantBitString ::= LT_LT [constantBitStringSegment (COMMA constantBitStringSegment)* [COMMA]] GT_GT
+
+constantType ::= (typeIdentifier | remoteTypeIdentifier) [constantTypeArguments]
+constantTypeSpecial ::= typeHole
+                      | constantTypeTuple
+                      | constantTypeFunction
+                      | constantType
+constantTypeAnnotation ::= COLON constantType
+constantFieldAccess ::= IDENTIFIER DOT label
+constantValue ::= constantTuple
+                | constantList
+                | constantBitString
+                | constantRecord
+                | IDENTIFIER
+                | constantFieldAccess
+                | literalExpr
+constant ::= [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUAL constantValue
+
+typeParameters ::= LPAREN [typeParameter (COMMA typeParameter)* [COMMA]] RPAREN
+typeName ::= (typeIdentifier | remoteTypeIdentifier) [typeParameters]
+//externalType ::= [visibilityModifier] EXTERNAL TYPE typeName
+
+functionParameterTypes ::= LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN
+tupleType ::= HASH LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN
+functionType ::= FN [functionParameterTypes] R_ARROW typeBase
+
+typeBase ::= typeHole | tupleType | functionType | typeRule | typeVar
+typeAnnotation ::= COLON typeBase
+typeArgument ::= typeBase
+typeArguments ::= LPAREN [typeArgument (COMMA typeArgument)* [COMMA]] RPAREN
+typeRule ::= (typeIdentifier | remoteTypeIdentifier) [typeArguments]
+//typeRule ::= 'String'
+
+externalFunctionBody ::= STRING_LITERAL STRING_LITERAL
+externalFunctionParameter ::= [IDENTIFIER COLON] typeBase
+externalFunctionParameters ::= LPAREN [externalFunctionParameter (COMMA externalFunctionParameter)* [COMMA]] RPAREN
+externalFunction ::= [visibilityModifier] EXTERNAL FN IDENTIFIER externalFunctionParameters R_ARROW typeBase EQUAL externalFunctionBody
+
+functionParameterArgs ::= labeledDiscardParam | discardParam | labeledNameParam | nameParam
+functionParameter ::= functionParameterArgs [typeAnnotation]
+functionParameters ::= LPAREN [functionParameter (COMMA functionParameter)* [COMMA]] RPAREN
+functionBody ::= LBRACE [expressionSeq] RBRACE
+function ::= [visibilityModifier] FN IDENTIFIER functionParameters [R_ARROW typeBase] functionBody
+
+listPatternTail ::= DOT_DOT [IDENTIFIER | discard]
+listPattern ::= LBRACK [pattern (COMMA pattern)* [COMMA]] [listPatternTail] RBRACK
+
+patternBitStringSegment ::= pattern [COLON bitStringSegmentOptions]
+patternBitString ::= LT_LT [patternBitStringSegment (COMMA patternBitStringSegment)* [COMMA]] GT_GT
+
+tuplePattern ::= HASH LPAREN [pattern (COMMA pattern)* [COMMA]] RPAREN
+patternSpread ::= DOT_DOT [COMMA]
+recordPatternArgument ::= [label COLON] pattern
+recordPatternArguments ::= LPAREN [recordPatternArgument (COMMA recordPatternArgument)* [COMMA]] [patternSpread] RPAREN
+recordPattern ::= (constructorIdentifier | remoteConstructorIdentifier) [recordPatternArguments]
+pattern ::= (IDENTIFIER | discard | recordPattern | literalExpr | tuplePattern | patternBitString | listPattern) [AS IDENTIFIER]
+
+tryRule ::= TRY pattern [typeAnnotation] EQUAL expression
+expressionSeq ::= (expression | tryRule)+
+
+argument ::= [label COLON] (hole | expression)
+arguments ::= LPAREN [argument (COMMA argument)* [COMMA]] RPAREN
+recordExpr ::= (constructorIdentifier | remoteConstructorIdentifier) [arguments]
+
+expressionBitStringSegment ::= expression [COLON bitStringSegmentOptions]
+expressionBitStringExpr ::= LT_LT [expressionBitStringSegment (COMMA expressionBitStringSegment)* [COMMA]] GT_GT
+
+todoRuleExpr ::= TODO [LPAREN STRING_LITERAL RPAREN]
+tupleExpr ::= HASH LPAREN [expression (COMMA expression)* [COMMA]] RPAREN
+listExpr ::= LBRACK [expression ((COMMA expression)*)? [COMMA] [DOT_DOT expression]] RBRACK
+
+anonymousFunctionParameterArgs ::= discardParam | nameParam
+anonymousFunctionParameter ::= anonymousFunctionParameterArgs [typeAnnotation]
+anonymousFunctionParameters ::= LPAREN [anonymousFunctionParameter (COMMA anonymousFunctionParameter)* [COMMA]] RPAREN
+anonymousFunctionExpr ::= FN anonymousFunctionParameters [R_ARROW typeRule] functionBody
+
+blockExpr ::= LBRACE expressionSeq RBRACE
+
+caseClauseTupleAccess ::= IDENTIFIER DOT INTEGER_LITERAL
+caseClauseGuardUnit ::= IDENTIFIER | caseClauseTupleAccess | LBRACE caseClauseGuardExpression RBRACE | constantValue
+caseClauseGuardBinaryOperator ::= VBAR_VBAR | AMPER_AMPER | EQUAL_EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | LESS_DOT
+                                | LESS_EQUAL_DOT | GREATER | GREATER_EQUAL | GREATER_DOT | GREATER_EQUAL_DOT
+caseClauseGuardExpression ::= caseClauseGuardUnit caseClauseGuardTail*
+caseClauseGuardTail ::= caseClauseGuardBinaryOperator caseClauseGuardUnit
+
+caseClauseGuard ::= IF caseClauseGuardExpression
+caseClausePattern ::= pattern (COMMA pattern)* [COMMA]
+caseClausePatterns ::= caseClausePattern (VBAR caseClausePattern)* [VBAR]
+caseClause ::= caseClausePatterns [caseClauseGuard] R_ARROW expression
+caseClauses ::= caseClause+
+caseSubjects ::= expressionSeq
+caseExpr ::= CASE caseSubjects LBRACE caseClauses RBRACE
+
+useArgs ::= IDENTIFIER | IDENTIFIER COMMA useArgs
+useExpr ::= USE [useArgs] L_ARROW expression
+
+assignment ::= pattern [typeAnnotation] EQUAL expression
+letExpr ::= LET assignment
+assertExpr ::= ASSERT assignment
+negationExpr ::= BANG expression
+
+recordUpdateArgument ::= label COLON expression
+recordUpdateArguments ::= recordUpdateArgument (COMMA recordUpdateArgument)* [COMMA]
+recordUpdateExpr ::= (constructorIdentifier | remoteConstructorIdentifier) LPAREN DOT_DOT expression COMMA recordUpdateArguments RPAREN
+
+
+
+callExpr ::= expression arguments
+
+accessExpr ::= expression DOT label
+
+referenceExpr ::= IDENTIFIER
+
+literalExpr ::= STRING_LITERAL | INTEGER_LITERAL | FLOAT_LITERAL | BOOLEAN_LITERAL
+
+expression ::= parenthesizedExpr
+             | callExpr
+             | accessExpr
+             | binaryExpr
+             | recordExpr
+             | anonymousFunctionExpr
+             | referenceExpr
+             | todoRuleExpr
+             | tupleExpr
+             | listExpr
+             | expressionBitStringExpr
+             | blockExpr
+             | caseExpr
+             | letExpr
+             | useExpr
+             | assertExpr
+             | negationExpr
+             | recordUpdateExpr
+             | literalExpr
+
+parenthesizedExpr ::= LPAREN expression RPAREN
+
+binaryExpr ::= expression binaryOperator expression
+binaryOperator ::= EQUAL_EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | LESS_DOT
+                 | LESS_EQUAL_DOT | GREATER | GREATER_EQUAL | GREATER_DOT
+                 | GREATER_EQUAL_DOT | LT_GT | PIPE | PLUS | PLUS_DOT
+                 | MINUS | MINUS_DOT | STAR | STAR_DOT | SLASH | SLASH_DOT
+                 | PERCENT | AMPER_AMPER | VBAR_VBAR
+
+dataConstructorArgument ::= [label COLON] typeBase
+dataConstructorArguments ::= LPAREN [dataConstructorArgument (COMMA dataConstructorArgument)* [COMMA]] RPAREN
+dataConstructor ::= constructorIdentifier [dataConstructorArguments]
+dataConstructors ::= dataConstructor+
+
+typeAlias ::= [visibilityModifier] [opacityModifier] TYPE typeName EQUAL typeRule
+typeDefinition ::= [visibilityModifier] [opacityModifier] TYPE typeName LBRACE dataConstructors RBRACE
+
+
+// Aliases
+constructorIdentifier ::= UP_IDENTIFIER
+typeIdentifier ::= UP_IDENTIFIER
+discard ::= DISCARD_NAME
+label ::= IDENTIFIER
+typeParameter ::= IDENTIFIER
+typeVar ::= IDENTIFIER
+typeHole ::= IDENTIFIER
+hole ::= DISCARD_NAME
+discardParam ::= discard
+nameParam ::= IDENTIFIER
+labeledNameParam ::= label IDENTIFIER
+labeledDiscardParam ::= label discard
+remoteConstructorIdentifier ::= IDENTIFIER DOT constructorIdentifier
+remoteTypeIdentifier ::= IDENTIFIER DOT typeIdentifier
+visibilityModifier ::= PUB
+opacityModifier ::= OPAQUE

@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamBitStringSegmentOptionImpl extends ASTWrapperPsiElement implements GleamBitStringSegmentOption {
+public class GleamIntegerLiteralImpl extends ASTWrapperPsiElement implements GleamIntegerLiteral {
 
-  public GleamBitStringSegmentOptionImpl(@NotNull ASTNode node) {
+  public GleamIntegerLiteralImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitBitStringSegmentOption(this);
+    visitor.visitIntegerLiteral(this);
   }
 
   @Override
@@ -29,14 +29,26 @@ public class GleamBitStringSegmentOptionImpl extends ASTWrapperPsiElement implem
 
   @Override
   @Nullable
-  public GleamBitStringNamedSegmentOption getBitStringNamedSegmentOption() {
-    return findChildByClass(GleamBitStringNamedSegmentOption.class);
+  public GleamBinaryIntegerLiteral getBinaryIntegerLiteral() {
+    return findChildByClass(GleamBinaryIntegerLiteral.class);
   }
 
   @Override
   @Nullable
-  public GleamWholeNumber getWholeNumber() {
-    return findChildByClass(GleamWholeNumber.class);
+  public GleamDecimalIntegerLiteral getDecimalIntegerLiteral() {
+    return findChildByClass(GleamDecimalIntegerLiteral.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamHexIntegerLiteral getHexIntegerLiteral() {
+    return findChildByClass(GleamHexIntegerLiteral.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamOctalIntegerLiteral getOctalIntegerLiteral() {
+    return findChildByClass(GleamOctalIntegerLiteral.class);
   }
 
 }

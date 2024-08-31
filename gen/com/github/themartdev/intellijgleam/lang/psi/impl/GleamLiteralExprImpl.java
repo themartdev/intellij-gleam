@@ -29,6 +29,18 @@ public class GleamLiteralExprImpl extends GleamExpressionImpl implements GleamLi
 
   @Override
   @Nullable
+  public GleamFloatLiteral getFloatLiteral() {
+    return findChildByClass(GleamFloatLiteral.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamIntegerLiteral getIntegerLiteral() {
+    return findChildByClass(GleamIntegerLiteral.class);
+  }
+
+  @Override
+  @Nullable
   public GleamStringLiteral getStringLiteral() {
     return findChildByClass(GleamStringLiteral.class);
   }
@@ -37,18 +49,6 @@ public class GleamLiteralExprImpl extends GleamExpressionImpl implements GleamLi
   @Nullable
   public PsiElement getBooleanLiteral() {
     return findChildByType(BOOLEAN_LITERAL);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getFloatLiteral() {
-    return findChildByType(FLOAT_LITERAL);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getIntegerLiteral() {
-    return findChildByType(INTEGER_LITERAL);
   }
 
 }

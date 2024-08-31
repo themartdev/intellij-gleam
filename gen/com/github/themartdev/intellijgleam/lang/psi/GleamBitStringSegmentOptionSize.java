@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface GleamBitStringSegmentOptionSize extends PsiElement {
 
   @NotNull
-  PsiElement getIdentifier();
+  GleamWholeNumber getWholeNumber();
 
   @NotNull
-  PsiElement getIntegerLiteral();
+  PsiElement getIdentifier();
 
 }

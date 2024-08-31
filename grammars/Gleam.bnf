@@ -88,8 +88,6 @@
     LT_GT           = '<>'
 
     // Literals
-    INTEGER_LITERAL = "regexp:-?(0[bB][0-1_]+|0[xX][0-9a-fA-F_]+|0[oO][0-7_]+|[0-9][0-9_]*)"
-    FLOAT_LITERAL   = "regexp:-?([0-9][0-9_]*\.[0-9_]+[0-9]*([Ee][+\-]?[0-9]+)?|[0-9][0-9_]*[Ee][+\-]?[0-9]+)"
     BOOLEAN_LITERAL = "regexp:True|False"
 
     // Identifiers
@@ -111,6 +109,31 @@
     UNICODE_ESCAPE_CHAR = "u"
     UNICODE_CODEPOINT = "regexp:[0-9a-fA-F]{1,6}"
     INVALID_UNICODE_ESCAPE_SEQUENCE="regexp:[^0-9a-fA-F]"
+
+    //// Number stuff
+    VALID_DECIMAL_DIGIT   = "regexp:[0-9]+"
+    INVALID_DECIMAL_DIGIT = "regexp:[a-zA-Z]+"
+    NUMBER_SEPARATOR = "_"
+    EXPONENT_MARK = "e (exponent)"
+    DECIMAL_MARK = ". (decimal separator)"
+    EXPONENT_SIGN = "regexp:[+-]"
+
+    BASE_NUMBER_PREFIX = "0"
+
+    BINARY_NUMBER_BASE = "regexp:[bB]"
+    VALID_BINARY_DIGIT = "regexp:[01]"
+    INVALID_BINARY_DIGIT = "regexp:[2-9a-zA-Z]"
+
+    HEX_NUMBER_BASE = "regexp:[xX]"
+    VALID_HEX_DIGIT = "regexp:[0-9a-fA-F]"
+    INVALID_HEX_DIGIT = "regexp:[g-zG-Z]"
+
+    OCTAL_NUMBER_BASE = "regexp:[oO]"
+    VALID_OCTAL_DIGIT = "regexp:[0-7]"
+    INVALID_OCTAL_DIGIT = "regexp:[8-9a-zA-Z]"
+
+    UNKNOWN_NUMBER_BASE = "regexp:[a-zA-Z]"
+    INVALID_UNKNOWN_BASE_DIGIT = "regexp:[a-zA-Z1-9]"
   ]
 }
 
@@ -118,10 +141,6 @@
 
 // Rules
 sourceFile ::= (statement | expressionSeq | targetGroup)*
-
-stringEscapeSegment ::= (ESCAPE ESCAPE_CHAR) | (ESCAPE UNICODE_ESCAPE_CHAR LBRACE UNICODE_CODEPOINT RBRACE)
-stringLiteral ::= OPEN_QUOTE (REGULAR_STRING_PART | stringEscapeSegment)* CLOSE_QUOTE
-
 
 statement ::= imports
             | constant
@@ -154,9 +173,9 @@ constantRecordArgument ::= [label COLON] constantValue
 constantRecordArguments ::= LPAREN [constantRecordArgument (COMMA constantRecordArgument)* [COMMA]] RPAREN
 constantRecord ::= (constructorIdentifier | remoteConstructorIdentifier) [constantRecordArguments]
 
-bitStringSegmentOptionSize ::= IDENTIFIER LPAREN INTEGER_LITERAL RPAREN
+bitStringSegmentOptionSize ::= IDENTIFIER LPAREN wholeNumber RPAREN
 bitStringNamedSegmentOption ::= IDENTIFIER | bitStringSegmentOptionSize
-bitStringSegmentOption ::= bitStringNamedSegmentOption | INTEGER_LITERAL
+bitStringSegmentOption ::= bitStringNamedSegmentOption | wholeNumber
 bitStringSegmentOptions ::= bitStringSegmentOption (MINUS bitStringSegmentOption)* [MINUS]
 constantBitStringSegment ::= constantValue [COLON bitStringSegmentOptions]
 constantBitString ::= LT_LT [constantBitStringSegment (COMMA constantBitStringSegment)* [COMMA]] GT_GT
@@ -238,7 +257,7 @@ anonymousFunctionExpr ::= FN anonymousFunctionParameters [R_ARROW typeRule] func
 
 blockExpr ::= LBRACE expressionSeq RBRACE
 
-caseClauseTupleAccess ::= IDENTIFIER DOT INTEGER_LITERAL
+caseClauseTupleAccess ::= IDENTIFIER DOT wholeNumber
 caseClauseGuardUnit ::= IDENTIFIER | caseClauseTupleAccess | LBRACE caseClauseGuardExpression RBRACE | constantValue
 caseClauseGuardBinaryOperator ::= VBAR_VBAR | AMPER_AMPER | EQUAL_EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | LESS_DOT
                                 | LESS_EQUAL_DOT | GREATER | GREATER_EQUAL | GREATER_DOT | GREATER_EQUAL_DOT
@@ -273,9 +292,13 @@ accessExpr ::= expression DOT label
 
 referenceExpr ::= IDENTIFIER
 
-literalExpr ::= stringLiteral | INTEGER_LITERAL | FLOAT_LITERAL | BOOLEAN_LITERAL
+literalExpr ::= floatLiteral
+              | stringLiteral
+              | integerLiteral
+              | BOOLEAN_LITERAL
 
 expression ::= parenthesizedExpr
+             | literalExpr
              | callExpr
              | accessExpr
              | binaryExpr
@@ -293,7 +316,6 @@ expression ::= parenthesizedExpr
              | assertExpr
              | negationExpr
              | recordUpdateExpr
-             | literalExpr
 
 parenthesizedExpr ::= LPAREN expression RPAREN
 
@@ -311,6 +333,23 @@ dataConstructors ::= dataConstructor+
 
 typeAlias ::= [visibilityModifier] [opacityModifier] TYPE typeName EQUAL typeRule
 typeDefinition ::= [visibilityModifier] [opacityModifier] TYPE typeName LBRACE dataConstructors RBRACE
+
+
+//// Numbers
+binaryIntegerLiteral ::= BASE_NUMBER_PREFIX BINARY_NUMBER_BASE VALID_BINARY_DIGIT (NUMBER_SEPARATOR VALID_BINARY_DIGIT)*
+octalIntegerLiteral ::= BASE_NUMBER_PREFIX OCTAL_NUMBER_BASE VALID_OCTAL_DIGIT (NUMBER_SEPARATOR VALID_OCTAL_DIGIT)*
+hexIntegerLiteral ::= BASE_NUMBER_PREFIX HEX_NUMBER_BASE VALID_HEX_DIGIT (NUMBER_SEPARATOR VALID_HEX_DIGIT)*
+
+wholeNumber ::= VALID_DECIMAL_DIGIT (NUMBER_SEPARATOR VALID_DECIMAL_DIGIT)*
+decimalIntegerLiteral ::= wholeNumber
+
+floatLiteral ::= wholeNumber DECIMAL_MARK wholeNumber? (EXPONENT_MARK EXPONENT_SIGN? wholeNumber)?
+integerLiteral ::= binaryIntegerLiteral | octalIntegerLiteral | hexIntegerLiteral | decimalIntegerLiteral
+
+
+//// Strings
+stringEscapeSegment ::= (ESCAPE ESCAPE_CHAR) | (ESCAPE UNICODE_ESCAPE_CHAR LBRACE UNICODE_CODEPOINT RBRACE)
+stringLiteral ::= OPEN_QUOTE (REGULAR_STRING_PART | stringEscapeSegment)* CLOSE_QUOTE
 
 
 // Aliases

@@ -29,14 +29,14 @@ public class GleamBitStringSegmentOptionSizeImpl extends ASTWrapperPsiElement im
 
   @Override
   @NotNull
-  public PsiElement getIdentifier() {
-    return findNotNullChildByType(IDENTIFIER);
+  public GleamWholeNumber getWholeNumber() {
+    return findNotNullChildByClass(GleamWholeNumber.class);
   }
 
   @Override
   @NotNull
-  public PsiElement getIntegerLiteral() {
-    return findNotNullChildByType(INTEGER_LITERAL);
+  public PsiElement getIdentifier() {
+    return findNotNullChildByType(IDENTIFIER);
   }
 
 }

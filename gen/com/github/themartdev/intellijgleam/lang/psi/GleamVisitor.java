@@ -47,6 +47,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitExpression(o);
   }
 
+  public void visitBinaryIntegerLiteral(@NotNull GleamBinaryIntegerLiteral o) {
+    visitPsiElement(o);
+  }
+
   public void visitBinaryOperator(@NotNull GleamBinaryOperator o) {
     visitPsiElement(o);
   }
@@ -215,6 +219,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitDecimalIntegerLiteral(@NotNull GleamDecimalIntegerLiteral o) {
+    visitPsiElement(o);
+  }
+
   public void visitDiscard(@NotNull GleamDiscard o) {
     visitPsiElement(o);
   }
@@ -255,6 +263,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitFloatLiteral(@NotNull GleamFloatLiteral o) {
+    visitPsiElement(o);
+  }
+
   public void visitFunction(@NotNull GleamFunction o) {
     visitPsiElement(o);
   }
@@ -287,11 +299,19 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitHexIntegerLiteral(@NotNull GleamHexIntegerLiteral o) {
+    visitPsiElement(o);
+  }
+
   public void visitHole(@NotNull GleamHole o) {
     visitPsiElement(o);
   }
 
   public void visitImports(@NotNull GleamImports o) {
+    visitPsiElement(o);
+  }
+
+  public void visitIntegerLiteral(@NotNull GleamIntegerLiteral o) {
     visitPsiElement(o);
   }
 
@@ -337,6 +357,10 @@ public class GleamVisitor extends PsiElementVisitor {
 
   public void visitNegationExpr(@NotNull GleamNegationExpr o) {
     visitExpression(o);
+  }
+
+  public void visitOctalIntegerLiteral(@NotNull GleamOctalIntegerLiteral o) {
+    visitPsiElement(o);
   }
 
   public void visitOpacityModifier(@NotNull GleamOpacityModifier o) {
@@ -508,6 +532,10 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitVisibilityModifier(@NotNull GleamVisibilityModifier o) {
+    visitPsiElement(o);
+  }
+
+  public void visitWholeNumber(@NotNull GleamWholeNumber o) {
     visitPsiElement(o);
   }
 

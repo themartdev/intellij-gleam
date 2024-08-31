@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamBitStringSegmentOption extends PsiElement {
+public interface GleamHexIntegerLiteral extends PsiElement {
 
-  @Nullable
-  GleamBitStringNamedSegmentOption getBitStringNamedSegmentOption();
-
-  @Nullable
-  GleamWholeNumber getWholeNumber();
+  @NotNull
+  PsiElement getHexNumberBase();
 
 }

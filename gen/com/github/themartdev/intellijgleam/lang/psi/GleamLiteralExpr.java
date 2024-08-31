@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement;
 public interface GleamLiteralExpr extends GleamExpression {
 
   @Nullable
+  GleamFloatLiteral getFloatLiteral();
+
+  @Nullable
+  GleamIntegerLiteral getIntegerLiteral();
+
+  @Nullable
   GleamStringLiteral getStringLiteral();
 
   @Nullable
   PsiElement getBooleanLiteral();
-
-  @Nullable
-  PsiElement getFloatLiteral();
-
-  @Nullable
-  PsiElement getIntegerLiteral();
 
 }

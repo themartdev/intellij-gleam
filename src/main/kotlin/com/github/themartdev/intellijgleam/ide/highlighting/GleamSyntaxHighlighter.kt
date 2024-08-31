@@ -23,8 +23,7 @@ val ATTRIBUTES = buildMap<IElementType, TextAttributesKey> {
     put(GleamTypes.MODULE_COMMENT, GleamColors.MODULE_COMMENT)
     put(GleamTypes.FUNCTION_COMMENT, GleamColors.FUNCTION_COMMENT)
     put(GleamTypes.FUNCTION_NAME_DEFINITION, GleamColors.FUNCTION_DECLARATION)
-//    put(GleamTypes.STRING_LITERAL, GleamColors.STRING)
-//    put(GleamTypes.STRING_ESCAPE_SEGMENT, GleamColors.STRING_ESCAPE)
+    put(GleamTypes.BASE_NUMBER_PREFIX, GleamColors.BASE_PREFIX)
 
     SyntaxHighlighterBase.fillMap(this, GLEAM_STRINGS, GleamColors.STRING)
     SyntaxHighlighterBase.fillMap(this, GLEAM_KEYWORDS, GleamColors.KEYWORD)
@@ -32,5 +31,10 @@ val ATTRIBUTES = buildMap<IElementType, TextAttributesKey> {
     SyntaxHighlighterBase.fillMap(this, GLEAM_BRACES, GleamColors.BRACES)
     SyntaxHighlighterBase.fillMap(this, GLEAM_PARENTHESES, GleamColors.PARENTHESES)
     SyntaxHighlighterBase.fillMap(this, GLEAM_ESCAPE, GleamColors.STRING_ESCAPE)
+
+    SyntaxHighlighterBase.fillMap(this, GLEAM_VALID_DIGITS, GleamColors.VALID_DIGIT)
+    SyntaxHighlighterBase.fillMap(this, GLEAM_INVALID_DIGITS, GleamColors.INVALID_DIGIT)
+    SyntaxHighlighterBase.fillMap(this, GLEAM_VALID_BASE, GleamColors.VALID_BASE)
+    SyntaxHighlighterBase.fillMap(this, GLEAM_UNKNOWN_BASE, GleamColors.INVALID_BASE)
 }
 

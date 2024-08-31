@@ -18,6 +18,7 @@ public interface GleamTypes {
   IElementType ASSERT_EXPR = new GleamType("ASSERT_EXPR");
   IElementType ASSIGNMENT = new GleamType("ASSIGNMENT");
   IElementType BINARY_EXPR = new GleamType("BINARY_EXPR");
+  IElementType BINARY_INTEGER_LITERAL = new GleamType("BINARY_INTEGER_LITERAL");
   IElementType BINARY_OPERATOR = new GleamType("BINARY_OPERATOR");
   IElementType BIT_STRING_NAMED_SEGMENT_OPTION = new GleamType("BIT_STRING_NAMED_SEGMENT_OPTION");
   IElementType BIT_STRING_SEGMENT_OPTION = new GleamType("BIT_STRING_SEGMENT_OPTION");
@@ -60,6 +61,7 @@ public interface GleamTypes {
   IElementType DATA_CONSTRUCTORS = new GleamType("DATA_CONSTRUCTORS");
   IElementType DATA_CONSTRUCTOR_ARGUMENT = new GleamType("DATA_CONSTRUCTOR_ARGUMENT");
   IElementType DATA_CONSTRUCTOR_ARGUMENTS = new GleamType("DATA_CONSTRUCTOR_ARGUMENTS");
+  IElementType DECIMAL_INTEGER_LITERAL = new GleamType("DECIMAL_INTEGER_LITERAL");
   IElementType DISCARD = new GleamType("DISCARD");
   IElementType DISCARD_PARAM = new GleamType("DISCARD_PARAM");
   IElementType EXPRESSION = new GleamType("EXPRESSION");
@@ -70,6 +72,7 @@ public interface GleamTypes {
   IElementType EXTERNAL_FUNCTION_BODY = new GleamType("EXTERNAL_FUNCTION_BODY");
   IElementType EXTERNAL_FUNCTION_PARAMETER = new GleamType("EXTERNAL_FUNCTION_PARAMETER");
   IElementType EXTERNAL_FUNCTION_PARAMETERS = new GleamType("EXTERNAL_FUNCTION_PARAMETERS");
+  IElementType FLOAT_LITERAL = new GleamType("FLOAT_LITERAL");
   IElementType FUNCTION = new GleamType("FUNCTION");
   IElementType FUNCTION_BODY = new GleamType("FUNCTION_BODY");
   IElementType FUNCTION_NAME_DEFINITION = new GleamType("FUNCTION_NAME_DEFINITION");
@@ -78,8 +81,10 @@ public interface GleamTypes {
   IElementType FUNCTION_PARAMETER_ARGS = new GleamType("FUNCTION_PARAMETER_ARGS");
   IElementType FUNCTION_PARAMETER_TYPES = new GleamType("FUNCTION_PARAMETER_TYPES");
   IElementType FUNCTION_TYPE = new GleamType("FUNCTION_TYPE");
+  IElementType HEX_INTEGER_LITERAL = new GleamType("HEX_INTEGER_LITERAL");
   IElementType HOLE = new GleamType("HOLE");
   IElementType IMPORTS = new GleamType("IMPORTS");
+  IElementType INTEGER_LITERAL = new GleamType("INTEGER_LITERAL");
   IElementType LABEL = new GleamType("LABEL");
   IElementType LABELED_DISCARD_PARAM = new GleamType("LABELED_DISCARD_PARAM");
   IElementType LABELED_NAME_PARAM = new GleamType("LABELED_NAME_PARAM");
@@ -91,6 +96,7 @@ public interface GleamTypes {
   IElementType MODULE = new GleamType("MODULE");
   IElementType NAME_PARAM = new GleamType("NAME_PARAM");
   IElementType NEGATION_EXPR = new GleamType("NEGATION_EXPR");
+  IElementType OCTAL_INTEGER_LITERAL = new GleamType("OCTAL_INTEGER_LITERAL");
   IElementType OPACITY_MODIFIER = new GleamType("OPACITY_MODIFIER");
   IElementType PARENTHESIZED_EXPR = new GleamType("PARENTHESIZED_EXPR");
   IElementType PATTERN = new GleamType("PATTERN");
@@ -134,18 +140,22 @@ public interface GleamTypes {
   IElementType USE_ARGS = new GleamType("USE_ARGS");
   IElementType USE_EXPR = new GleamType("USE_EXPR");
   IElementType VISIBILITY_MODIFIER = new GleamType("VISIBILITY_MODIFIER");
+  IElementType WHOLE_NUMBER = new GleamType("WHOLE_NUMBER");
 
   IElementType AMPER_AMPER = new IElementType("&&", null);
   IElementType AS = new IElementType("as", null);
   IElementType ASSERT = new IElementType("assert", null);
   IElementType AUTO = new IElementType("auto", null);
   IElementType BANG = new IElementType("!", null);
+  IElementType BASE_NUMBER_PREFIX = new IElementType("0", null);
+  IElementType BINARY_NUMBER_BASE = new IElementType("BINARY_NUMBER_BASE", null);
   IElementType BOOLEAN_LITERAL = new IElementType("BOOLEAN_LITERAL", null);
   IElementType CASE = new IElementType("case", null);
   IElementType CLOSE_QUOTE = new IElementType("\"", null);
   IElementType COLON = new IElementType(":", null);
   IElementType COMMA = new IElementType(",", null);
   IElementType CONST = new IElementType("const", null);
+  IElementType DECIMAL_MARK = new IElementType(". (decimal separator)", null);
   IElementType DELEGATE = new IElementType("delegate", null);
   IElementType DERIVE = new IElementType("derive", null);
   IElementType DISCARD_NAME = new IElementType("DISCARD_NAME", null);
@@ -158,8 +168,9 @@ public interface GleamTypes {
   IElementType EQUAL_EQUAL = new IElementType("==", null);
   IElementType ESCAPE = new IElementType("ESCAPE", null);
   IElementType ESCAPE_CHAR = new IElementType("ESCAPE_CHAR", null);
+  IElementType EXPONENT_MARK = new IElementType("e (exponent)", null);
+  IElementType EXPONENT_SIGN = new IElementType("EXPONENT_SIGN", null);
   IElementType EXTERNAL = new IElementType("external", null);
-  IElementType FLOAT_LITERAL = new IElementType("FLOAT_LITERAL", null);
   IElementType FN = new IElementType("fn", null);
   IElementType FUNCTION_COMMENT = new IElementType("FUNCTION_COMMENT", null);
   IElementType GREATER = new IElementType(">", null);
@@ -168,12 +179,17 @@ public interface GleamTypes {
   IElementType GREATER_EQUAL_DOT = new IElementType(">=.", null);
   IElementType GT_GT = new IElementType(">>", null);
   IElementType HASH = new IElementType("#", null);
+  IElementType HEX_NUMBER_BASE = new IElementType("HEX_NUMBER_BASE", null);
   IElementType IDENTIFIER = new IElementType("IDENTIFIER", null);
   IElementType IF = new IElementType("if", null);
   IElementType IMPLEMENT = new IElementType("implement", null);
   IElementType IMPORT = new IElementType("import", null);
-  IElementType INTEGER_LITERAL = new IElementType("INTEGER_LITERAL", null);
+  IElementType INVALID_BINARY_DIGIT = new IElementType("INVALID_BINARY_DIGIT", null);
+  IElementType INVALID_DECIMAL_DIGIT = new IElementType("INVALID_DECIMAL_DIGIT", null);
+  IElementType INVALID_HEX_DIGIT = new IElementType("INVALID_HEX_DIGIT", null);
+  IElementType INVALID_OCTAL_DIGIT = new IElementType("INVALID_OCTAL_DIGIT", null);
   IElementType INVALID_UNICODE_ESCAPE_SEQUENCE = new IElementType("INVALID_UNICODE_ESCAPE_SEQUENCE", null);
+  IElementType INVALID_UNKNOWN_BASE_DIGIT = new IElementType("INVALID_UNKNOWN_BASE_DIGIT", null);
   IElementType LBRACE = new IElementType("{", null);
   IElementType LBRACK = new IElementType("[", null);
   IElementType LESS = new IElementType("<", null);
@@ -191,6 +207,8 @@ public interface GleamTypes {
   IElementType MINUS_DOT = new IElementType("-.", null);
   IElementType MODULE_COMMENT = new IElementType("MODULE_COMMENT", null);
   IElementType NOT_EQUAL = new IElementType("!=", null);
+  IElementType NUMBER_SEPARATOR = new IElementType("_", null);
+  IElementType OCTAL_NUMBER_BASE = new IElementType("OCTAL_NUMBER_BASE", null);
   IElementType OPAQUE = new IElementType("opaque", null);
   IElementType OPEN_QUOTE = new IElementType("OPEN_QUOTE", null);
   IElementType PANIC = new IElementType("panic", null);
@@ -214,8 +232,13 @@ public interface GleamTypes {
   IElementType TYPE = new IElementType("type", null);
   IElementType UNICODE_CODEPOINT = new IElementType("UNICODE_CODEPOINT", null);
   IElementType UNICODE_ESCAPE_CHAR = new IElementType("u", null);
+  IElementType UNKNOWN_NUMBER_BASE = new IElementType("UNKNOWN_NUMBER_BASE", null);
   IElementType UP_IDENTIFIER = new IElementType("UP_IDENTIFIER", null);
   IElementType USE = new IElementType("use", null);
+  IElementType VALID_BINARY_DIGIT = new IElementType("VALID_BINARY_DIGIT", null);
+  IElementType VALID_DECIMAL_DIGIT = new IElementType("VALID_DECIMAL_DIGIT", null);
+  IElementType VALID_HEX_DIGIT = new IElementType("VALID_HEX_DIGIT", null);
+  IElementType VALID_OCTAL_DIGIT = new IElementType("VALID_OCTAL_DIGIT", null);
   IElementType VBAR = new IElementType("|", null);
   IElementType VBAR_VBAR = new IElementType("||", null);
 
@@ -251,6 +274,9 @@ public interface GleamTypes {
       }
       else if (type == BINARY_EXPR) {
         return new GleamBinaryExprImpl(node);
+      }
+      else if (type == BINARY_INTEGER_LITERAL) {
+        return new GleamBinaryIntegerLiteralImpl(node);
       }
       else if (type == BINARY_OPERATOR) {
         return new GleamBinaryOperatorImpl(node);
@@ -378,6 +404,9 @@ public interface GleamTypes {
       else if (type == DATA_CONSTRUCTOR_ARGUMENTS) {
         return new GleamDataConstructorArgumentsImpl(node);
       }
+      else if (type == DECIMAL_INTEGER_LITERAL) {
+        return new GleamDecimalIntegerLiteralImpl(node);
+      }
       else if (type == DISCARD) {
         return new GleamDiscardImpl(node);
       }
@@ -405,6 +434,9 @@ public interface GleamTypes {
       else if (type == EXTERNAL_FUNCTION_PARAMETERS) {
         return new GleamExternalFunctionParametersImpl(node);
       }
+      else if (type == FLOAT_LITERAL) {
+        return new GleamFloatLiteralImpl(node);
+      }
       else if (type == FUNCTION) {
         return new GleamFunctionImpl(node);
       }
@@ -429,11 +461,17 @@ public interface GleamTypes {
       else if (type == FUNCTION_TYPE) {
         return new GleamFunctionTypeImpl(node);
       }
+      else if (type == HEX_INTEGER_LITERAL) {
+        return new GleamHexIntegerLiteralImpl(node);
+      }
       else if (type == HOLE) {
         return new GleamHoleImpl(node);
       }
       else if (type == IMPORTS) {
         return new GleamImportsImpl(node);
+      }
+      else if (type == INTEGER_LITERAL) {
+        return new GleamIntegerLiteralImpl(node);
       }
       else if (type == LABEL) {
         return new GleamLabelImpl(node);
@@ -467,6 +505,9 @@ public interface GleamTypes {
       }
       else if (type == NEGATION_EXPR) {
         return new GleamNegationExprImpl(node);
+      }
+      else if (type == OCTAL_INTEGER_LITERAL) {
+        return new GleamOctalIntegerLiteralImpl(node);
       }
       else if (type == OPACITY_MODIFIER) {
         return new GleamOpacityModifierImpl(node);
@@ -596,6 +637,9 @@ public interface GleamTypes {
       }
       else if (type == VISIBILITY_MODIFIER) {
         return new GleamVisibilityModifierImpl(node);
+      }
+      else if (type == WHOLE_NUMBER) {
+        return new GleamWholeNumberImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

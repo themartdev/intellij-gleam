@@ -55,8 +55,6 @@ EOL = \n|\r\n
 
 
 HEXADECIMAL_DIGIT = [A-Fa-f0-9]
-INTEGER_LITERAL=-?(0[bB][0-1_]+|0[xX][0-9a-fA-F_]+|0[oO][0-7_]+|[0-9][0-9_]*)
-FLOAT_LITERAL=-?([0-9][0-9_]*\.[0-9_]+[0-9]*([Ee][+\-]?[0-9]+)?|[0-9][0-9_]*[Ee][+\-]?[0-9]+)
 BOOLEAN_LITERAL=True|False
 DISCARD_NAME=_[_0-9a-z]*
 UP_IDENTIFIER=[A-Z][a-zA-Z0-9_]*
@@ -67,10 +65,28 @@ LINE_COMMENT="//"[^\n]*
 WHITE_SPACE=[ \r\n\t\f]+
 ANY=[^]
 
+// NUmbers
+SIGN_OPERATOR = "+" | "-"
+NUMBER_SEPARATOR = "_"
+
+
+//// String states
 %state IN_STRING
 %state ESCAPE_SEQUENCE
 %state UNICODE_ESCAPE_SEQUENCE
 %state UNICODE_CODEPOINT_SEQUENCE
+
+//// Number states
+%state DECIMAL_NUMBER
+%state BASE_NUMBER_BASE
+%state BINARY_NUMBER
+%state HEX_NUMBER
+%state OCTAL_NUMBER
+%state UNKNOWN_BASE_NUMBER
+%state DECIMAL_FRACTION
+%state DECIMAL_EXPONENT
+%state DECIMAL_EXPONENT_SIGN
+
 
 %%
 <YYINITIAL> {
@@ -142,11 +158,15 @@ ANY=[^]
   ">=."                    { return GleamTypes.GREATER_EQUAL_DOT; }
   "<>"                     { return GleamTypes.LT_GT; }
 
-  // Strings
+  //// Strings
   \"                       { pushState(IN_STRING); return GleamTypes.OPEN_QUOTE; }
 
-  {INTEGER_LITERAL}        { return GleamTypes.INTEGER_LITERAL; }
-  {FLOAT_LITERAL}          { return GleamTypes.FLOAT_LITERAL; }
+  //// Numbers
+  // Bases
+  "0" / [a-zA-Z]           { pushState(BASE_NUMBER_BASE); return GleamTypes.BASE_NUMBER_PREFIX; }
+  // Normal
+  [0-9]+                   { pushState(DECIMAL_NUMBER); return GleamTypes.VALID_DECIMAL_DIGIT; }
+
   {BOOLEAN_LITERAL}        { return GleamTypes.BOOLEAN_LITERAL; }
   {DISCARD_NAME}           { return GleamTypes.DISCARD_NAME; }
   {UP_IDENTIFIER}          { return GleamTypes.UP_IDENTIFIER; }
@@ -157,6 +177,62 @@ ANY=[^]
   {WHITE_SPACE}            { return TokenType.WHITE_SPACE; }
 }
 
+// NUMBER STATES
+<BASE_NUMBER_BASE> {
+  [bB]                           { yybegin(BINARY_NUMBER); return GleamTypes.BINARY_NUMBER_BASE; }
+  [xX]                           { yybegin(HEX_NUMBER); return GleamTypes.HEX_NUMBER_BASE; }
+  [oO]                           { yybegin(OCTAL_NUMBER); return GleamTypes.OCTAL_NUMBER_BASE; }
+  [a-zA-Z]                       { yybegin(UNKNOWN_BASE_NUMBER); return GleamTypes.UNKNOWN_NUMBER_BASE; }
+}
+
+<BINARY_NUMBER> {
+  {NUMBER_SEPARATOR}             { return GleamTypes.NUMBER_SEPARATOR; }
+  [01]+                          { return GleamTypes.VALID_BINARY_DIGIT; }
+  [a-zA-Z1-9]+                   { return GleamTypes.INVALID_BINARY_DIGIT; }
+  [^]                            { handleInLastState(); }
+}
+
+<HEX_NUMBER> {
+  {NUMBER_SEPARATOR}             { return GleamTypes.NUMBER_SEPARATOR; }
+  {HEXADECIMAL_DIGIT}+           { return GleamTypes.VALID_HEX_DIGIT; }
+  [g-zG-Z]+                      { return GleamTypes.INVALID_HEX_DIGIT; }
+  [^]                            { handleInLastState(); }
+}
+
+<OCTAL_NUMBER> {
+  {NUMBER_SEPARATOR}             { return GleamTypes.NUMBER_SEPARATOR; }
+  [0-7]+                         { return GleamTypes.VALID_OCTAL_DIGIT; }
+  [A-Za-z8-9]+                   { return GleamTypes.INVALID_OCTAL_DIGIT; }
+  [^]                            { handleInLastState(); }
+}
+
+<UNKNOWN_BASE_NUMBER> {
+  {NUMBER_SEPARATOR}             { return GleamTypes.NUMBER_SEPARATOR; }
+  [a-zA-Z0-9]+                   { return GleamTypes.INVALID_UNKNOWN_BASE_DIGIT; }
+  [^]                            { handleInLastState(); }
+}
+
+<DECIMAL_EXPONENT_SIGN> {
+  {SIGN_OPERATOR}                { yybegin(DECIMAL_EXPONENT); return GleamTypes.EXPONENT_SIGN; }
+  [^]                            { yybegin(DECIMAL_EXPONENT); }
+}
+
+<DECIMAL_NUMBER> {
+  \.                             { yybegin(DECIMAL_FRACTION); return GleamTypes.DECIMAL_MARK; }
+}
+
+<DECIMAL_FRACTION> {
+  "e"                           { yybegin(DECIMAL_EXPONENT); return GleamTypes.EXPONENT_MARK; }
+}
+
+<DECIMAL_NUMBER, DECIMAL_FRACTION, DECIMAL_EXPONENT> {
+  {NUMBER_SEPARATOR}             { return GleamTypes.NUMBER_SEPARATOR; }
+  [0-9]+                         { return GleamTypes.VALID_DECIMAL_DIGIT; }
+  [a-zA-Z]+                      { return GleamTypes.INVALID_DECIMAL_DIGIT; }
+  [^]                            { handleInLastState(); }
+}
+
+// STRING STATES
 <IN_STRING> {
   ([^\\\"])*  { return GleamTypes.REGULAR_STRING_PART; }
   \\           { pushState(ESCAPE_SEQUENCE); return GleamTypes.ESCAPE; }

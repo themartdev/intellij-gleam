@@ -261,6 +261,40 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // BASE_NUMBER_PREFIX BINARY_NUMBER_BASE VALID_BINARY_DIGIT (NUMBER_SEPARATOR VALID_BINARY_DIGIT)*
+  public static boolean binaryIntegerLiteral(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "binaryIntegerLiteral")) return false;
+    if (!nextTokenIs(b, BASE_NUMBER_PREFIX)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, BASE_NUMBER_PREFIX, BINARY_NUMBER_BASE, VALID_BINARY_DIGIT);
+    r = r && binaryIntegerLiteral_3(b, l + 1);
+    exit_section_(b, m, BINARY_INTEGER_LITERAL, r);
+    return r;
+  }
+
+  // (NUMBER_SEPARATOR VALID_BINARY_DIGIT)*
+  private static boolean binaryIntegerLiteral_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "binaryIntegerLiteral_3")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!binaryIntegerLiteral_3_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "binaryIntegerLiteral_3", c)) break;
+    }
+    return true;
+  }
+
+  // NUMBER_SEPARATOR VALID_BINARY_DIGIT
+  private static boolean binaryIntegerLiteral_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "binaryIntegerLiteral_3_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, NUMBER_SEPARATOR, VALID_BINARY_DIGIT);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // EQUAL_EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | LESS_DOT
   //                  | LESS_EQUAL_DOT | GREATER | GREATER_EQUAL | GREATER_DOT
   //                  | GREATER_EQUAL_DOT | LT_GT | PIPE | PLUS | PLUS_DOT
@@ -311,26 +345,28 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // bitStringNamedSegmentOption | INTEGER_LITERAL
+  // bitStringNamedSegmentOption | wholeNumber
   public static boolean bitStringSegmentOption(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitStringSegmentOption")) return false;
-    if (!nextTokenIs(b, "<bit string segment option>", IDENTIFIER, INTEGER_LITERAL)) return false;
+    if (!nextTokenIs(b, "<bit string segment option>", IDENTIFIER, VALID_DECIMAL_DIGIT)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, BIT_STRING_SEGMENT_OPTION, "<bit string segment option>");
     r = bitStringNamedSegmentOption(b, l + 1);
-    if (!r) r = consumeToken(b, INTEGER_LITERAL);
+    if (!r) r = wholeNumber(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // IDENTIFIER LPAREN INTEGER_LITERAL RPAREN
+  // IDENTIFIER LPAREN wholeNumber RPAREN
   public static boolean bitStringSegmentOptionSize(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitStringSegmentOptionSize")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, IDENTIFIER, LPAREN, INTEGER_LITERAL, RPAREN);
+    r = consumeTokens(b, 0, IDENTIFIER, LPAREN);
+    r = r && wholeNumber(b, l + 1);
+    r = r && consumeToken(b, RPAREN);
     exit_section_(b, m, BIT_STRING_SEGMENT_OPTION_SIZE, r);
     return r;
   }
@@ -339,7 +375,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // bitStringSegmentOption (MINUS bitStringSegmentOption)* [MINUS]
   public static boolean bitStringSegmentOptions(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitStringSegmentOptions")) return false;
-    if (!nextTokenIs(b, "<bit string segment options>", IDENTIFIER, INTEGER_LITERAL)) return false;
+    if (!nextTokenIs(b, "<bit string segment options>", IDENTIFIER, VALID_DECIMAL_DIGIT)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, BIT_STRING_SEGMENT_OPTIONS, "<bit string segment options>");
     r = bitStringSegmentOption(b, l + 1);
@@ -581,13 +617,14 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IDENTIFIER DOT INTEGER_LITERAL
+  // IDENTIFIER DOT wholeNumber
   public static boolean caseClauseTupleAccess(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "caseClauseTupleAccess")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, IDENTIFIER, DOT, INTEGER_LITERAL);
+    r = consumeTokens(b, 0, IDENTIFIER, DOT);
+    r = r && wholeNumber(b, l + 1);
     exit_section_(b, m, CASE_CLAUSE_TUPLE_ACCESS, r);
     return r;
   }
@@ -1442,6 +1479,18 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // wholeNumber
+  public static boolean decimalIntegerLiteral(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "decimalIntegerLiteral")) return false;
+    if (!nextTokenIs(b, VALID_DECIMAL_DIGIT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = wholeNumber(b, l + 1);
+    exit_section_(b, m, DECIMAL_INTEGER_LITERAL, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // DISCARD_NAME
   public static boolean discard(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "discard")) return false;
@@ -1636,6 +1685,54 @@ public class GleamParser implements PsiParser, LightPsiParser {
   private static boolean externalFunctionParameters_1_0_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "externalFunctionParameters_1_0_2")) return false;
     consumeToken(b, COMMA);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // wholeNumber DECIMAL_MARK wholeNumber? (EXPONENT_MARK EXPONENT_SIGN? wholeNumber)?
+  public static boolean floatLiteral(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "floatLiteral")) return false;
+    if (!nextTokenIs(b, VALID_DECIMAL_DIGIT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = wholeNumber(b, l + 1);
+    r = r && consumeToken(b, DECIMAL_MARK);
+    r = r && floatLiteral_2(b, l + 1);
+    r = r && floatLiteral_3(b, l + 1);
+    exit_section_(b, m, FLOAT_LITERAL, r);
+    return r;
+  }
+
+  // wholeNumber?
+  private static boolean floatLiteral_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "floatLiteral_2")) return false;
+    wholeNumber(b, l + 1);
+    return true;
+  }
+
+  // (EXPONENT_MARK EXPONENT_SIGN? wholeNumber)?
+  private static boolean floatLiteral_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "floatLiteral_3")) return false;
+    floatLiteral_3_0(b, l + 1);
+    return true;
+  }
+
+  // EXPONENT_MARK EXPONENT_SIGN? wholeNumber
+  private static boolean floatLiteral_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "floatLiteral_3_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, EXPONENT_MARK);
+    r = r && floatLiteral_3_0_1(b, l + 1);
+    r = r && wholeNumber(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // EXPONENT_SIGN?
+  private static boolean floatLiteral_3_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "floatLiteral_3_0_1")) return false;
+    consumeToken(b, EXPONENT_SIGN);
     return true;
   }
 
@@ -1896,6 +1993,40 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // BASE_NUMBER_PREFIX HEX_NUMBER_BASE VALID_HEX_DIGIT (NUMBER_SEPARATOR VALID_HEX_DIGIT)*
+  public static boolean hexIntegerLiteral(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "hexIntegerLiteral")) return false;
+    if (!nextTokenIs(b, BASE_NUMBER_PREFIX)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, BASE_NUMBER_PREFIX, HEX_NUMBER_BASE, VALID_HEX_DIGIT);
+    r = r && hexIntegerLiteral_3(b, l + 1);
+    exit_section_(b, m, HEX_INTEGER_LITERAL, r);
+    return r;
+  }
+
+  // (NUMBER_SEPARATOR VALID_HEX_DIGIT)*
+  private static boolean hexIntegerLiteral_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "hexIntegerLiteral_3")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!hexIntegerLiteral_3_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "hexIntegerLiteral_3", c)) break;
+    }
+    return true;
+  }
+
+  // NUMBER_SEPARATOR VALID_HEX_DIGIT
+  private static boolean hexIntegerLiteral_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "hexIntegerLiteral_3_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, NUMBER_SEPARATOR, VALID_HEX_DIGIT);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // DISCARD_NAME
   public static boolean hole(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "hole")) return false;
@@ -1945,6 +2076,21 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "imports_3")) return false;
     parseTokens(b, 0, AS, IDENTIFIER);
     return true;
+  }
+
+  /* ********************************************************** */
+  // binaryIntegerLiteral | octalIntegerLiteral | hexIntegerLiteral | decimalIntegerLiteral
+  public static boolean integerLiteral(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "integerLiteral")) return false;
+    if (!nextTokenIs(b, "<integer literal>", BASE_NUMBER_PREFIX, VALID_DECIMAL_DIGIT)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, INTEGER_LITERAL, "<integer literal>");
+    r = binaryIntegerLiteral(b, l + 1);
+    if (!r) r = octalIntegerLiteral(b, l + 1);
+    if (!r) r = hexIntegerLiteral(b, l + 1);
+    if (!r) r = decimalIntegerLiteral(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
   /* ********************************************************** */
@@ -2127,6 +2273,40 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeToken(b, IDENTIFIER);
     exit_section_(b, m, NAME_PARAM, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // BASE_NUMBER_PREFIX OCTAL_NUMBER_BASE VALID_OCTAL_DIGIT (NUMBER_SEPARATOR VALID_OCTAL_DIGIT)*
+  public static boolean octalIntegerLiteral(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "octalIntegerLiteral")) return false;
+    if (!nextTokenIs(b, BASE_NUMBER_PREFIX)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, BASE_NUMBER_PREFIX, OCTAL_NUMBER_BASE, VALID_OCTAL_DIGIT);
+    r = r && octalIntegerLiteral_3(b, l + 1);
+    exit_section_(b, m, OCTAL_INTEGER_LITERAL, r);
+    return r;
+  }
+
+  // (NUMBER_SEPARATOR VALID_OCTAL_DIGIT)*
+  private static boolean octalIntegerLiteral_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "octalIntegerLiteral_3")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!octalIntegerLiteral_3_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "octalIntegerLiteral_3", c)) break;
+    }
+    return true;
+  }
+
+  // NUMBER_SEPARATOR VALID_OCTAL_DIGIT
+  private static boolean octalIntegerLiteral_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "octalIntegerLiteral_3_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, NUMBER_SEPARATOR, VALID_OCTAL_DIGIT);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -3286,33 +3466,68 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // VALID_DECIMAL_DIGIT (NUMBER_SEPARATOR VALID_DECIMAL_DIGIT)*
+  public static boolean wholeNumber(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "wholeNumber")) return false;
+    if (!nextTokenIs(b, VALID_DECIMAL_DIGIT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, VALID_DECIMAL_DIGIT);
+    r = r && wholeNumber_1(b, l + 1);
+    exit_section_(b, m, WHOLE_NUMBER, r);
+    return r;
+  }
+
+  // (NUMBER_SEPARATOR VALID_DECIMAL_DIGIT)*
+  private static boolean wholeNumber_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "wholeNumber_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!wholeNumber_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "wholeNumber_1", c)) break;
+    }
+    return true;
+  }
+
+  // NUMBER_SEPARATOR VALID_DECIMAL_DIGIT
+  private static boolean wholeNumber_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "wholeNumber_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, NUMBER_SEPARATOR, VALID_DECIMAL_DIGIT);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // Expression root: expression
   // Operator priority table:
   // 0: PREFIX(parenthesizedExpr)
-  // 1: POSTFIX(callExpr)
-  // 2: POSTFIX(accessExpr)
-  // 3: BINARY(binaryExpr)
-  // 4: ATOM(recordExpr)
-  // 5: ATOM(anonymousFunctionExpr)
-  // 6: ATOM(referenceExpr)
-  // 7: ATOM(todoRuleExpr)
-  // 8: ATOM(tupleExpr)
-  // 9: ATOM(listExpr)
-  // 10: ATOM(expressionBitStringExpr)
-  // 11: ATOM(blockExpr)
-  // 12: ATOM(caseExpr)
-  // 13: ATOM(letExpr)
-  // 14: PREFIX(useExpr)
-  // 15: ATOM(assertExpr)
-  // 16: PREFIX(negationExpr)
-  // 17: PREFIX(recordUpdateExpr)
-  // 18: ATOM(literalExpr)
+  // 1: ATOM(literalExpr)
+  // 2: POSTFIX(callExpr)
+  // 3: POSTFIX(accessExpr)
+  // 4: BINARY(binaryExpr)
+  // 5: ATOM(recordExpr)
+  // 6: ATOM(anonymousFunctionExpr)
+  // 7: ATOM(referenceExpr)
+  // 8: ATOM(todoRuleExpr)
+  // 9: ATOM(tupleExpr)
+  // 10: ATOM(listExpr)
+  // 11: ATOM(expressionBitStringExpr)
+  // 12: ATOM(blockExpr)
+  // 13: ATOM(caseExpr)
+  // 14: ATOM(letExpr)
+  // 15: PREFIX(useExpr)
+  // 16: ATOM(assertExpr)
+  // 17: PREFIX(negationExpr)
+  // 18: PREFIX(recordUpdateExpr)
   public static boolean expression(PsiBuilder b, int l, int g) {
     if (!recursion_guard_(b, l, "expression")) return false;
     addVariant(b, "<expression>");
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, "<expression>");
     r = parenthesizedExpr(b, l + 1);
+    if (!r) r = literalExpr(b, l + 1);
     if (!r) r = recordExpr(b, l + 1);
     if (!r) r = anonymousFunctionExpr(b, l + 1);
     if (!r) r = referenceExpr(b, l + 1);
@@ -3327,7 +3542,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!r) r = assertExpr(b, l + 1);
     if (!r) r = negationExpr(b, l + 1);
     if (!r) r = recordUpdateExpr(b, l + 1);
-    if (!r) r = literalExpr(b, l + 1);
     p = r;
     r = r && expression_0(b, l + 1, g);
     exit_section_(b, l, m, null, r, p, null);
@@ -3339,16 +3553,16 @@ public class GleamParser implements PsiParser, LightPsiParser {
     boolean r = true;
     while (true) {
       Marker m = enter_section_(b, l, _LEFT_, null);
-      if (g < 1 && arguments(b, l + 1)) {
+      if (g < 2 && arguments(b, l + 1)) {
         r = true;
         exit_section_(b, l, m, CALL_EXPR, r, true, null);
       }
-      else if (g < 2 && accessExpr_0(b, l + 1)) {
+      else if (g < 3 && accessExpr_0(b, l + 1)) {
         r = true;
         exit_section_(b, l, m, ACCESS_EXPR, r, true, null);
       }
-      else if (g < 3 && binaryOperator(b, l + 1)) {
-        r = expression(b, l, 3);
+      else if (g < 4 && binaryOperator(b, l + 1)) {
+        r = expression(b, l, 4);
         exit_section_(b, l, m, BINARY_EXPR, r, true, null);
       }
       else {
@@ -3370,6 +3584,19 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = p && report_error_(b, consumeToken(b, RPAREN)) && r;
     exit_section_(b, l, m, PARENTHESIZED_EXPR, r, p, null);
     return r || p;
+  }
+
+  // floatLiteral |  stringLiteral | integerLiteral | BOOLEAN_LITERAL
+  public static boolean literalExpr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "literalExpr")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, LITERAL_EXPR, "<literal expr>");
+    r = floatLiteral(b, l + 1);
+    if (!r) r = stringLiteral(b, l + 1);
+    if (!r) r = integerLiteral(b, l + 1);
+    if (!r) r = consumeTokenSmart(b, BOOLEAN_LITERAL);
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
   // DOT label
@@ -3741,7 +3968,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = useExpr_0(b, l + 1);
     p = r;
-    r = p && expression(b, l, 14);
+    r = p && expression(b, l, 15);
     exit_section_(b, l, m, USE_EXPR, r, p, null);
     return r || p;
   }
@@ -3784,7 +4011,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = consumeTokenSmart(b, BANG);
     p = r;
-    r = p && expression(b, l, 16);
+    r = p && expression(b, l, 17);
     exit_section_(b, l, m, NEGATION_EXPR, r, p, null);
     return r || p;
   }
@@ -3796,7 +4023,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = recordUpdateExpr_0(b, l + 1);
     p = r;
-    r = p && expression(b, l, 17);
+    r = p && expression(b, l, -1);
     r = p && report_error_(b, recordUpdateExpr_1(b, l + 1)) && r;
     exit_section_(b, l, m, RECORD_UPDATE_EXPR, r, p, null);
     return r || p;
@@ -3831,19 +4058,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = r && recordUpdateArguments(b, l + 1);
     r = r && consumeToken(b, RPAREN);
     exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // stringLiteral | INTEGER_LITERAL | FLOAT_LITERAL | BOOLEAN_LITERAL
-  public static boolean literalExpr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "literalExpr")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, LITERAL_EXPR, "<literal expr>");
-    r = stringLiteral(b, l + 1);
-    if (!r) r = consumeTokenSmart(b, INTEGER_LITERAL);
-    if (!r) r = consumeTokenSmart(b, FLOAT_LITERAL);
-    if (!r) r = consumeTokenSmart(b, BOOLEAN_LITERAL);
-    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

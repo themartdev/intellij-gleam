@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamBitStringSegmentOptionImpl extends ASTWrapperPsiElement implements GleamBitStringSegmentOption {
+public class GleamBinaryIntegerLiteralImpl extends ASTWrapperPsiElement implements GleamBinaryIntegerLiteral {
 
-  public GleamBitStringSegmentOptionImpl(@NotNull ASTNode node) {
+  public GleamBinaryIntegerLiteralImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitBitStringSegmentOption(this);
+    visitor.visitBinaryIntegerLiteral(this);
   }
 
   @Override
@@ -28,15 +28,9 @@ public class GleamBitStringSegmentOptionImpl extends ASTWrapperPsiElement implem
   }
 
   @Override
-  @Nullable
-  public GleamBitStringNamedSegmentOption getBitStringNamedSegmentOption() {
-    return findChildByClass(GleamBitStringNamedSegmentOption.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamWholeNumber getWholeNumber() {
-    return findChildByClass(GleamWholeNumber.class);
+  @NotNull
+  public PsiElement getBinaryNumberBase() {
+    return findNotNullChildByType(BINARY_NUMBER_BASE);
   }
 
 }

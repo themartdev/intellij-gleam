@@ -3,8 +3,8 @@
 
   extends='com.intellij.extapi.psi.ASTWrapperPsiElement'
 
-  elementTypeHolderClass='com.github.themartdev.intellijgleam.lang.psi.GleamElementTypes'
-  elementTypeClass='com.github.themartdev.intellijgleam.lang.psi.GleamElementType'
+  elementTypeHolderClass='com.github.themartdev.intellijgleam.lang.psi.GleamTypes'
+  elementTypeClass='com.github.themartdev.intellijgleam.lang.psi.GleamType'
 //  tokenTypeClass='com.github.themartdev.intellijgleam.lang.psi.GleamTokenType'
 
   psiClassPrefix='Gleam'
@@ -15,6 +15,7 @@
   extends(".*Expr")=expression
 
   tokens=[
+    EOL             = '\\n, \\r\\n'
     // Language keywords https://github.com/gleam-lang/gleam/blob/main/compiler-core/src/parse/lexer.rs#L24
     AS              = 'as'
     ASSERT          = 'assert'
@@ -87,7 +88,6 @@
     LT_GT           = '<>'
 
     // Literals
-    STRING_LITERAL  = "regexp:\"([^\"\\]|\\.)*\""
     INTEGER_LITERAL = "regexp:-?(0[bB][0-1_]+|0[xX][0-9a-fA-F_]+|0[oO][0-7_]+|[0-9][0-9_]*)"
     FLOAT_LITERAL   = "regexp:-?([0-9][0-9_]*\.[0-9_]+[0-9]*([Ee][+\-]?[0-9]+)?|[0-9][0-9_]*[Ee][+\-]?[0-9]+)"
     BOOLEAN_LITERAL = "regexp:True|False"
@@ -102,8 +102,15 @@
     FUNCTION_COMMENT="regexp:///[^\n]*"
     LINE_COMMENT    = "regexp://[^\n]*"
 
-    // Whitespace
-    WHITE_SPACE     = "regexp:\s+"
+    // String stuff
+    OPEN_QUOTE      = '"'
+    CLOSE_QUOTE     = '"'
+    REGULAR_STRING_PART = "regexp:[^\\\"]*"
+    ESCAPE          = "regexp:\\"
+    ESCAPE_CHAR     = "regexp:[^u\n\r]"
+    UNICODE_ESCAPE_CHAR = "u"
+    UNICODE_CODEPOINT = "regexp:[0-9a-fA-F]{1,6}"
+    INVALID_UNICODE_ESCAPE_SEQUENCE="regexp:[^0-9a-fA-F]"
   ]
 }
 
@@ -111,6 +118,10 @@
 
 // Rules
 sourceFile ::= (statement | expressionSeq | targetGroup)*
+
+stringEscapeSegment ::= (ESCAPE ESCAPE_CHAR) | (ESCAPE UNICODE_ESCAPE_CHAR LBRACE UNICODE_CODEPOINT RBRACE)
+stringLiteral ::= OPEN_QUOTE (REGULAR_STRING_PART | stringEscapeSegment)* CLOSE_QUOTE
+
 
 statement ::= imports
             | constant
@@ -181,7 +192,7 @@ typeArguments ::= LPAREN [typeArgument (COMMA typeArgument)* [COMMA]] RPAREN
 typeRule ::= (typeIdentifier | remoteTypeIdentifier) [typeArguments]
 //typeRule ::= 'String'
 
-externalFunctionBody ::= STRING_LITERAL STRING_LITERAL
+externalFunctionBody ::= stringLiteral stringLiteral
 externalFunctionParameter ::= [IDENTIFIER COLON] typeBase
 externalFunctionParameters ::= LPAREN [externalFunctionParameter (COMMA externalFunctionParameter)* [COMMA]] RPAREN
 externalFunction ::= [visibilityModifier] EXTERNAL FN IDENTIFIER externalFunctionParameters R_ARROW typeBase EQUAL externalFunctionBody
@@ -190,7 +201,8 @@ functionParameterArgs ::= labeledDiscardParam | discardParam | labeledNameParam 
 functionParameter ::= functionParameterArgs [typeAnnotation]
 functionParameters ::= LPAREN [functionParameter (COMMA functionParameter)* [COMMA]] RPAREN
 functionBody ::= LBRACE [expressionSeq] RBRACE
-function ::= [visibilityModifier] FN IDENTIFIER functionParameters [R_ARROW typeBase] functionBody
+function ::= [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody
+functionNameDefinition::= IDENTIFIER
 
 listPatternTail ::= DOT_DOT [IDENTIFIER | discard]
 listPattern ::= LBRACK [pattern (COMMA pattern)* [COMMA]] [listPatternTail] RBRACK
@@ -215,7 +227,7 @@ recordExpr ::= (constructorIdentifier | remoteConstructorIdentifier) [arguments]
 expressionBitStringSegment ::= expression [COLON bitStringSegmentOptions]
 expressionBitStringExpr ::= LT_LT [expressionBitStringSegment (COMMA expressionBitStringSegment)* [COMMA]] GT_GT
 
-todoRuleExpr ::= TODO [LPAREN STRING_LITERAL RPAREN]
+todoRuleExpr ::= TODO [LPAREN stringLiteral RPAREN]
 tupleExpr ::= HASH LPAREN [expression (COMMA expression)* [COMMA]] RPAREN
 listExpr ::= LBRACK [expression ((COMMA expression)*)? [COMMA] [DOT_DOT expression]] RBRACK
 
@@ -261,7 +273,7 @@ accessExpr ::= expression DOT label
 
 referenceExpr ::= IDENTIFIER
 
-literalExpr ::= STRING_LITERAL | INTEGER_LITERAL | FLOAT_LITERAL | BOOLEAN_LITERAL
+literalExpr ::= stringLiteral | INTEGER_LITERAL | FLOAT_LITERAL | BOOLEAN_LITERAL
 
 expression ::= parenthesizedExpr
              | callExpr

@@ -1,5 +1,6 @@
 package com.github.themartdev.intellijgleam.lang.parser;
 
+import java.util.*;
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.TokenType;
@@ -8,6 +9,36 @@ import com.github.themartdev.intellijgleam.lang.psi.GleamTypes;
 %%
 
 %{
+  private static final class State {
+    final int state;
+
+    private State(int state) {
+      this.state = state;
+    }
+
+    @Override
+    public String toString() {
+      return "yystate = " + state;
+    }
+  }
+
+  protected final Stack<State> myStateStack = new Stack<>();
+
+  private void pushState(int state) {
+    myStateStack.push(new State(yystate()));
+    yybegin(state);
+  }
+
+  private void popState() {
+    State state = myStateStack.pop();
+    yybegin(state.state);
+  }
+
+  private void handleInLastState() {
+    yypushback(yylength());
+    popState();
+  }
+
   public _GleamLexer() {
     this((java.io.Reader)null);
   }
@@ -20,10 +51,10 @@ import com.github.themartdev.intellijgleam.lang.psi.GleamTypes;
 %type IElementType
 %unicode
 
-EOL=\R
-WHITE_SPACE=\s+
+EOL = \n|\r\n
 
-STRING_LITERAL=\"([^\"\\]|\\.)*\"
+
+HEXADECIMAL_DIGIT = [A-Fa-f0-9]
 INTEGER_LITERAL=-?(0[bB][0-1_]+|0[xX][0-9a-fA-F_]+|0[oO][0-7_]+|[0-9][0-9_]*)
 FLOAT_LITERAL=-?([0-9][0-9_]*\.[0-9_]+[0-9]*([Ee][+\-]?[0-9]+)?|[0-9][0-9_]*[Ee][+\-]?[0-9]+)
 BOOLEAN_LITERAL=True|False
@@ -33,12 +64,17 @@ IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
 MODULE_COMMENT="////"[^\n]*
 FUNCTION_COMMENT="///"[^\n]*
 LINE_COMMENT="//"[^\n]*
-WHITE_SPACE=[ \t\n\x0B\f\r]+
+WHITE_SPACE=[ \r\n\t\f]+
+ANY=[^]
+
+%state IN_STRING
+%state ESCAPE_SEQUENCE
+%state UNICODE_ESCAPE_SEQUENCE
+%state UNICODE_CODEPOINT_SEQUENCE
 
 %%
 <YYINITIAL> {
-  {WHITE_SPACE}            { return TokenType.WHITE_SPACE; }
-
+  // Reserved keywords
   "as"                     { return GleamTypes.AS; }
   "assert"                 { return GleamTypes.ASSERT; }
   "auto"                   { return GleamTypes.AUTO; }
@@ -63,6 +99,7 @@ WHITE_SPACE=[ \t\n\x0B\f\r]+
   "try"                    { return GleamTypes.TRY; }
   "type"                   { return GleamTypes.TYPE; }
   "use"                    { return GleamTypes.USE; }
+
   "{"                      { return GleamTypes.LBRACE; }
   "}"                      { return GleamTypes.RBRACE; }
   "("                      { return GleamTypes.LPAREN; }
@@ -105,7 +142,9 @@ WHITE_SPACE=[ \t\n\x0B\f\r]+
   ">=."                    { return GleamTypes.GREATER_EQUAL_DOT; }
   "<>"                     { return GleamTypes.LT_GT; }
 
-  {STRING_LITERAL}         { return GleamTypes.STRING_LITERAL; }
+  // Strings
+  \"                       { pushState(IN_STRING); return GleamTypes.OPEN_QUOTE; }
+
   {INTEGER_LITERAL}        { return GleamTypes.INTEGER_LITERAL; }
   {FLOAT_LITERAL}          { return GleamTypes.FLOAT_LITERAL; }
   {BOOLEAN_LITERAL}        { return GleamTypes.BOOLEAN_LITERAL; }
@@ -115,8 +154,30 @@ WHITE_SPACE=[ \t\n\x0B\f\r]+
   {MODULE_COMMENT}         { return GleamTypes.MODULE_COMMENT; }
   {FUNCTION_COMMENT}       { return GleamTypes.FUNCTION_COMMENT; }
   {LINE_COMMENT}           { return GleamTypes.LINE_COMMENT; }
-  {WHITE_SPACE}            { return GleamTypes.WHITE_SPACE; }
-
+  {WHITE_SPACE}            { return TokenType.WHITE_SPACE; }
 }
 
-[^] { return BAD_CHARACTER; }
+<IN_STRING> {
+  ([^\\\"])*  { return GleamTypes.REGULAR_STRING_PART; }
+  \\           { pushState(ESCAPE_SEQUENCE); return GleamTypes.ESCAPE; }
+  \"           { popState(); return GleamTypes.CLOSE_QUOTE; }
+}
+
+<ESCAPE_SEQUENCE> {
+  {EOL}        { popState(); return GleamTypes.EOL; }
+  "u"          { yybegin(UNICODE_ESCAPE_SEQUENCE); return GleamTypes.UNICODE_ESCAPE_CHAR; }
+  .            { popState(); return GleamTypes.ESCAPE_CHAR; }
+}
+
+<UNICODE_ESCAPE_SEQUENCE> {
+  "{"          { yybegin(UNICODE_CODEPOINT_SEQUENCE); return GleamTypes.LBRACE; }
+  .            { popState(); return TokenType.BAD_CHARACTER; }
+}
+
+<UNICODE_CODEPOINT_SEQUENCE> {
+  "}"                         { popState(); return GleamTypes.RBRACE; }
+  {HEXADECIMAL_DIGIT}{1,6}    { return GleamTypes.UNICODE_CODEPOINT; }
+  {ANY}                       { return TokenType.BAD_CHARACTER; }
+}
+
+[^] { return TokenType.BAD_CHARACTER; }

@@ -13,4 +13,7 @@ object GleamColors {
     val BRACKETS = createTextAttributesKey("GLEAM_BRACKETS", DefaultLanguageHighlighterColors.BRACKETS)
     val PARENTHESES = createTextAttributesKey("GLEAM_PARENTHESES", DefaultLanguageHighlighterColors.PARENTHESES)
     val BRACES = createTextAttributesKey("GLEAM_BRACES", DefaultLanguageHighlighterColors.BRACES)
+    val FUNCTION_DECLARATION = createTextAttributesKey("GLEAM_FUNCTION", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
+    val STRING = createTextAttributesKey("GLEAM_STRING", DefaultLanguageHighlighterColors.STRING)
+    val STRING_ESCAPE = createTextAttributesKey("GLEAM_STRING_ESCAPE", DefaultLanguageHighlighterColors.VALID_STRING_ESCAPE)
 }

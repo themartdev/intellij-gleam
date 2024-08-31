@@ -25,7 +25,7 @@ class GleamParserDefinition : ParserDefinition {
 
     override fun getStringLiteralElements(): TokenSet = GLEAM_STRINGS
 
-    override fun createElement(node: ASTNode?): PsiElement = GleamElementTypes.Factory.createElement(node)
+    override fun createElement(node: ASTNode?): PsiElement = GleamTypes.Factory.createElement(node)
 
     override fun createFile(viewProvider: FileViewProvider): PsiFile = GleamFile(viewProvider)
 }

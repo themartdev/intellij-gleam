@@ -93,26 +93,16 @@ NUMBER_SEPARATOR = "_"
   // Reserved keywords
   "as"                     { return GleamTypes.AS; }
   "assert"                 { return GleamTypes.ASSERT; }
-  "auto"                   { return GleamTypes.AUTO; }
   "case"                   { return GleamTypes.CASE; }
   "const"                  { return GleamTypes.CONST; }
-  "delegate"               { return GleamTypes.DELEGATE; }
-  "derive"                 { return GleamTypes.DERIVE; }
-  "echo"                   { return GleamTypes.ECHO; }
-  "else"                   { return GleamTypes.ELSE; }
-  "external"               { return GleamTypes.EXTERNAL; }
   "fn"                     { return GleamTypes.FN; }
   "if"                     { return GleamTypes.IF; }
-  "implement"              { return GleamTypes.IMPLEMENT; }
   "import"                 { return GleamTypes.IMPORT; }
   "let"                    { return GleamTypes.LET; }
-  "macro"                  { return GleamTypes.MACRO; }
   "opaque"                 { return GleamTypes.OPAQUE; }
   "panic"                  { return GleamTypes.PANIC; }
   "pub"                    { return GleamTypes.PUB; }
-  "test"                   { return GleamTypes.TEST; }
   "todo"                   { return GleamTypes.TODO; }
-  "try"                    { return GleamTypes.TRY; }
   "type"                   { return GleamTypes.TYPE; }
   "use"                    { return GleamTypes.USE; }
 

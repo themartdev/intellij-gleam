@@ -19,26 +19,17 @@
     // Language keywords https://github.com/gleam-lang/gleam/blob/main/compiler-core/src/parse/lexer.rs#L24
     AS              = 'as'
     ASSERT          = 'assert'
-    AUTO            = 'auto'
     CASE            = 'case'
     CONST           = 'const'
-    DELEGATE        = 'delegate'
-    DERIVE          = 'derive'
-    ECHO            = 'echo'
-    ELSE            = 'else'
-    EXTERNAL        = 'external'
     FN              = 'fn'
     IF              = 'if'
-    IMPLEMENT       = 'implement'
     IMPORT          = 'import'
     LET             = 'let'
-    MACRO           = 'macro'
     OPAQUE          = 'opaque'
     PANIC           = 'panic'
     PUB             = 'pub'
     TEST            = 'test'
     TODO            = 'todo'
-    TRY             = 'try'
     TYPE            = 'type'
     USE             = 'use'
 
@@ -266,7 +257,7 @@ useArgs ::= IDENTIFIER | IDENTIFIER COMMA useArgs
 useExpr ::= USE [useArgs] L_ARROW expression
 
 assignment ::= pattern [typeAnnotation] EQUAL expression
-letExpr ::= LET assignment
+letExpr ::= LET ASSERT? assignment
 assertExpr ::= ASSERT assignment
 negationExpr ::= BANG expression
 

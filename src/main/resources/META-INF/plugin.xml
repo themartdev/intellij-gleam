@@ -24,5 +24,8 @@
 
         <annotator language="Gleam"
                    implementationClass="com.github.themartdev.intellijgleam.ide.annotator.GleamHighlightingAnnotator"/>
+
+        <completion.contributor language="Gleam"
+                                implementationClass="com.github.themartdev.intellijgleam.ide.completion.GleamCompletionContributor"/>
     </extensions>
 </idea-plugin>

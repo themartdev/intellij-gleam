@@ -113,6 +113,7 @@ public interface GleamTypes {
   IElementType REFERENCE_EXPR = new GleamType("REFERENCE_EXPR");
   IElementType REMOTE_CONSTRUCTOR_IDENTIFIER = new GleamType("REMOTE_CONSTRUCTOR_IDENTIFIER");
   IElementType REMOTE_TYPE_IDENTIFIER = new GleamType("REMOTE_TYPE_IDENTIFIER");
+  IElementType SOURCE_FILE = new GleamType("SOURCE_FILE");
   IElementType STATEMENT = new GleamType("STATEMENT");
   IElementType STRING_ESCAPE_SEGMENT = new GleamType("STRING_ESCAPE_SEGMENT");
   IElementType STRING_LITERAL = new GleamType("STRING_LITERAL");
@@ -556,6 +557,9 @@ public interface GleamTypes {
       }
       else if (type == REMOTE_TYPE_IDENTIFIER) {
         return new GleamRemoteTypeIdentifierImpl(node);
+      }
+      else if (type == SOURCE_FILE) {
+        return new GleamSourceFileImpl(node);
       }
       else if (type == STATEMENT) {
         return new GleamStatementImpl(node);

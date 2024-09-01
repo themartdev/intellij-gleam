@@ -20,7 +20,6 @@ class GleamHighlightingAnnotator : Annotator, DumbAware {
         }
     }
 
-
     private fun newAnnotation(
         holder: AnnotationHolder, element: PsiElement, textAttributesKey: TextAttributesKey
     ) {

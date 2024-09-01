@@ -32,7 +32,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   static boolean parse_root_(IElementType t, PsiBuilder b, int l) {
-    return sourceFile(b, l + 1);
+    return root(b, l + 1);
   }
 
   public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
@@ -2680,14 +2680,22 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // sourceFile
+  static boolean root(PsiBuilder b, int l) {
+    return sourceFile(b, l + 1);
+  }
+
+  /* ********************************************************** */
   // (statement | expressionSeq | targetGroup)*
-  static boolean sourceFile(PsiBuilder b, int l) {
+  public static boolean sourceFile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "sourceFile")) return false;
+    Marker m = enter_section_(b, l, _NONE_, SOURCE_FILE, "<source file>");
     while (true) {
       int c = current_position_(b);
       if (!sourceFile_0(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "sourceFile", c)) break;
     }
+    exit_section_(b, l, m, true, false, null);
     return true;
   }
 
@@ -3586,7 +3594,10 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r || p;
   }
 
-  // floatLiteral |  stringLiteral | integerLiteral | BOOLEAN_LITERAL
+  // floatLiteral
+  //               | stringLiteral
+  //               | integerLiteral
+  //               | BOOLEAN_LITERAL
   public static boolean literalExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "literalExpr")) return false;
     boolean r;

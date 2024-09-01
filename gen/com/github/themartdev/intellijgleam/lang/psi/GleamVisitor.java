@@ -427,6 +427,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitSourceFile(@NotNull GleamSourceFile o) {
+    visitPsiElement(o);
+  }
+
   public void visitStatement(@NotNull GleamStatement o) {
     visitPsiElement(o);
   }

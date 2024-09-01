@@ -139,7 +139,8 @@
 
 
 
-// Rules
+// Rule
+root ::= sourceFile
 sourceFile ::= (statement | expressionSeq | targetGroup)*
 
 statement ::= imports

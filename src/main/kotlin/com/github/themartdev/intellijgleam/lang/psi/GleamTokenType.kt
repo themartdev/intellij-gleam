@@ -13,7 +13,7 @@ val GLEAM_KEYWORDS = create(
 )
 
 val TOP_LEVEL_KEYWORDS = create(
-    IMPORT, TYPE, CONST, FN, PUB
+    IMPORT, TYPE, CONST, FN, PUB, OPAQUE
 )
 
 

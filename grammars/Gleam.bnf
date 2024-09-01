@@ -133,10 +133,8 @@
 // Rule
 root ::= topLevelStatement*
 
-// const, var, fn and imports
 topLevelStatement ::= importStatement | constant | typeDeclaration | function
 
-typeDeclaration ::= typeDefinition | typeAlias
 
 // Imports
 module ::= IDENTIFIER (SLASH IDENTIFIER)*
@@ -259,7 +257,6 @@ useExpr ::= USE [useArgs] L_ARROW expression
 assignment ::= pattern [typeAnnotation] EQUAL expression
 letExpr ::= LET ASSERT? assignment
 assertExpr ::= ASSERT assignment
-negationExpr ::= BANG expression
 
 recordUpdateArgument ::= label COLON expression
 recordUpdateArguments ::= recordUpdateArgument (COMMA recordUpdateArgument)* [COMMA]
@@ -280,9 +277,10 @@ literalExpr ::= floatLiteral
 
 expression ::= parenthesizedExpr
              | literalExpr
+             | binaryExpr
+             | unaryExpr
              | callExpr
              | accessExpr
-             | binaryExpr
              | recordExpr
              | anonymousFunctionExpr
              | referenceExpr
@@ -295,7 +293,6 @@ expression ::= parenthesizedExpr
              | letExpr
              | useExpr
              | assertExpr
-             | negationExpr
              | recordUpdateExpr
 
 parenthesizedExpr ::= LPAREN expression RPAREN
@@ -307,6 +304,10 @@ binaryOperator ::= EQUAL_EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | LESS_DOT
                  | MINUS | MINUS_DOT | STAR | STAR_DOT | SLASH | SLASH_DOT
                  | PERCENT | AMPER_AMPER | VBAR_VBAR
 
+unaryExpr ::= unaryOperator expression
+unaryOperator ::= BANG | MINUS
+
+//// Types
 dataConstructorArgument ::= [label COLON] typeBase
 dataConstructorArguments ::= LPAREN [dataConstructorArgument (COMMA dataConstructorArgument)* [COMMA]] RPAREN
 dataConstructor ::= constructorIdentifier [dataConstructorArguments]
@@ -314,6 +315,7 @@ dataConstructors ::= dataConstructor+
 
 typeAlias ::= [visibilityModifier] [opacityModifier] TYPE typeName EQUAL typeRule
 typeDefinition ::= [visibilityModifier] [opacityModifier] TYPE typeName LBRACE dataConstructors RBRACE
+typeDeclaration ::= typeDefinition | typeAlias
 
 
 //// Numbers

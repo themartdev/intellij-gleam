@@ -3386,10 +3386,9 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // 12: ATOM(expressionBitStringExpr)
   // 13: ATOM(blockExpr)
   // 14: ATOM(caseExpr)
-  // 15: ATOM(letExpr)
-  // 16: PREFIX(useExpr)
-  // 17: PREFIX(recordUpdateExpr)
-  // 18: ATOM(panicExpr)
+  // 15: PREFIX(useExpr)
+  // 16: PREFIX(recordUpdateExpr)
+  // 17: ATOM(letExpr) ATOM(panicExpr)
   public static boolean expression(PsiBuilder b, int l, int g) {
     if (!recursion_guard_(b, l, "expression")) return false;
     addVariant(b, "<expression>");
@@ -3407,9 +3406,9 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!r) r = expressionBitStringExpr(b, l + 1);
     if (!r) r = blockExpr(b, l + 1);
     if (!r) r = caseExpr(b, l + 1);
-    if (!r) r = letExpr(b, l + 1);
     if (!r) r = useExpr(b, l + 1);
     if (!r) r = recordUpdateExpr(b, l + 1);
+    if (!r) r = letExpr(b, l + 1);
     if (!r) r = panicExpr(b, l + 1);
     p = r;
     r = r && expression_0(b, l + 1, g);
@@ -3832,19 +3831,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // simpleLetExpr
-  //           | assertLetExpr
-  public static boolean letExpr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "letExpr")) return false;
-    if (!nextTokenIsSmart(b, LET)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _COLLAPSE_, LET_EXPR, null);
-    r = simpleLetExpr(b, l + 1);
-    if (!r) r = assertLetExpr(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
   public static boolean useExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "useExpr")) return false;
     if (!nextTokenIsSmart(b, USE)) return false;
@@ -3852,7 +3838,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = useExpr_0(b, l + 1);
     p = r;
-    r = p && expression(b, l, 16);
+    r = p && expression(b, l, 15);
     exit_section_(b, l, m, USE_EXPR, r, p, null);
     return r || p;
   }
@@ -3883,7 +3869,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = recordUpdateExpr_0(b, l + 1);
     p = r;
-    r = p && expression(b, l, 17);
+    r = p && expression(b, l, 16);
     r = p && report_error_(b, recordUpdateExpr_1(b, l + 1)) && r;
     exit_section_(b, l, m, RECORD_UPDATE_EXPR, r, p, null);
     return r || p;
@@ -3918,6 +3904,19 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = r && recordUpdateArguments(b, l + 1);
     r = r && consumeToken(b, RPAREN);
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // simpleLetExpr
+  //           | assertLetExpr
+  public static boolean letExpr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "letExpr")) return false;
+    if (!nextTokenIsSmart(b, LET)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _COLLAPSE_, LET_EXPR, null);
+    r = simpleLetExpr(b, l + 1);
+    if (!r) r = assertLetExpr(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

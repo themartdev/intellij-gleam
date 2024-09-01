@@ -294,7 +294,6 @@ expression ::= parenthesizedExpr
              | expressionBitStringExpr
              | blockExpr
              | caseExpr
-             | letExpr
              | useExpr
              | recordUpdateExpr
              | simpleKeywordExpr

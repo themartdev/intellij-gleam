@@ -14,6 +14,5 @@ class GleamLexerTest {
             println("${lexer.tokenType}: ${lexer.tokenText}")
             lexer.advance()
         }
-
     }
 }

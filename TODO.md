@@ -1,6 +1,6 @@
 # Lexer/Parser
-- `panic as`
-- `todo as`
+- `panic as` ✔
+- `todo as` ✔
 - `@external`
 - `@deprecated`
 - tuple integer access like this: `tuple.1`

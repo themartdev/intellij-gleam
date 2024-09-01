@@ -133,7 +133,7 @@
 // Rule
 root ::= topLevelStatement*
 
-topLevelStatement ::= importStatement | constant | typeDeclaration | function
+private topLevelStatement ::= importStatement | constant | typeDeclaration | function
 
 
 // Imports

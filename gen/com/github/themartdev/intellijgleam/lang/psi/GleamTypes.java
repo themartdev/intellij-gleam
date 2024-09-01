@@ -113,7 +113,6 @@ public interface GleamTypes {
   IElementType STRING_ESCAPE_SEGMENT = new GleamType("STRING_ESCAPE_SEGMENT");
   IElementType STRING_LITERAL = new GleamType("STRING_LITERAL");
   IElementType TODO_EXPR = new GleamType("TODO_EXPR");
-  IElementType TOP_LEVEL_STATEMENT = new GleamType("TOP_LEVEL_STATEMENT");
   IElementType TUPLE_EXPR = new GleamType("TUPLE_EXPR");
   IElementType TUPLE_PATTERN = new GleamType("TUPLE_PATTERN");
   IElementType TUPLE_TYPE = new GleamType("TUPLE_TYPE");
@@ -542,9 +541,6 @@ public interface GleamTypes {
       }
       else if (type == TODO_EXPR) {
         return new GleamTodoExprImpl(node);
-      }
-      else if (type == TOP_LEVEL_STATEMENT) {
-        return new GleamTopLevelStatementImpl(node);
       }
       else if (type == TUPLE_EXPR) {
         return new GleamTupleExprImpl(node);

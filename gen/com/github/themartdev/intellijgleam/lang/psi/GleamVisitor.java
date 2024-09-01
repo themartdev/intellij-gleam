@@ -427,10 +427,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitExpression(o);
   }
 
-  public void visitTopLevelStatement(@NotNull GleamTopLevelStatement o) {
-    visitPsiElement(o);
-  }
-
   public void visitTupleExpr(@NotNull GleamTupleExpr o) {
     visitExpression(o);
   }

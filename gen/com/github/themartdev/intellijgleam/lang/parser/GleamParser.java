@@ -2669,15 +2669,13 @@ public class GleamParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // importStatement | constant | typeDeclaration | function
-  public static boolean topLevelStatement(PsiBuilder b, int l) {
+  static boolean topLevelStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "topLevelStatement")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, TOP_LEVEL_STATEMENT, "<top level statement>");
     r = importStatement(b, l + 1);
     if (!r) r = constant(b, l + 1);
     if (!r) r = typeDeclaration(b, l + 1);
     if (!r) r = function(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

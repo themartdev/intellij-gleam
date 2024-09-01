@@ -4,8 +4,8 @@
   extends='com.intellij.extapi.psi.ASTWrapperPsiElement'
 
   elementTypeHolderClass='com.github.themartdev.intellijgleam.lang.psi.GleamTypes'
-  elementTypeClass='com.github.themartdev.intellijgleam.lang.psi.GleamType'
-//  tokenTypeClass='com.github.themartdev.intellijgleam.lang.psi.GleamTokenType'
+  elementTypeClass='com.github.themartdev.intellijgleam.lang.psi.GleamElementType'
+  tokenTypeClass='com.github.themartdev.intellijgleam.lang.psi.GleamTokenType'
 
   psiClassPrefix='Gleam'
   psiImplClassSuffix='Impl'

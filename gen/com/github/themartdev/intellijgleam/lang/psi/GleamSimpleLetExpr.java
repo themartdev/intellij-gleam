@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamNegationExpr extends GleamExpression {
+public interface GleamSimpleLetExpr extends GleamExpression {
 
-  @Nullable
-  GleamExpression getExpression();
+  @NotNull
+  GleamAssignment getAssignment();
 
 }

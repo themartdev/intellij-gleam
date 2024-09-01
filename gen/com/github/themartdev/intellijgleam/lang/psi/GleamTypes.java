@@ -15,7 +15,7 @@ public interface GleamTypes {
   IElementType ANONYMOUS_FUNCTION_PARAMETER_ARGS = new GleamType("ANONYMOUS_FUNCTION_PARAMETER_ARGS");
   IElementType ARGUMENT = new GleamType("ARGUMENT");
   IElementType ARGUMENTS = new GleamType("ARGUMENTS");
-  IElementType ASSERT_EXPR = new GleamType("ASSERT_EXPR");
+  IElementType ASSERT_LET_EXPR = new GleamType("ASSERT_LET_EXPR");
   IElementType ASSIGNMENT = new GleamType("ASSIGNMENT");
   IElementType BINARY_EXPR = new GleamType("BINARY_EXPR");
   IElementType BINARY_INTEGER_LITERAL = new GleamType("BINARY_INTEGER_LITERAL");
@@ -93,6 +93,7 @@ public interface GleamTypes {
   IElementType NAME_PARAM = new GleamType("NAME_PARAM");
   IElementType OCTAL_INTEGER_LITERAL = new GleamType("OCTAL_INTEGER_LITERAL");
   IElementType OPACITY_MODIFIER = new GleamType("OPACITY_MODIFIER");
+  IElementType PANIC_EXPR = new GleamType("PANIC_EXPR");
   IElementType PARENTHESIZED_EXPR = new GleamType("PARENTHESIZED_EXPR");
   IElementType PATTERN = new GleamType("PATTERN");
   IElementType PATTERN_BIT_STRING = new GleamType("PATTERN_BIT_STRING");
@@ -108,9 +109,10 @@ public interface GleamTypes {
   IElementType REFERENCE_EXPR = new GleamType("REFERENCE_EXPR");
   IElementType REMOTE_CONSTRUCTOR_IDENTIFIER = new GleamType("REMOTE_CONSTRUCTOR_IDENTIFIER");
   IElementType REMOTE_TYPE_IDENTIFIER = new GleamType("REMOTE_TYPE_IDENTIFIER");
+  IElementType SIMPLE_LET_EXPR = new GleamType("SIMPLE_LET_EXPR");
   IElementType STRING_ESCAPE_SEGMENT = new GleamType("STRING_ESCAPE_SEGMENT");
   IElementType STRING_LITERAL = new GleamType("STRING_LITERAL");
-  IElementType TODO_RULE_EXPR = new GleamType("TODO_RULE_EXPR");
+  IElementType TODO_EXPR = new GleamType("TODO_EXPR");
   IElementType TOP_LEVEL_STATEMENT = new GleamType("TOP_LEVEL_STATEMENT");
   IElementType TUPLE_EXPR = new GleamType("TUPLE_EXPR");
   IElementType TUPLE_PATTERN = new GleamType("TUPLE_PATTERN");
@@ -253,8 +255,8 @@ public interface GleamTypes {
       else if (type == ARGUMENTS) {
         return new GleamArgumentsImpl(node);
       }
-      else if (type == ASSERT_EXPR) {
-        return new GleamAssertExprImpl(node);
+      else if (type == ASSERT_LET_EXPR) {
+        return new GleamAssertLetExprImpl(node);
       }
       else if (type == ASSIGNMENT) {
         return new GleamAssignmentImpl(node);
@@ -457,9 +459,6 @@ public interface GleamTypes {
       else if (type == LABELED_NAME_PARAM) {
         return new GleamLabeledNameParamImpl(node);
       }
-      else if (type == LET_EXPR) {
-        return new GleamLetExprImpl(node);
-      }
       else if (type == LIST_EXPR) {
         return new GleamListExprImpl(node);
       }
@@ -483,6 +482,9 @@ public interface GleamTypes {
       }
       else if (type == OPACITY_MODIFIER) {
         return new GleamOpacityModifierImpl(node);
+      }
+      else if (type == PANIC_EXPR) {
+        return new GleamPanicExprImpl(node);
       }
       else if (type == PARENTHESIZED_EXPR) {
         return new GleamParenthesizedExprImpl(node);
@@ -529,14 +531,17 @@ public interface GleamTypes {
       else if (type == REMOTE_TYPE_IDENTIFIER) {
         return new GleamRemoteTypeIdentifierImpl(node);
       }
+      else if (type == SIMPLE_LET_EXPR) {
+        return new GleamSimpleLetExprImpl(node);
+      }
       else if (type == STRING_ESCAPE_SEGMENT) {
         return new GleamStringEscapeSegmentImpl(node);
       }
       else if (type == STRING_LITERAL) {
         return new GleamStringLiteralImpl(node);
       }
-      else if (type == TODO_RULE_EXPR) {
-        return new GleamTodoRuleExprImpl(node);
+      else if (type == TODO_EXPR) {
+        return new GleamTodoExprImpl(node);
       }
       else if (type == TOP_LEVEL_STATEMENT) {
         return new GleamTopLevelStatementImpl(node);

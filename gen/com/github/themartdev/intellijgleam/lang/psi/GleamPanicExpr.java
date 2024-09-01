@@ -5,6 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamLetExpr extends GleamExpression {
+public interface GleamPanicExpr extends GleamExpression {
+
+  @Nullable
+  GleamStringLiteral getStringLiteral();
 
 }

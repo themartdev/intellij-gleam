@@ -35,7 +35,7 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitAssertExpr(@NotNull GleamAssertExpr o) {
+  public void visitAssertLetExpr(@NotNull GleamAssertLetExpr o) {
     visitExpression(o);
   }
 
@@ -347,6 +347,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitPanicExpr(@NotNull GleamPanicExpr o) {
+    visitExpression(o);
+  }
+
   public void visitParenthesizedExpr(@NotNull GleamParenthesizedExpr o) {
     visitExpression(o);
   }
@@ -407,6 +411,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitSimpleLetExpr(@NotNull GleamSimpleLetExpr o) {
+    visitExpression(o);
+  }
+
   public void visitStringEscapeSegment(@NotNull GleamStringEscapeSegment o) {
     visitPsiElement(o);
   }
@@ -415,7 +423,7 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitTodoRuleExpr(@NotNull GleamTodoRuleExpr o) {
+  public void visitTodoExpr(@NotNull GleamTodoExpr o) {
     visitExpression(o);
   }
 

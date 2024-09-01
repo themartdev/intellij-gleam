@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamAssertExpr extends GleamExpression {
+public interface GleamAssertLetExpr extends GleamExpression {
 
   @NotNull
   GleamAssignment getAssignment();

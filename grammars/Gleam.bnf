@@ -225,7 +225,6 @@ recordExpr ::= (constructorIdentifier | remoteConstructorIdentifier) [arguments]
 expressionBitStringSegment ::= expression [COLON bitStringSegmentOptions]
 expressionBitStringExpr ::= LT_LT [expressionBitStringSegment (COMMA expressionBitStringSegment)* [COMMA]] GT_GT
 
-todoRuleExpr ::= TODO [LPAREN stringLiteral RPAREN]
 tupleExpr ::= HASH LPAREN [expression (COMMA expression)* [COMMA]] RPAREN
 listExpr ::= LBRACK [expression ((COMMA expression)*)? [COMMA] [DOT_DOT expression]] RBRACK
 
@@ -255,8 +254,13 @@ useArgs ::= IDENTIFIER | IDENTIFIER COMMA useArgs
 useExpr ::= USE [useArgs] L_ARROW expression
 
 assignment ::= pattern [typeAnnotation] EQUAL expression
-letExpr ::= LET ASSERT? assignment
-assertExpr ::= ASSERT assignment
+simpleLetExpr ::= LET assignment
+assertLetExpr ::= LET ASSERT assignment
+letExpr ::= simpleLetExpr
+          | assertLetExpr
+
+panicExpr ::= PANIC (AS stringLiteral)?
+todoExpr ::= TODO (AS stringLiteral)?
 
 recordUpdateArgument ::= label COLON expression
 recordUpdateArguments ::= recordUpdateArgument (COMMA recordUpdateArgument)* [COMMA]
@@ -284,7 +288,7 @@ expression ::= parenthesizedExpr
              | recordExpr
              | anonymousFunctionExpr
              | referenceExpr
-             | todoRuleExpr
+             | todoExpr
              | tupleExpr
              | listExpr
              | expressionBitStringExpr
@@ -292,8 +296,10 @@ expression ::= parenthesizedExpr
              | caseExpr
              | letExpr
              | useExpr
-             | assertExpr
              | recordUpdateExpr
+             | simpleKeywordExpr
+
+private simpleKeywordExpr ::= letExpr | panicExpr | todoExpr
 
 parenthesizedExpr ::= LPAREN expression RPAREN
 

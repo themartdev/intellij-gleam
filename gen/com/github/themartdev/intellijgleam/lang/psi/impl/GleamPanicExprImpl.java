@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamTodoRuleExprImpl extends GleamExpressionImpl implements GleamTodoRuleExpr {
+public class GleamPanicExprImpl extends GleamExpressionImpl implements GleamPanicExpr {
 
-  public GleamTodoRuleExprImpl(@NotNull ASTNode node) {
+  public GleamPanicExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitTodoRuleExpr(this);
+    visitor.visitPanicExpr(this);
   }
 
   @Override

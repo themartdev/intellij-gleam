@@ -27,5 +27,8 @@
 
         <completion.contributor language="Gleam"
                                 implementationClass="com.github.themartdev.intellijgleam.ide.completion.GleamCompletionContributor"/>
+
+        <lang.commenter language="Gleam"
+                        implementationClass="com.github.themartdev.intellijgleam.ide.commenter.GleamCommenter"/>
     </extensions>
 </idea-plugin>

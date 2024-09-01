@@ -8,6 +8,6 @@ import com.intellij.psi.PsiErrorElement
 object GleamPsiPatterns {
     val TOP_KEYWORD: PsiElementPattern.Capture<PsiElement> =
         psiElement(GleamTypes.IDENTIFIER).withParent(
-            psiElement(PsiErrorElement::class.java).withParent(psiElement(GleamTypes.SOURCE_FILE))
+            psiElement(PsiErrorElement::class.java).withParent(psiElement(GleamFile::class.java))
         )
 }

@@ -1,6 +1,7 @@
 package com.github.themartdev.intellijgleam.ide.completion
 
 import com.github.themartdev.intellijgleam.lang.psi.GleamPsiPatterns
+import com.github.themartdev.intellijgleam.lang.psi.TOP_LEVEL_KEYWORDS
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
@@ -14,6 +15,6 @@ object FileScopeCompletionProvider : GleamCompletionProvider() {
         context: ProcessingContext,
         result: CompletionResultSet
     ) {
-        result.addElement(LookupElementBuilder.create("hello"))
+        result.addAllElements(TOP_LEVEL_KEYWORDS.types.map { LookupElementBuilder.create(it) })
     }
 }

@@ -140,23 +140,18 @@
 
 
 // Rule
-root ::= sourceFile
-sourceFile ::= (statement | expressionSeq | targetGroup)*
+root ::= topLevelStatement*
 
-statement ::= imports
-            | constant
-            | externalFunction
-            | function
-            | typeDefinition
-            | typeAlias
+// const, var, fn and imports
+topLevelStatement ::= importStatement | constant | typeDeclaration | function
 
-targetGroup ::= IF IDENTIFIER LBRACE statement* RBRACE
+typeDeclaration ::= typeDefinition | typeAlias
 
 // Imports
 module ::= IDENTIFIER (SLASH IDENTIFIER)*
 unqualifiedImport ::= IDENTIFIER (AS IDENTIFIER)? | [TYPE] UP_IDENTIFIER (AS UP_IDENTIFIER)?
 unqualifiedImports ::= LBRACE [unqualifiedImport (COMMA unqualifiedImport)* [COMMA]] RBRACE
-imports ::= IMPORT module [DOT unqualifiedImports] [AS IDENTIFIER]
+importStatement ::= IMPORT module [DOT unqualifiedImports] [AS IDENTIFIER]
 
 // Types
 constantFunctionParameterTypes ::= LPAREN [constantTypeSpecial (COMMA constantTypeSpecial)* [COMMA]] RPAREN
@@ -212,11 +207,6 @@ typeArguments ::= LPAREN [typeArgument (COMMA typeArgument)* [COMMA]] RPAREN
 typeRule ::= (typeIdentifier | remoteTypeIdentifier) [typeArguments]
 //typeRule ::= 'String'
 
-externalFunctionBody ::= stringLiteral stringLiteral
-externalFunctionParameter ::= [IDENTIFIER COLON] typeBase
-externalFunctionParameters ::= LPAREN [externalFunctionParameter (COMMA externalFunctionParameter)* [COMMA]] RPAREN
-externalFunction ::= [visibilityModifier] EXTERNAL FN IDENTIFIER externalFunctionParameters R_ARROW typeBase EQUAL externalFunctionBody
-
 functionParameterArgs ::= labeledDiscardParam | discardParam | labeledNameParam | nameParam
 functionParameter ::= functionParameterArgs [typeAnnotation]
 functionParameters ::= LPAREN [functionParameter (COMMA functionParameter)* [COMMA]] RPAREN
@@ -237,8 +227,7 @@ recordPatternArguments ::= LPAREN [recordPatternArgument (COMMA recordPatternArg
 recordPattern ::= (constructorIdentifier | remoteConstructorIdentifier) [recordPatternArguments]
 pattern ::= (IDENTIFIER | discard | recordPattern | literalExpr | tuplePattern | patternBitString | listPattern) [AS IDENTIFIER]
 
-tryRule ::= TRY pattern [typeAnnotation] EQUAL expression
-expressionSeq ::= (expression | tryRule)+
+expressionSeq ::= (expression)+
 
 argument ::= [label COLON] (hole | expression)
 arguments ::= LPAREN [argument (COMMA argument)* [COMMA]] RPAREN

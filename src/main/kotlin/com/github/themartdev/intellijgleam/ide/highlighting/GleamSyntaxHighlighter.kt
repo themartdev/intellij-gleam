@@ -39,4 +39,3 @@ val ATTRIBUTES = buildMap<IElementType, TextAttributesKey> {
     SyntaxHighlighterBase.fillMap(this, GLEAM_UNKNOWN_BASE, GleamColors.INVALID_BASE)
     SyntaxHighlighterBase.fillMap(this, GLEAM_DECORATORS, GleamColors.DECORATOR)
 }
-

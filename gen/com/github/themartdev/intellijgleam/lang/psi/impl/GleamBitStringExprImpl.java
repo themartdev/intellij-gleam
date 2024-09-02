@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamExpressionBitStringExprImpl extends GleamExpressionImpl implements GleamExpressionBitStringExpr {
+public class GleamBitStringExprImpl extends GleamExpressionImpl implements GleamBitStringExpr {
 
-  public GleamExpressionBitStringExprImpl(@NotNull ASTNode node) {
+  public GleamBitStringExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitExpressionBitStringExpr(this);
+    visitor.visitBitStringExpr(this);
   }
 
   @Override

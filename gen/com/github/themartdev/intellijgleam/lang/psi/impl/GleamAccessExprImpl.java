@@ -34,9 +34,15 @@ public class GleamAccessExprImpl extends GleamExpressionImpl implements GleamAcc
   }
 
   @Override
-  @NotNull
+  @Nullable
   public GleamLabel getLabel() {
-    return findNotNullChildByClass(GleamLabel.class);
+    return findChildByClass(GleamLabel.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamWholeNumber getWholeNumber() {
+    return findChildByClass(GleamWholeNumber.class);
   }
 
 }

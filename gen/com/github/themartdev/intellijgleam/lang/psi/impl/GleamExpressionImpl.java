@@ -11,7 +11,7 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public abstract class GleamExpressionImpl extends ASTWrapperPsiElement implements GleamExpression {
+public class GleamExpressionImpl extends ASTWrapperPsiElement implements GleamExpression {
 
   public GleamExpressionImpl(@NotNull ASTNode node) {
     super(node);

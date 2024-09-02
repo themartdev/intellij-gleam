@@ -20,6 +20,7 @@ public interface GleamTypes {
   IElementType BINARY_EXPR = new GleamElementType("BINARY_EXPR");
   IElementType BINARY_INTEGER_LITERAL = new GleamElementType("BINARY_INTEGER_LITERAL");
   IElementType BINARY_OPERATOR = new GleamElementType("BINARY_OPERATOR");
+  IElementType BIT_STRING_EXPR = new GleamElementType("BIT_STRING_EXPR");
   IElementType BIT_STRING_NAMED_SEGMENT_OPTION = new GleamElementType("BIT_STRING_NAMED_SEGMENT_OPTION");
   IElementType BIT_STRING_SEGMENT_OPTION = new GleamElementType("BIT_STRING_SEGMENT_OPTION");
   IElementType BIT_STRING_SEGMENT_OPTIONS = new GleamElementType("BIT_STRING_SEGMENT_OPTIONS");
@@ -68,7 +69,6 @@ public interface GleamTypes {
   IElementType DISCARD = new GleamElementType("DISCARD");
   IElementType DISCARD_PARAM = new GleamElementType("DISCARD_PARAM");
   IElementType EXPRESSION = new GleamElementType("EXPRESSION");
-  IElementType EXPRESSION_BIT_STRING_EXPR = new GleamElementType("EXPRESSION_BIT_STRING_EXPR");
   IElementType EXPRESSION_BIT_STRING_SEGMENT = new GleamElementType("EXPRESSION_BIT_STRING_SEGMENT");
   IElementType EXPRESSION_SEQ = new GleamElementType("EXPRESSION_SEQ");
   IElementType EXTERNAL_DECORATOR = new GleamElementType("EXTERNAL_DECORATOR");
@@ -281,6 +281,9 @@ public interface GleamTypes {
       else if (type == BINARY_OPERATOR) {
         return new GleamBinaryOperatorImpl(node);
       }
+      else if (type == BIT_STRING_EXPR) {
+        return new GleamBitStringExprImpl(node);
+      }
       else if (type == BIT_STRING_NAMED_SEGMENT_OPTION) {
         return new GleamBitStringNamedSegmentOptionImpl(node);
       }
@@ -419,8 +422,8 @@ public interface GleamTypes {
       else if (type == DISCARD_PARAM) {
         return new GleamDiscardParamImpl(node);
       }
-      else if (type == EXPRESSION_BIT_STRING_EXPR) {
-        return new GleamExpressionBitStringExprImpl(node);
+      else if (type == EXPRESSION) {
+        return new GleamExpressionImpl(node);
       }
       else if (type == EXPRESSION_BIT_STRING_SEGMENT) {
         return new GleamExpressionBitStringSegmentImpl(node);

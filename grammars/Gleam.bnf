@@ -137,7 +137,11 @@
 
 root ::= topLevelStatement*
 
-private topLevelStatement ::= importStatement | constant | typeDeclaration | functionDeclaration | externalFunctionNoFallback
+private topLevelStatement ::= importStatement
+                            | constant
+                            | typeDeclaration
+                            | functionDeclaration
+                            | externalFunctionNoFallback
 
 // Decorators
 externalTarget ::= "javascript" | "erlang"
@@ -245,9 +249,9 @@ arguments ::= LPAREN [argument (COMMA argument)* [COMMA]] RPAREN
 recordExpr ::= (constructorIdentifier | remoteConstructorIdentifier) [arguments]
 
 expressionBitStringSegment ::= expression [COLON bitStringSegmentOptions]
-expressionBitStringExpr ::= LT_LT [expressionBitStringSegment (COMMA expressionBitStringSegment)* [COMMA]] GT_GT
+bitStringExpr ::= LT_LT [expressionBitStringSegment (COMMA expressionBitStringSegment)* [COMMA]] GT_GT
 
-tupleExpr ::= HASH LPAREN [expression (COMMA expression)* [COMMA]] RPAREN
+tupleExpr ::= HASH LPAREN [expression (COMMA expression)* [COMMA]] RPAREN {pin=2}
 listExpr ::= LBRACK [expression ((COMMA expression)*)? [COMMA] [DOT_DOT expression]] RBRACK
 
 anonymousFunctionParameterArgs ::= discardParam | nameParam
@@ -292,7 +296,7 @@ recordUpdateExpr ::= (constructorIdentifier | remoteConstructorIdentifier) LPARE
 
 callExpr ::= expression arguments
 
-accessExpr ::= expression DOT label
+accessExpr ::= expression DOT (label | wholeNumber)
 
 referenceExpr ::= IDENTIFIER
 
@@ -313,12 +317,18 @@ expression ::= parenthesizedExpr
              | todoExpr
              | tupleExpr
              | listExpr
-             | expressionBitStringExpr
+             | bitStringExpr
              | blockExpr
              | caseExpr
              | useExpr
              | recordUpdateExpr
              | simpleKeywordExpr
+             {
+                recoverWhile=expressionRecoverWhile
+             }
+
+private expressionRecoverWhile ::= !expressionRecoverUntil
+private expressionRecoverUntil ::= RBRACE | RPAREN | RBRACK | EOL
 
 private simpleKeywordExpr ::= letExpr | panicExpr | todoExpr
 

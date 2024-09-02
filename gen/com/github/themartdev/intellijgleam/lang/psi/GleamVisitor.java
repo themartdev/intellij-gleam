@@ -55,6 +55,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitBitStringExpr(@NotNull GleamBitStringExpr o) {
+    visitExpression(o);
+  }
+
   public void visitBitStringNamedSegmentOption(@NotNull GleamBitStringNamedSegmentOption o) {
     visitPsiElement(o);
   }
@@ -245,10 +249,6 @@ public class GleamVisitor extends PsiElementVisitor {
 
   public void visitExpression(@NotNull GleamExpression o) {
     visitPsiElement(o);
-  }
-
-  public void visitExpressionBitStringExpr(@NotNull GleamExpressionBitStringExpr o) {
-    visitExpression(o);
   }
 
   public void visitExpressionBitStringSegment(@NotNull GleamExpressionBitStringSegment o) {

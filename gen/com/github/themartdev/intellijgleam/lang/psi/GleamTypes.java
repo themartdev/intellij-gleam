@@ -62,15 +62,23 @@ public interface GleamTypes {
   IElementType DATA_CONSTRUCTOR_ARGUMENT = new GleamElementType("DATA_CONSTRUCTOR_ARGUMENT");
   IElementType DATA_CONSTRUCTOR_ARGUMENTS = new GleamElementType("DATA_CONSTRUCTOR_ARGUMENTS");
   IElementType DECIMAL_INTEGER_LITERAL = new GleamElementType("DECIMAL_INTEGER_LITERAL");
+  IElementType DECORATOR = new GleamElementType("DECORATOR");
+  IElementType DEPRECATED_DECORATOR = new GleamElementType("DEPRECATED_DECORATOR");
+  IElementType DEPRECATED_DECORATOR_NAME = new GleamElementType("DEPRECATED_DECORATOR_NAME");
   IElementType DISCARD = new GleamElementType("DISCARD");
   IElementType DISCARD_PARAM = new GleamElementType("DISCARD_PARAM");
   IElementType EXPRESSION = new GleamElementType("EXPRESSION");
   IElementType EXPRESSION_BIT_STRING_EXPR = new GleamElementType("EXPRESSION_BIT_STRING_EXPR");
   IElementType EXPRESSION_BIT_STRING_SEGMENT = new GleamElementType("EXPRESSION_BIT_STRING_SEGMENT");
   IElementType EXPRESSION_SEQ = new GleamElementType("EXPRESSION_SEQ");
+  IElementType EXTERNAL_DECORATOR = new GleamElementType("EXTERNAL_DECORATOR");
+  IElementType EXTERNAL_DECORATOR_NAME = new GleamElementType("EXTERNAL_DECORATOR_NAME");
+  IElementType EXTERNAL_FUNCTION_NO_FALLBACK = new GleamElementType("EXTERNAL_FUNCTION_NO_FALLBACK");
+  IElementType EXTERNAL_FUNCTION_SIGNATURE = new GleamElementType("EXTERNAL_FUNCTION_SIGNATURE");
+  IElementType EXTERNAL_TARGET = new GleamElementType("EXTERNAL_TARGET");
   IElementType FLOAT_LITERAL = new GleamElementType("FLOAT_LITERAL");
-  IElementType FUNCTION = new GleamElementType("FUNCTION");
   IElementType FUNCTION_BODY = new GleamElementType("FUNCTION_BODY");
+  IElementType FUNCTION_DECLARATION = new GleamElementType("FUNCTION_DECLARATION");
   IElementType FUNCTION_NAME_DEFINITION = new GleamElementType("FUNCTION_NAME_DEFINITION");
   IElementType FUNCTION_PARAMETER = new GleamElementType("FUNCTION_PARAMETER");
   IElementType FUNCTION_PARAMETERS = new GleamElementType("FUNCTION_PARAMETERS");
@@ -132,6 +140,8 @@ public interface GleamTypes {
   IElementType TYPE_VAR = new GleamElementType("TYPE_VAR");
   IElementType UNARY_EXPR = new GleamElementType("UNARY_EXPR");
   IElementType UNARY_OPERATOR = new GleamElementType("UNARY_OPERATOR");
+  IElementType UNKNOWN_DECORATOR = new GleamElementType("UNKNOWN_DECORATOR");
+  IElementType UNKNOWN_DECORATOR_NAME = new GleamElementType("UNKNOWN_DECORATOR_NAME");
   IElementType UNQUALIFIED_IMPORT = new GleamElementType("UNQUALIFIED_IMPORT");
   IElementType UNQUALIFIED_IMPORTS = new GleamElementType("UNQUALIFIED_IMPORTS");
   IElementType USE_ARGS = new GleamElementType("USE_ARGS");
@@ -152,6 +162,8 @@ public interface GleamTypes {
   IElementType COMMA = new GleamTokenType(",");
   IElementType CONST = new GleamTokenType("const");
   IElementType DECIMAL_MARK = new GleamTokenType(". (decimal separator)");
+  IElementType DECORATOR_MARK = new GleamTokenType("@");
+  IElementType DECORATOR_NAME = new GleamTokenType("DECORATOR_NAME");
   IElementType DISCARD_NAME = new GleamTokenType("DISCARD_NAME");
   IElementType DOT = new GleamTokenType(".");
   IElementType DOT_DOT = new GleamTokenType("..");
@@ -395,6 +407,12 @@ public interface GleamTypes {
       else if (type == DECIMAL_INTEGER_LITERAL) {
         return new GleamDecimalIntegerLiteralImpl(node);
       }
+      else if (type == DEPRECATED_DECORATOR) {
+        return new GleamDeprecatedDecoratorImpl(node);
+      }
+      else if (type == DEPRECATED_DECORATOR_NAME) {
+        return new GleamDeprecatedDecoratorNameImpl(node);
+      }
       else if (type == DISCARD) {
         return new GleamDiscardImpl(node);
       }
@@ -410,14 +428,29 @@ public interface GleamTypes {
       else if (type == EXPRESSION_SEQ) {
         return new GleamExpressionSeqImpl(node);
       }
+      else if (type == EXTERNAL_DECORATOR) {
+        return new GleamExternalDecoratorImpl(node);
+      }
+      else if (type == EXTERNAL_DECORATOR_NAME) {
+        return new GleamExternalDecoratorNameImpl(node);
+      }
+      else if (type == EXTERNAL_FUNCTION_NO_FALLBACK) {
+        return new GleamExternalFunctionNoFallbackImpl(node);
+      }
+      else if (type == EXTERNAL_FUNCTION_SIGNATURE) {
+        return new GleamExternalFunctionSignatureImpl(node);
+      }
+      else if (type == EXTERNAL_TARGET) {
+        return new GleamExternalTargetImpl(node);
+      }
       else if (type == FLOAT_LITERAL) {
         return new GleamFloatLiteralImpl(node);
       }
-      else if (type == FUNCTION) {
-        return new GleamFunctionImpl(node);
-      }
       else if (type == FUNCTION_BODY) {
         return new GleamFunctionBodyImpl(node);
+      }
+      else if (type == FUNCTION_DECLARATION) {
+        return new GleamFunctionDeclarationImpl(node);
       }
       else if (type == FUNCTION_NAME_DEFINITION) {
         return new GleamFunctionNameDefinitionImpl(node);
@@ -598,6 +631,12 @@ public interface GleamTypes {
       }
       else if (type == UNARY_OPERATOR) {
         return new GleamUnaryOperatorImpl(node);
+      }
+      else if (type == UNKNOWN_DECORATOR) {
+        return new GleamUnknownDecoratorImpl(node);
+      }
+      else if (type == UNKNOWN_DECORATOR_NAME) {
+        return new GleamUnknownDecoratorNameImpl(node);
       }
       else if (type == UNQUALIFIED_IMPORT) {
         return new GleamUnqualifiedImportImpl(node);

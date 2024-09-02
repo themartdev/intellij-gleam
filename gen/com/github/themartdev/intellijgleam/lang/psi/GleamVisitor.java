@@ -223,6 +223,18 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitDecorator(@NotNull GleamDecorator o) {
+    visitPsiElement(o);
+  }
+
+  public void visitDeprecatedDecorator(@NotNull GleamDeprecatedDecorator o) {
+    visitDecorator(o);
+  }
+
+  public void visitDeprecatedDecoratorName(@NotNull GleamDeprecatedDecoratorName o) {
+    visitPsiElement(o);
+  }
+
   public void visitDiscard(@NotNull GleamDiscard o) {
     visitPsiElement(o);
   }
@@ -247,15 +259,35 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitExternalDecorator(@NotNull GleamExternalDecorator o) {
+    visitDecorator(o);
+  }
+
+  public void visitExternalDecoratorName(@NotNull GleamExternalDecoratorName o) {
+    visitPsiElement(o);
+  }
+
+  public void visitExternalFunctionNoFallback(@NotNull GleamExternalFunctionNoFallback o) {
+    visitPsiElement(o);
+  }
+
+  public void visitExternalFunctionSignature(@NotNull GleamExternalFunctionSignature o) {
+    visitPsiElement(o);
+  }
+
+  public void visitExternalTarget(@NotNull GleamExternalTarget o) {
+    visitPsiElement(o);
+  }
+
   public void visitFloatLiteral(@NotNull GleamFloatLiteral o) {
     visitPsiElement(o);
   }
 
-  public void visitFunction(@NotNull GleamFunction o) {
+  public void visitFunctionBody(@NotNull GleamFunctionBody o) {
     visitPsiElement(o);
   }
 
-  public void visitFunctionBody(@NotNull GleamFunctionBody o) {
+  public void visitFunctionDeclaration(@NotNull GleamFunctionDeclaration o) {
     visitPsiElement(o);
   }
 
@@ -500,6 +532,14 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitUnaryOperator(@NotNull GleamUnaryOperator o) {
+    visitPsiElement(o);
+  }
+
+  public void visitUnknownDecorator(@NotNull GleamUnknownDecorator o) {
+    visitDecorator(o);
+  }
+
+  public void visitUnknownDecoratorName(@NotNull GleamUnknownDecoratorName o) {
     visitPsiElement(o);
   }
 

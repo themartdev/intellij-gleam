@@ -5,7 +5,10 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamFunction extends PsiElement {
+public interface GleamFunctionDeclaration extends PsiElement {
+
+  @NotNull
+  List<GleamDecorator> getDecoratorList();
 
   @NotNull
   GleamFunctionBody getFunctionBody();

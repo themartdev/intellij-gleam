@@ -36,6 +36,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
+    create_token_set_(DECORATOR, DEPRECATED_DECORATOR, EXTERNAL_DECORATOR, UNKNOWN_DECORATOR),
     create_token_set_(ACCESS_EXPR, ANONYMOUS_FUNCTION_EXPR, ASSERT_LET_EXPR, BINARY_EXPR,
       BLOCK_EXPR, CALL_EXPR, CASE_EXPR, EXPRESSION,
       EXPRESSION_BIT_STRING_EXPR, LET_EXPR, LIST_EXPR, LITERAL_EXPR,
@@ -1505,6 +1506,47 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // externalDecorator | deprecatedDecorator | unknownDecorator
+  public static boolean decorator(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "decorator")) return false;
+    if (!nextTokenIs(b, DECORATOR_MARK)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _COLLAPSE_, DECORATOR, null);
+    r = externalDecorator(b, l + 1);
+    if (!r) r = deprecatedDecorator(b, l + 1);
+    if (!r) r = unknownDecorator(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // DECORATOR_MARK deprecatedDecoratorName LPAREN stringLiteral RPAREN
+  public static boolean deprecatedDecorator(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "deprecatedDecorator")) return false;
+    if (!nextTokenIs(b, DECORATOR_MARK)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, DECORATOR_MARK);
+    r = r && deprecatedDecoratorName(b, l + 1);
+    r = r && consumeToken(b, LPAREN);
+    r = r && stringLiteral(b, l + 1);
+    r = r && consumeToken(b, RPAREN);
+    exit_section_(b, m, DEPRECATED_DECORATOR, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // "deprecated"
+  public static boolean deprecatedDecoratorName(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "deprecatedDecoratorName")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, DEPRECATED_DECORATOR_NAME, "<deprecated decorator name>");
+    r = consumeToken(b, "deprecated");
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
   // DISCARD_NAME
   public static boolean discard(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "discard")) return false;
@@ -1585,6 +1627,125 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // DECORATOR_MARK externalDecoratorName LPAREN externalTarget COMMA stringLiteral COMMA stringLiteral RPAREN
+  public static boolean externalDecorator(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "externalDecorator")) return false;
+    if (!nextTokenIs(b, DECORATOR_MARK)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, DECORATOR_MARK);
+    r = r && externalDecoratorName(b, l + 1);
+    r = r && consumeToken(b, LPAREN);
+    r = r && externalTarget(b, l + 1);
+    r = r && consumeToken(b, COMMA);
+    r = r && stringLiteral(b, l + 1);
+    r = r && consumeToken(b, COMMA);
+    r = r && stringLiteral(b, l + 1);
+    r = r && consumeToken(b, RPAREN);
+    exit_section_(b, m, EXTERNAL_DECORATOR, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // "external"
+  public static boolean externalDecoratorName(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "externalDecoratorName")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, EXTERNAL_DECORATOR_NAME, "<external decorator name>");
+    r = consumeToken(b, "external");
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // externalDecorator (externalDecorator)* externalFunctionSignature
+  public static boolean externalFunctionNoFallback(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "externalFunctionNoFallback")) return false;
+    if (!nextTokenIs(b, DECORATOR_MARK)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = externalDecorator(b, l + 1);
+    r = r && externalFunctionNoFallback_1(b, l + 1);
+    r = r && externalFunctionSignature(b, l + 1);
+    exit_section_(b, m, EXTERNAL_FUNCTION_NO_FALLBACK, r);
+    return r;
+  }
+
+  // (externalDecorator)*
+  private static boolean externalFunctionNoFallback_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "externalFunctionNoFallback_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!externalFunctionNoFallback_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "externalFunctionNoFallback_1", c)) break;
+    }
+    return true;
+  }
+
+  // (externalDecorator)
+  private static boolean externalFunctionNoFallback_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "externalFunctionNoFallback_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = externalDecorator(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase]
+  public static boolean externalFunctionSignature(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "externalFunctionSignature")) return false;
+    if (!nextTokenIs(b, "<external function signature>", FN, PUB)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, EXTERNAL_FUNCTION_SIGNATURE, "<external function signature>");
+    r = externalFunctionSignature_0(b, l + 1);
+    r = r && consumeToken(b, FN);
+    r = r && functionNameDefinition(b, l + 1);
+    r = r && functionParameters(b, l + 1);
+    r = r && externalFunctionSignature_4(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // [visibilityModifier]
+  private static boolean externalFunctionSignature_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "externalFunctionSignature_0")) return false;
+    visibilityModifier(b, l + 1);
+    return true;
+  }
+
+  // [R_ARROW typeBase]
+  private static boolean externalFunctionSignature_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "externalFunctionSignature_4")) return false;
+    externalFunctionSignature_4_0(b, l + 1);
+    return true;
+  }
+
+  // R_ARROW typeBase
+  private static boolean externalFunctionSignature_4_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "externalFunctionSignature_4_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, R_ARROW);
+    r = r && typeBase(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // "javascript" | "erlang"
+  public static boolean externalTarget(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "externalTarget")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, EXTERNAL_TARGET, "<external target>");
+    r = consumeToken(b, "javascript");
+    if (!r) r = consumeToken(b, "erlang");
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
   // wholeNumber DECIMAL_MARK wholeNumber? (EXPONENT_MARK EXPONENT_SIGN? wholeNumber)?
   public static boolean floatLiteral(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "floatLiteral")) return false;
@@ -1633,48 +1794,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody
-  public static boolean function(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "function")) return false;
-    if (!nextTokenIs(b, "<function>", FN, PUB)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, FUNCTION, "<function>");
-    r = function_0(b, l + 1);
-    r = r && consumeToken(b, FN);
-    r = r && functionNameDefinition(b, l + 1);
-    r = r && functionParameters(b, l + 1);
-    r = r && function_4(b, l + 1);
-    r = r && functionBody(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // [visibilityModifier]
-  private static boolean function_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "function_0")) return false;
-    visibilityModifier(b, l + 1);
-    return true;
-  }
-
-  // [R_ARROW typeBase]
-  private static boolean function_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "function_4")) return false;
-    function_4_0(b, l + 1);
-    return true;
-  }
-
-  // R_ARROW typeBase
-  private static boolean function_4_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "function_4_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, R_ARROW);
-    r = r && typeBase(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
   // LBRACE [expressionSeq] RBRACE
   public static boolean functionBody(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "functionBody")) return false;
@@ -1693,6 +1812,69 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "functionBody_1")) return false;
     expressionSeq(b, l + 1);
     return true;
+  }
+
+  /* ********************************************************** */
+  // (decorator)* [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody
+  public static boolean functionDeclaration(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionDeclaration")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FUNCTION_DECLARATION, "<function declaration>");
+    r = functionDeclaration_0(b, l + 1);
+    r = r && functionDeclaration_1(b, l + 1);
+    r = r && consumeToken(b, FN);
+    r = r && functionNameDefinition(b, l + 1);
+    r = r && functionParameters(b, l + 1);
+    r = r && functionDeclaration_5(b, l + 1);
+    r = r && functionBody(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // (decorator)*
+  private static boolean functionDeclaration_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionDeclaration_0")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!functionDeclaration_0_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "functionDeclaration_0", c)) break;
+    }
+    return true;
+  }
+
+  // (decorator)
+  private static boolean functionDeclaration_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionDeclaration_0_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = decorator(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [visibilityModifier]
+  private static boolean functionDeclaration_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionDeclaration_1")) return false;
+    visibilityModifier(b, l + 1);
+    return true;
+  }
+
+  // [R_ARROW typeBase]
+  private static boolean functionDeclaration_5(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionDeclaration_5")) return false;
+    functionDeclaration_5_0(b, l + 1);
+    return true;
+  }
+
+  // R_ARROW typeBase
+  private static boolean functionDeclaration_5_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionDeclaration_5_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, R_ARROW);
+    r = r && typeBase(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -2668,14 +2850,15 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // importStatement | constant | typeDeclaration | function
+  // importStatement | constant | typeDeclaration | functionDeclaration | externalFunctionNoFallback
   static boolean topLevelStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "topLevelStatement")) return false;
     boolean r;
     r = importStatement(b, l + 1);
     if (!r) r = constant(b, l + 1);
     if (!r) r = typeDeclaration(b, l + 1);
-    if (!r) r = function(b, l + 1);
+    if (!r) r = functionDeclaration(b, l + 1);
+    if (!r) r = externalFunctionNoFallback(b, l + 1);
     return r;
   }
 
@@ -3155,6 +3338,84 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, BANG);
     if (!r) r = consumeToken(b, MINUS);
     exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // DECORATOR_MARK unknownDecoratorName LPAREN [unknownDecoratorArgument (COMMA unknownDecoratorArgument)*] RPAREN
+  public static boolean unknownDecorator(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "unknownDecorator")) return false;
+    if (!nextTokenIs(b, DECORATOR_MARK)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, DECORATOR_MARK);
+    r = r && unknownDecoratorName(b, l + 1);
+    r = r && consumeToken(b, LPAREN);
+    r = r && unknownDecorator_3(b, l + 1);
+    r = r && consumeToken(b, RPAREN);
+    exit_section_(b, m, UNKNOWN_DECORATOR, r);
+    return r;
+  }
+
+  // [unknownDecoratorArgument (COMMA unknownDecoratorArgument)*]
+  private static boolean unknownDecorator_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "unknownDecorator_3")) return false;
+    unknownDecorator_3_0(b, l + 1);
+    return true;
+  }
+
+  // unknownDecoratorArgument (COMMA unknownDecoratorArgument)*
+  private static boolean unknownDecorator_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "unknownDecorator_3_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = unknownDecoratorArgument(b, l + 1);
+    r = r && unknownDecorator_3_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (COMMA unknownDecoratorArgument)*
+  private static boolean unknownDecorator_3_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "unknownDecorator_3_0_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!unknownDecorator_3_0_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "unknownDecorator_3_0_1", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA unknownDecoratorArgument
+  private static boolean unknownDecorator_3_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "unknownDecorator_3_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && unknownDecoratorArgument(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // literalExpr | IDENTIFIER
+  static boolean unknownDecoratorArgument(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "unknownDecoratorArgument")) return false;
+    boolean r;
+    r = literalExpr(b, l + 1);
+    if (!r) r = consumeToken(b, IDENTIFIER);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // DECORATOR_NAME
+  public static boolean unknownDecoratorName(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "unknownDecoratorName")) return false;
+    if (!nextTokenIs(b, DECORATOR_NAME)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, DECORATOR_NAME);
+    exit_section_(b, m, UNKNOWN_DECORATOR_NAME, r);
     return r;
   }
 

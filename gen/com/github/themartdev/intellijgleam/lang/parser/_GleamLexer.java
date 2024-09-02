@@ -20,19 +20,20 @@ public class _GleamLexer implements FlexLexer {
 
   /** lexical states */
   public static final int YYINITIAL = 0;
-  public static final int IN_STRING = 2;
-  public static final int ESCAPE_SEQUENCE = 4;
-  public static final int UNICODE_ESCAPE_SEQUENCE = 6;
-  public static final int UNICODE_CODEPOINT_SEQUENCE = 8;
-  public static final int DECIMAL_NUMBER = 10;
-  public static final int BASE_NUMBER_BASE = 12;
-  public static final int BINARY_NUMBER = 14;
-  public static final int HEX_NUMBER = 16;
-  public static final int OCTAL_NUMBER = 18;
-  public static final int UNKNOWN_BASE_NUMBER = 20;
-  public static final int DECIMAL_FRACTION = 22;
-  public static final int DECIMAL_EXPONENT = 24;
-  public static final int DECIMAL_EXPONENT_SIGN = 26;
+  public static final int WAITING_DECORATOR_NAME = 2;
+  public static final int IN_STRING = 4;
+  public static final int ESCAPE_SEQUENCE = 6;
+  public static final int UNICODE_ESCAPE_SEQUENCE = 8;
+  public static final int UNICODE_CODEPOINT_SEQUENCE = 10;
+  public static final int DECIMAL_NUMBER = 12;
+  public static final int BASE_NUMBER_BASE = 14;
+  public static final int BINARY_NUMBER = 16;
+  public static final int HEX_NUMBER = 18;
+  public static final int OCTAL_NUMBER = 20;
+  public static final int UNKNOWN_BASE_NUMBER = 22;
+  public static final int DECIMAL_FRACTION = 24;
+  public static final int DECIMAL_EXPONENT = 26;
+  public static final int DECIMAL_EXPONENT_SIGN = 28;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -42,7 +43,7 @@ public class _GleamLexer implements FlexLexer {
    */
   private static final int ZZ_LEXSTATE[] = {
      0,  0,  1,  1,  2,  2,  3,  3,  4,  4,  5,  5,  6,  6,  7,  7, 
-     8,  8,  9,  9, 10, 10, 11, 11, 12, 12, 13, 13
+     8,  8,  9,  9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14
   };
 
   /**
@@ -83,13 +84,13 @@ public class _GleamLexer implements FlexLexer {
     "\1\6\1\7\1\10\1\0\1\11\1\12\1\0\1\13"+
     "\1\14\1\15\1\16\1\17\1\20\1\21\1\22\1\23"+
     "\1\24\6\25\2\26\1\27\1\0\1\30\1\31\1\32"+
-    "\2\0\1\33\1\34\3\33\1\35\10\36\1\37\4\36"+
-    "\1\40\3\36\1\41\2\36\1\42\1\43\1\44\1\0"+
-    "\1\45\1\0\1\46\1\47\1\50\1\51\1\52\1\53"+
-    "\2\54\1\55\2\54\1\56\1\57\1\60\1\61\1\62"+
-    "\1\63\1\64\1\65\1\66\1\67\2\54\1\70\1\71"+
-    "\1\54\1\72\1\73\1\74\7\0\1\3\u01a2\0\2\3"+
-    "\326\0\u0100\3";
+    "\1\0\1\33\1\34\1\35\3\34\1\36\10\37\1\40"+
+    "\4\37\1\41\3\37\1\42\2\37\1\43\1\44\1\45"+
+    "\1\0\1\46\1\0\1\47\1\50\1\51\1\52\1\53"+
+    "\1\54\2\55\1\56\2\55\1\57\1\60\1\61\1\62"+
+    "\1\63\1\64\1\65\1\66\1\67\1\70\2\55\1\71"+
+    "\1\72\1\55\1\73\1\74\1\75\7\0\1\3\u01a2\0"+
+    "\2\3\326\0\u0100\3";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[1024];
@@ -116,24 +117,25 @@ public class _GleamLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\14\0\1\2\1\3\1\4\1\5\1\6"+
+    "\2\0\1\1\14\0\1\2\1\3\1\4\1\5\1\6"+
     "\1\7\1\2\1\10\1\11\1\12\1\13\1\14\1\15"+
-    "\1\16\1\17\2\20\1\21\1\22\1\23\1\24\3\25"+
-    "\1\26\1\27\1\30\12\31\1\32\1\33\1\34\1\1"+
-    "\1\35\1\36\1\37\1\40\1\2\1\41\1\42\1\43"+
+    "\1\16\1\17\2\20\1\21\1\22\1\23\1\24\1\25"+
+    "\3\26\1\27\1\30\1\31\12\32\1\33\1\34\1\35"+
+    "\1\36\1\37\1\1\1\40\1\41\1\42\1\43\1\2"+
     "\1\44\1\45\1\46\1\47\1\50\1\51\1\52\1\53"+
-    "\1\54\1\55\1\56\2\57\1\60\1\61\1\62\1\63"+
+    "\1\54\1\55\1\56\1\57\1\60\2\61\1\62\1\63"+
     "\1\64\1\65\1\66\1\67\1\70\1\71\1\72\1\73"+
     "\1\74\1\75\1\76\1\77\1\100\1\101\1\102\1\103"+
     "\1\104\1\105\1\106\1\107\1\110\1\111\1\112\1\113"+
-    "\2\25\1\114\2\31\1\115\1\116\10\31\1\117\1\120"+
-    "\1\44\1\101\1\121\1\122\1\123\2\25\4\31\1\124"+
-    "\2\31\1\125\2\31\1\126\1\44\1\121\1\127\1\130"+
-    "\1\31\1\131\4\31\1\132\1\133\1\44\1\31\1\134"+
-    "\2\31\1\135\1\44\1\136\1\137\1\140\1\44";
+    "\1\114\1\115\2\26\1\116\2\32\1\117\1\120\10\32"+
+    "\1\121\1\122\1\47\1\103\1\123\1\124\1\125\2\26"+
+    "\4\32\1\126\2\32\1\127\2\32\1\130\1\47\1\123"+
+    "\1\131\1\132\1\32\1\133\4\32\1\134\1\135\1\47"+
+    "\1\32\1\136\2\32\1\137\1\47\1\140\1\141\1\142"+
+    "\1\47";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[162];
+    int [] result = new int[165];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -158,30 +160,30 @@ public class _GleamLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\75\0\172\0\267\0\364\0\u0131\0\u016e\0\u01ab"+
-    "\0\u01e8\0\u0225\0\u0262\0\u029f\0\u02dc\0\u0319\0\u0356\0\u0393"+
-    "\0\u03d0\0\u0356\0\u0356\0\u0356\0\u040d\0\u0356\0\u0356\0\u044a"+
-    "\0\u0487\0\u0356\0\u04c4\0\u0501\0\u053e\0\u057b\0\u05b8\0\u0356"+
-    "\0\u05f5\0\u0632\0\u066f\0\u06ac\0\u06e9\0\u0726\0\u0356\0\u0356"+
-    "\0\u0763\0\u07a0\0\u07dd\0\u081a\0\u0857\0\u0894\0\u08d1\0\u090e"+
-    "\0\u094b\0\u0988\0\u09c5\0\u0356\0\u0a02\0\u0356\0\u0a3f\0\u0356"+
-    "\0\u0356\0\u0356\0\u0356\0\u0a7c\0\u0356\0\u0356\0\u0356\0\u0ab9"+
-    "\0\u0356\0\u0356\0\u0356\0\u0af6\0\u0b33\0\u0356\0\u0356\0\u0356"+
-    "\0\u0356\0\u0356\0\u0b70\0\u0bad\0\u0bea\0\u0c27\0\u0c64\0\u0ca1"+
-    "\0\u0cde\0\u0d1b\0\u0b33\0\u0356\0\u0356\0\u0356\0\u0356\0\u0356"+
-    "\0\u0356\0\u0356\0\u0356\0\u0356\0\u0356\0\u0d58\0\u0356\0\u0356"+
-    "\0\u0356\0\u0356\0\u0d95\0\u0356\0\u0356\0\u0356\0\u0dd2\0\u0356"+
-    "\0\u0e0f\0\u0e4c\0\u0e89\0\u0ec6\0\u0f03\0\u07dd\0\u07dd\0\u0f40"+
-    "\0\u0f7d\0\u0fba\0\u0ff7\0\u1034\0\u1071\0\u10ae\0\u10eb\0\u0356"+
-    "\0\u0356\0\u1128\0\u1165\0\u11a2\0\u0356\0\u0356\0\u11df\0\u121c"+
-    "\0\u1259\0\u1296\0\u12d3\0\u1310\0\u07dd\0\u134d\0\u138a\0\u07dd"+
-    "\0\u13c7\0\u1404\0\u07dd\0\u1441\0\u147e\0\u14bb\0\u06ac\0\u14f8"+
-    "\0\u07dd\0\u1535\0\u1572\0\u15af\0\u15ec\0\u07dd\0\u07dd\0\u1629"+
-    "\0\u1666\0\u07dd\0\u16a3\0\u16e0\0\u07dd\0\u171d\0\u07dd\0\u07dd"+
-    "\0\u07dd\0\u0356";
+    "\0\0\0\76\0\174\0\272\0\370\0\u0136\0\u0174\0\u01b2"+
+    "\0\u01f0\0\u022e\0\u026c\0\u02aa\0\u02e8\0\u0326\0\u0364\0\u03a2"+
+    "\0\u03e0\0\u041e\0\u03a2\0\u03a2\0\u03a2\0\u045c\0\u03a2\0\u03a2"+
+    "\0\u049a\0\u04d8\0\u03a2\0\u0516\0\u0554\0\u0592\0\u05d0\0\u060e"+
+    "\0\u03a2\0\u064c\0\u068a\0\u06c8\0\u03a2\0\u0706\0\u0744\0\u0782"+
+    "\0\u03a2\0\u03a2\0\u07c0\0\u07fe\0\u083c\0\u087a\0\u08b8\0\u08f6"+
+    "\0\u0934\0\u0972\0\u09b0\0\u09ee\0\u0a2c\0\u03a2\0\u0a6a\0\u03a2"+
+    "\0\u03a2\0\u0aa8\0\u0ae6\0\u03a2\0\u03a2\0\u03a2\0\u03a2\0\u0b24"+
+    "\0\u03a2\0\u03a2\0\u03a2\0\u0b62\0\u03a2\0\u03a2\0\u0ba0\0\u0bde"+
+    "\0\u03a2\0\u03a2\0\u03a2\0\u03a2\0\u03a2\0\u0c1c\0\u0c5a\0\u0c98"+
+    "\0\u0cd6\0\u0d14\0\u0d52\0\u0d90\0\u0dce\0\u0bde\0\u03a2\0\u03a2"+
+    "\0\u03a2\0\u03a2\0\u03a2\0\u03a2\0\u03a2\0\u03a2\0\u03a2\0\u03a2"+
+    "\0\u0e0c\0\u03a2\0\u03a2\0\u03a2\0\u03a2\0\u0e4a\0\u03a2\0\u03a2"+
+    "\0\u03a2\0\u0e88\0\u03a2\0\u0ec6\0\u0f04\0\u0f42\0\u0f80\0\u0fbe"+
+    "\0\u083c\0\u083c\0\u0ffc\0\u103a\0\u1078\0\u10b6\0\u10f4\0\u1132"+
+    "\0\u1170\0\u11ae\0\u03a2\0\u03a2\0\u11ec\0\u122a\0\u1268\0\u03a2"+
+    "\0\u03a2\0\u12a6\0\u12e4\0\u1322\0\u1360\0\u139e\0\u13dc\0\u083c"+
+    "\0\u141a\0\u1458\0\u083c\0\u1496\0\u14d4\0\u083c\0\u1512\0\u1550"+
+    "\0\u158e\0\u0706\0\u15cc\0\u083c\0\u160a\0\u1648\0\u1686\0\u16c4"+
+    "\0\u083c\0\u083c\0\u1702\0\u1740\0\u083c\0\u177e\0\u17bc\0\u083c"+
+    "\0\u17fa\0\u083c\0\u083c\0\u083c\0\u03a2";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[162];
+    int [] result = new int[165];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -204,94 +206,95 @@ public class _GleamLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\17\2\20\1\17\2\20\1\21\1\22\1\23\1\24"+
-    "\1\25\1\26\1\27\1\30\1\31\1\32\1\33\1\34"+
-    "\1\35\1\36\3\37\1\40\1\41\1\42\1\43\2\44"+
-    "\1\45\2\44\1\46\1\44\1\47\1\17\1\50\1\51"+
-    "\1\52\1\53\1\54\2\53\1\55\1\53\1\56\1\57"+
-    "\2\53\1\60\1\61\3\53\1\62\1\63\2\53\1\64"+
-    "\1\65\1\66\7\67\1\70\33\67\1\71\31\67\2\72"+
-    "\1\73\2\17\1\74\61\72\1\75\5\72\2\76\4\17"+
-    "\64\76\1\77\2\76\23\17\4\100\4\17\3\100\10\17"+
-    "\6\100\20\17\1\101\21\102\1\103\1\102\4\104\4\102"+
-    "\7\105\3\102\1\106\24\105\3\102\33\17\1\107\1\110"+
-    "\2\107\1\111\1\107\1\112\4\17\1\107\1\110\11\107"+
-    "\1\111\6\107\1\112\1\107\3\17\23\102\1\113\1\114"+
-    "\2\115\4\102\7\115\3\102\1\106\24\115\26\102\4\116"+
-    "\4\102\3\116\4\117\3\102\1\106\6\116\16\117\26\102"+
-    "\3\120\1\121\4\102\7\121\3\102\1\106\24\121\26\102"+
-    "\4\122\4\102\7\122\3\102\1\106\24\122\26\102\4\104"+
-    "\4\102\7\105\3\102\1\106\4\105\1\123\17\105\26\102"+
-    "\4\104\4\102\7\105\3\102\1\106\24\105\3\102\16\124"+
-    "\1\125\1\124\1\125\54\124\76\0\2\20\1\0\2\20"+
-    "\120\0\1\126\55\0\1\127\103\0\1\130\74\0\1\131"+
-    "\74\0\1\132\10\0\1\133\63\0\1\134\74\0\1\135"+
-    "\1\136\75\0\4\37\4\0\7\137\4\0\24\137\26\0"+
-    "\4\37\66\0\1\140\1\141\6\0\1\142\1\143\1\144"+
-    "\73\0\1\145\64\0\1\146\7\0\1\147\1\150\65\0"+
-    "\4\44\4\0\7\44\3\0\25\44\26\0\4\44\4\0"+
-    "\7\44\3\0\1\44\1\151\23\44\26\0\4\44\4\0"+
-    "\7\44\3\0\17\44\1\152\5\44\26\0\4\51\4\0"+
-    "\7\53\3\0\25\51\26\0\4\53\4\0\7\53\3\0"+
-    "\20\53\1\153\4\53\26\0\4\53\4\0\7\53\3\0"+
-    "\25\53\26\0\4\53\4\0\7\53\3\0\1\53\1\154"+
-    "\12\53\1\155\10\53\26\0\4\53\4\0\7\53\3\0"+
-    "\13\53\1\156\11\53\26\0\4\53\4\0\7\53\3\0"+
-    "\6\53\1\157\3\53\1\160\12\53\26\0\4\53\4\0"+
-    "\7\53\3\0\5\53\1\161\17\53\26\0\4\53\4\0"+
-    "\7\53\3\0\15\53\1\162\7\53\26\0\4\53\4\0"+
-    "\7\53\3\0\1\53\1\163\20\53\1\164\2\53\26\0"+
-    "\4\53\4\0\7\53\3\0\14\53\1\165\7\53\1\166"+
-    "\26\0\4\53\4\0\7\53\3\0\20\53\1\167\4\53"+
-    "\35\0\1\170\40\0\1\171\1\0\7\67\1\0\33\67"+
-    "\1\0\31\67\2\0\1\73\115\0\4\172\4\0\3\172"+
-    "\10\0\6\172\44\0\4\104\101\0\7\105\4\0\24\105"+
-    "\26\0\2\113\73\0\1\113\1\114\2\115\4\0\7\115"+
-    "\4\0\24\115\27\0\3\115\4\0\7\115\4\0\24\115"+
-    "\26\0\4\116\4\0\3\116\10\0\6\116\57\0\4\117"+
-    "\12\0\16\117\26\0\3\120\75\0\1\121\4\0\7\121"+
-    "\4\0\24\121\26\0\4\122\4\0\7\122\4\0\24\122"+
-    "\3\0\2\173\1\0\17\173\1\174\52\173\21\0\1\175"+
-    "\74\0\1\176\76\0\4\44\4\0\7\44\3\0\11\44"+
-    "\1\177\13\44\26\0\4\44\4\0\7\44\3\0\22\44"+
-    "\1\200\2\44\26\0\4\53\4\0\7\53\3\0\20\53"+
-    "\1\201\4\53\26\0\4\53\4\0\7\53\3\0\20\53"+
-    "\1\202\4\53\26\0\4\53\4\0\7\53\3\0\13\53"+
-    "\1\203\11\53\26\0\4\53\4\0\7\53\3\0\15\53"+
-    "\1\204\7\53\26\0\4\53\4\0\7\53\3\0\21\53"+
-    "\1\205\3\53\26\0\4\53\4\0\7\53\3\0\1\53"+
-    "\1\206\23\53\26\0\4\53\4\0\7\53\3\0\13\53"+
-    "\1\207\11\53\26\0\4\53\4\0\7\53\3\0\2\53"+
-    "\1\210\22\53\26\0\4\53\4\0\7\53\3\0\4\53"+
-    "\1\211\20\53\26\0\4\53\4\0\7\53\3\0\15\53"+
-    "\1\212\7\53\26\0\4\53\4\0\7\53\3\0\5\53"+
-    "\1\213\17\53\26\0\4\214\4\0\3\214\10\0\6\214"+
-    "\21\0\2\173\1\0\72\173\2\215\1\0\17\215\1\216"+
-    "\52\215\23\0\4\44\4\0\7\44\3\0\20\44\1\200"+
-    "\4\44\26\0\4\44\4\0\7\44\3\0\5\44\1\217"+
-    "\17\44\26\0\4\53\4\0\7\53\3\0\5\53\1\220"+
-    "\17\53\26\0\4\53\4\0\7\53\3\0\5\53\1\221"+
-    "\17\53\26\0\4\53\4\0\7\53\3\0\20\53\1\222"+
-    "\4\53\26\0\4\53\4\0\7\53\3\0\14\53\1\223"+
-    "\10\53\26\0\4\53\4\0\7\53\3\0\16\53\1\224"+
-    "\6\53\26\0\4\53\4\0\7\53\3\0\10\53\1\225"+
-    "\14\53\26\0\4\53\4\0\7\53\3\0\14\53\1\226"+
-    "\10\53\26\0\4\53\4\0\7\53\3\0\5\53\1\227"+
-    "\17\53\26\0\4\230\4\0\3\230\10\0\6\230\21\0"+
-    "\2\215\1\0\72\215\2\216\1\0\72\216\23\0\4\53"+
-    "\4\0\7\53\3\0\17\53\1\231\5\53\26\0\4\53"+
-    "\4\0\7\53\3\0\21\53\1\232\3\53\26\0\4\53"+
-    "\4\0\7\53\3\0\17\53\1\233\5\53\26\0\4\53"+
-    "\4\0\7\53\3\0\22\53\1\234\2\53\26\0\4\53"+
-    "\4\0\7\53\3\0\3\53\1\235\21\53\26\0\4\236"+
-    "\4\0\3\236\10\0\6\236\44\0\4\53\4\0\7\53"+
-    "\3\0\21\53\1\237\3\53\26\0\4\53\4\0\7\53"+
-    "\3\0\21\53\1\240\3\53\26\0\4\53\4\0\7\53"+
-    "\3\0\5\53\1\241\17\53\26\0\4\242\4\0\3\242"+
-    "\10\0\6\242\21\0";
+    "\1\20\2\21\1\20\2\21\1\22\1\23\1\24\1\25"+
+    "\1\26\1\27\1\30\1\31\1\32\1\33\1\34\1\35"+
+    "\1\36\1\37\3\40\1\41\1\42\1\43\1\44\1\45"+
+    "\2\46\1\47\2\46\1\50\1\46\1\51\1\20\1\52"+
+    "\1\53\1\54\1\55\1\56\2\55\1\57\1\55\1\60"+
+    "\1\61\2\55\1\62\1\63\3\55\1\64\1\65\2\55"+
+    "\1\66\1\67\1\70\34\71\7\72\3\71\25\72\3\71"+
+    "\7\73\1\74\34\73\1\75\31\73\2\76\1\77\2\20"+
+    "\1\100\62\76\1\101\5\76\2\102\4\20\65\102\1\103"+
+    "\2\102\23\20\4\104\5\20\3\104\10\20\6\104\20\20"+
+    "\1\105\21\71\1\106\1\71\4\107\5\71\7\110\3\71"+
+    "\1\111\24\110\3\71\34\20\1\112\1\113\2\112\1\114"+
+    "\1\112\1\115\4\20\1\112\1\113\11\112\1\114\6\112"+
+    "\1\115\1\112\3\20\23\71\1\116\1\117\2\120\5\71"+
+    "\7\120\3\71\1\111\24\120\26\71\4\121\5\71\3\121"+
+    "\4\122\3\71\1\111\6\121\16\122\26\71\3\123\1\124"+
+    "\5\71\7\124\3\71\1\111\24\124\26\71\4\125\5\71"+
+    "\7\125\3\71\1\111\24\125\26\71\4\107\5\71\7\110"+
+    "\3\71\1\111\4\110\1\126\17\110\26\71\4\107\5\71"+
+    "\7\110\3\71\1\111\24\110\3\71\16\127\1\130\1\127"+
+    "\1\130\55\127\77\0\2\21\1\0\2\21\121\0\1\131"+
+    "\56\0\1\132\104\0\1\133\75\0\1\134\75\0\1\135"+
+    "\10\0\1\136\64\0\1\137\75\0\1\140\1\141\76\0"+
+    "\4\40\5\0\7\142\4\0\24\142\26\0\4\40\67\0"+
+    "\1\143\1\144\6\0\1\145\1\146\1\147\74\0\1\150"+
+    "\65\0\1\151\7\0\1\152\1\153\66\0\4\46\5\0"+
+    "\7\46\3\0\25\46\26\0\4\46\5\0\7\46\3\0"+
+    "\1\46\1\154\23\46\26\0\4\46\5\0\7\46\3\0"+
+    "\17\46\1\155\5\46\26\0\4\53\5\0\7\55\3\0"+
+    "\25\53\26\0\4\55\5\0\7\55\3\0\20\55\1\156"+
+    "\4\55\26\0\4\55\5\0\7\55\3\0\25\55\26\0"+
+    "\4\55\5\0\7\55\3\0\1\55\1\157\12\55\1\160"+
+    "\10\55\26\0\4\55\5\0\7\55\3\0\13\55\1\161"+
+    "\11\55\26\0\4\55\5\0\7\55\3\0\6\55\1\162"+
+    "\3\55\1\163\12\55\26\0\4\55\5\0\7\55\3\0"+
+    "\5\55\1\164\17\55\26\0\4\55\5\0\7\55\3\0"+
+    "\15\55\1\165\7\55\26\0\4\55\5\0\7\55\3\0"+
+    "\1\55\1\166\20\55\1\167\2\55\26\0\4\55\5\0"+
+    "\7\55\3\0\14\55\1\170\7\55\1\171\26\0\4\55"+
+    "\5\0\7\55\3\0\20\55\1\172\4\55\35\0\1\173"+
+    "\41\0\1\174\24\0\4\72\5\0\7\72\3\0\25\72"+
+    "\3\0\7\73\1\0\34\73\1\0\31\73\2\0\1\77"+
+    "\116\0\4\175\5\0\3\175\10\0\6\175\44\0\4\107"+
+    "\103\0\7\110\4\0\24\110\26\0\2\116\74\0\1\116"+
+    "\1\117\2\120\5\0\7\120\4\0\24\120\27\0\3\120"+
+    "\5\0\7\120\4\0\24\120\26\0\4\121\5\0\3\121"+
+    "\10\0\6\121\60\0\4\122\12\0\16\122\26\0\3\123"+
+    "\76\0\1\124\5\0\7\124\4\0\24\124\26\0\4\125"+
+    "\5\0\7\125\4\0\24\125\3\0\2\176\1\0\17\176"+
+    "\1\177\53\176\21\0\1\200\75\0\1\201\77\0\4\46"+
+    "\5\0\7\46\3\0\11\46\1\202\13\46\26\0\4\46"+
+    "\5\0\7\46\3\0\22\46\1\203\2\46\26\0\4\55"+
+    "\5\0\7\55\3\0\20\55\1\204\4\55\26\0\4\55"+
+    "\5\0\7\55\3\0\20\55\1\205\4\55\26\0\4\55"+
+    "\5\0\7\55\3\0\13\55\1\206\11\55\26\0\4\55"+
+    "\5\0\7\55\3\0\15\55\1\207\7\55\26\0\4\55"+
+    "\5\0\7\55\3\0\21\55\1\210\3\55\26\0\4\55"+
+    "\5\0\7\55\3\0\1\55\1\211\23\55\26\0\4\55"+
+    "\5\0\7\55\3\0\13\55\1\212\11\55\26\0\4\55"+
+    "\5\0\7\55\3\0\2\55\1\213\22\55\26\0\4\55"+
+    "\5\0\7\55\3\0\4\55\1\214\20\55\26\0\4\55"+
+    "\5\0\7\55\3\0\15\55\1\215\7\55\26\0\4\55"+
+    "\5\0\7\55\3\0\5\55\1\216\17\55\26\0\4\217"+
+    "\5\0\3\217\10\0\6\217\21\0\2\176\1\0\73\176"+
+    "\2\220\1\0\17\220\1\221\53\220\23\0\4\46\5\0"+
+    "\7\46\3\0\20\46\1\203\4\46\26\0\4\46\5\0"+
+    "\7\46\3\0\5\46\1\222\17\46\26\0\4\55\5\0"+
+    "\7\55\3\0\5\55\1\223\17\55\26\0\4\55\5\0"+
+    "\7\55\3\0\5\55\1\224\17\55\26\0\4\55\5\0"+
+    "\7\55\3\0\20\55\1\225\4\55\26\0\4\55\5\0"+
+    "\7\55\3\0\14\55\1\226\10\55\26\0\4\55\5\0"+
+    "\7\55\3\0\16\55\1\227\6\55\26\0\4\55\5\0"+
+    "\7\55\3\0\10\55\1\230\14\55\26\0\4\55\5\0"+
+    "\7\55\3\0\14\55\1\231\10\55\26\0\4\55\5\0"+
+    "\7\55\3\0\5\55\1\232\17\55\26\0\4\233\5\0"+
+    "\3\233\10\0\6\233\21\0\2\220\1\0\73\220\2\221"+
+    "\1\0\73\221\23\0\4\55\5\0\7\55\3\0\17\55"+
+    "\1\234\5\55\26\0\4\55\5\0\7\55\3\0\21\55"+
+    "\1\235\3\55\26\0\4\55\5\0\7\55\3\0\17\55"+
+    "\1\236\5\55\26\0\4\55\5\0\7\55\3\0\22\55"+
+    "\1\237\2\55\26\0\4\55\5\0\7\55\3\0\3\55"+
+    "\1\240\21\55\26\0\4\241\5\0\3\241\10\0\6\241"+
+    "\44\0\4\55\5\0\7\55\3\0\21\55\1\242\3\55"+
+    "\26\0\4\55\5\0\7\55\3\0\21\55\1\243\3\55"+
+    "\26\0\4\55\5\0\7\55\3\0\5\55\1\244\17\55"+
+    "\26\0\4\245\5\0\3\245\10\0\6\245\21\0";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[5978];
+    int [] result = new int[6200];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -329,14 +332,15 @@ public class _GleamLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\1\14\0\1\11\2\1\3\11\1\1\2\11"+
-    "\2\1\1\11\5\1\1\11\6\1\2\11\13\1\1\11"+
-    "\1\1\1\11\1\1\4\11\1\1\3\11\1\1\3\11"+
-    "\2\1\5\11\11\1\12\11\1\1\4\11\1\1\3\11"+
-    "\1\1\1\11\17\1\2\11\3\1\2\11\43\1\1\11";
+    "\2\0\1\1\14\0\1\11\2\1\3\11\1\1\2\11"+
+    "\2\1\1\11\5\1\1\11\3\1\1\11\3\1\2\11"+
+    "\13\1\1\11\1\1\2\11\2\1\4\11\1\1\3\11"+
+    "\1\1\2\11\2\1\5\11\11\1\12\11\1\1\4\11"+
+    "\1\1\3\11\1\1\1\11\17\1\2\11\3\1\2\11"+
+    "\43\1\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[162];
+    int [] result = new int[165];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -684,485 +688,495 @@ public class _GleamLexer implements FlexLexer {
             { return GleamTypes.REGULAR_STRING_PART;
             }
           // fall through
-          case 97: break;
+          case 99: break;
           case 2:
             { return TokenType.BAD_CHARACTER;
             }
           // fall through
-          case 98: break;
+          case 100: break;
           case 3:
             { return TokenType.WHITE_SPACE;
             }
           // fall through
-          case 99: break;
+          case 101: break;
           case 4:
             { return GleamTypes.BANG;
             }
           // fall through
-          case 100: break;
+          case 102: break;
           case 5:
             { pushState(IN_STRING); return GleamTypes.OPEN_QUOTE;
             }
           // fall through
-          case 101: break;
+          case 103: break;
           case 6:
             { return GleamTypes.HASH;
             }
           // fall through
-          case 102: break;
+          case 104: break;
           case 7:
             { return GleamTypes.PERCENT;
             }
           // fall through
-          case 103: break;
+          case 105: break;
           case 8:
             { return GleamTypes.LPAREN;
             }
           // fall through
-          case 104: break;
+          case 106: break;
           case 9:
             { return GleamTypes.RPAREN;
             }
           // fall through
-          case 105: break;
+          case 107: break;
           case 10:
             { return GleamTypes.STAR;
             }
           // fall through
-          case 106: break;
+          case 108: break;
           case 11:
             { return GleamTypes.PLUS;
             }
           // fall through
-          case 107: break;
+          case 109: break;
           case 12:
             { return GleamTypes.COMMA;
             }
           // fall through
-          case 108: break;
+          case 110: break;
           case 13:
             { return GleamTypes.MINUS;
             }
           // fall through
-          case 109: break;
+          case 111: break;
           case 14:
             { return GleamTypes.DOT;
             }
           // fall through
-          case 110: break;
+          case 112: break;
           case 15:
             { return GleamTypes.SLASH;
             }
           // fall through
-          case 111: break;
+          case 113: break;
           case 16:
             { pushState(DECIMAL_NUMBER); return GleamTypes.VALID_DECIMAL_DIGIT;
             }
           // fall through
-          case 112: break;
+          case 114: break;
           case 17:
             { return GleamTypes.COLON;
             }
           // fall through
-          case 113: break;
+          case 115: break;
           case 18:
             { return GleamTypes.LESS;
             }
           // fall through
-          case 114: break;
+          case 116: break;
           case 19:
             { return GleamTypes.EQUAL;
             }
           // fall through
-          case 115: break;
+          case 117: break;
           case 20:
             { return GleamTypes.GREATER;
             }
           // fall through
-          case 116: break;
-          case 21:
-            { return GleamTypes.UP_IDENTIFIER;
-            }
-          // fall through
-          case 117: break;
-          case 22:
-            { return GleamTypes.LBRACK;
-            }
-          // fall through
           case 118: break;
-          case 23:
-            { return GleamTypes.RBRACK;
+          case 21:
+            { pushState(WAITING_DECORATOR_NAME); return GleamTypes.DECORATOR_MARK;
             }
           // fall through
           case 119: break;
-          case 24:
-            { return GleamTypes.DISCARD_NAME;
+          case 22:
+            { return GleamTypes.UP_IDENTIFIER;
             }
           // fall through
           case 120: break;
-          case 25:
-            { return GleamTypes.IDENTIFIER;
+          case 23:
+            { return GleamTypes.LBRACK;
             }
           // fall through
           case 121: break;
-          case 26:
-            { return GleamTypes.LBRACE;
+          case 24:
+            { return GleamTypes.RBRACK;
             }
           // fall through
           case 122: break;
-          case 27:
-            { return GleamTypes.VBAR;
+          case 25:
+            { return GleamTypes.DISCARD_NAME;
             }
           // fall through
           case 123: break;
-          case 28:
-            { return GleamTypes.RBRACE;
+          case 26:
+            { return GleamTypes.IDENTIFIER;
             }
           // fall through
           case 124: break;
-          case 29:
-            { popState(); return GleamTypes.CLOSE_QUOTE;
+          case 27:
+            { return GleamTypes.LBRACE;
             }
           // fall through
           case 125: break;
-          case 30:
-            { pushState(ESCAPE_SEQUENCE); return GleamTypes.ESCAPE;
+          case 28:
+            { return GleamTypes.VBAR;
             }
           // fall through
           case 126: break;
-          case 31:
-            { popState(); return GleamTypes.ESCAPE_CHAR;
+          case 29:
+            { return GleamTypes.RBRACE;
             }
           // fall through
           case 127: break;
-          case 32:
-            { popState(); return GleamTypes.EOL;
-            }
-          // fall through
-          case 128: break;
-          case 33:
-            { yybegin(UNICODE_ESCAPE_SEQUENCE); return GleamTypes.UNICODE_ESCAPE_CHAR;
-            }
-          // fall through
-          case 129: break;
-          case 34:
-            { popState(); return TokenType.BAD_CHARACTER;
-            }
-          // fall through
-          case 130: break;
-          case 35:
-            { yybegin(UNICODE_CODEPOINT_SEQUENCE); return GleamTypes.LBRACE;
-            }
-          // fall through
-          case 131: break;
-          case 36:
-            { return GleamTypes.UNICODE_CODEPOINT;
-            }
-          // fall through
-          case 132: break;
-          case 37:
-            { popState(); return GleamTypes.RBRACE;
-            }
-          // fall through
-          case 133: break;
-          case 38:
+          case 30:
             { handleInLastState();
             }
           // fall through
+          case 128: break;
+          case 31:
+            { popState(); return GleamTypes.DECORATOR_NAME;
+            }
+          // fall through
+          case 129: break;
+          case 32:
+            { popState(); return GleamTypes.CLOSE_QUOTE;
+            }
+          // fall through
+          case 130: break;
+          case 33:
+            { pushState(ESCAPE_SEQUENCE); return GleamTypes.ESCAPE;
+            }
+          // fall through
+          case 131: break;
+          case 34:
+            { popState(); return GleamTypes.ESCAPE_CHAR;
+            }
+          // fall through
+          case 132: break;
+          case 35:
+            { popState(); return GleamTypes.EOL;
+            }
+          // fall through
+          case 133: break;
+          case 36:
+            { yybegin(UNICODE_ESCAPE_SEQUENCE); return GleamTypes.UNICODE_ESCAPE_CHAR;
+            }
+          // fall through
           case 134: break;
-          case 39:
-            { yybegin(DECIMAL_FRACTION); return GleamTypes.DECIMAL_MARK;
+          case 37:
+            { popState(); return TokenType.BAD_CHARACTER;
             }
           // fall through
           case 135: break;
-          case 40:
-            { return GleamTypes.VALID_DECIMAL_DIGIT;
+          case 38:
+            { yybegin(UNICODE_CODEPOINT_SEQUENCE); return GleamTypes.LBRACE;
             }
           // fall through
           case 136: break;
-          case 41:
-            { return GleamTypes.INVALID_DECIMAL_DIGIT;
+          case 39:
+            { return GleamTypes.UNICODE_CODEPOINT;
             }
           // fall through
           case 137: break;
-          case 42:
-            { return GleamTypes.NUMBER_SEPARATOR;
+          case 40:
+            { popState(); return GleamTypes.RBRACE;
             }
           // fall through
           case 138: break;
-          case 43:
-            { yybegin(UNKNOWN_BASE_NUMBER); return GleamTypes.UNKNOWN_NUMBER_BASE;
+          case 41:
+            { yybegin(DECIMAL_FRACTION); return GleamTypes.DECIMAL_MARK;
             }
           // fall through
           case 139: break;
-          case 44:
-            { yybegin(BINARY_NUMBER); return GleamTypes.BINARY_NUMBER_BASE;
+          case 42:
+            { return GleamTypes.VALID_DECIMAL_DIGIT;
             }
           // fall through
           case 140: break;
-          case 45:
-            { yybegin(OCTAL_NUMBER); return GleamTypes.OCTAL_NUMBER_BASE;
+          case 43:
+            { return GleamTypes.INVALID_DECIMAL_DIGIT;
             }
           // fall through
           case 141: break;
-          case 46:
-            { yybegin(HEX_NUMBER); return GleamTypes.HEX_NUMBER_BASE;
+          case 44:
+            { return GleamTypes.NUMBER_SEPARATOR;
             }
           // fall through
           case 142: break;
-          case 47:
-            { return GleamTypes.VALID_BINARY_DIGIT;
+          case 45:
+            { yybegin(UNKNOWN_BASE_NUMBER); return GleamTypes.UNKNOWN_NUMBER_BASE;
             }
           // fall through
           case 143: break;
-          case 48:
-            { return GleamTypes.INVALID_BINARY_DIGIT;
+          case 46:
+            { yybegin(BINARY_NUMBER); return GleamTypes.BINARY_NUMBER_BASE;
             }
           // fall through
           case 144: break;
-          case 49:
-            { return GleamTypes.VALID_HEX_DIGIT;
+          case 47:
+            { yybegin(OCTAL_NUMBER); return GleamTypes.OCTAL_NUMBER_BASE;
             }
           // fall through
           case 145: break;
-          case 50:
-            { return GleamTypes.INVALID_HEX_DIGIT;
+          case 48:
+            { yybegin(HEX_NUMBER); return GleamTypes.HEX_NUMBER_BASE;
             }
           // fall through
           case 146: break;
-          case 51:
-            { return GleamTypes.VALID_OCTAL_DIGIT;
+          case 49:
+            { return GleamTypes.VALID_BINARY_DIGIT;
             }
           // fall through
           case 147: break;
-          case 52:
-            { return GleamTypes.INVALID_OCTAL_DIGIT;
+          case 50:
+            { return GleamTypes.INVALID_BINARY_DIGIT;
             }
           // fall through
           case 148: break;
-          case 53:
-            { return GleamTypes.INVALID_UNKNOWN_BASE_DIGIT;
+          case 51:
+            { return GleamTypes.VALID_HEX_DIGIT;
             }
           // fall through
           case 149: break;
-          case 54:
-            { yybegin(DECIMAL_EXPONENT); return GleamTypes.EXPONENT_MARK;
+          case 52:
+            { return GleamTypes.INVALID_HEX_DIGIT;
             }
           // fall through
           case 150: break;
-          case 55:
-            { yybegin(DECIMAL_EXPONENT);
+          case 53:
+            { return GleamTypes.VALID_OCTAL_DIGIT;
             }
           // fall through
           case 151: break;
-          case 56:
-            { yybegin(DECIMAL_EXPONENT); return GleamTypes.EXPONENT_SIGN;
+          case 54:
+            { return GleamTypes.INVALID_OCTAL_DIGIT;
             }
           // fall through
           case 152: break;
-          case 57:
-            { return GleamTypes.NOT_EQUAL;
+          case 55:
+            { return GleamTypes.INVALID_UNKNOWN_BASE_DIGIT;
             }
           // fall through
           case 153: break;
-          case 58:
-            { return GleamTypes.AMPER_AMPER;
+          case 56:
+            { yybegin(DECIMAL_EXPONENT); return GleamTypes.EXPONENT_MARK;
             }
           // fall through
           case 154: break;
-          case 59:
-            { return GleamTypes.STAR_DOT;
+          case 57:
+            { yybegin(DECIMAL_EXPONENT);
             }
           // fall through
           case 155: break;
-          case 60:
-            { return GleamTypes.PLUS_DOT;
+          case 58:
+            { yybegin(DECIMAL_EXPONENT); return GleamTypes.EXPONENT_SIGN;
             }
           // fall through
           case 156: break;
-          case 61:
-            { return GleamTypes.MINUS_DOT;
+          case 59:
+            { return GleamTypes.NOT_EQUAL;
             }
           // fall through
           case 157: break;
-          case 62:
-            { return GleamTypes.R_ARROW;
+          case 60:
+            { return GleamTypes.AMPER_AMPER;
             }
           // fall through
           case 158: break;
-          case 63:
-            { return GleamTypes.DOT_DOT;
+          case 61:
+            { return GleamTypes.STAR_DOT;
             }
           // fall through
           case 159: break;
-          case 64:
-            { return GleamTypes.SLASH_DOT;
+          case 62:
+            { return GleamTypes.PLUS_DOT;
             }
           // fall through
           case 160: break;
-          case 65:
-            { return GleamTypes.LINE_COMMENT;
+          case 63:
+            { return GleamTypes.MINUS_DOT;
             }
           // fall through
           case 161: break;
+          case 64:
+            { return GleamTypes.R_ARROW;
+            }
+          // fall through
+          case 162: break;
+          case 65:
+            { return GleamTypes.DOT_DOT;
+            }
+          // fall through
+          case 163: break;
           case 66:
+            { return GleamTypes.SLASH_DOT;
+            }
+          // fall through
+          case 164: break;
+          case 67:
+            { return GleamTypes.LINE_COMMENT;
+            }
+          // fall through
+          case 165: break;
+          case 68:
             // lookahead expression with fixed base length
             zzMarkedPos = Character.offsetByCodePoints
                 (zzBufferL, zzStartRead, 1);
             { pushState(BASE_NUMBER_BASE); return GleamTypes.BASE_NUMBER_PREFIX;
             }
           // fall through
-          case 162: break;
-          case 67:
+          case 166: break;
+          case 69:
             { return GleamTypes.L_ARROW;
             }
           // fall through
-          case 163: break;
-          case 68:
+          case 167: break;
+          case 70:
             { return GleamTypes.LESS_DOT;
             }
           // fall through
-          case 164: break;
-          case 69:
+          case 168: break;
+          case 71:
             { return GleamTypes.LT_LT;
             }
           // fall through
-          case 165: break;
-          case 70:
+          case 169: break;
+          case 72:
             { return GleamTypes.LESS_EQUAL;
             }
           // fall through
-          case 166: break;
-          case 71:
+          case 170: break;
+          case 73:
             { return GleamTypes.LT_GT;
             }
           // fall through
-          case 167: break;
-          case 72:
+          case 171: break;
+          case 74:
             { return GleamTypes.EQUAL_EQUAL;
             }
           // fall through
-          case 168: break;
-          case 73:
+          case 172: break;
+          case 75:
             { return GleamTypes.GREATER_DOT;
             }
           // fall through
-          case 169: break;
-          case 74:
+          case 173: break;
+          case 76:
             { return GleamTypes.GREATER_EQUAL;
             }
           // fall through
-          case 170: break;
-          case 75:
+          case 174: break;
+          case 77:
             { return GleamTypes.GT_GT;
             }
           // fall through
-          case 171: break;
-          case 76:
+          case 175: break;
+          case 78:
             { return GleamTypes.AS;
             }
           // fall through
-          case 172: break;
-          case 77:
+          case 176: break;
+          case 79:
             { return GleamTypes.FN;
             }
           // fall through
-          case 173: break;
-          case 78:
+          case 177: break;
+          case 80:
             { return GleamTypes.IF;
             }
           // fall through
-          case 174: break;
-          case 79:
+          case 178: break;
+          case 81:
             { return GleamTypes.PIPE;
             }
           // fall through
-          case 175: break;
-          case 80:
+          case 179: break;
+          case 82:
             { return GleamTypes.VBAR_VBAR;
             }
           // fall through
-          case 176: break;
-          case 81:
+          case 180: break;
+          case 83:
             { return GleamTypes.FUNCTION_COMMENT;
             }
           // fall through
-          case 177: break;
-          case 82:
+          case 181: break;
+          case 84:
             { return GleamTypes.LESS_EQUAL_DOT;
             }
           // fall through
-          case 178: break;
-          case 83:
+          case 182: break;
+          case 85:
             { return GleamTypes.GREATER_EQUAL_DOT;
             }
           // fall through
-          case 179: break;
-          case 84:
+          case 183: break;
+          case 86:
             { return GleamTypes.LET;
             }
           // fall through
-          case 180: break;
-          case 85:
+          case 184: break;
+          case 87:
             { return GleamTypes.PUB;
             }
           // fall through
-          case 181: break;
-          case 86:
+          case 185: break;
+          case 88:
             { return GleamTypes.USE;
             }
           // fall through
-          case 182: break;
-          case 87:
+          case 186: break;
+          case 89:
             { return GleamTypes.MODULE_COMMENT;
             }
           // fall through
-          case 183: break;
-          case 88:
+          case 187: break;
+          case 90:
             { return GleamTypes.BOOLEAN_LITERAL;
             }
           // fall through
-          case 184: break;
-          case 89:
+          case 188: break;
+          case 91:
             { return GleamTypes.CASE;
             }
           // fall through
-          case 185: break;
-          case 90:
+          case 189: break;
+          case 92:
             { return GleamTypes.TODO;
             }
           // fall through
-          case 186: break;
-          case 91:
+          case 190: break;
+          case 93:
             { return GleamTypes.TYPE;
             }
           // fall through
-          case 187: break;
-          case 92:
+          case 191: break;
+          case 94:
             { return GleamTypes.CONST;
             }
           // fall through
-          case 188: break;
-          case 93:
+          case 192: break;
+          case 95:
             { return GleamTypes.PANIC;
             }
           // fall through
-          case 189: break;
-          case 94:
+          case 193: break;
+          case 96:
             { return GleamTypes.ASSERT;
             }
           // fall through
-          case 190: break;
-          case 95:
+          case 194: break;
+          case 97:
             { return GleamTypes.IMPORT;
             }
           // fall through
-          case 191: break;
-          case 96:
+          case 195: break;
+          case 98:
             { return GleamTypes.OPAQUE;
             }
           // fall through
-          case 192: break;
+          case 196: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

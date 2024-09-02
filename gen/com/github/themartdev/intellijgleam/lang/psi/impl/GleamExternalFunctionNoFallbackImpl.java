@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamFunctionImpl extends ASTWrapperPsiElement implements GleamFunction {
+public class GleamExternalFunctionNoFallbackImpl extends ASTWrapperPsiElement implements GleamExternalFunctionNoFallback {
 
-  public GleamFunctionImpl(@NotNull ASTNode node) {
+  public GleamExternalFunctionNoFallbackImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitFunction(this);
+    visitor.visitExternalFunctionNoFallback(this);
   }
 
   @Override
@@ -29,32 +29,14 @@ public class GleamFunctionImpl extends ASTWrapperPsiElement implements GleamFunc
 
   @Override
   @NotNull
-  public GleamFunctionBody getFunctionBody() {
-    return findNotNullChildByClass(GleamFunctionBody.class);
+  public List<GleamExternalDecorator> getExternalDecoratorList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamExternalDecorator.class);
   }
 
   @Override
   @NotNull
-  public GleamFunctionNameDefinition getFunctionNameDefinition() {
-    return findNotNullChildByClass(GleamFunctionNameDefinition.class);
-  }
-
-  @Override
-  @NotNull
-  public GleamFunctionParameters getFunctionParameters() {
-    return findNotNullChildByClass(GleamFunctionParameters.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamTypeBase getTypeBase() {
-    return findChildByClass(GleamTypeBase.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamVisibilityModifier getVisibilityModifier() {
-    return findChildByClass(GleamVisibilityModifier.class);
+  public GleamExternalFunctionSignature getExternalFunctionSignature() {
+    return findNotNullChildByClass(GleamExternalFunctionSignature.class);
   }
 
 }

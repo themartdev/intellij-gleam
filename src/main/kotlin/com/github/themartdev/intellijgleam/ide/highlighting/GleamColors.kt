@@ -23,4 +23,6 @@ object GleamColors {
     val VALID_BASE = createTextAttributesKey("GLEAM_NUMBER_BASE", DefaultLanguageHighlighterColors.NUMBER)
     val BASE_PREFIX = createTextAttributesKey("GLEAM_BASE_PREFIX", DefaultLanguageHighlighterColors.NUMBER)
     val INVALID_BASE = createTextAttributesKey("GLEAM_INVALID_BASE", HighlighterColors.BAD_CHARACTER)
+    val DECORATOR = createTextAttributesKey("GLEAM_DECORATOR", DefaultLanguageHighlighterColors.METADATA)
+//    val BOOLEAN = createTextAttributesKey("GLEAM_DECORATOR", DefaultLanguageHighlighterColors.PREDEFINED_SYMBOL)
 }

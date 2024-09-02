@@ -1,8 +1,8 @@
 # Lexer/Parser
 - [x] `panic as` ✔
 - [x] `todo as` ✔
-- [ ] `@external`
-- [ ] `@deprecated`
+- [x] `@external`
+- [x] `@deprecated`
 - [ ] tuple integer access like this: `tuple.1`
 - [ ] qualified type reference like this: `bytes_builder.BytesBuilder = bytes_builder.new()`
 - [ ] Multiple subject `case` expressions

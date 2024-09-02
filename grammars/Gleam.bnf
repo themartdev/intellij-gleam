@@ -13,6 +13,7 @@
   psiImplPackage="com.github.themartdev.intellijgleam.lang.psi.impl"
 
   extends(".*Expr")=expression
+  extends(".*Decorator")=decorator
 
   tokens=[
     EOL             = '\\n, \\r\\n'
@@ -78,6 +79,10 @@
     GREATER_EQUAL_DOT = '>=.'
     LT_GT           = '<>'
 
+    //// Annotation
+    DECORATOR_MARK = '@'
+    DECORATOR_NAME = "regexp:[a-zA-Z_][a-zA-Z0-9_]*"
+
     // Literals
     BOOLEAN_LITERAL = "regexp:True|False"
 
@@ -130,11 +135,28 @@
 
 
 
-// Rule
 root ::= topLevelStatement*
 
-private topLevelStatement ::= importStatement | constant | typeDeclaration | function
+private topLevelStatement ::= importStatement | constant | typeDeclaration | functionDeclaration | externalFunctionNoFallback
 
+// Decorators
+externalTarget ::= "javascript" | "erlang"
+externalDecoratorName ::= "external"
+externalDecorator ::= DECORATOR_MARK externalDecoratorName LPAREN externalTarget COMMA stringLiteral COMMA stringLiteral RPAREN
+
+deprecatedDecoratorName ::= "deprecated"
+deprecatedDecorator ::= DECORATOR_MARK deprecatedDecoratorName LPAREN stringLiteral RPAREN
+
+unknownDecoratorName ::= DECORATOR_NAME
+private unknownDecoratorArgument ::= literalExpr | IDENTIFIER
+unknownDecorator ::= DECORATOR_MARK unknownDecoratorName LPAREN [unknownDecoratorArgument (COMMA unknownDecoratorArgument)*] RPAREN
+
+decorator ::= externalDecorator | deprecatedDecorator | unknownDecorator {pin=1}
+
+// External
+//functionDeclaration ::= (decorator)* [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody
+externalFunctionSignature ::= [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase]
+externalFunctionNoFallback ::=  externalDecorator (externalDecorator)* externalFunctionSignature
 
 // Imports
 module ::= IDENTIFIER (SLASH IDENTIFIER)*
@@ -200,7 +222,7 @@ functionParameterArgs ::= labeledDiscardParam | discardParam | labeledNameParam 
 functionParameter ::= functionParameterArgs [typeAnnotation]
 functionParameters ::= LPAREN [functionParameter (COMMA functionParameter)* [COMMA]] RPAREN
 functionBody ::= LBRACE [expressionSeq] RBRACE
-function ::= [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody
+functionDeclaration ::= (decorator)* [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody
 functionNameDefinition::= IDENTIFIER
 
 listPatternTail ::= DOT_DOT [IDENTIFIER | discard]

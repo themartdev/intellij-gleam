@@ -29,8 +29,8 @@ public class GleamCaseSubjectsImpl extends ASTWrapperPsiElement implements Gleam
 
   @Override
   @NotNull
-  public GleamExpressionSeq getExpressionSeq() {
-    return findNotNullChildByClass(GleamExpressionSeq.class);
+  public List<GleamExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamExpression.class);
   }
 
 }

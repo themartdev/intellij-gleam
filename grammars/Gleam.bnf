@@ -233,13 +233,14 @@ listPattern ::= LBRACK [pattern (COMMA pattern)* [COMMA]] [listPatternTail] RBRA
 
 patternBitStringSegment ::= pattern [COLON bitStringSegmentOptions]
 patternBitString ::= LT_LT [patternBitStringSegment (COMMA patternBitStringSegment)* [COMMA]] GT_GT
+stringPattern ::= stringLiteral LT_GT [IDENTIFIER | discard]
 
 tuplePattern ::= HASH LPAREN [pattern (COMMA pattern)* [COMMA]] RPAREN
 patternSpread ::= DOT_DOT [COMMA]
 recordPatternArgument ::= [label COLON] pattern
 recordPatternArguments ::= LPAREN [recordPatternArgument (COMMA recordPatternArgument)* [COMMA]] [patternSpread] RPAREN
 recordPattern ::= (constructorIdentifier | remoteConstructorIdentifier) [recordPatternArguments]
-pattern ::= (IDENTIFIER | discard | recordPattern | literalExpr | tuplePattern | patternBitString | listPattern) [AS IDENTIFIER]
+pattern ::= (IDENTIFIER | discard |stringPattern | recordPattern | literalExpr | tuplePattern | patternBitString | listPattern ) [AS IDENTIFIER]
 
 expressionSeq ::= (expression)+
 
@@ -272,7 +273,7 @@ caseClausePattern ::= pattern (COMMA pattern)* [COMMA]
 caseClausePatterns ::= caseClausePattern (VBAR caseClausePattern)* [VBAR]
 caseClause ::= caseClausePatterns [caseClauseGuard] R_ARROW expression
 caseClauses ::= caseClause+
-caseSubjects ::= expressionSeq
+caseSubjects ::= expression (COMMA expression)*
 caseExpr ::= CASE caseSubjects LBRACE caseClauses RBRACE
 
 useArgs ::= IDENTIFIER | IDENTIFIER COMMA useArgs

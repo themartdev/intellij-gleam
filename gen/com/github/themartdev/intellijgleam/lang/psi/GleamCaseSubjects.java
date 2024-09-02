@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface GleamCaseSubjects extends PsiElement {
 
   @NotNull
-  GleamExpressionSeq getExpressionSeq();
+  List<GleamExpression> getExpressionList();
 
 }

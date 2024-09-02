@@ -120,6 +120,7 @@ public interface GleamTypes {
   IElementType SIMPLE_LET_EXPR = new GleamElementType("SIMPLE_LET_EXPR");
   IElementType STRING_ESCAPE_SEGMENT = new GleamElementType("STRING_ESCAPE_SEGMENT");
   IElementType STRING_LITERAL = new GleamElementType("STRING_LITERAL");
+  IElementType STRING_PATTERN = new GleamElementType("STRING_PATTERN");
   IElementType TODO_EXPR = new GleamElementType("TODO_EXPR");
   IElementType TUPLE_EXPR = new GleamElementType("TUPLE_EXPR");
   IElementType TUPLE_PATTERN = new GleamElementType("TUPLE_PATTERN");
@@ -136,7 +137,6 @@ public interface GleamTypes {
   IElementType TYPE_PARAMETER = new GleamElementType("TYPE_PARAMETER");
   IElementType TYPE_PARAMETERS = new GleamElementType("TYPE_PARAMETERS");
   IElementType TYPE_REFERENCE = new GleamElementType("TYPE_REFERENCE");
-  IElementType TYPE_VAR = new GleamElementType("TYPE_VAR");
   IElementType UNARY_EXPR = new GleamElementType("UNARY_EXPR");
   IElementType UNARY_OPERATOR = new GleamElementType("UNARY_OPERATOR");
   IElementType UNKNOWN_DECORATOR = new GleamElementType("UNKNOWN_DECORATOR");
@@ -574,6 +574,9 @@ public interface GleamTypes {
       else if (type == STRING_LITERAL) {
         return new GleamStringLiteralImpl(node);
       }
+      else if (type == STRING_PATTERN) {
+        return new GleamStringPatternImpl(node);
+      }
       else if (type == TODO_EXPR) {
         return new GleamTodoExprImpl(node);
       }
@@ -621,9 +624,6 @@ public interface GleamTypes {
       }
       else if (type == TYPE_REFERENCE) {
         return new GleamTypeReferenceImpl(node);
-      }
-      else if (type == TYPE_VAR) {
-        return new GleamTypeVarImpl(node);
       }
       else if (type == UNARY_EXPR) {
         return new GleamUnaryExprImpl(node);

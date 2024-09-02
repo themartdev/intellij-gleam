@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamTypeVarImpl extends ASTWrapperPsiElement implements GleamTypeVar {
+public class GleamStringPatternImpl extends ASTWrapperPsiElement implements GleamStringPattern {
 
-  public GleamTypeVarImpl(@NotNull ASTNode node) {
+  public GleamStringPatternImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitTypeVar(this);
+    visitor.visitStringPattern(this);
   }
 
   @Override
@@ -28,9 +28,21 @@ public class GleamTypeVarImpl extends ASTWrapperPsiElement implements GleamTypeV
   }
 
   @Override
+  @Nullable
+  public GleamDiscard getDiscard() {
+    return findChildByClass(GleamDiscard.class);
+  }
+
+  @Override
   @NotNull
+  public GleamStringLiteral getStringLiteral() {
+    return findNotNullChildByClass(GleamStringLiteral.class);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getIdentifier() {
-    return findNotNullChildByType(IDENTIFIER);
+    return findChildByType(IDENTIFIER);
   }
 
 }

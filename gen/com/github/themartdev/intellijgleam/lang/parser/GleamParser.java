@@ -663,13 +663,36 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // expressionSeq
+  // expression (COMMA expression)*
   public static boolean caseSubjects(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "caseSubjects")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, CASE_SUBJECTS, "<case subjects>");
-    r = expressionSeq(b, l + 1);
+    r = expression(b, l + 1, -1);
+    r = r && caseSubjects_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // (COMMA expression)*
+  private static boolean caseSubjects_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "caseSubjects_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!caseSubjects_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "caseSubjects_1", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA expression
+  private static boolean caseSubjects_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "caseSubjects_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && expression(b, l + 1, -1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -2426,7 +2449,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (IDENTIFIER | discard | recordPattern | literalExpr | tuplePattern | patternBitString | listPattern) [AS IDENTIFIER]
+  // (IDENTIFIER | discard |stringPattern | recordPattern | literalExpr | tuplePattern | patternBitString | listPattern ) [AS IDENTIFIER]
   public static boolean pattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "pattern")) return false;
     boolean r;
@@ -2437,12 +2460,13 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // IDENTIFIER | discard | recordPattern | literalExpr | tuplePattern | patternBitString | listPattern
+  // IDENTIFIER | discard |stringPattern | recordPattern | literalExpr | tuplePattern | patternBitString | listPattern
   private static boolean pattern_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "pattern_0")) return false;
     boolean r;
     r = consumeToken(b, IDENTIFIER);
     if (!r) r = discard(b, l + 1);
+    if (!r) r = stringPattern(b, l + 1);
     if (!r) r = recordPattern(b, l + 1);
     if (!r) r = literalExpr(b, l + 1);
     if (!r) r = tuplePattern(b, l + 1);
@@ -2875,6 +2899,36 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // stringLiteral LT_GT [IDENTIFIER | discard]
+  public static boolean stringPattern(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "stringPattern")) return false;
+    if (!nextTokenIs(b, OPEN_QUOTE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = stringLiteral(b, l + 1);
+    r = r && consumeToken(b, LT_GT);
+    r = r && stringPattern_2(b, l + 1);
+    exit_section_(b, m, STRING_PATTERN, r);
+    return r;
+  }
+
+  // [IDENTIFIER | discard]
+  private static boolean stringPattern_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "stringPattern_2")) return false;
+    stringPattern_2_0(b, l + 1);
+    return true;
+  }
+
+  // IDENTIFIER | discard
+  private static boolean stringPattern_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "stringPattern_2_0")) return false;
+    boolean r;
+    r = consumeToken(b, IDENTIFIER);
+    if (!r) r = discard(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
   // importStatement
   //                             | constant
   //                             | typeDeclaration
@@ -3132,7 +3186,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // typeReference | tupleType | functionType |  typeVar
+  // typeReference | tupleType | functionType
   public static boolean typeBase(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "typeBase")) return false;
     boolean r;
@@ -3140,7 +3194,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = typeReference(b, l + 1);
     if (!r) r = tupleType(b, l + 1);
     if (!r) r = functionType(b, l + 1);
-    if (!r) r = typeVar(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -3330,18 +3383,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "typeReference_1")) return false;
     typeArguments(b, l + 1);
     return true;
-  }
-
-  /* ********************************************************** */
-  // IDENTIFIER
-  public static boolean typeVar(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeVar")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, IDENTIFIER);
-    exit_section_(b, m, TYPE_VAR, r);
-    return r;
   }
 
   /* ********************************************************** */

@@ -16,7 +16,4 @@ public interface GleamTypeBase extends PsiElement {
   @Nullable
   GleamTypeReference getTypeReference();
 
-  @Nullable
-  GleamTypeVar getTypeVar();
-
 }

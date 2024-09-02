@@ -455,6 +455,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitStringPattern(@NotNull GleamStringPattern o) {
+    visitPsiElement(o);
+  }
+
   public void visitTodoExpr(@NotNull GleamTodoExpr o) {
     visitExpression(o);
   }
@@ -516,10 +520,6 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitTypeReference(@NotNull GleamTypeReference o) {
-    visitPsiElement(o);
-  }
-
-  public void visitTypeVar(@NotNull GleamTypeVar o) {
     visitPsiElement(o);
   }
 

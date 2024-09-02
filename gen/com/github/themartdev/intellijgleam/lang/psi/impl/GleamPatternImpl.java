@@ -59,6 +59,12 @@ public class GleamPatternImpl extends ASTWrapperPsiElement implements GleamPatte
 
   @Override
   @Nullable
+  public GleamStringPattern getStringPattern() {
+    return findChildByClass(GleamStringPattern.class);
+  }
+
+  @Override
+  @Nullable
   public GleamTuplePattern getTuplePattern() {
     return findChildByClass(GleamTuplePattern.class);
   }

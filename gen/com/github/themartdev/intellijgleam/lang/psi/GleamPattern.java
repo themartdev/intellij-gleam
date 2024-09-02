@@ -23,6 +23,9 @@ public interface GleamPattern extends PsiElement {
   GleamRecordPattern getRecordPattern();
 
   @Nullable
+  GleamStringPattern getStringPattern();
+
+  @Nullable
   GleamTuplePattern getTuplePattern();
 
 }

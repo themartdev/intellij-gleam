@@ -45,10 +45,4 @@ public class GleamTypeBaseImpl extends ASTWrapperPsiElement implements GleamType
     return findChildByClass(GleamTypeReference.class);
   }
 
-  @Override
-  @Nullable
-  public GleamTypeVar getTypeVar() {
-    return findChildByClass(GleamTypeVar.class);
-  }
-
 }

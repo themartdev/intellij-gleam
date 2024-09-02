@@ -5,9 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamTypeVar extends PsiElement {
+public interface GleamStringPattern extends PsiElement {
+
+  @Nullable
+  GleamDiscard getDiscard();
 
   @NotNull
+  GleamStringLiteral getStringLiteral();
+
+  @Nullable
   PsiElement getIdentifier();
 
 }

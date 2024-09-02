@@ -3,6 +3,7 @@
 .intellijPlatform
 .qodana
 build
+.kotlin
 
 
 # JFlex generator download

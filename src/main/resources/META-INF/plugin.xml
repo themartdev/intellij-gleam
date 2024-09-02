@@ -29,6 +29,12 @@
                                 implementationClass="com.github.themartdev.intellijgleam.ide.completion.GleamCompletionContributor"/>
 
         <lang.commenter language="Gleam"
-                        implementationClass="com.github.themartdev.intellijgleam.ide.commenter.GleamCommenter"/>
+                        implementationClass="com.github.themartdev.intellijgleam.ide.editor.GleamCommenter"/>
+
+        <!-- Editor -->
+        <lang.braceMatcher language="Gleam"
+                           implementationClass="com.github.themartdev.intellijgleam.ide.editor.GleamBraceMatcher"/>
+        <lang.quoteHandler language="Gleam" implementationClass="com.github.themartdev.intellijgleam.ide.editor.GleamQuoteHandler"/>
+
     </extensions>
 </idea-plugin>

@@ -1,4 +1,4 @@
-package com.github.themartdev.intellijgleam.ide.commenter
+package com.github.themartdev.intellijgleam.ide.editor
 
 import com.intellij.lang.Commenter
 

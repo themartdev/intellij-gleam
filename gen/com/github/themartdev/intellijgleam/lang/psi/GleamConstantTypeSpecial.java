@@ -17,6 +17,6 @@ public interface GleamConstantTypeSpecial extends PsiElement {
   GleamConstantTypeTuple getConstantTypeTuple();
 
   @Nullable
-  GleamTypeHole getTypeHole();
+  GleamTypeIdentifier getTypeIdentifier();
 
 }

@@ -3,7 +3,7 @@
 - [x] `todo as` ✔
 - [x] `@external`
 - [x] `@deprecated`
-- [ ] tuple integer access like this: `tuple.1`
+- [x] tuple integer access like this: `tuple.1`
 - [ ] qualified type reference like this: `bytes_builder.BytesBuilder = bytes_builder.new()`
 - [ ] Multiple subject `case` expressions
 - [ ] Bit array like this `io.debug(<<3>> == <<3:size(8)>>)`

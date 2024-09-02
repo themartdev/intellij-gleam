@@ -1253,7 +1253,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // typeHole
+  // typeIdentifier
   //                       | constantTypeTuple
   //                       | constantTypeFunction
   //                       | constantType
@@ -1261,7 +1261,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "constantTypeSpecial")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, CONSTANT_TYPE_SPECIAL, "<constant type special>");
-    r = typeHole(b, l + 1);
+    r = typeIdentifier(b, l + 1);
     if (!r) r = constantTypeTuple(b, l + 1);
     if (!r) r = constantTypeFunction(b, l + 1);
     if (!r) r = constantType(b, l + 1);
@@ -3016,7 +3016,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // [visibilityModifier] [opacityModifier] TYPE typeName EQUAL typeRule
+  // [visibilityModifier] [opacityModifier] TYPE typeName EQUAL typeReference
   public static boolean typeAlias(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "typeAlias")) return false;
     boolean r;
@@ -3026,7 +3026,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = r && consumeToken(b, TYPE);
     r = r && typeName(b, l + 1);
     r = r && consumeToken(b, EQUAL);
-    r = r && typeRule(b, l + 1);
+    r = r && typeReference(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -3132,15 +3132,14 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // typeHole | tupleType | functionType | typeRule | typeVar
+  // typeReference | tupleType | functionType |  typeVar
   public static boolean typeBase(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "typeBase")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, TYPE_BASE, "<type base>");
-    r = typeHole(b, l + 1);
+    r = typeReference(b, l + 1);
     if (!r) r = tupleType(b, l + 1);
     if (!r) r = functionType(b, l + 1);
-    if (!r) r = typeRule(b, l + 1);
     if (!r) r = typeVar(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -3187,18 +3186,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "typeDefinition_1")) return false;
     opacityModifier(b, l + 1);
     return true;
-  }
-
-  /* ********************************************************** */
-  // IDENTIFIER
-  public static boolean typeHole(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeHole")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, IDENTIFIER);
-    exit_section_(b, m, TYPE_HOLE, r);
-    return r;
   }
 
   /* ********************************************************** */
@@ -3318,20 +3305,20 @@ public class GleamParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // (typeIdentifier | remoteTypeIdentifier) [typeArguments]
-  public static boolean typeRule(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeRule")) return false;
-    if (!nextTokenIs(b, "<type rule>", IDENTIFIER, UP_IDENTIFIER)) return false;
+  public static boolean typeReference(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "typeReference")) return false;
+    if (!nextTokenIs(b, "<type reference>", IDENTIFIER, UP_IDENTIFIER)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, TYPE_RULE, "<type rule>");
-    r = typeRule_0(b, l + 1);
-    r = r && typeRule_1(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, TYPE_REFERENCE, "<type reference>");
+    r = typeReference_0(b, l + 1);
+    r = r && typeReference_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   // typeIdentifier | remoteTypeIdentifier
-  private static boolean typeRule_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeRule_0")) return false;
+  private static boolean typeReference_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "typeReference_0")) return false;
     boolean r;
     r = typeIdentifier(b, l + 1);
     if (!r) r = remoteTypeIdentifier(b, l + 1);
@@ -3339,8 +3326,8 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   // [typeArguments]
-  private static boolean typeRule_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeRule_1")) return false;
+  private static boolean typeReference_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "typeReference_1")) return false;
     typeArguments(b, l + 1);
     return true;
   }
@@ -3818,7 +3805,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // FN anonymousFunctionParameters [R_ARROW typeRule] functionBody
+  // FN anonymousFunctionParameters [R_ARROW typeReference] functionBody
   public static boolean anonymousFunctionExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "anonymousFunctionExpr")) return false;
     if (!nextTokenIsSmart(b, FN)) return false;
@@ -3832,20 +3819,20 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // [R_ARROW typeRule]
+  // [R_ARROW typeReference]
   private static boolean anonymousFunctionExpr_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "anonymousFunctionExpr_2")) return false;
     anonymousFunctionExpr_2_0(b, l + 1);
     return true;
   }
 
-  // R_ARROW typeRule
+  // R_ARROW typeReference
   private static boolean anonymousFunctionExpr_2_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "anonymousFunctionExpr_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokenSmart(b, R_ARROW);
-    r = r && typeRule(b, l + 1);
+    r = r && typeReference(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }

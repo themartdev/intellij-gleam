@@ -192,7 +192,7 @@ constantBitStringSegment ::= constantValue [COLON bitStringSegmentOptions]
 constantBitString ::= LT_LT [constantBitStringSegment (COMMA constantBitStringSegment)* [COMMA]] GT_GT
 
 constantType ::= (typeIdentifier | remoteTypeIdentifier) [constantTypeArguments]
-constantTypeSpecial ::= typeHole
+constantTypeSpecial ::= typeIdentifier
                       | constantTypeTuple
                       | constantTypeFunction
                       | constantType
@@ -215,12 +215,11 @@ functionParameterTypes ::= LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN
 tupleType ::= HASH LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN
 functionType ::= FN [functionParameterTypes] R_ARROW typeBase
 
-typeBase ::= typeHole | tupleType | functionType | typeRule | typeVar
+typeBase ::= typeReference | tupleType | functionType
 typeAnnotation ::= COLON typeBase
 typeArgument ::= typeBase
 typeArguments ::= LPAREN [typeArgument (COMMA typeArgument)* [COMMA]] RPAREN
-typeRule ::= (typeIdentifier | remoteTypeIdentifier) [typeArguments]
-//typeRule ::= 'String'
+typeReference ::= (typeIdentifier | remoteTypeIdentifier) [typeArguments]
 
 functionParameterArgs ::= labeledDiscardParam | discardParam | labeledNameParam | nameParam
 functionParameter ::= functionParameterArgs [typeAnnotation]
@@ -257,7 +256,7 @@ listExpr ::= LBRACK [expression ((COMMA expression)*)? [COMMA] [DOT_DOT expressi
 anonymousFunctionParameterArgs ::= discardParam | nameParam
 anonymousFunctionParameter ::= anonymousFunctionParameterArgs [typeAnnotation]
 anonymousFunctionParameters ::= LPAREN [anonymousFunctionParameter (COMMA anonymousFunctionParameter)* [COMMA]] RPAREN
-anonymousFunctionExpr ::= FN anonymousFunctionParameters [R_ARROW typeRule] functionBody
+anonymousFunctionExpr ::= FN anonymousFunctionParameters [R_ARROW typeReference] functionBody
 
 blockExpr ::= LBRACE expressionSeq RBRACE
 
@@ -350,7 +349,7 @@ dataConstructorArguments ::= LPAREN [dataConstructorArgument (COMMA dataConstruc
 dataConstructor ::= constructorIdentifier [dataConstructorArguments]
 dataConstructors ::= dataConstructor+
 
-typeAlias ::= [visibilityModifier] [opacityModifier] TYPE typeName EQUAL typeRule
+typeAlias ::= [visibilityModifier] [opacityModifier] TYPE typeName EQUAL typeReference
 typeDefinition ::= [visibilityModifier] [opacityModifier] TYPE typeName LBRACE dataConstructors RBRACE
 typeDeclaration ::= typeDefinition | typeAlias
 
@@ -378,8 +377,6 @@ typeIdentifier ::= UP_IDENTIFIER
 discard ::= DISCARD_NAME
 label ::= IDENTIFIER
 typeParameter ::= IDENTIFIER
-typeVar ::= IDENTIFIER
-typeHole ::= IDENTIFIER
 hole ::= DISCARD_NAME
 discardParam ::= discard
 nameParam ::= IDENTIFIER

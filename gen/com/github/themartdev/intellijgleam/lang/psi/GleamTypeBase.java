@@ -14,10 +14,7 @@ public interface GleamTypeBase extends PsiElement {
   GleamTupleType getTupleType();
 
   @Nullable
-  GleamTypeHole getTypeHole();
-
-  @Nullable
-  GleamTypeRule getTypeRule();
+  GleamTypeReference getTypeReference();
 
   @Nullable
   GleamTypeVar getTypeVar();

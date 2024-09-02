@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamTypeRule extends PsiElement {
+public interface GleamTypeReference extends PsiElement {
 
   @Nullable
   GleamRemoteTypeIdentifier getRemoteTypeIdentifier();

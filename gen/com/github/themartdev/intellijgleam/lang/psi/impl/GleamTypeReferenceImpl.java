@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamTypeRuleImpl extends ASTWrapperPsiElement implements GleamTypeRule {
+public class GleamTypeReferenceImpl extends ASTWrapperPsiElement implements GleamTypeReference {
 
-  public GleamTypeRuleImpl(@NotNull ASTNode node) {
+  public GleamTypeReferenceImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitTypeRule(this);
+    visitor.visitTypeReference(this);
   }
 
   @Override

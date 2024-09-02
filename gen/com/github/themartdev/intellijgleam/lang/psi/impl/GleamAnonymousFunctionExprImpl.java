@@ -41,8 +41,8 @@ public class GleamAnonymousFunctionExprImpl extends GleamExpressionImpl implemen
 
   @Override
   @Nullable
-  public GleamTypeRule getTypeRule() {
-    return findChildByClass(GleamTypeRule.class);
+  public GleamTypeReference getTypeReference() {
+    return findChildByClass(GleamTypeReference.class);
   }
 
 }

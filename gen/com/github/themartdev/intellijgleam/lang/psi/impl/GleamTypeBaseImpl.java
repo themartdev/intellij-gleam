@@ -41,14 +41,8 @@ public class GleamTypeBaseImpl extends ASTWrapperPsiElement implements GleamType
 
   @Override
   @Nullable
-  public GleamTypeHole getTypeHole() {
-    return findChildByClass(GleamTypeHole.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamTypeRule getTypeRule() {
-    return findChildByClass(GleamTypeRule.class);
+  public GleamTypeReference getTypeReference() {
+    return findChildByClass(GleamTypeReference.class);
   }
 
   @Override

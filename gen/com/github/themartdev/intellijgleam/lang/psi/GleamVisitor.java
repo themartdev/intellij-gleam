@@ -499,10 +499,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitTypeHole(@NotNull GleamTypeHole o) {
-    visitPsiElement(o);
-  }
-
   public void visitTypeIdentifier(@NotNull GleamTypeIdentifier o) {
     visitPsiElement(o);
   }
@@ -519,7 +515,7 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitTypeRule(@NotNull GleamTypeRule o) {
+  public void visitTypeReference(@NotNull GleamTypeReference o) {
     visitPsiElement(o);
   }
 

@@ -14,7 +14,7 @@ public interface GleamTypeAlias extends PsiElement {
   GleamTypeName getTypeName();
 
   @NotNull
-  GleamTypeRule getTypeRule();
+  GleamTypeReference getTypeReference();
 
   @Nullable
   GleamVisibilityModifier getVisibilityModifier();

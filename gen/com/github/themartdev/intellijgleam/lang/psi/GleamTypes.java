@@ -131,12 +131,11 @@ public interface GleamTypes {
   IElementType TYPE_BASE = new GleamElementType("TYPE_BASE");
   IElementType TYPE_DECLARATION = new GleamElementType("TYPE_DECLARATION");
   IElementType TYPE_DEFINITION = new GleamElementType("TYPE_DEFINITION");
-  IElementType TYPE_HOLE = new GleamElementType("TYPE_HOLE");
   IElementType TYPE_IDENTIFIER = new GleamElementType("TYPE_IDENTIFIER");
   IElementType TYPE_NAME = new GleamElementType("TYPE_NAME");
   IElementType TYPE_PARAMETER = new GleamElementType("TYPE_PARAMETER");
   IElementType TYPE_PARAMETERS = new GleamElementType("TYPE_PARAMETERS");
-  IElementType TYPE_RULE = new GleamElementType("TYPE_RULE");
+  IElementType TYPE_REFERENCE = new GleamElementType("TYPE_REFERENCE");
   IElementType TYPE_VAR = new GleamElementType("TYPE_VAR");
   IElementType UNARY_EXPR = new GleamElementType("UNARY_EXPR");
   IElementType UNARY_OPERATOR = new GleamElementType("UNARY_OPERATOR");
@@ -608,9 +607,6 @@ public interface GleamTypes {
       else if (type == TYPE_DEFINITION) {
         return new GleamTypeDefinitionImpl(node);
       }
-      else if (type == TYPE_HOLE) {
-        return new GleamTypeHoleImpl(node);
-      }
       else if (type == TYPE_IDENTIFIER) {
         return new GleamTypeIdentifierImpl(node);
       }
@@ -623,8 +619,8 @@ public interface GleamTypes {
       else if (type == TYPE_PARAMETERS) {
         return new GleamTypeParametersImpl(node);
       }
-      else if (type == TYPE_RULE) {
-        return new GleamTypeRuleImpl(node);
+      else if (type == TYPE_REFERENCE) {
+        return new GleamTypeReferenceImpl(node);
       }
       else if (type == TYPE_VAR) {
         return new GleamTypeVarImpl(node);

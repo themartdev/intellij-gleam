@@ -41,8 +41,8 @@ public class GleamTypeAliasImpl extends ASTWrapperPsiElement implements GleamTyp
 
   @Override
   @NotNull
-  public GleamTypeRule getTypeRule() {
-    return findNotNullChildByClass(GleamTypeRule.class);
+  public GleamTypeReference getTypeReference() {
+    return findNotNullChildByClass(GleamTypeReference.class);
   }
 
   @Override

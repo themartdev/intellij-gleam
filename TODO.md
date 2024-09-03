@@ -1,6 +1,7 @@
 # Lexer/Parser
-- [x] `panic as` ✔
-- [x] `todo as` ✔
+
+- [x] `panic as`
+- [x] `todo as`
 - [x] `@external`
 - [x] `@deprecated`
 - [x] tuple integer access like this: `tuple.1`
@@ -10,7 +11,15 @@
 - [x] string patterns in `case` like this: `"Hello, " <> name -> name`
 - [ ] Record updates like this: `Teacher(..teacher1, subject: "PE", room: 6)`
 
+# Refactors
+
+- [ ] (parser) Streamline and cleanup pattern expressions
+
+# Editor
+
+- [ ] Add smart indentation
+
 # Highlight / Annotate
 
-- Highlight qualified module references
-- Highlight types
+- [ ] Highlight qualified module references
+- [ ] Highlight basic types

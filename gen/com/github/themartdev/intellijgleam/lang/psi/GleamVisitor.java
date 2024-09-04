@@ -199,6 +199,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCustomTypeValue(@NotNull GleamCustomTypeValue o) {
+    visitPsiElement(o);
+  }
+
   public void visitDataConstructor(@NotNull GleamDataConstructor o) {
     visitPsiElement(o);
   }
@@ -363,6 +367,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitOmittedTypeValue(@NotNull GleamOmittedTypeValue o) {
+    visitPsiElement(o);
+  }
+
   public void visitOpacityModifier(@NotNull GleamOpacityModifier o) {
     visitPsiElement(o);
   }
@@ -431,6 +439,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitExpression(o);
   }
 
+  public void visitReferenceTypeValue(@NotNull GleamReferenceTypeValue o) {
+    visitPsiElement(o);
+  }
+
   public void visitRemoteConstructorIdentifier(@NotNull GleamRemoteConstructorIdentifier o) {
     visitPsiElement(o);
   }
@@ -471,10 +483,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitTypeAlias(@NotNull GleamTypeAlias o) {
-    visitPsiElement(o);
-  }
-
   public void visitTypeAnnotation(@NotNull GleamTypeAnnotation o) {
     visitPsiElement(o);
   }
@@ -495,10 +503,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitTypeDefinition(@NotNull GleamTypeDefinition o) {
-    visitPsiElement(o);
-  }
-
   public void visitTypeIdentifier(@NotNull GleamTypeIdentifier o) {
     visitPsiElement(o);
   }
@@ -516,6 +520,10 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitTypeReference(@NotNull GleamTypeReference o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTypeValue(@NotNull GleamTypeValue o) {
     visitPsiElement(o);
   }
 

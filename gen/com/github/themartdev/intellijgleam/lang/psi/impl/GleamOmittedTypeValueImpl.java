@@ -11,44 +11,20 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamTypeDeclarationImpl extends ASTWrapperPsiElement implements GleamTypeDeclaration {
+public class GleamOmittedTypeValueImpl extends ASTWrapperPsiElement implements GleamOmittedTypeValue {
 
-  public GleamTypeDeclarationImpl(@NotNull ASTNode node) {
+  public GleamOmittedTypeValueImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitTypeDeclaration(this);
+    visitor.visitOmittedTypeValue(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof GleamVisitor) accept((GleamVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public GleamOpacityModifier getOpacityModifier() {
-    return findChildByClass(GleamOpacityModifier.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamTypeName getTypeName() {
-    return findChildByClass(GleamTypeName.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamTypeValue getTypeValue() {
-    return findChildByClass(GleamTypeValue.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamVisibilityModifier getVisibilityModifier() {
-    return findChildByClass(GleamVisibilityModifier.class);
   }
 
 }

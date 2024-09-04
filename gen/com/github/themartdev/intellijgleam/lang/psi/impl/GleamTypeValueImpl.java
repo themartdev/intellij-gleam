@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamTypeAliasImpl extends ASTWrapperPsiElement implements GleamTypeAlias {
+public class GleamTypeValueImpl extends ASTWrapperPsiElement implements GleamTypeValue {
 
-  public GleamTypeAliasImpl(@NotNull ASTNode node) {
+  public GleamTypeValueImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitTypeAlias(this);
+    visitor.visitTypeValue(this);
   }
 
   @Override
@@ -29,26 +29,20 @@ public class GleamTypeAliasImpl extends ASTWrapperPsiElement implements GleamTyp
 
   @Override
   @Nullable
-  public GleamOpacityModifier getOpacityModifier() {
-    return findChildByClass(GleamOpacityModifier.class);
-  }
-
-  @Override
-  @NotNull
-  public GleamTypeName getTypeName() {
-    return findNotNullChildByClass(GleamTypeName.class);
-  }
-
-  @Override
-  @NotNull
-  public GleamTypeReference getTypeReference() {
-    return findNotNullChildByClass(GleamTypeReference.class);
+  public GleamCustomTypeValue getCustomTypeValue() {
+    return findChildByClass(GleamCustomTypeValue.class);
   }
 
   @Override
   @Nullable
-  public GleamVisibilityModifier getVisibilityModifier() {
-    return findChildByClass(GleamVisibilityModifier.class);
+  public GleamOmittedTypeValue getOmittedTypeValue() {
+    return findChildByClass(GleamOmittedTypeValue.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamReferenceTypeValue getReferenceTypeValue() {
+    return findChildByClass(GleamReferenceTypeValue.class);
   }
 
 }

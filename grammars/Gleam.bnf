@@ -348,10 +348,12 @@ dataConstructorArguments ::= LPAREN [dataConstructorArgument (COMMA dataConstruc
 dataConstructor ::= constructorIdentifier [dataConstructorArguments]
 dataConstructors ::= dataConstructor+
 
-typeAlias ::= [visibilityModifier] [opacityModifier] TYPE typeName EQUAL typeReference
-typeDefinition ::= [visibilityModifier] [opacityModifier] TYPE typeName LBRACE dataConstructors RBRACE
-typeDeclaration ::= typeDefinition | typeAlias
 
+referenceTypeValue ::= EQUAL typeReference
+customTypeValue ::= LBRACE dataConstructors RBRACE
+omittedTypeValue ::=
+typeValue ::= referenceTypeValue | customTypeValue | omittedTypeValue
+typeDeclaration ::= [visibilityModifier] [opacityModifier] TYPE typeName typeValue {pin=3}
 
 //// Numbers
 binaryIntegerLiteral ::= BASE_NUMBER_PREFIX BINARY_NUMBER_BASE VALID_BINARY_DIGIT (NUMBER_SEPARATOR VALID_BINARY_DIGIT)*

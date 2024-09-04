@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamTypeDeclarationImpl extends ASTWrapperPsiElement implements GleamTypeDeclaration {
+public class GleamReferenceTypeValueImpl extends ASTWrapperPsiElement implements GleamReferenceTypeValue {
 
-  public GleamTypeDeclarationImpl(@NotNull ASTNode node) {
+  public GleamReferenceTypeValueImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitTypeDeclaration(this);
+    visitor.visitReferenceTypeValue(this);
   }
 
   @Override
@@ -28,27 +28,9 @@ public class GleamTypeDeclarationImpl extends ASTWrapperPsiElement implements Gl
   }
 
   @Override
-  @Nullable
-  public GleamOpacityModifier getOpacityModifier() {
-    return findChildByClass(GleamOpacityModifier.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamTypeName getTypeName() {
-    return findChildByClass(GleamTypeName.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamTypeValue getTypeValue() {
-    return findChildByClass(GleamTypeValue.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamVisibilityModifier getVisibilityModifier() {
-    return findChildByClass(GleamVisibilityModifier.class);
+  @NotNull
+  public GleamTypeReference getTypeReference() {
+    return findNotNullChildByClass(GleamTypeReference.class);
   }
 
 }

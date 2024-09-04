@@ -56,6 +56,7 @@ public interface GleamTypes {
   IElementType CONSTANT_TYPE_TUPLE = new GleamElementType("CONSTANT_TYPE_TUPLE");
   IElementType CONSTANT_VALUE = new GleamElementType("CONSTANT_VALUE");
   IElementType CONSTRUCTOR_IDENTIFIER = new GleamElementType("CONSTRUCTOR_IDENTIFIER");
+  IElementType CUSTOM_TYPE_VALUE = new GleamElementType("CUSTOM_TYPE_VALUE");
   IElementType DATA_CONSTRUCTOR = new GleamElementType("DATA_CONSTRUCTOR");
   IElementType DATA_CONSTRUCTORS = new GleamElementType("DATA_CONSTRUCTORS");
   IElementType DATA_CONSTRUCTOR_ARGUMENT = new GleamElementType("DATA_CONSTRUCTOR_ARGUMENT");
@@ -97,6 +98,7 @@ public interface GleamTypes {
   IElementType MODULE = new GleamElementType("MODULE");
   IElementType NAME_PARAM = new GleamElementType("NAME_PARAM");
   IElementType OCTAL_INTEGER_LITERAL = new GleamElementType("OCTAL_INTEGER_LITERAL");
+  IElementType OMITTED_TYPE_VALUE = new GleamElementType("OMITTED_TYPE_VALUE");
   IElementType OPACITY_MODIFIER = new GleamElementType("OPACITY_MODIFIER");
   IElementType PANIC_EXPR = new GleamElementType("PANIC_EXPR");
   IElementType PATTERN = new GleamElementType("PATTERN");
@@ -114,6 +116,7 @@ public interface GleamTypes {
   IElementType RECORD_UPDATE_ARGUMENTS = new GleamElementType("RECORD_UPDATE_ARGUMENTS");
   IElementType RECORD_UPDATE_EXPR = new GleamElementType("RECORD_UPDATE_EXPR");
   IElementType REFERENCE_EXPR = new GleamElementType("REFERENCE_EXPR");
+  IElementType REFERENCE_TYPE_VALUE = new GleamElementType("REFERENCE_TYPE_VALUE");
   IElementType REMOTE_CONSTRUCTOR_IDENTIFIER = new GleamElementType("REMOTE_CONSTRUCTOR_IDENTIFIER");
   IElementType REMOTE_TYPE_IDENTIFIER = new GleamElementType("REMOTE_TYPE_IDENTIFIER");
   IElementType SIMPLE_LET_EXPR = new GleamElementType("SIMPLE_LET_EXPR");
@@ -124,18 +127,17 @@ public interface GleamTypes {
   IElementType TUPLE_EXPR = new GleamElementType("TUPLE_EXPR");
   IElementType TUPLE_PATTERN = new GleamElementType("TUPLE_PATTERN");
   IElementType TUPLE_TYPE = new GleamElementType("TUPLE_TYPE");
-  IElementType TYPE_ALIAS = new GleamElementType("TYPE_ALIAS");
   IElementType TYPE_ANNOTATION = new GleamElementType("TYPE_ANNOTATION");
   IElementType TYPE_ARGUMENT = new GleamElementType("TYPE_ARGUMENT");
   IElementType TYPE_ARGUMENTS = new GleamElementType("TYPE_ARGUMENTS");
   IElementType TYPE_BASE = new GleamElementType("TYPE_BASE");
   IElementType TYPE_DECLARATION = new GleamElementType("TYPE_DECLARATION");
-  IElementType TYPE_DEFINITION = new GleamElementType("TYPE_DEFINITION");
   IElementType TYPE_IDENTIFIER = new GleamElementType("TYPE_IDENTIFIER");
   IElementType TYPE_NAME = new GleamElementType("TYPE_NAME");
   IElementType TYPE_PARAMETER = new GleamElementType("TYPE_PARAMETER");
   IElementType TYPE_PARAMETERS = new GleamElementType("TYPE_PARAMETERS");
   IElementType TYPE_REFERENCE = new GleamElementType("TYPE_REFERENCE");
+  IElementType TYPE_VALUE = new GleamElementType("TYPE_VALUE");
   IElementType UNARY_EXPR = new GleamElementType("UNARY_EXPR");
   IElementType UNARY_OPERATOR = new GleamElementType("UNARY_OPERATOR");
   IElementType UNKNOWN_DECORATOR = new GleamElementType("UNKNOWN_DECORATOR");
@@ -388,6 +390,9 @@ public interface GleamTypes {
       else if (type == CONSTRUCTOR_IDENTIFIER) {
         return new GleamConstructorIdentifierImpl(node);
       }
+      else if (type == CUSTOM_TYPE_VALUE) {
+        return new GleamCustomTypeValueImpl(node);
+      }
       else if (type == DATA_CONSTRUCTOR) {
         return new GleamDataConstructorImpl(node);
       }
@@ -502,6 +507,9 @@ public interface GleamTypes {
       else if (type == OCTAL_INTEGER_LITERAL) {
         return new GleamOctalIntegerLiteralImpl(node);
       }
+      else if (type == OMITTED_TYPE_VALUE) {
+        return new GleamOmittedTypeValueImpl(node);
+      }
       else if (type == OPACITY_MODIFIER) {
         return new GleamOpacityModifierImpl(node);
       }
@@ -553,6 +561,9 @@ public interface GleamTypes {
       else if (type == REFERENCE_EXPR) {
         return new GleamReferenceExprImpl(node);
       }
+      else if (type == REFERENCE_TYPE_VALUE) {
+        return new GleamReferenceTypeValueImpl(node);
+      }
       else if (type == REMOTE_CONSTRUCTOR_IDENTIFIER) {
         return new GleamRemoteConstructorIdentifierImpl(node);
       }
@@ -583,9 +594,6 @@ public interface GleamTypes {
       else if (type == TUPLE_TYPE) {
         return new GleamTupleTypeImpl(node);
       }
-      else if (type == TYPE_ALIAS) {
-        return new GleamTypeAliasImpl(node);
-      }
       else if (type == TYPE_ANNOTATION) {
         return new GleamTypeAnnotationImpl(node);
       }
@@ -601,9 +609,6 @@ public interface GleamTypes {
       else if (type == TYPE_DECLARATION) {
         return new GleamTypeDeclarationImpl(node);
       }
-      else if (type == TYPE_DEFINITION) {
-        return new GleamTypeDefinitionImpl(node);
-      }
       else if (type == TYPE_IDENTIFIER) {
         return new GleamTypeIdentifierImpl(node);
       }
@@ -618,6 +623,9 @@ public interface GleamTypes {
       }
       else if (type == TYPE_REFERENCE) {
         return new GleamTypeReferenceImpl(node);
+      }
+      else if (type == TYPE_VALUE) {
+        return new GleamTypeValueImpl(node);
       }
       else if (type == UNARY_EXPR) {
         return new GleamUnaryExprImpl(node);

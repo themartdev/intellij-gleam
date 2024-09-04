@@ -5,18 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamTypeAlias extends PsiElement {
-
-  @Nullable
-  GleamOpacityModifier getOpacityModifier();
-
-  @NotNull
-  GleamTypeName getTypeName();
+public interface GleamReferenceTypeValue extends PsiElement {
 
   @NotNull
   GleamTypeReference getTypeReference();
-
-  @Nullable
-  GleamVisibilityModifier getVisibilityModifier();
 
 }

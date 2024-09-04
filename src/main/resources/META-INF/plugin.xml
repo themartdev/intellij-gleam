@@ -3,13 +3,26 @@
     <id>com.github.themartdev.intellijgleam</id>
     <name>Gleam Language</name>
     <vendor>themartdev</vendor>
-    <depends>com.intellij.modules.ultimate</depends>
+
+    <depends>com.redhat.devtools.lsp4ij</depends>
 
     <resource-bundle>messages.GleamBundle</resource-bundle>
 
+    <extensions defaultExtensionNs="com.redhat.devtools.lsp4ij">
+        <server factoryClass="com.github.themartdev.intellijgleam.ide.lsp.GleamLanguageServerFactory"
+                id="gleam-ls"
+                name="Gleam Language Server"
+        >
+            <description><![CDATA[
+            <h1>Gleam language server</h1>
+            ]]>
+            </description>
+        </server>
+<!--        <languageMapping language="Gleam" serverId="gleam-ls"/>-->
+        <fileNamePatternMapping patterns="*.gleam" serverId="gleam-ls"/>
+    </extensions>
+
     <extensions defaultExtensionNs="com.intellij">
-        <platform.lsp.serverSupportProvider
-                implementation="com.github.themartdev.intellijgleam.ide.lsp.GleamLspServerProvider"/>
         <fileType name="Gleam"
                   language="Gleam"
                   implementationClass="com.github.themartdev.intellijgleam.lang.GleamFileType"
@@ -34,7 +47,8 @@
         <!-- Editor -->
         <lang.braceMatcher language="Gleam"
                            implementationClass="com.github.themartdev.intellijgleam.ide.editor.GleamBraceMatcher"/>
-        <lang.quoteHandler language="Gleam" implementationClass="com.github.themartdev.intellijgleam.ide.editor.GleamQuoteHandler"/>
+        <lang.quoteHandler language="Gleam"
+                           implementationClass="com.github.themartdev.intellijgleam.ide.editor.GleamQuoteHandler"/>
 
     </extensions>
 </idea-plugin>

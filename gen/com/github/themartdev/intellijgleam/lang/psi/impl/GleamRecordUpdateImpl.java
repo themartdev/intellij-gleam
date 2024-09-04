@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamHoleImpl extends ASTWrapperPsiElement implements GleamHole {
+public class GleamRecordUpdateImpl extends ASTWrapperPsiElement implements GleamRecordUpdate {
 
-  public GleamHoleImpl(@NotNull ASTNode node) {
+  public GleamRecordUpdateImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitHole(this);
+    visitor.visitRecordUpdate(this);
   }
 
   @Override
@@ -28,9 +28,9 @@ public class GleamHoleImpl extends ASTWrapperPsiElement implements GleamHole {
   }
 
   @Override
-  @NotNull
-  public PsiElement getDiscardName() {
-    return findNotNullChildByType(DISCARD_NAME);
+  @Nullable
+  public GleamVariableReference getVariableReference() {
+    return findChildByClass(GleamVariableReference.class);
   }
 
 }

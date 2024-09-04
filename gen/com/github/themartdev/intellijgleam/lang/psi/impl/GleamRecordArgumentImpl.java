@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamArgumentsImpl extends ASTWrapperPsiElement implements GleamArguments {
+public class GleamRecordArgumentImpl extends ASTWrapperPsiElement implements GleamRecordArgument {
 
-  public GleamArgumentsImpl(@NotNull ASTNode node) {
+  public GleamRecordArgumentImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitArguments(this);
+    visitor.visitRecordArgument(this);
   }
 
   @Override
@@ -29,8 +29,14 @@ public class GleamArgumentsImpl extends ASTWrapperPsiElement implements GleamArg
 
   @Override
   @NotNull
-  public List<GleamArgument> getArgumentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamArgument.class);
+  public GleamExpression getExpression() {
+    return findNotNullChildByClass(GleamExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamLabel getLabel() {
+    return findChildByClass(GleamLabel.class);
   }
 
 }

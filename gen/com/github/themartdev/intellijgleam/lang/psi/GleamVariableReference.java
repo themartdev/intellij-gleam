@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamHole extends PsiElement {
+public interface GleamVariableReference extends PsiElement {
 
   @NotNull
-  PsiElement getDiscardName();
+  PsiElement getIdentifier();
 
 }

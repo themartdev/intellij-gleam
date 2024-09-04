@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamParenthesizedExprImpl extends GleamExpressionImpl implements GleamParenthesizedExpr {
+public class GleamRecordArgumentsImpl extends ASTWrapperPsiElement implements GleamRecordArguments {
 
-  public GleamParenthesizedExprImpl(@NotNull ASTNode node) {
+  public GleamRecordArgumentsImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitParenthesizedExpr(this);
+    visitor.visitRecordArguments(this);
   }
 
   @Override
@@ -28,9 +28,15 @@ public class GleamParenthesizedExprImpl extends GleamExpressionImpl implements G
   }
 
   @Override
+  @NotNull
+  public List<GleamRecordArgument> getRecordArgumentList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamRecordArgument.class);
+  }
+
+  @Override
   @Nullable
-  public GleamExpression getExpression() {
-    return findChildByClass(GleamExpression.class);
+  public GleamRecordUpdate getRecordUpdate() {
+    return findChildByClass(GleamRecordUpdate.class);
   }
 
 }

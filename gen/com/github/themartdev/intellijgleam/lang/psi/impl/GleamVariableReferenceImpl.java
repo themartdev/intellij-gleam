@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamArgumentImpl extends ASTWrapperPsiElement implements GleamArgument {
+public class GleamVariableReferenceImpl extends ASTWrapperPsiElement implements GleamVariableReference {
 
-  public GleamArgumentImpl(@NotNull ASTNode node) {
+  public GleamVariableReferenceImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitArgument(this);
+    visitor.visitVariableReference(this);
   }
 
   @Override
@@ -28,21 +28,9 @@ public class GleamArgumentImpl extends ASTWrapperPsiElement implements GleamArgu
   }
 
   @Override
-  @Nullable
-  public GleamExpression getExpression() {
-    return findChildByClass(GleamExpression.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamHole getHole() {
-    return findChildByClass(GleamHole.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamLabel getLabel() {
-    return findChildByClass(GleamLabel.class);
+  @NotNull
+  public PsiElement getIdentifier() {
+    return findNotNullChildByType(IDENTIFIER);
   }
 
 }

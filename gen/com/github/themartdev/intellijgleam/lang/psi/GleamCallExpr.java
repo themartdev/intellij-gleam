@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface GleamCallExpr extends GleamExpression {
 
   @NotNull
-  GleamArguments getArguments();
+  GleamExpression getExpression();
 
   @NotNull
-  GleamExpression getExpression();
+  GleamRecordArguments getRecordArguments();
 
 }

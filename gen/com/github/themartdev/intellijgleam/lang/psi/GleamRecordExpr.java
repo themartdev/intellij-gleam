@@ -8,10 +8,10 @@ import com.intellij.psi.PsiElement;
 public interface GleamRecordExpr extends GleamExpression {
 
   @Nullable
-  GleamArguments getArguments();
+  GleamConstructorIdentifier getConstructorIdentifier();
 
   @Nullable
-  GleamConstructorIdentifier getConstructorIdentifier();
+  GleamRecordArguments getRecordArguments();
 
   @Nullable
   GleamRemoteConstructorIdentifier getRemoteConstructorIdentifier();

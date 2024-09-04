@@ -243,11 +243,15 @@ recordPatternArguments ::= LPAREN [recordPatternArgument (COMMA recordPatternArg
 recordPattern ::= (constructorIdentifier | remoteConstructorIdentifier) [recordPatternArguments]
 pattern ::= (IDENTIFIER | discard | stringPattern | recordPattern | literalExpr | tuplePattern | patternBitArray | listPattern ) [AS IDENTIFIER]
 
+
 expressionSeq ::= (expression)+
 
-argument ::= [label COLON] (hole | expression)
-arguments ::= LPAREN [argument (COMMA argument)* [COMMA]] RPAREN
-recordExpr ::= (constructorIdentifier | remoteConstructorIdentifier) [arguments]
+recordArgument ::= [label COLON] (expression)
+private recordArgumentList ::= [recordArgument (COMMA recordArgument)* [COMMA]]
+recordUpdate ::= DOT_DOT variableReference {pin=1}
+// Record update can only be at the start of record arguments
+recordArguments ::=  LPAREN (recordUpdate COMMA recordArgumentList | recordUpdate | recordArgumentList) RPAREN
+recordExpr ::= (constructorIdentifier | remoteConstructorIdentifier) [recordArguments]
 
 bitArraySegment ::= expression [COLON bitArraySegmentOptions]
 bitArrayExpr ::= LT_LT [bitArraySegment (COMMA bitArraySegment)* [COMMA]] GT_GT {pin=1}
@@ -295,7 +299,7 @@ recordUpdateExpr ::= (constructorIdentifier | remoteConstructorIdentifier) LPARE
 
 
 
-callExpr ::= expression arguments
+callExpr ::= expression recordArguments
 
 accessExpr ::= expression DOT (label | wholeNumber)
 
@@ -320,7 +324,6 @@ expression ::= simpleKeywordExpr
              | listExpr
              | blockExpr
              | recordUpdateExpr
-             | parenthesizedExpr
              | referenceExpr
              | binaryExpr
              | unaryExpr
@@ -328,8 +331,6 @@ expression ::= simpleKeywordExpr
 //private expressionRecoverWhile ::= !expressionRecoverUntil
 //private expressionRecoverUntil ::= RBRACE | RPAREN | RBRACK | EOL
 
-
-parenthesizedExpr ::= LPAREN expression RPAREN
 
 binaryExpr ::= expression binaryOperator expression
 binaryOperator ::= EQUAL_EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | LESS_DOT
@@ -370,12 +371,12 @@ stringLiteral ::= OPEN_QUOTE (REGULAR_STRING_PART | stringEscapeSegment)* CLOSE_
 
 
 // Aliases
+variableReference ::= IDENTIFIER
 constructorIdentifier ::= UP_IDENTIFIER
 typeIdentifier ::= UP_IDENTIFIER
 discard ::= DISCARD_NAME
 label ::= IDENTIFIER
 typeParameter ::= IDENTIFIER
-hole ::= DISCARD_NAME
 discardParam ::= discard
 nameParam ::= IDENTIFIER
 labeledNameParam ::= label IDENTIFIER

@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamArguments extends PsiElement {
+public interface GleamRecordArgument extends PsiElement {
 
   @NotNull
-  List<GleamArgument> getArgumentList();
+  GleamExpression getExpression();
+
+  @Nullable
+  GleamLabel getLabel();
 
 }

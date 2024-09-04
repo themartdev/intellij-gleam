@@ -29,14 +29,14 @@ public class GleamCallExprImpl extends GleamExpressionImpl implements GleamCallE
 
   @Override
   @NotNull
-  public GleamArguments getArguments() {
-    return findNotNullChildByClass(GleamArguments.class);
+  public GleamExpression getExpression() {
+    return findNotNullChildByClass(GleamExpression.class);
   }
 
   @Override
   @NotNull
-  public GleamExpression getExpression() {
-    return findNotNullChildByClass(GleamExpression.class);
+  public GleamRecordArguments getRecordArguments() {
+    return findNotNullChildByClass(GleamRecordArguments.class);
   }
 
 }

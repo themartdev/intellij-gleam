@@ -29,14 +29,14 @@ public class GleamRecordExprImpl extends GleamExpressionImpl implements GleamRec
 
   @Override
   @Nullable
-  public GleamArguments getArguments() {
-    return findChildByClass(GleamArguments.class);
+  public GleamConstructorIdentifier getConstructorIdentifier() {
+    return findChildByClass(GleamConstructorIdentifier.class);
   }
 
   @Override
   @Nullable
-  public GleamConstructorIdentifier getConstructorIdentifier() {
-    return findChildByClass(GleamConstructorIdentifier.class);
+  public GleamRecordArguments getRecordArguments() {
+    return findChildByClass(GleamRecordArguments.class);
   }
 
   @Override

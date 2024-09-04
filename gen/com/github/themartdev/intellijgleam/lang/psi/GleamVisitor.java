@@ -27,14 +27,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitArgument(@NotNull GleamArgument o) {
-    visitPsiElement(o);
-  }
-
-  public void visitArguments(@NotNull GleamArguments o) {
-    visitPsiElement(o);
-  }
-
   public void visitAssertLetExpr(@NotNull GleamAssertLetExpr o) {
     visitExpression(o);
   }
@@ -319,10 +311,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitHole(@NotNull GleamHole o) {
-    visitPsiElement(o);
-  }
-
   public void visitImportStatement(@NotNull GleamImportStatement o) {
     visitPsiElement(o);
   }
@@ -383,10 +371,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitExpression(o);
   }
 
-  public void visitParenthesizedExpr(@NotNull GleamParenthesizedExpr o) {
-    visitExpression(o);
-  }
-
   public void visitPattern(@NotNull GleamPattern o) {
     visitPsiElement(o);
   }
@@ -403,6 +387,14 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitRecordArgument(@NotNull GleamRecordArgument o) {
+    visitPsiElement(o);
+  }
+
+  public void visitRecordArguments(@NotNull GleamRecordArguments o) {
+    visitPsiElement(o);
+  }
+
   public void visitRecordExpr(@NotNull GleamRecordExpr o) {
     visitExpression(o);
   }
@@ -416,6 +408,10 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitRecordPatternArguments(@NotNull GleamRecordPatternArguments o) {
+    visitPsiElement(o);
+  }
+
+  public void visitRecordUpdate(@NotNull GleamRecordUpdate o) {
     visitPsiElement(o);
   }
 
@@ -553,6 +549,10 @@ public class GleamVisitor extends PsiElementVisitor {
 
   public void visitUseExpr(@NotNull GleamUseExpr o) {
     visitExpression(o);
+  }
+
+  public void visitVariableReference(@NotNull GleamVariableReference o) {
+    visitPsiElement(o);
   }
 
   public void visitVisibilityModifier(@NotNull GleamVisibilityModifier o) {

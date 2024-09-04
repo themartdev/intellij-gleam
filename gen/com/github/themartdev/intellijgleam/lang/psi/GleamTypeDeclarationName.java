@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamTypeParameters extends PsiElement {
+public interface GleamTypeDeclarationName extends PsiElement {
 
   @NotNull
-  List<GleamTypeParameter> getTypeParameterList();
+  PsiElement getUpIdentifier();
 
 }

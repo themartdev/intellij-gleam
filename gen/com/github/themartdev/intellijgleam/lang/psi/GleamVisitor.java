@@ -503,19 +503,11 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitTypeDeclarationName(@NotNull GleamTypeDeclarationName o) {
+    visitPsiElement(o);
+  }
+
   public void visitTypeIdentifier(@NotNull GleamTypeIdentifier o) {
-    visitPsiElement(o);
-  }
-
-  public void visitTypeName(@NotNull GleamTypeName o) {
-    visitPsiElement(o);
-  }
-
-  public void visitTypeParameter(@NotNull GleamTypeParameter o) {
-    visitPsiElement(o);
-  }
-
-  public void visitTypeParameters(@NotNull GleamTypeParameters o) {
     visitPsiElement(o);
   }
 

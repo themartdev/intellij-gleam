@@ -35,8 +35,8 @@ public class GleamTypeDeclarationImpl extends ASTWrapperPsiElement implements Gl
 
   @Override
   @Nullable
-  public GleamTypeName getTypeName() {
-    return findChildByClass(GleamTypeName.class);
+  public GleamTypeDeclarationName getTypeDeclarationName() {
+    return findChildByClass(GleamTypeDeclarationName.class);
   }
 
   @Override

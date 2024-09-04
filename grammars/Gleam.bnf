@@ -208,9 +208,6 @@ constantValue ::= constantTuple
                 | literalExpr
 constant ::= [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUAL constantValue
 
-typeParameters ::= LPAREN [typeParameter (COMMA typeParameter)* [COMMA]] RPAREN
-typeName ::= (typeIdentifier | remoteTypeIdentifier) [typeParameters]
-
 functionParameterTypes ::= LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN
 tupleType ::= HASH LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN
 functionType ::= FN [functionParameterTypes] R_ARROW typeBase
@@ -353,7 +350,8 @@ referenceTypeValue ::= EQUAL typeReference
 customTypeValue ::= LBRACE dataConstructors RBRACE
 omittedTypeValue ::=
 typeValue ::= referenceTypeValue | customTypeValue | omittedTypeValue
-typeDeclaration ::= [visibilityModifier] [opacityModifier] TYPE typeName typeValue {pin=3}
+typeDeclarationName ::= UP_IDENTIFIER
+typeDeclaration ::= [visibilityModifier] [opacityModifier] TYPE typeDeclarationName typeValue {pin=3}
 
 //// Numbers
 binaryIntegerLiteral ::= BASE_NUMBER_PREFIX BINARY_NUMBER_BASE VALID_BINARY_DIGIT (NUMBER_SEPARATOR VALID_BINARY_DIGIT)*
@@ -378,7 +376,6 @@ constructorIdentifier ::= UP_IDENTIFIER
 typeIdentifier ::= UP_IDENTIFIER
 discard ::= DISCARD_NAME
 label ::= IDENTIFIER
-typeParameter ::= IDENTIFIER
 discardParam ::= discard
 nameParam ::= IDENTIFIER
 labeledNameParam ::= label IDENTIFIER

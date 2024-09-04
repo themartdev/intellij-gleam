@@ -22,6 +22,6 @@
 
 # Highlight / Annotate
 
-- [ ] Annotate: highlight type declaration
-- [ ] Annotate: highlight type reference
+- [x] Annotate: highlight type declaration
+- [x] Annotate: highlight type reference
 - [ ] Highlight qualified module references

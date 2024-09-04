@@ -14,9 +14,11 @@ object GleamColors {
     val BRACKETS = createTextAttributesKey("GLEAM_BRACKETS", DefaultLanguageHighlighterColors.BRACKETS)
     val PARENTHESES = createTextAttributesKey("GLEAM_PARENTHESES", DefaultLanguageHighlighterColors.PARENTHESES)
     val BRACES = createTextAttributesKey("GLEAM_BRACES", DefaultLanguageHighlighterColors.BRACES)
-    val FUNCTION_DECLARATION = createTextAttributesKey("GLEAM_FUNCTION", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
+    val FUNCTION_DECLARATION =
+        createTextAttributesKey("GLEAM_FUNCTION", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
     val STRING = createTextAttributesKey("GLEAM_STRING", DefaultLanguageHighlighterColors.STRING)
-    val STRING_ESCAPE = createTextAttributesKey("GLEAM_STRING_ESCAPE", DefaultLanguageHighlighterColors.VALID_STRING_ESCAPE)
+    val STRING_ESCAPE =
+        createTextAttributesKey("GLEAM_STRING_ESCAPE", DefaultLanguageHighlighterColors.VALID_STRING_ESCAPE)
 
     val VALID_DIGIT = createTextAttributesKey("GLEAM_VALID_DIGIT", DefaultLanguageHighlighterColors.NUMBER)
     val INVALID_DIGIT = createTextAttributesKey("GLEAM_INVALID_DIGIT", HighlighterColors.BAD_CHARACTER)
@@ -24,5 +26,8 @@ object GleamColors {
     val BASE_PREFIX = createTextAttributesKey("GLEAM_BASE_PREFIX", DefaultLanguageHighlighterColors.NUMBER)
     val INVALID_BASE = createTextAttributesKey("GLEAM_INVALID_BASE", HighlighterColors.BAD_CHARACTER)
     val DECORATOR = createTextAttributesKey("GLEAM_DECORATOR", DefaultLanguageHighlighterColors.METADATA)
+    val TYPE_DECLARATION =
+        createTextAttributesKey("GLEAM_TYPE_DECLARATION", DefaultLanguageHighlighterColors.CLASS_NAME)
+    val TYPE_REFERENCE = createTextAttributesKey("GLEAM_TYPE_REFERENCE", DefaultLanguageHighlighterColors.CLASS_REFERENCE)
 //    val BOOLEAN = createTextAttributesKey("GLEAM_DECORATOR", DefaultLanguageHighlighterColors.PREDEFINED_SYMBOL)
 }

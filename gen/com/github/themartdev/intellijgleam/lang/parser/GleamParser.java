@@ -3230,7 +3230,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // [visibilityModifier] [opacityModifier] TYPE typeName typeValue
+  // [visibilityModifier] [opacityModifier] TYPE typeDeclarationName typeValue
   public static boolean typeDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "typeDeclaration")) return false;
     boolean r, p;
@@ -3239,7 +3239,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = r && typeDeclaration_1(b, l + 1);
     r = r && consumeToken(b, TYPE);
     p = r; // pin = 3
-    r = r && report_error_(b, typeName(b, l + 1));
+    r = r && report_error_(b, typeDeclarationName(b, l + 1));
     r = p && typeValue(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
@@ -3261,6 +3261,18 @@ public class GleamParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // UP_IDENTIFIER
+  public static boolean typeDeclarationName(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "typeDeclarationName")) return false;
+    if (!nextTokenIs(b, UP_IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, UP_IDENTIFIER);
+    exit_section_(b, m, TYPE_DECLARATION_NAME, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // UP_IDENTIFIER
   public static boolean typeIdentifier(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "typeIdentifier")) return false;
     if (!nextTokenIs(b, UP_IDENTIFIER)) return false;
@@ -3269,109 +3281,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, UP_IDENTIFIER);
     exit_section_(b, m, TYPE_IDENTIFIER, r);
     return r;
-  }
-
-  /* ********************************************************** */
-  // (typeIdentifier | remoteTypeIdentifier) [typeParameters]
-  public static boolean typeName(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeName")) return false;
-    if (!nextTokenIs(b, "<type name>", IDENTIFIER, UP_IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, TYPE_NAME, "<type name>");
-    r = typeName_0(b, l + 1);
-    r = r && typeName_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // typeIdentifier | remoteTypeIdentifier
-  private static boolean typeName_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeName_0")) return false;
-    boolean r;
-    r = typeIdentifier(b, l + 1);
-    if (!r) r = remoteTypeIdentifier(b, l + 1);
-    return r;
-  }
-
-  // [typeParameters]
-  private static boolean typeName_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeName_1")) return false;
-    typeParameters(b, l + 1);
-    return true;
-  }
-
-  /* ********************************************************** */
-  // IDENTIFIER
-  public static boolean typeParameter(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeParameter")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, IDENTIFIER);
-    exit_section_(b, m, TYPE_PARAMETER, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // LPAREN [typeParameter (COMMA typeParameter)* [COMMA]] RPAREN
-  public static boolean typeParameters(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeParameters")) return false;
-    if (!nextTokenIs(b, LPAREN)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, LPAREN);
-    r = r && typeParameters_1(b, l + 1);
-    r = r && consumeToken(b, RPAREN);
-    exit_section_(b, m, TYPE_PARAMETERS, r);
-    return r;
-  }
-
-  // [typeParameter (COMMA typeParameter)* [COMMA]]
-  private static boolean typeParameters_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeParameters_1")) return false;
-    typeParameters_1_0(b, l + 1);
-    return true;
-  }
-
-  // typeParameter (COMMA typeParameter)* [COMMA]
-  private static boolean typeParameters_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeParameters_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = typeParameter(b, l + 1);
-    r = r && typeParameters_1_0_1(b, l + 1);
-    r = r && typeParameters_1_0_2(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (COMMA typeParameter)*
-  private static boolean typeParameters_1_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeParameters_1_0_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!typeParameters_1_0_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "typeParameters_1_0_1", c)) break;
-    }
-    return true;
-  }
-
-  // COMMA typeParameter
-  private static boolean typeParameters_1_0_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeParameters_1_0_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, COMMA);
-    r = r && typeParameter(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [COMMA]
-  private static boolean typeParameters_1_0_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeParameters_1_0_2")) return false;
-    consumeToken(b, COMMA);
-    return true;
   }
 
   /* ********************************************************** */

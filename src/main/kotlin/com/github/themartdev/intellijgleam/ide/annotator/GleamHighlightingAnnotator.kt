@@ -17,6 +17,8 @@ class GleamHighlightingAnnotator : Annotator, DumbAware {
         when (element.elementType) {
             GleamTypes.FUNCTION_NAME_DEFINITION -> newAnnotation(holder, element, GleamColors.FUNCTION_DECLARATION)
             GleamTypes.STRING_ESCAPE_SEGMENT -> newAnnotation(holder, element, GleamColors.STRING_ESCAPE)
+            GleamTypes.TYPE_DECLARATION_NAME -> newAnnotation(holder, element, GleamColors.TYPE_DECLARATION)
+            GleamTypes.TYPE_REFERENCE -> newAnnotation(holder, element, GleamColors.TYPE_REFERENCE)
         }
     }
 

@@ -11,7 +11,7 @@ public interface GleamTypeDeclaration extends PsiElement {
   GleamOpacityModifier getOpacityModifier();
 
   @Nullable
-  GleamTypeName getTypeName();
+  GleamTypeDeclarationName getTypeDeclarationName();
 
   @Nullable
   GleamTypeValue getTypeValue();

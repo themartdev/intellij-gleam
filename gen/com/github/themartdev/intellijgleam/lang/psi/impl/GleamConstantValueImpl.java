@@ -29,8 +29,8 @@ public class GleamConstantValueImpl extends ASTWrapperPsiElement implements Glea
 
   @Override
   @Nullable
-  public GleamConstantBitString getConstantBitString() {
-    return findChildByClass(GleamConstantBitString.class);
+  public GleamConstantBitArray getConstantBitArray() {
+    return findChildByClass(GleamConstantBitArray.class);
   }
 
   @Override

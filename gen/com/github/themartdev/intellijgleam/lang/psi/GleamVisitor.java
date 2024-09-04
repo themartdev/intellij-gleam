@@ -55,23 +55,23 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitBitStringExpr(@NotNull GleamBitStringExpr o) {
+  public void visitBitArrayExpr(@NotNull GleamBitArrayExpr o) {
     visitExpression(o);
   }
 
-  public void visitBitStringNamedSegmentOption(@NotNull GleamBitStringNamedSegmentOption o) {
+  public void visitBitArrayOptionName(@NotNull GleamBitArrayOptionName o) {
     visitPsiElement(o);
   }
 
-  public void visitBitStringSegmentOption(@NotNull GleamBitStringSegmentOption o) {
+  public void visitBitArraySegment(@NotNull GleamBitArraySegment o) {
     visitPsiElement(o);
   }
 
-  public void visitBitStringSegmentOptionSize(@NotNull GleamBitStringSegmentOptionSize o) {
+  public void visitBitArraySegmentOption(@NotNull GleamBitArraySegmentOption o) {
     visitPsiElement(o);
   }
 
-  public void visitBitStringSegmentOptions(@NotNull GleamBitStringSegmentOptions o) {
+  public void visitBitArraySegmentOptions(@NotNull GleamBitArraySegmentOptions o) {
     visitPsiElement(o);
   }
 
@@ -135,11 +135,11 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitConstantBitString(@NotNull GleamConstantBitString o) {
+  public void visitConstantBitArray(@NotNull GleamConstantBitArray o) {
     visitPsiElement(o);
   }
 
-  public void visitConstantBitStringSegment(@NotNull GleamConstantBitStringSegment o) {
+  public void visitConstantBitArraySegment(@NotNull GleamConstantBitArraySegment o) {
     visitPsiElement(o);
   }
 
@@ -251,10 +251,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitExpressionBitStringSegment(@NotNull GleamExpressionBitStringSegment o) {
-    visitPsiElement(o);
-  }
-
   public void visitExpressionSeq(@NotNull GleamExpressionSeq o) {
     visitPsiElement(o);
   }
@@ -312,6 +308,10 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitFunctionType(@NotNull GleamFunctionType o) {
+    visitPsiElement(o);
+  }
+
+  public void visitGenericIdentifier(@NotNull GleamGenericIdentifier o) {
     visitPsiElement(o);
   }
 
@@ -391,11 +391,11 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitPatternBitString(@NotNull GleamPatternBitString o) {
+  public void visitPatternBitArray(@NotNull GleamPatternBitArray o) {
     visitPsiElement(o);
   }
 
-  public void visitPatternBitStringSegment(@NotNull GleamPatternBitStringSegment o) {
+  public void visitPatternBitArraySegment(@NotNull GleamPatternBitArraySegment o) {
     visitPsiElement(o);
   }
 

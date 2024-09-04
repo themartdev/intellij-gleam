@@ -20,11 +20,11 @@ public interface GleamTypes {
   IElementType BINARY_EXPR = new GleamElementType("BINARY_EXPR");
   IElementType BINARY_INTEGER_LITERAL = new GleamElementType("BINARY_INTEGER_LITERAL");
   IElementType BINARY_OPERATOR = new GleamElementType("BINARY_OPERATOR");
-  IElementType BIT_STRING_EXPR = new GleamElementType("BIT_STRING_EXPR");
-  IElementType BIT_STRING_NAMED_SEGMENT_OPTION = new GleamElementType("BIT_STRING_NAMED_SEGMENT_OPTION");
-  IElementType BIT_STRING_SEGMENT_OPTION = new GleamElementType("BIT_STRING_SEGMENT_OPTION");
-  IElementType BIT_STRING_SEGMENT_OPTIONS = new GleamElementType("BIT_STRING_SEGMENT_OPTIONS");
-  IElementType BIT_STRING_SEGMENT_OPTION_SIZE = new GleamElementType("BIT_STRING_SEGMENT_OPTION_SIZE");
+  IElementType BIT_ARRAY_EXPR = new GleamElementType("BIT_ARRAY_EXPR");
+  IElementType BIT_ARRAY_OPTION_NAME = new GleamElementType("BIT_ARRAY_OPTION_NAME");
+  IElementType BIT_ARRAY_SEGMENT = new GleamElementType("BIT_ARRAY_SEGMENT");
+  IElementType BIT_ARRAY_SEGMENT_OPTION = new GleamElementType("BIT_ARRAY_SEGMENT_OPTION");
+  IElementType BIT_ARRAY_SEGMENT_OPTIONS = new GleamElementType("BIT_ARRAY_SEGMENT_OPTIONS");
   IElementType BLOCK_EXPR = new GleamElementType("BLOCK_EXPR");
   IElementType CALL_EXPR = new GleamElementType("CALL_EXPR");
   IElementType CASE_CLAUSE = new GleamElementType("CASE_CLAUSE");
@@ -40,8 +40,8 @@ public interface GleamTypes {
   IElementType CASE_EXPR = new GleamElementType("CASE_EXPR");
   IElementType CASE_SUBJECTS = new GleamElementType("CASE_SUBJECTS");
   IElementType CONSTANT = new GleamElementType("CONSTANT");
-  IElementType CONSTANT_BIT_STRING = new GleamElementType("CONSTANT_BIT_STRING");
-  IElementType CONSTANT_BIT_STRING_SEGMENT = new GleamElementType("CONSTANT_BIT_STRING_SEGMENT");
+  IElementType CONSTANT_BIT_ARRAY = new GleamElementType("CONSTANT_BIT_ARRAY");
+  IElementType CONSTANT_BIT_ARRAY_SEGMENT = new GleamElementType("CONSTANT_BIT_ARRAY_SEGMENT");
   IElementType CONSTANT_FIELD_ACCESS = new GleamElementType("CONSTANT_FIELD_ACCESS");
   IElementType CONSTANT_FUNCTION_PARAMETER_TYPES = new GleamElementType("CONSTANT_FUNCTION_PARAMETER_TYPES");
   IElementType CONSTANT_LIST = new GleamElementType("CONSTANT_LIST");
@@ -69,7 +69,6 @@ public interface GleamTypes {
   IElementType DISCARD = new GleamElementType("DISCARD");
   IElementType DISCARD_PARAM = new GleamElementType("DISCARD_PARAM");
   IElementType EXPRESSION = new GleamElementType("EXPRESSION");
-  IElementType EXPRESSION_BIT_STRING_SEGMENT = new GleamElementType("EXPRESSION_BIT_STRING_SEGMENT");
   IElementType EXPRESSION_SEQ = new GleamElementType("EXPRESSION_SEQ");
   IElementType EXTERNAL_DECORATOR = new GleamElementType("EXTERNAL_DECORATOR");
   IElementType EXTERNAL_DECORATOR_NAME = new GleamElementType("EXTERNAL_DECORATOR_NAME");
@@ -85,6 +84,7 @@ public interface GleamTypes {
   IElementType FUNCTION_PARAMETER_ARGS = new GleamElementType("FUNCTION_PARAMETER_ARGS");
   IElementType FUNCTION_PARAMETER_TYPES = new GleamElementType("FUNCTION_PARAMETER_TYPES");
   IElementType FUNCTION_TYPE = new GleamElementType("FUNCTION_TYPE");
+  IElementType GENERIC_IDENTIFIER = new GleamElementType("GENERIC_IDENTIFIER");
   IElementType HEX_INTEGER_LITERAL = new GleamElementType("HEX_INTEGER_LITERAL");
   IElementType HOLE = new GleamElementType("HOLE");
   IElementType IMPORT_STATEMENT = new GleamElementType("IMPORT_STATEMENT");
@@ -104,8 +104,8 @@ public interface GleamTypes {
   IElementType PANIC_EXPR = new GleamElementType("PANIC_EXPR");
   IElementType PARENTHESIZED_EXPR = new GleamElementType("PARENTHESIZED_EXPR");
   IElementType PATTERN = new GleamElementType("PATTERN");
-  IElementType PATTERN_BIT_STRING = new GleamElementType("PATTERN_BIT_STRING");
-  IElementType PATTERN_BIT_STRING_SEGMENT = new GleamElementType("PATTERN_BIT_STRING_SEGMENT");
+  IElementType PATTERN_BIT_ARRAY = new GleamElementType("PATTERN_BIT_ARRAY");
+  IElementType PATTERN_BIT_ARRAY_SEGMENT = new GleamElementType("PATTERN_BIT_ARRAY_SEGMENT");
   IElementType PATTERN_SPREAD = new GleamElementType("PATTERN_SPREAD");
   IElementType RECORD_EXPR = new GleamElementType("RECORD_EXPR");
   IElementType RECORD_PATTERN = new GleamElementType("RECORD_PATTERN");
@@ -280,20 +280,20 @@ public interface GleamTypes {
       else if (type == BINARY_OPERATOR) {
         return new GleamBinaryOperatorImpl(node);
       }
-      else if (type == BIT_STRING_EXPR) {
-        return new GleamBitStringExprImpl(node);
+      else if (type == BIT_ARRAY_EXPR) {
+        return new GleamBitArrayExprImpl(node);
       }
-      else if (type == BIT_STRING_NAMED_SEGMENT_OPTION) {
-        return new GleamBitStringNamedSegmentOptionImpl(node);
+      else if (type == BIT_ARRAY_OPTION_NAME) {
+        return new GleamBitArrayOptionNameImpl(node);
       }
-      else if (type == BIT_STRING_SEGMENT_OPTION) {
-        return new GleamBitStringSegmentOptionImpl(node);
+      else if (type == BIT_ARRAY_SEGMENT) {
+        return new GleamBitArraySegmentImpl(node);
       }
-      else if (type == BIT_STRING_SEGMENT_OPTIONS) {
-        return new GleamBitStringSegmentOptionsImpl(node);
+      else if (type == BIT_ARRAY_SEGMENT_OPTION) {
+        return new GleamBitArraySegmentOptionImpl(node);
       }
-      else if (type == BIT_STRING_SEGMENT_OPTION_SIZE) {
-        return new GleamBitStringSegmentOptionSizeImpl(node);
+      else if (type == BIT_ARRAY_SEGMENT_OPTIONS) {
+        return new GleamBitArraySegmentOptionsImpl(node);
       }
       else if (type == BLOCK_EXPR) {
         return new GleamBlockExprImpl(node);
@@ -340,11 +340,11 @@ public interface GleamTypes {
       else if (type == CONSTANT) {
         return new GleamConstantImpl(node);
       }
-      else if (type == CONSTANT_BIT_STRING) {
-        return new GleamConstantBitStringImpl(node);
+      else if (type == CONSTANT_BIT_ARRAY) {
+        return new GleamConstantBitArrayImpl(node);
       }
-      else if (type == CONSTANT_BIT_STRING_SEGMENT) {
-        return new GleamConstantBitStringSegmentImpl(node);
+      else if (type == CONSTANT_BIT_ARRAY_SEGMENT) {
+        return new GleamConstantBitArraySegmentImpl(node);
       }
       else if (type == CONSTANT_FIELD_ACCESS) {
         return new GleamConstantFieldAccessImpl(node);
@@ -421,12 +421,6 @@ public interface GleamTypes {
       else if (type == DISCARD_PARAM) {
         return new GleamDiscardParamImpl(node);
       }
-      else if (type == EXPRESSION) {
-        return new GleamExpressionImpl(node);
-      }
-      else if (type == EXPRESSION_BIT_STRING_SEGMENT) {
-        return new GleamExpressionBitStringSegmentImpl(node);
-      }
       else if (type == EXPRESSION_SEQ) {
         return new GleamExpressionSeqImpl(node);
       }
@@ -471,6 +465,9 @@ public interface GleamTypes {
       }
       else if (type == FUNCTION_TYPE) {
         return new GleamFunctionTypeImpl(node);
+      }
+      else if (type == GENERIC_IDENTIFIER) {
+        return new GleamGenericIdentifierImpl(node);
       }
       else if (type == HEX_INTEGER_LITERAL) {
         return new GleamHexIntegerLiteralImpl(node);
@@ -526,11 +523,11 @@ public interface GleamTypes {
       else if (type == PATTERN) {
         return new GleamPatternImpl(node);
       }
-      else if (type == PATTERN_BIT_STRING) {
-        return new GleamPatternBitStringImpl(node);
+      else if (type == PATTERN_BIT_ARRAY) {
+        return new GleamPatternBitArrayImpl(node);
       }
-      else if (type == PATTERN_BIT_STRING_SEGMENT) {
-        return new GleamPatternBitStringSegmentImpl(node);
+      else if (type == PATTERN_BIT_ARRAY_SEGMENT) {
+        return new GleamPatternBitArraySegmentImpl(node);
       }
       else if (type == PATTERN_SPREAD) {
         return new GleamPatternSpreadImpl(node);

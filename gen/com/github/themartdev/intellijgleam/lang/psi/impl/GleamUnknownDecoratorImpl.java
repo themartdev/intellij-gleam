@@ -34,9 +34,9 @@ public class GleamUnknownDecoratorImpl extends GleamDecoratorImpl implements Gle
   }
 
   @Override
-  @NotNull
+  @Nullable
   public GleamUnknownDecoratorName getUnknownDecoratorName() {
-    return findNotNullChildByClass(GleamUnknownDecoratorName.class);
+    return findChildByClass(GleamUnknownDecoratorName.class);
   }
 
 }

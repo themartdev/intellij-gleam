@@ -35,6 +35,12 @@ public class GleamTypeBaseImpl extends ASTWrapperPsiElement implements GleamType
 
   @Override
   @Nullable
+  public GleamGenericIdentifier getGenericIdentifier() {
+    return findChildByClass(GleamGenericIdentifier.class);
+  }
+
+  @Override
+  @Nullable
   public GleamTupleType getTupleType() {
     return findChildByClass(GleamTupleType.class);
   }

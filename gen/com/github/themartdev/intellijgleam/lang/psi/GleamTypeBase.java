@@ -11,6 +11,9 @@ public interface GleamTypeBase extends PsiElement {
   GleamFunctionType getFunctionType();
 
   @Nullable
+  GleamGenericIdentifier getGenericIdentifier();
+
+  @Nullable
   GleamTupleType getTupleType();
 
   @Nullable

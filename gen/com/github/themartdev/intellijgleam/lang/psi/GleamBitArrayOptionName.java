@@ -5,10 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamBitStringSegmentOptionSize extends PsiElement {
-
-  @NotNull
-  GleamWholeNumber getWholeNumber();
+public interface GleamBitArrayOptionName extends PsiElement {
 
   @NotNull
   PsiElement getIdentifier();

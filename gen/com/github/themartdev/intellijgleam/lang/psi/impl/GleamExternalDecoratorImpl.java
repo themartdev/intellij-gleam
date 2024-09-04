@@ -34,9 +34,9 @@ public class GleamExternalDecoratorImpl extends GleamDecoratorImpl implements Gl
   }
 
   @Override
-  @NotNull
+  @Nullable
   public GleamExternalTarget getExternalTarget() {
-    return findNotNullChildByClass(GleamExternalTarget.class);
+    return findChildByClass(GleamExternalTarget.class);
   }
 
   @Override

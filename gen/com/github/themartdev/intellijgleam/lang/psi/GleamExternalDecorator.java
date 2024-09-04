@@ -10,7 +10,7 @@ public interface GleamExternalDecorator extends GleamDecorator {
   @NotNull
   GleamExternalDecoratorName getExternalDecoratorName();
 
-  @NotNull
+  @Nullable
   GleamExternalTarget getExternalTarget();
 
   @NotNull

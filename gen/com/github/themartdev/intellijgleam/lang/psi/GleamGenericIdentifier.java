@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamBitStringExpr extends GleamExpression {
+public interface GleamGenericIdentifier extends PsiElement {
 
   @NotNull
-  List<GleamExpressionBitStringSegment> getExpressionBitStringSegmentList();
+  PsiElement getIdentifier();
 
 }

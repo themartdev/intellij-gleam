@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamBitStringSegmentOption extends PsiElement {
+public interface GleamBitArrayExpr extends GleamExpression {
 
-  @Nullable
-  GleamBitStringNamedSegmentOption getBitStringNamedSegmentOption();
-
-  @Nullable
-  GleamWholeNumber getWholeNumber();
+  @NotNull
+  List<GleamBitArraySegment> getBitArraySegmentList();
 
 }

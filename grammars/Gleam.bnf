@@ -146,16 +146,16 @@ private topLevelStatement ::= importStatement
 // Decorators
 externalTarget ::= "javascript" | "erlang"
 externalDecoratorName ::= "external"
-externalDecorator ::= DECORATOR_MARK externalDecoratorName LPAREN externalTarget COMMA stringLiteral COMMA stringLiteral RPAREN
+externalDecorator ::= DECORATOR_MARK externalDecoratorName LPAREN externalTarget COMMA stringLiteral COMMA stringLiteral RPAREN {pin=2}
 
 deprecatedDecoratorName ::= "deprecated"
-deprecatedDecorator ::= DECORATOR_MARK deprecatedDecoratorName LPAREN stringLiteral RPAREN
+deprecatedDecorator ::= DECORATOR_MARK deprecatedDecoratorName LPAREN stringLiteral RPAREN {pin=2}
 
 unknownDecoratorName ::= DECORATOR_NAME
 private unknownDecoratorArgument ::= literalExpr | IDENTIFIER
-unknownDecorator ::= DECORATOR_MARK unknownDecoratorName LPAREN [unknownDecoratorArgument (COMMA unknownDecoratorArgument)*] RPAREN
+unknownDecorator ::= DECORATOR_MARK unknownDecoratorName LPAREN [unknownDecoratorArgument (COMMA unknownDecoratorArgument)*] RPAREN {pin=1}
 
-decorator ::= externalDecorator | deprecatedDecorator | unknownDecorator {pin=1}
+decorator ::= externalDecorator | deprecatedDecorator | unknownDecorator
 
 // External
 //functionDeclaration ::= (decorator)* [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody
@@ -184,12 +184,13 @@ constantRecordArgument ::= [label COLON] constantValue
 constantRecordArguments ::= LPAREN [constantRecordArgument (COMMA constantRecordArgument)* [COMMA]] RPAREN
 constantRecord ::= (constructorIdentifier | remoteConstructorIdentifier) [constantRecordArguments]
 
-bitStringSegmentOptionSize ::= IDENTIFIER LPAREN wholeNumber RPAREN
-bitStringNamedSegmentOption ::= IDENTIFIER | bitStringSegmentOptionSize
-bitStringSegmentOption ::= bitStringNamedSegmentOption | wholeNumber
-bitStringSegmentOptions ::= bitStringSegmentOption (MINUS bitStringSegmentOption)* [MINUS]
-constantBitStringSegment ::= constantValue [COLON bitStringSegmentOptions]
-constantBitString ::= LT_LT [constantBitStringSegment (COMMA constantBitStringSegment)* [COMMA]] GT_GT
+
+bitArrayOptionName ::= IDENTIFIER
+bitArraySegmentOption ::= bitArrayOptionName [LPAREN wholeNumber RPAREN] | wholeNumber
+bitArraySegmentOptions ::= bitArraySegmentOption (MINUS bitArraySegmentOption)*
+
+constantBitArraySegment ::= constantValue [COLON bitArraySegmentOptions]
+constantBitArray ::= LT_LT [constantBitArraySegment (COMMA constantBitArraySegment)* [COMMA]] GT_GT
 
 constantType ::= (typeIdentifier | remoteTypeIdentifier) [constantTypeArguments]
 constantTypeSpecial ::= typeIdentifier
@@ -200,7 +201,7 @@ constantTypeAnnotation ::= COLON constantType
 constantFieldAccess ::= IDENTIFIER DOT label
 constantValue ::= constantTuple
                 | constantList
-                | constantBitString
+                | constantBitArray
                 | constantRecord
                 | IDENTIFIER
                 | constantFieldAccess
@@ -209,13 +210,13 @@ constant ::= [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUA
 
 typeParameters ::= LPAREN [typeParameter (COMMA typeParameter)* [COMMA]] RPAREN
 typeName ::= (typeIdentifier | remoteTypeIdentifier) [typeParameters]
-//externalType ::= [visibilityModifier] EXTERNAL TYPE typeName
 
 functionParameterTypes ::= LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN
 tupleType ::= HASH LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN
 functionType ::= FN [functionParameterTypes] R_ARROW typeBase
 
-typeBase ::= typeReference | tupleType | functionType
+genericIdentifier ::= IDENTIFIER
+typeBase ::= typeReference | tupleType | functionType | genericIdentifier
 typeAnnotation ::= COLON typeBase
 typeArgument ::= typeBase
 typeArguments ::= LPAREN [typeArgument (COMMA typeArgument)* [COMMA]] RPAREN
@@ -231,8 +232,8 @@ functionNameDefinition::= IDENTIFIER
 listPatternTail ::= DOT_DOT [IDENTIFIER | discard]
 listPattern ::= LBRACK [pattern (COMMA pattern)* [COMMA]] [listPatternTail] RBRACK
 
-patternBitStringSegment ::= pattern [COLON bitStringSegmentOptions]
-patternBitString ::= LT_LT [patternBitStringSegment (COMMA patternBitStringSegment)* [COMMA]] GT_GT
+patternBitArraySegment ::= pattern [COLON bitArraySegmentOptions]
+patternBitArray ::= LT_LT [patternBitArraySegment (COMMA patternBitArraySegment)* [COMMA]] GT_GT
 stringPattern ::= stringLiteral LT_GT [IDENTIFIER | discard]
 
 tuplePattern ::= HASH LPAREN [pattern (COMMA pattern)* [COMMA]] RPAREN
@@ -240,7 +241,7 @@ patternSpread ::= DOT_DOT [COMMA]
 recordPatternArgument ::= [label COLON] pattern
 recordPatternArguments ::= LPAREN [recordPatternArgument (COMMA recordPatternArgument)* [COMMA]] [patternSpread] RPAREN
 recordPattern ::= (constructorIdentifier | remoteConstructorIdentifier) [recordPatternArguments]
-pattern ::= (IDENTIFIER | discard |stringPattern | recordPattern | literalExpr | tuplePattern | patternBitString | listPattern ) [AS IDENTIFIER]
+pattern ::= (IDENTIFIER | discard | stringPattern | recordPattern | literalExpr | tuplePattern | patternBitArray | listPattern ) [AS IDENTIFIER]
 
 expressionSeq ::= (expression)+
 
@@ -248,8 +249,9 @@ argument ::= [label COLON] (hole | expression)
 arguments ::= LPAREN [argument (COMMA argument)* [COMMA]] RPAREN
 recordExpr ::= (constructorIdentifier | remoteConstructorIdentifier) [arguments]
 
-expressionBitStringSegment ::= expression [COLON bitStringSegmentOptions]
-bitStringExpr ::= LT_LT [expressionBitStringSegment (COMMA expressionBitStringSegment)* [COMMA]] GT_GT
+bitArraySegment ::= expression [COLON bitArraySegmentOptions]
+bitArrayExpr ::= LT_LT [bitArraySegment (COMMA bitArraySegment)* [COMMA]] GT_GT {pin=1}
+//private bitArrayRecover ::= !(GT_GT | LT_LT)
 
 tupleExpr ::= HASH LPAREN [expression (COMMA expression)* [COMMA]] RPAREN {pin=2}
 listExpr ::= LBRACK [expression ((COMMA expression)*)? [COMMA] [DOT_DOT expression]] RBRACK
@@ -280,10 +282,9 @@ useArgs ::= IDENTIFIER | IDENTIFIER COMMA useArgs
 useExpr ::= USE [useArgs] L_ARROW expression
 
 assignment ::= pattern [typeAnnotation] EQUAL expression
-simpleLetExpr ::= LET assignment
-assertLetExpr ::= LET ASSERT assignment
-letExpr ::= simpleLetExpr
-          | assertLetExpr
+simpleLetExpr ::= LET assignment {pin=1}
+assertLetExpr ::= LET ASSERT assignment {pin=2}
+letExpr ::= assertLetExpr | simpleLetExpr
 
 panicExpr ::= PANIC (AS stringLiteral)?
 todoExpr ::= TODO (AS stringLiteral)?
@@ -305,32 +306,28 @@ literalExpr ::= floatLiteral
               | integerLiteral
               | BOOLEAN_LITERAL
 
-expression ::= parenthesizedExpr
+private simpleKeywordExpr ::= letExpr | panicExpr | todoExpr
+expression ::= simpleKeywordExpr
+             | useExpr
+             | caseExpr
+             | tupleExpr
              | literalExpr
-             | binaryExpr
-             | unaryExpr
+             | bitArrayExpr
              | callExpr
              | accessExpr
              | recordExpr
              | anonymousFunctionExpr
-             | referenceExpr
-             | todoExpr
-             | tupleExpr
              | listExpr
-             | bitStringExpr
              | blockExpr
-             | caseExpr
-             | useExpr
              | recordUpdateExpr
-             | simpleKeywordExpr
-             {
-                recoverWhile=expressionRecoverWhile
-             }
+             | parenthesizedExpr
+             | referenceExpr
+             | binaryExpr
+             | unaryExpr
 
-private expressionRecoverWhile ::= !expressionRecoverUntil
-private expressionRecoverUntil ::= RBRACE | RPAREN | RBRACK | EOL
+//private expressionRecoverWhile ::= !expressionRecoverUntil
+//private expressionRecoverUntil ::= RBRACE | RPAREN | RBRACK | EOL
 
-private simpleKeywordExpr ::= letExpr | panicExpr | todoExpr
 
 parenthesizedExpr ::= LPAREN expression RPAREN
 

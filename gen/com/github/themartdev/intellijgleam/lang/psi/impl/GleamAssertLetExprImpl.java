@@ -28,9 +28,9 @@ public class GleamAssertLetExprImpl extends GleamExpressionImpl implements Gleam
   }
 
   @Override
-  @NotNull
+  @Nullable
   public GleamAssignment getAssignment() {
-    return findNotNullChildByClass(GleamAssignment.class);
+    return findChildByClass(GleamAssignment.class);
   }
 
 }

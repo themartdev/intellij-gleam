@@ -34,9 +34,9 @@ public class GleamDeprecatedDecoratorImpl extends GleamDecoratorImpl implements 
   }
 
   @Override
-  @NotNull
+  @Nullable
   public GleamStringLiteral getStringLiteral() {
-    return findNotNullChildByClass(GleamStringLiteral.class);
+    return findChildByClass(GleamStringLiteral.class);
   }
 
 }

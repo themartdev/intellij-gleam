@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface GleamConstantValue extends PsiElement {
 
   @Nullable
-  GleamConstantBitString getConstantBitString();
+  GleamConstantBitArray getConstantBitArray();
 
   @Nullable
   GleamConstantFieldAccess getConstantFieldAccess();

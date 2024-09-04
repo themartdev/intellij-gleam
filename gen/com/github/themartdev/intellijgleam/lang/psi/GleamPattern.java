@@ -17,7 +17,7 @@ public interface GleamPattern extends PsiElement {
   GleamLiteralExpr getLiteralExpr();
 
   @Nullable
-  GleamPatternBitString getPatternBitString();
+  GleamPatternBitArray getPatternBitArray();
 
   @Nullable
   GleamRecordPattern getRecordPattern();

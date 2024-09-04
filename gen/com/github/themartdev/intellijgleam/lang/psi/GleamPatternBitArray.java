@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamPatternBitString extends PsiElement {
+public interface GleamPatternBitArray extends PsiElement {
 
   @NotNull
-  List<GleamPatternBitStringSegment> getPatternBitStringSegmentList();
+  List<GleamPatternBitArraySegment> getPatternBitArraySegmentList();
 
 }

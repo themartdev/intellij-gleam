@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface GleamSimpleLetExpr extends GleamExpression {
 
-  @NotNull
+  @Nullable
   GleamAssignment getAssignment();
 
 }

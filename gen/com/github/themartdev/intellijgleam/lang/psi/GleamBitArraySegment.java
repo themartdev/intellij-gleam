@@ -5,10 +5,10 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamExpressionBitStringSegment extends PsiElement {
+public interface GleamBitArraySegment extends PsiElement {
 
   @Nullable
-  GleamBitStringSegmentOptions getBitStringSegmentOptions();
+  GleamBitArraySegmentOptions getBitArraySegmentOptions();
 
   @NotNull
   GleamExpression getExpression();

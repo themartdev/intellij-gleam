@@ -10,7 +10,7 @@ public interface GleamDeprecatedDecorator extends GleamDecorator {
   @NotNull
   GleamDeprecatedDecoratorName getDeprecatedDecoratorName();
 
-  @NotNull
+  @Nullable
   GleamStringLiteral getStringLiteral();
 
 }

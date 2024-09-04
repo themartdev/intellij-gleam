@@ -12,6 +12,10 @@
 - [x] Record updates like this: `Teacher(..teacher1, subject: "PE", room: 6)`
 - [x] Type without constructor 
 
+# LSP
+- [ ] Gleam downloader (packaged?)
+- [ ] Gleam binary finder
+
 # Refactors
 
 - [ ] (parser) Streamline and cleanup pattern expressions

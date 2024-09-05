@@ -11,16 +11,20 @@
 - [x] string patterns in `case` like this: `"Hello, " <> name -> name`
 - [x] Record updates like this: `Teacher(..teacher1, subject: "PE", room: 6)`
 - [x] Type without constructor 
+- [ ] Shorthand property reference: `SomeRecord(:name)`
 - [ ] (parser) Add `NamedElement` to PSI
 - [ ] (parser) Add `getReference()`/`getReferences` to PSI
 
 # LSP
-- [ ] Gleam downloader (packaged?)
-- [ ] Gleam binary finder
+- [ ] Gleam downloader (+ bundled?)
+- [ ] Gleam bin finder
 
-# Refactors
-
-- [ ] (parser) Streamline and cleanup pattern expressions
+# Refactors and reworks (bnf/psi)
+- [x] Refactor const declarations
+- [ ] Refactor type declarations
+- [ ] Refactor function declarations
+- [ ] Refactor record declarations
+- [ ] Refactor expressions (pin, recover, etc.)
 
 # Editor
 

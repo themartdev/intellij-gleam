@@ -123,15 +123,15 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitConstant(@NotNull GleamConstant o) {
-    visitPsiElement(o);
-  }
-
   public void visitConstantBitArray(@NotNull GleamConstantBitArray o) {
     visitPsiElement(o);
   }
 
   public void visitConstantBitArraySegment(@NotNull GleamConstantBitArraySegment o) {
+    visitPsiElement(o);
+  }
+
+  public void visitConstantDeclaration(@NotNull GleamConstantDeclaration o) {
     visitPsiElement(o);
   }
 
@@ -259,7 +259,7 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitExternalFunctionNoFallback(@NotNull GleamExternalFunctionNoFallback o) {
+  public void visitExternalFunctionNoFallbackDeclaration(@NotNull GleamExternalFunctionNoFallbackDeclaration o) {
     visitPsiElement(o);
   }
 
@@ -315,7 +315,7 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitImportStatement(@NotNull GleamImportStatement o) {
+  public void visitImportDeclaration(@NotNull GleamImportDeclaration o) {
     visitPsiElement(o);
   }
 

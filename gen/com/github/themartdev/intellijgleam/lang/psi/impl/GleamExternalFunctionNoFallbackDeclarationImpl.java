@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamImportStatementImpl extends ASTWrapperPsiElement implements GleamImportStatement {
+public class GleamExternalFunctionNoFallbackDeclarationImpl extends ASTWrapperPsiElement implements GleamExternalFunctionNoFallbackDeclaration {
 
-  public GleamImportStatementImpl(@NotNull ASTNode node) {
+  public GleamExternalFunctionNoFallbackDeclarationImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitImportStatement(this);
+    visitor.visitExternalFunctionNoFallbackDeclaration(this);
   }
 
   @Override
@@ -29,20 +29,14 @@ public class GleamImportStatementImpl extends ASTWrapperPsiElement implements Gl
 
   @Override
   @NotNull
-  public GleamModule getModule() {
-    return findNotNullChildByClass(GleamModule.class);
+  public List<GleamExternalDecorator> getExternalDecoratorList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamExternalDecorator.class);
   }
 
   @Override
   @Nullable
-  public GleamUnqualifiedImports getUnqualifiedImports() {
-    return findChildByClass(GleamUnqualifiedImports.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getIdentifier() {
-    return findChildByType(IDENTIFIER);
+  public GleamExternalFunctionSignature getExternalFunctionSignature() {
+    return findChildByClass(GleamExternalFunctionSignature.class);
   }
 
 }

@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamExternalFunctionNoFallbackImpl extends ASTWrapperPsiElement implements GleamExternalFunctionNoFallback {
+public class GleamConstantDeclarationImpl extends ASTWrapperPsiElement implements GleamConstantDeclaration {
 
-  public GleamExternalFunctionNoFallbackImpl(@NotNull ASTNode node) {
+  public GleamConstantDeclarationImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitExternalFunctionNoFallback(this);
+    visitor.visitConstantDeclaration(this);
   }
 
   @Override
@@ -28,15 +28,27 @@ public class GleamExternalFunctionNoFallbackImpl extends ASTWrapperPsiElement im
   }
 
   @Override
-  @NotNull
-  public List<GleamExternalDecorator> getExternalDecoratorList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamExternalDecorator.class);
+  @Nullable
+  public GleamConstantTypeAnnotation getConstantTypeAnnotation() {
+    return findChildByClass(GleamConstantTypeAnnotation.class);
   }
 
   @Override
-  @NotNull
-  public GleamExternalFunctionSignature getExternalFunctionSignature() {
-    return findNotNullChildByClass(GleamExternalFunctionSignature.class);
+  @Nullable
+  public GleamConstantValue getConstantValue() {
+    return findChildByClass(GleamConstantValue.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamVisibilityModifier getVisibilityModifier() {
+    return findChildByClass(GleamVisibilityModifier.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getIdentifier() {
+    return findChildByType(IDENTIFIER);
   }
 
 }

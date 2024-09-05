@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamConstantImpl extends ASTWrapperPsiElement implements GleamConstant {
+public class GleamImportDeclarationImpl extends ASTWrapperPsiElement implements GleamImportDeclaration {
 
-  public GleamConstantImpl(@NotNull ASTNode node) {
+  public GleamImportDeclarationImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitConstant(this);
+    visitor.visitImportDeclaration(this);
   }
 
   @Override
@@ -29,26 +29,20 @@ public class GleamConstantImpl extends ASTWrapperPsiElement implements GleamCons
 
   @Override
   @Nullable
-  public GleamConstantTypeAnnotation getConstantTypeAnnotation() {
-    return findChildByClass(GleamConstantTypeAnnotation.class);
-  }
-
-  @Override
-  @NotNull
-  public GleamConstantValue getConstantValue() {
-    return findNotNullChildByClass(GleamConstantValue.class);
+  public GleamModule getModule() {
+    return findChildByClass(GleamModule.class);
   }
 
   @Override
   @Nullable
-  public GleamVisibilityModifier getVisibilityModifier() {
-    return findChildByClass(GleamVisibilityModifier.class);
+  public GleamUnqualifiedImports getUnqualifiedImports() {
+    return findChildByClass(GleamUnqualifiedImports.class);
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getIdentifier() {
-    return findNotNullChildByType(IDENTIFIER);
+    return findChildByType(IDENTIFIER);
   }
 
 }

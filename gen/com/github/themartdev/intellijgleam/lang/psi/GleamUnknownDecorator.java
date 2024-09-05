@@ -10,7 +10,7 @@ public interface GleamUnknownDecorator extends GleamDecorator {
   @NotNull
   List<GleamLiteralExpr> getLiteralExprList();
 
-  @Nullable
+  @NotNull
   GleamUnknownDecoratorName getUnknownDecoratorName();
 
 }

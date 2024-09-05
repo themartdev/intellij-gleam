@@ -632,36 +632,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUAL constantValue
-  public static boolean constant(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "constant")) return false;
-    if (!nextTokenIs(b, "<constant>", CONST, PUB)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, CONSTANT, "<constant>");
-    r = constant_0(b, l + 1);
-    r = r && consumeTokens(b, 0, CONST, IDENTIFIER);
-    r = r && constant_3(b, l + 1);
-    r = r && consumeToken(b, EQUAL);
-    r = r && constantValue(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // [visibilityModifier]
-  private static boolean constant_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "constant_0")) return false;
-    visibilityModifier(b, l + 1);
-    return true;
-  }
-
-  // [constantTypeAnnotation]
-  private static boolean constant_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "constant_3")) return false;
-    constantTypeAnnotation(b, l + 1);
-    return true;
-  }
-
-  /* ********************************************************** */
   // LT_LT [constantBitArraySegment (COMMA constantBitArraySegment)* [COMMA]] GT_GT
   public static boolean constantBitArray(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "constantBitArray")) return false;
@@ -751,6 +721,37 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = r && bitArraySegmentOptions(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  /* ********************************************************** */
+  // [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUAL constantValue
+  public static boolean constantDeclaration(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "constantDeclaration")) return false;
+    if (!nextTokenIs(b, "<constant declaration>", CONST, PUB)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, CONSTANT_DECLARATION, "<constant declaration>");
+    r = constantDeclaration_0(b, l + 1);
+    r = r && consumeTokens(b, 1, CONST, IDENTIFIER);
+    p = r; // pin = 2
+    r = r && report_error_(b, constantDeclaration_3(b, l + 1));
+    r = p && report_error_(b, consumeToken(b, EQUAL)) && r;
+    r = p && constantValue(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // [visibilityModifier]
+  private static boolean constantDeclaration_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "constantDeclaration_0")) return false;
+    visibilityModifier(b, l + 1);
+    return true;
+  }
+
+  // [constantTypeAnnotation]
+  private static boolean constantDeclaration_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "constantDeclaration_3")) return false;
+    constantTypeAnnotation(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
@@ -1294,9 +1295,10 @@ public class GleamParser implements PsiParser, LightPsiParser {
   //                 | constantList
   //                 | constantBitArray
   //                 | constantRecord
-  //                 | IDENTIFIER
   //                 | constantFieldAccess
   //                 | literalExpr
+  //                 // Can refer to another constant
+  //                 | identifier
   public static boolean constantValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "constantValue")) return false;
     boolean r;
@@ -1305,9 +1307,9 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!r) r = constantList(b, l + 1);
     if (!r) r = constantBitArray(b, l + 1);
     if (!r) r = constantRecord(b, l + 1);
-    if (!r) r = consumeToken(b, IDENTIFIER);
     if (!r) r = constantFieldAccess(b, l + 1);
     if (!r) r = literalExpr(b, l + 1);
+    if (!r) r = identifier(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -1480,6 +1482,17 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // !topLevelKeyword
+  static boolean declarationRecover(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "declarationRecover")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !topLevelKeyword(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
   // externalDecorator | deprecatedDecorator | unknownDecorator
   public static boolean decorator(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "decorator")) return false;
@@ -1605,32 +1618,33 @@ public class GleamParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // externalDecorator (externalDecorator)* externalFunctionSignature
-  public static boolean externalFunctionNoFallback(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "externalFunctionNoFallback")) return false;
+  public static boolean externalFunctionNoFallbackDeclaration(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "externalFunctionNoFallbackDeclaration")) return false;
     if (!nextTokenIs(b, DECORATOR_MARK)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, EXTERNAL_FUNCTION_NO_FALLBACK_DECLARATION, null);
     r = externalDecorator(b, l + 1);
-    r = r && externalFunctionNoFallback_1(b, l + 1);
-    r = r && externalFunctionSignature(b, l + 1);
-    exit_section_(b, m, EXTERNAL_FUNCTION_NO_FALLBACK, r);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, externalFunctionNoFallbackDeclaration_1(b, l + 1));
+    r = p && externalFunctionSignature(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   // (externalDecorator)*
-  private static boolean externalFunctionNoFallback_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "externalFunctionNoFallback_1")) return false;
+  private static boolean externalFunctionNoFallbackDeclaration_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "externalFunctionNoFallbackDeclaration_1")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!externalFunctionNoFallback_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "externalFunctionNoFallback_1", c)) break;
+      if (!externalFunctionNoFallbackDeclaration_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "externalFunctionNoFallbackDeclaration_1", c)) break;
     }
     return true;
   }
 
   // (externalDecorator)
-  private static boolean externalFunctionNoFallback_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "externalFunctionNoFallback_1_0")) return false;
+  private static boolean externalFunctionNoFallbackDeclaration_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "externalFunctionNoFallbackDeclaration_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = externalDecorator(b, l + 1);
@@ -2063,30 +2077,37 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // IDENTIFIER
+  static boolean identifier(PsiBuilder b, int l) {
+    return consumeToken(b, IDENTIFIER);
+  }
+
+  /* ********************************************************** */
   // IMPORT module [DOT unqualifiedImports] [AS IDENTIFIER]
-  public static boolean importStatement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "importStatement")) return false;
+  public static boolean importDeclaration(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "importDeclaration")) return false;
     if (!nextTokenIs(b, IMPORT)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, IMPORT_DECLARATION, null);
     r = consumeToken(b, IMPORT);
-    r = r && module(b, l + 1);
-    r = r && importStatement_2(b, l + 1);
-    r = r && importStatement_3(b, l + 1);
-    exit_section_(b, m, IMPORT_STATEMENT, r);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, module(b, l + 1));
+    r = p && report_error_(b, importDeclaration_2(b, l + 1)) && r;
+    r = p && importDeclaration_3(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   // [DOT unqualifiedImports]
-  private static boolean importStatement_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "importStatement_2")) return false;
-    importStatement_2_0(b, l + 1);
+  private static boolean importDeclaration_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "importDeclaration_2")) return false;
+    importDeclaration_2_0(b, l + 1);
     return true;
   }
 
   // DOT unqualifiedImports
-  private static boolean importStatement_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "importStatement_2_0")) return false;
+  private static boolean importDeclaration_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "importDeclaration_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, DOT);
@@ -2096,8 +2117,8 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   // [AS IDENTIFIER]
-  private static boolean importStatement_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "importStatement_3")) return false;
+  private static boolean importDeclaration_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "importDeclaration_3")) return false;
     parseTokens(b, 0, AS, IDENTIFIER);
     return true;
   }
@@ -2866,12 +2887,12 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // topLevelStatement*
+  // topLevelDeclaration*
   static boolean root(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "root")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!topLevelStatement(b, l + 1)) break;
+      if (!topLevelDeclaration(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "root", c)) break;
     }
     return true;
@@ -2989,19 +3010,36 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // importStatement
-  //                             | constant
+  // importDeclaration
+  //                             | constantDeclaration
   //                             | typeDeclaration
   //                             | functionDeclaration
-  //                             | externalFunctionNoFallback
-  static boolean topLevelStatement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "topLevelStatement")) return false;
+  //                             | externalFunctionNoFallbackDeclaration
+  static boolean topLevelDeclaration(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "topLevelDeclaration")) return false;
     boolean r;
-    r = importStatement(b, l + 1);
-    if (!r) r = constant(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_);
+    r = importDeclaration(b, l + 1);
+    if (!r) r = constantDeclaration(b, l + 1);
     if (!r) r = typeDeclaration(b, l + 1);
     if (!r) r = functionDeclaration(b, l + 1);
-    if (!r) r = externalFunctionNoFallback(b, l + 1);
+    if (!r) r = externalFunctionNoFallbackDeclaration(b, l + 1);
+    exit_section_(b, l, m, r, false, GleamParser::declarationRecover);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // IMPORT | CONST | TYPE | FN | PUB | OPAQUE | DECORATOR_MARK
+  static boolean topLevelKeyword(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "topLevelKeyword")) return false;
+    boolean r;
+    r = consumeToken(b, IMPORT);
+    if (!r) r = consumeToken(b, CONST);
+    if (!r) r = consumeToken(b, TYPE);
+    if (!r) r = consumeToken(b, FN);
+    if (!r) r = consumeToken(b, PUB);
+    if (!r) r = consumeToken(b, OPAQUE);
+    if (!r) r = consumeToken(b, DECORATOR_MARK);
     return r;
   }
 
@@ -3343,16 +3381,15 @@ public class GleamParser implements PsiParser, LightPsiParser {
   public static boolean unknownDecorator(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "unknownDecorator")) return false;
     if (!nextTokenIs(b, DECORATOR_MARK)) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, UNKNOWN_DECORATOR, null);
+    boolean r;
+    Marker m = enter_section_(b);
     r = consumeToken(b, DECORATOR_MARK);
-    p = r; // pin = 1
-    r = r && report_error_(b, unknownDecoratorName(b, l + 1));
-    r = p && report_error_(b, consumeToken(b, LPAREN)) && r;
-    r = p && report_error_(b, unknownDecorator_3(b, l + 1)) && r;
-    r = p && consumeToken(b, RPAREN) && r;
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
+    r = r && unknownDecoratorName(b, l + 1);
+    r = r && consumeToken(b, LPAREN);
+    r = r && unknownDecorator_3(b, l + 1);
+    r = r && consumeToken(b, RPAREN);
+    exit_section_(b, m, UNKNOWN_DECORATOR, r);
+    return r;
   }
 
   // [unknownDecoratorArgument (COMMA unknownDecoratorArgument)*]
@@ -3553,6 +3590,12 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "unqualifiedImports_1_0_2")) return false;
     consumeToken(b, COMMA);
     return true;
+  }
+
+  /* ********************************************************** */
+  // UP_IDENTIFIER
+  static boolean upIdentifier(PsiBuilder b, int l) {
+    return consumeToken(b, UP_IDENTIFIER);
   }
 
   /* ********************************************************** */

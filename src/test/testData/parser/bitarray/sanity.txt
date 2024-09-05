@@ -1,5 +1,5 @@
 Gleam File(0,337)
-  GleamImportStatementImpl(IMPORT_STATEMENT)(0,15)
+  GleamImportDeclarationImpl(IMPORT_DECLARATION)(0,15)
     PsiElement(import)('import')(0,6)
     PsiWhiteSpace(' ')(6,7)
     GleamModuleImpl(MODULE)(7,15)

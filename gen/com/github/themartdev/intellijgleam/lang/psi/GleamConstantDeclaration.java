@@ -5,18 +5,18 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamConstant extends PsiElement {
+public interface GleamConstantDeclaration extends PsiElement {
 
   @Nullable
   GleamConstantTypeAnnotation getConstantTypeAnnotation();
 
-  @NotNull
+  @Nullable
   GleamConstantValue getConstantValue();
 
   @Nullable
   GleamVisibilityModifier getVisibilityModifier();
 
-  @NotNull
+  @Nullable
   PsiElement getIdentifier();
 
 }

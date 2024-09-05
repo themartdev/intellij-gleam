@@ -5,15 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamImportStatement extends PsiElement {
+public interface GleamExternalFunctionNoFallbackDeclaration extends PsiElement {
 
   @NotNull
-  GleamModule getModule();
+  List<GleamExternalDecorator> getExternalDecoratorList();
 
   @Nullable
-  GleamUnqualifiedImports getUnqualifiedImports();
-
-  @Nullable
-  PsiElement getIdentifier();
+  GleamExternalFunctionSignature getExternalFunctionSignature();
 
 }

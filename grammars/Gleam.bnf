@@ -135,13 +135,19 @@
 
 
 
-root ::= topLevelStatement*
+root ::= topLevelDeclaration*
 
-private topLevelStatement ::= importStatement
-                            | constant
+private topLevelDeclaration ::= importDeclaration
+                            | constantDeclaration
                             | typeDeclaration
                             | functionDeclaration
-                            | externalFunctionNoFallback
+                            | externalFunctionNoFallbackDeclaration
+                            {
+                              recoverWhile=declarationRecover
+                            }
+private declarationRecover ::= !topLevelKeyword
+private topLevelKeyword ::= IMPORT | CONST | TYPE | FN | PUB | OPAQUE | DECORATOR_MARK
+
 
 // Decorators
 externalTarget ::= "javascript" | "erlang"
@@ -153,20 +159,19 @@ deprecatedDecorator ::= DECORATOR_MARK deprecatedDecoratorName LPAREN stringLite
 
 unknownDecoratorName ::= DECORATOR_NAME
 private unknownDecoratorArgument ::= literalExpr | IDENTIFIER
-unknownDecorator ::= DECORATOR_MARK unknownDecoratorName LPAREN [unknownDecoratorArgument (COMMA unknownDecoratorArgument)*] RPAREN {pin=1}
+unknownDecorator ::= DECORATOR_MARK unknownDecoratorName LPAREN [unknownDecoratorArgument (COMMA unknownDecoratorArgument)*] RPAREN
 
 decorator ::= externalDecorator | deprecatedDecorator | unknownDecorator
 
 // External
-//functionDeclaration ::= (decorator)* [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody
 externalFunctionSignature ::= [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase]
-externalFunctionNoFallback ::=  externalDecorator (externalDecorator)* externalFunctionSignature
+externalFunctionNoFallbackDeclaration ::=  externalDecorator (externalDecorator)* externalFunctionSignature {pin=1}
 
 // Imports
 module ::= IDENTIFIER (SLASH IDENTIFIER)*
 unqualifiedImport ::= IDENTIFIER (AS IDENTIFIER)? | [TYPE] UP_IDENTIFIER (AS UP_IDENTIFIER)?
 unqualifiedImports ::= LBRACE [unqualifiedImport (COMMA unqualifiedImport)* [COMMA]] RBRACE
-importStatement ::= IMPORT module [DOT unqualifiedImports] [AS IDENTIFIER]
+importDeclaration ::= IMPORT module [DOT unqualifiedImports] [AS IDENTIFIER] {pin=1}
 
 // Types
 constantFunctionParameterTypes ::= LPAREN [constantTypeSpecial (COMMA constantTypeSpecial)* [COMMA]] RPAREN
@@ -203,10 +208,12 @@ constantValue ::= constantTuple
                 | constantList
                 | constantBitArray
                 | constantRecord
-                | IDENTIFIER
                 | constantFieldAccess
                 | literalExpr
-constant ::= [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUAL constantValue
+                // Can refer to another constant
+                | identifier
+
+constantDeclaration ::= [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUAL constantValue {pin=2}
 
 functionParameterTypes ::= LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN
 tupleType ::= HASH LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN
@@ -368,6 +375,11 @@ integerLiteral ::= binaryIntegerLiteral | octalIntegerLiteral | hexIntegerLitera
 //// Strings
 stringEscapeSegment ::= (ESCAPE ESCAPE_CHAR) | (ESCAPE UNICODE_ESCAPE_CHAR LBRACE UNICODE_CODEPOINT RBRACE)
 stringLiteral ::= OPEN_QUOTE (REGULAR_STRING_PART | stringEscapeSegment)* CLOSE_QUOTE
+
+
+// Aliases
+private identifier ::= IDENTIFIER
+private upIdentifier ::= UP_IDENTIFIER
 
 
 // Aliases

@@ -11,6 +11,8 @@
 - [x] string patterns in `case` like this: `"Hello, " <> name -> name`
 - [x] Record updates like this: `Teacher(..teacher1, subject: "PE", room: 6)`
 - [x] Type without constructor 
+- [ ] (parser) Add `NamedElement` to PSI
+- [ ] (parser) Add `getReference()`/`getReferences` to PSI
 
 # LSP
 - [ ] Gleam downloader (packaged?)

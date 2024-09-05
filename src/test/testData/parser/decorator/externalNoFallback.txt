@@ -1,5 +1,5 @@
 Gleam File(0,77)
-  GleamExternalFunctionNoFallbackImpl(EXTERNAL_FUNCTION_NO_FALLBACK)(0,77)
+  GleamExternalFunctionNoFallbackDeclarationImpl(EXTERNAL_FUNCTION_NO_FALLBACK_DECLARATION)(0,77)
     GleamExternalDecoratorImpl(EXTERNAL_DECORATOR)(0,52)
       PsiElement(@)('@')(0,1)
       GleamExternalDecoratorNameImpl(EXTERNAL_DECORATOR_NAME)(1,9)

@@ -4,6 +4,12 @@
 [![Version](https://img.shields.io/jetbrains/plugin/v/25254-gleam-language.svg)](https://plugins.jetbrains.com/plugin/25254-gleam-language)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/25254-gleam-language.svg)](https://plugins.jetbrains.com/plugin/25254-gleam-language)
 
+<!-- Plugin description -->
+Gleam language support for JetBrains IDEs.
+
+Provides syntax highlighting and LSP-provided features like code completion, navigation, and more.
+<!-- Plugin description end -->
+
 ## TODO
 
 ### Lexer/Parser

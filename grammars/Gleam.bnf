@@ -251,7 +251,7 @@ pattern ::= (IDENTIFIER | discard | stringPattern | recordPattern | literalExpr 
 expressionSeq ::= (expression)+
 
 shortHandLabeledArgument ::= identifier COLON
-labeledArgument ::= label COLON expression
+labeledArgument ::= identifier COLON expression
 unlabeledArgument ::= expression
 
 recordArgument ::= labeledArgument | shortHandLabeledArgument | unlabeledArgument

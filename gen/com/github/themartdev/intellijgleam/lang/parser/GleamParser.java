@@ -2152,13 +2152,13 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // label COLON expression
+  // identifier COLON expression
   public static boolean labeledArgument(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "labeledArgument")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = label(b, l + 1);
+    r = identifier(b, l + 1);
     r = r && consumeToken(b, COLON);
     r = r && expression(b, l + 1, -1);
     exit_section_(b, m, LABELED_ARGUMENT, r);

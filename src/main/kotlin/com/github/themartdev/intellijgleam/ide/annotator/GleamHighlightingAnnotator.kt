@@ -1,6 +1,8 @@
 package com.github.themartdev.intellijgleam.ide.annotator
 
 import com.github.themartdev.intellijgleam.ide.highlighting.GleamColors
+import com.github.themartdev.intellijgleam.lang.psi.GleamLabeledArgument
+import com.github.themartdev.intellijgleam.lang.psi.GleamShortHandLabeledArgument
 import com.github.themartdev.intellijgleam.lang.psi.GleamTypes
 import com.intellij.codeInspection.util.InspectionMessage
 import com.intellij.lang.annotation.AnnotationHolder
@@ -20,10 +22,26 @@ class GleamHighlightingAnnotator : Annotator, DumbAware {
             GleamTypes.TYPE_DECLARATION_NAME -> newAnnotation(holder, element, GleamColors.TYPE_DECLARATION)
             GleamTypes.TYPE_IDENTIFIER -> newAnnotation(holder, element, GleamColors.TYPE_REFERENCE)
         }
+
+        highlightLabels(element, holder)
     }
 
-    private fun highlightTypeDeclaration(element: PsiElement) {
+    private fun highlightLabels(element: PsiElement, holder: AnnotationHolder) {
+        when (element) {
+            is GleamLabeledArgument -> {
+                newAnnotationBuilder(holder, GleamColors.LABEL.externalName)
+                    .textAttributes(GleamColors.LABEL)
+                    .range(element.identifier)
+                    .create()
+            }
 
+            is GleamShortHandLabeledArgument -> {
+                newAnnotationBuilder(holder, GleamColors.LABEL.externalName)
+                    .textAttributes(GleamColors.LABEL)
+                    .range(element)
+                    .create()
+            }
+        }
     }
 
     private fun newAnnotation(

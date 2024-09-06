@@ -11,6 +11,6 @@ public interface GleamLabeledArgument extends PsiElement {
   GleamExpression getExpression();
 
   @NotNull
-  GleamLabel getLabel();
+  PsiElement getIdentifier();
 
 }

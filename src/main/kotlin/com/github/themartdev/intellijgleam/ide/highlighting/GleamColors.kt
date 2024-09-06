@@ -29,5 +29,5 @@ object GleamColors {
     val TYPE_DECLARATION =
         createTextAttributesKey("GLEAM_TYPE_DECLARATION", DefaultLanguageHighlighterColors.CLASS_NAME)
     val TYPE_REFERENCE = createTextAttributesKey("GLEAM_TYPE_REFERENCE", DefaultLanguageHighlighterColors.CLASS_REFERENCE)
-//    val BOOLEAN = createTextAttributesKey("GLEAM_DECORATOR", DefaultLanguageHighlighterColors.PREDEFINED_SYMBOL)
+    val LABEL = createTextAttributesKey("GLEAM_LABEL", DefaultLanguageHighlighterColors.LABEL)
 }

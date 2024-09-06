@@ -35,8 +35,8 @@ public class GleamLabeledArgumentImpl extends ASTWrapperPsiElement implements Gl
 
   @Override
   @NotNull
-  public GleamLabel getLabel() {
-    return findNotNullChildByClass(GleamLabel.class);
+  public PsiElement getIdentifier() {
+    return findNotNullChildByType(IDENTIFIER);
   }
 
 }

@@ -19,7 +19,7 @@
             </description>
         </server>
         <languageMapping language="Gleam" serverId="gleam-ls"/>
-<!--        <fileNamePatternMapping patterns="*.gleam" serverId="gleam-ls"/>-->
+        <!--        <fileNamePatternMapping patterns="*.gleam" serverId="gleam-ls"/>-->
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
@@ -49,6 +49,13 @@
                            implementationClass="com.github.themartdev.intellijgleam.ide.editor.GleamBraceMatcher"/>
         <lang.quoteHandler language="Gleam"
                            implementationClass="com.github.themartdev.intellijgleam.ide.editor.GleamQuoteHandler"/>
+
+        <projectConfigurable id="settings.prisma"
+                             groupId="language"
+                             instance="com.github.themartdev.intellijgleam.ide.ui.GleamSettingsConfigurable"
+                             bundle="messages.GleamBundle"
+                             key="gleam.settings.configurable.title"
+                             nonDefaultProject="true"/>
 
     </extensions>
 </idea-plugin>

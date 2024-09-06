@@ -9,11 +9,8 @@ val LOG = Logger.getInstance(GleamLanguageServer::class.java)
 
 class GleamLanguageServerFactory : LanguageServerFactory {
     override fun createConnectionProvider(project: Project): StreamConnectionProvider {
-        LOG.warn("Creating Gleam Language Server")
-        return GleamLanguageServer()
+        val settings = GleamServiceSettings.getInstance(project)
+        val gleamPath = settings.lspPath
+        return GleamLanguageServer(gleamPath)
     }
-
-
-
-
 }

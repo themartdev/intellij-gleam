@@ -50,6 +50,7 @@ dependencies {
         // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file for plugin from JetBrains Marketplace.
         plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
 
+
         instrumentationTools()
         pluginVerifier()
         zipSigner()
@@ -147,10 +148,19 @@ tasks {
     }
 }
 
+tasks {
+    runIde {
+        doFirst {
+            systemProperty("idea.log.debug.categories", "com.redhat.devtools")
+        }
+    }
+}
+
 intellijPlatformTesting {
     runIde {
         register("runIdeForUiTests") {
             task {
+
                 jvmArgumentProviders += CommandLineArgumentProvider {
                     listOf(
                         "-Drobot-server.port=8082",

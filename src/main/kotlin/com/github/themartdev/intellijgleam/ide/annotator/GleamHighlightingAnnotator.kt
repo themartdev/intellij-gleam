@@ -18,8 +18,12 @@ class GleamHighlightingAnnotator : Annotator, DumbAware {
             GleamTypes.FUNCTION_NAME_DEFINITION -> newAnnotation(holder, element, GleamColors.FUNCTION_DECLARATION)
             GleamTypes.STRING_ESCAPE_SEGMENT -> newAnnotation(holder, element, GleamColors.STRING_ESCAPE)
             GleamTypes.TYPE_DECLARATION_NAME -> newAnnotation(holder, element, GleamColors.TYPE_DECLARATION)
-            GleamTypes.TYPE_REFERENCE -> newAnnotation(holder, element, GleamColors.TYPE_REFERENCE)
+            GleamTypes.TYPE_IDENTIFIER -> newAnnotation(holder, element, GleamColors.TYPE_REFERENCE)
         }
+    }
+
+    private fun highlightTypeDeclaration(element: PsiElement) {
+
     }
 
     private fun newAnnotation(

@@ -17,7 +17,7 @@ Provides syntax highlighting and LSP-provided features like code completion, nav
 - [x] `panic as`
 - [x] `todo as`
 - [x] `@external`
-- [x] `@deprecated`
+- [x] `@deprecated` 
 - [x] tuple integer access like this: `tuple.1`
 - [x] qualified type reference like this: `bytes_builder.BytesBuilder = bytes_builder.new()`
 - [x] Multiple subject `case` expressions
@@ -25,7 +25,7 @@ Provides syntax highlighting and LSP-provided features like code completion, nav
 - [x] string patterns in `case` like this: `"Hello, " <> name -> name`
 - [x] Record updates like this: `Teacher(..teacher1, subject: "PE", room: 6)`
 - [x] Type without constructor
-- [ ] Shorthand property reference: `SomeRecord(:name)`
+- [ ] Shorthand property reference: `SomeRecord(name:)`
 - [ ] (parser) Add `NamedElement` to PSI
 - [ ] (parser) Add `getReference()`/`getReferences` to PSI
 

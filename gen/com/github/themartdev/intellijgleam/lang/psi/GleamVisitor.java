@@ -327,6 +327,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitLabeledArgument(@NotNull GleamLabeledArgument o) {
+    visitPsiElement(o);
+  }
+
   public void visitLabeledDiscardParam(@NotNull GleamLabeledDiscardParam o) {
     visitPsiElement(o);
   }
@@ -451,6 +455,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitShortHandLabeledArgument(@NotNull GleamShortHandLabeledArgument o) {
+    visitPsiElement(o);
+  }
+
   public void visitSimpleLetExpr(@NotNull GleamSimpleLetExpr o) {
     visitExpression(o);
   }
@@ -532,6 +540,10 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitUnknownDecoratorName(@NotNull GleamUnknownDecoratorName o) {
+    visitPsiElement(o);
+  }
+
+  public void visitUnlabeledArgument(@NotNull GleamUnlabeledArgument o) {
     visitPsiElement(o);
   }
 

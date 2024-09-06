@@ -88,6 +88,7 @@ public interface GleamTypes {
   IElementType IMPORT_DECLARATION = new GleamElementType("IMPORT_DECLARATION");
   IElementType INTEGER_LITERAL = new GleamElementType("INTEGER_LITERAL");
   IElementType LABEL = new GleamElementType("LABEL");
+  IElementType LABELED_ARGUMENT = new GleamElementType("LABELED_ARGUMENT");
   IElementType LABELED_DISCARD_PARAM = new GleamElementType("LABELED_DISCARD_PARAM");
   IElementType LABELED_NAME_PARAM = new GleamElementType("LABELED_NAME_PARAM");
   IElementType LET_EXPR = new GleamElementType("LET_EXPR");
@@ -119,6 +120,7 @@ public interface GleamTypes {
   IElementType REFERENCE_TYPE_VALUE = new GleamElementType("REFERENCE_TYPE_VALUE");
   IElementType REMOTE_CONSTRUCTOR_IDENTIFIER = new GleamElementType("REMOTE_CONSTRUCTOR_IDENTIFIER");
   IElementType REMOTE_TYPE_IDENTIFIER = new GleamElementType("REMOTE_TYPE_IDENTIFIER");
+  IElementType SHORT_HAND_LABELED_ARGUMENT = new GleamElementType("SHORT_HAND_LABELED_ARGUMENT");
   IElementType SIMPLE_LET_EXPR = new GleamElementType("SIMPLE_LET_EXPR");
   IElementType STRING_ESCAPE_SEGMENT = new GleamElementType("STRING_ESCAPE_SEGMENT");
   IElementType STRING_LITERAL = new GleamElementType("STRING_LITERAL");
@@ -140,6 +142,7 @@ public interface GleamTypes {
   IElementType UNARY_OPERATOR = new GleamElementType("UNARY_OPERATOR");
   IElementType UNKNOWN_DECORATOR = new GleamElementType("UNKNOWN_DECORATOR");
   IElementType UNKNOWN_DECORATOR_NAME = new GleamElementType("UNKNOWN_DECORATOR_NAME");
+  IElementType UNLABELED_ARGUMENT = new GleamElementType("UNLABELED_ARGUMENT");
   IElementType UNQUALIFIED_IMPORT = new GleamElementType("UNQUALIFIED_IMPORT");
   IElementType UNQUALIFIED_IMPORTS = new GleamElementType("UNQUALIFIED_IMPORTS");
   IElementType USE_ARGS = new GleamElementType("USE_ARGS");
@@ -478,6 +481,9 @@ public interface GleamTypes {
       else if (type == LABEL) {
         return new GleamLabelImpl(node);
       }
+      else if (type == LABELED_ARGUMENT) {
+        return new GleamLabeledArgumentImpl(node);
+      }
       else if (type == LABELED_DISCARD_PARAM) {
         return new GleamLabeledDiscardParamImpl(node);
       }
@@ -568,6 +574,9 @@ public interface GleamTypes {
       else if (type == REMOTE_TYPE_IDENTIFIER) {
         return new GleamRemoteTypeIdentifierImpl(node);
       }
+      else if (type == SHORT_HAND_LABELED_ARGUMENT) {
+        return new GleamShortHandLabeledArgumentImpl(node);
+      }
       else if (type == SIMPLE_LET_EXPR) {
         return new GleamSimpleLetExprImpl(node);
       }
@@ -630,6 +639,9 @@ public interface GleamTypes {
       }
       else if (type == UNKNOWN_DECORATOR_NAME) {
         return new GleamUnknownDecoratorNameImpl(node);
+      }
+      else if (type == UNLABELED_ARGUMENT) {
+        return new GleamUnlabeledArgumentImpl(node);
       }
       else if (type == UNQUALIFIED_IMPORT) {
         return new GleamUnqualifiedImportImpl(node);

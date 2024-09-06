@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamRecordArgumentImpl extends ASTWrapperPsiElement implements GleamRecordArgument {
+public class GleamLabeledArgumentImpl extends ASTWrapperPsiElement implements GleamLabeledArgument {
 
-  public GleamRecordArgumentImpl(@NotNull ASTNode node) {
+  public GleamLabeledArgumentImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitRecordArgument(this);
+    visitor.visitLabeledArgument(this);
   }
 
   @Override
@@ -28,21 +28,15 @@ public class GleamRecordArgumentImpl extends ASTWrapperPsiElement implements Gle
   }
 
   @Override
-  @Nullable
-  public GleamLabeledArgument getLabeledArgument() {
-    return findChildByClass(GleamLabeledArgument.class);
+  @NotNull
+  public GleamExpression getExpression() {
+    return findNotNullChildByClass(GleamExpression.class);
   }
 
   @Override
-  @Nullable
-  public GleamShortHandLabeledArgument getShortHandLabeledArgument() {
-    return findChildByClass(GleamShortHandLabeledArgument.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamUnlabeledArgument getUnlabeledArgument() {
-    return findChildByClass(GleamUnlabeledArgument.class);
+  @NotNull
+  public GleamLabel getLabel() {
+    return findNotNullChildByClass(GleamLabel.class);
   }
 
 }

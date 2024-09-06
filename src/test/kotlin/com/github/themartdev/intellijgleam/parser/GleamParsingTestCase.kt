@@ -4,7 +4,6 @@ import com.github.themartdev.intellijgleam.lang.GleamLanguage
 import com.github.themartdev.intellijgleam.lang.parser.GleamParserDefinition
 import com.intellij.lang.Language
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.PsiRecursiveElementWalkingVisitor
 import com.intellij.testFramework.ParsingTestCase

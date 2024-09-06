@@ -7,10 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface GleamRecordArgument extends PsiElement {
 
-  @NotNull
-  GleamExpression getExpression();
+  @Nullable
+  GleamLabeledArgument getLabeledArgument();
 
   @Nullable
-  GleamLabel getLabel();
+  GleamShortHandLabeledArgument getShortHandLabeledArgument();
+
+  @Nullable
+  GleamUnlabeledArgument getUnlabeledArgument();
 
 }

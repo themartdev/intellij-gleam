@@ -1758,13 +1758,14 @@ public class GleamParser implements PsiParser, LightPsiParser {
   public static boolean functionBody(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "functionBody")) return false;
     if (!nextTokenIs(b, LBRACE)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, FUNCTION_BODY, null);
     r = consumeToken(b, LBRACE);
-    r = r && functionBody_1(b, l + 1);
-    r = r && consumeToken(b, RBRACE);
-    exit_section_(b, m, FUNCTION_BODY, r);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, functionBody_1(b, l + 1));
+    r = p && consumeToken(b, RBRACE) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   // [expressionSeq]
@@ -2151,6 +2152,20 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // label COLON expression
+  public static boolean labeledArgument(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "labeledArgument")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = label(b, l + 1);
+    r = r && consumeToken(b, COLON);
+    r = r && expression(b, l + 1, -1);
+    exit_section_(b, m, LABELED_ARGUMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // label discard
   public static boolean labeledDiscardParam(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "labeledDiscardParam")) return false;
@@ -2521,42 +2536,15 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // [label COLON] (expression)
+  // labeledArgument | shortHandLabeledArgument | unlabeledArgument
   public static boolean recordArgument(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "recordArgument")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, RECORD_ARGUMENT, "<record argument>");
-    r = recordArgument_0(b, l + 1);
-    r = r && recordArgument_1(b, l + 1);
+    r = labeledArgument(b, l + 1);
+    if (!r) r = shortHandLabeledArgument(b, l + 1);
+    if (!r) r = unlabeledArgument(b, l + 1);
     exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // [label COLON]
-  private static boolean recordArgument_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "recordArgument_0")) return false;
-    recordArgument_0_0(b, l + 1);
-    return true;
-  }
-
-  // label COLON
-  private static boolean recordArgument_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "recordArgument_0_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = label(b, l + 1);
-    r = r && consumeToken(b, COLON);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (expression)
-  private static boolean recordArgument_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "recordArgument_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = expression(b, l + 1, -1);
-    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -2896,6 +2884,19 @@ public class GleamParser implements PsiParser, LightPsiParser {
       if (!empty_element_parsed_guard_(b, "root", c)) break;
     }
     return true;
+  }
+
+  /* ********************************************************** */
+  // identifier COLON
+  public static boolean shortHandLabeledArgument(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "shortHandLabeledArgument")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = identifier(b, l + 1);
+    r = r && consumeToken(b, COLON);
+    exit_section_(b, m, SHORT_HAND_LABELED_ARGUMENT, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -3451,6 +3452,17 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeToken(b, DECORATOR_NAME);
     exit_section_(b, m, UNKNOWN_DECORATOR_NAME, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // expression
+  public static boolean unlabeledArgument(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "unlabeledArgument")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, UNLABELED_ARGUMENT, "<unlabeled argument>");
+    r = expression(b, l + 1, -1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

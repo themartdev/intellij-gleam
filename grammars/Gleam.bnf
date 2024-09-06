@@ -229,7 +229,7 @@ typeReference ::= (typeIdentifier | remoteTypeIdentifier) [typeArguments]
 functionParameterArgs ::= labeledDiscardParam | discardParam | labeledNameParam | nameParam
 functionParameter ::= functionParameterArgs [typeAnnotation]
 functionParameters ::= LPAREN [functionParameter (COMMA functionParameter)* [COMMA]] RPAREN
-functionBody ::= LBRACE [expressionSeq] RBRACE
+functionBody ::= LBRACE [expressionSeq] RBRACE {pin=1}
 functionDeclaration ::= (decorator)* [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody
 functionNameDefinition::= IDENTIFIER
 
@@ -250,7 +250,11 @@ pattern ::= (IDENTIFIER | discard | stringPattern | recordPattern | literalExpr 
 
 expressionSeq ::= (expression)+
 
-recordArgument ::= [label COLON] (expression)
+shortHandLabeledArgument ::= identifier COLON
+labeledArgument ::= label COLON expression
+unlabeledArgument ::= expression
+
+recordArgument ::= labeledArgument | shortHandLabeledArgument | unlabeledArgument
 private recordArgumentList ::= [recordArgument (COMMA recordArgument)* [COMMA]]
 recordUpdate ::= DOT_DOT variableReference {pin=1}
 // Record update can only be at the start of record arguments

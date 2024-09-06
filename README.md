@@ -25,14 +25,14 @@ Provides syntax highlighting and LSP-provided features like code completion, nav
 - [x] string patterns in `case` like this: `"Hello, " <> name -> name`
 - [x] Record updates like this: `Teacher(..teacher1, subject: "PE", room: 6)`
 - [x] Type without constructor
-- [ ] Shorthand property reference: `SomeRecord(name:)`
+- [x] Shorthand property reference: `SomeRecord(name:)`
 - [ ] (parser) Add `NamedElement` to PSI
 - [ ] (parser) Add `getReference()`/`getReferences` to PSI
 
 ### LSP
 
-- [ ] Move to [lsp4ij](https://github.com/redhat-developer/lsp4ij)
-- [ ] Gleam bin location config
+- [x] Move to [lsp4ij](https://github.com/redhat-developer/lsp4ij)
+- [x] Gleam bin location config
 
 ### Refactors and reworks (bnf/psi)
 

@@ -11,7 +11,7 @@
   psiImplClassSuffix='Impl'
   psiPackage="com.github.themartdev.intellijgleam.lang.psi"
   psiImplPackage="com.github.themartdev.intellijgleam.lang.psi.impl"
-
+  psiImplUtilClass="com.github.themartdev.intellijgleam.lang.psi.impl.GleamPsiImplUtil"
 
   tokens=[
     EOL             = '\\n, \\r\\n'
@@ -159,12 +159,24 @@ externalFunctionSignature ::= [visibilityModifier] FN functionNameDefinition fun
 externalFunctionNoFallbackDeclaration ::=  externalDecorator (externalDecorator)* externalFunctionSignature {pin=1}
 
 // ===== Imports =====
-module ::= IDENTIFIER (SLASH IDENTIFIER)*
-unqualifiedImport ::= identifier (AS identifier)*
-typeUnqualifiedImport ::= TYPE upIdentifier (AS upIdentifier)?
+unqualifiedImport ::= identifier (AS aliasIdentifier)? {
+  methods=[getNameOrAlias]
+}
+typeUnqualifiedImport ::= TYPE upIdentifier (AS aliasUpIdentifier)? {
+  pin=1
+  methods=[getNameOrAlias]
+}
 private unqualifiedImportBase ::= unqualifiedImport | typeUnqualifiedImport
 unqualifiedImports ::= LBRACE [unqualifiedImportBase (COMMA unqualifiedImportBase)* [COMMA]] RBRACE
-importDeclaration ::= IMPORT module [DOT unqualifiedImports] [AS IDENTIFIER] {pin=1}
+modulePath ::= IDENTIFIER (SLASH IDENTIFIER)* {
+  pin=1
+  methods=[getModuleName]
+}
+
+importDeclaration ::= IMPORT modulePath [DOT unqualifiedImports] [AS IDENTIFIER] {
+  pin=1
+  methods=[getNameOrAlias]
+}
 
 // ===== Decorators =====
 externalTarget ::= "javascript" | "erlang"
@@ -221,11 +233,12 @@ identifierExprConst ::= identifier
 
 
 functionParameterTypes ::= LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN
-tupleType ::= HASH LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN
-functionType ::= FN [functionParameterTypes] R_ARROW typeBase
+tupleType ::= HASH LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN {pin=2}
+functionType ::= FN [functionParameterTypes] R_ARROW typeBase {pin=1}
 
-typeBase ::= typeReference | tupleType | functionType
+typeBase ::=  tupleType | functionType | typeReference | genericType
 typeAnnotation ::= COLON typeBase
+genericType ::= identifier
 typeArgument ::= typeBase
 typeArguments ::= LPAREN [typeArgument (COMMA typeArgument)* [COMMA]] RPAREN
 typeReference ::= typeName [typeArguments]
@@ -285,7 +298,8 @@ caseClausePatterns ::= caseClausePattern (VBAR caseClausePattern)* [VBAR]
 caseClause ::= caseClausePatterns [caseClauseGuard] R_ARROW expression
 caseClauses ::= caseClause+
 caseSubjects ::= expression (COMMA expression)*
-caseExpr ::= CASE caseSubjects LBRACE caseClauses RBRACE
+caseExprBody ::= LBRACE caseClauses RBRACE
+caseExpr ::= CASE caseSubjects caseExprBody
 
 useArgs ::= IDENTIFIER | IDENTIFIER COMMA useArgs
 useExpr ::= USE [useArgs] L_ARROW expression
@@ -399,9 +413,11 @@ private identifier ::= IDENTIFIER
 private upIdentifier ::= UP_IDENTIFIER
 private discardIdentifier ::= DISCARD_NAME
 private typeName ::= qualifiedTypeName | unqualifiedTypeName
+aliasIdentifier ::= identifier
+aliasUpIdentifier ::= upIdentifier
 
 unqualifiedTypeName ::= upIdentifier
-qualifiedTypeName ::= identifier DOT typeReference
+qualifiedTypeName ::= identifier DOT upIdentifier
 
 // Aliases
 variableReference ::= IDENTIFIER

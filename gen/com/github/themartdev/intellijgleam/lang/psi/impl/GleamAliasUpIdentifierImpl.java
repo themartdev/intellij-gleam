@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamTypeUnqualifiedImportImpl extends ASTWrapperPsiElement implements GleamTypeUnqualifiedImport {
+public class GleamAliasUpIdentifierImpl extends ASTWrapperPsiElement implements GleamAliasUpIdentifier {
 
-  public GleamTypeUnqualifiedImportImpl(@NotNull ASTNode node) {
+  public GleamAliasUpIdentifierImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitTypeUnqualifiedImport(this);
+    visitor.visitAliasUpIdentifier(this);
   }
 
   @Override
@@ -28,21 +28,9 @@ public class GleamTypeUnqualifiedImportImpl extends ASTWrapperPsiElement impleme
   }
 
   @Override
-  @Nullable
-  public GleamAliasUpIdentifier getAliasUpIdentifier() {
-    return findChildByClass(GleamAliasUpIdentifier.class);
-  }
-
-  @Override
-  @Nullable
+  @NotNull
   public PsiElement getUpIdentifier() {
-    return findChildByType(UP_IDENTIFIER);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getNameOrAlias() {
-    return GleamPsiImplUtil.getNameOrAlias(this);
+    return findNotNullChildByType(UP_IDENTIFIER);
   }
 
 }

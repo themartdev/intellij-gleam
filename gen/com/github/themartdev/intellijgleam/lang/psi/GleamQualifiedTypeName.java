@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface GleamQualifiedTypeName extends PsiElement {
 
   @NotNull
-  GleamTypeReference getTypeReference();
+  PsiElement getIdentifier();
 
   @NotNull
-  PsiElement getIdentifier();
+  PsiElement getUpIdentifier();
 
 }

@@ -34,9 +34,9 @@ public class GleamFunctionTypeImpl extends ASTWrapperPsiElement implements Gleam
   }
 
   @Override
-  @NotNull
+  @Nullable
   public GleamTypeBase getTypeBase() {
-    return findNotNullChildByClass(GleamTypeBase.class);
+    return findChildByClass(GleamTypeBase.class);
   }
 
 }

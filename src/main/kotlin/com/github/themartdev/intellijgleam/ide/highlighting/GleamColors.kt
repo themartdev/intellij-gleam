@@ -30,4 +30,8 @@ object GleamColors {
         createTextAttributesKey("GLEAM_TYPE_DECLARATION", DefaultLanguageHighlighterColors.CLASS_NAME)
     val TYPE_REFERENCE = createTextAttributesKey("GLEAM_TYPE_REFERENCE", DefaultLanguageHighlighterColors.CLASS_REFERENCE)
     val LABEL = createTextAttributesKey("GLEAM_LABEL", DefaultLanguageHighlighterColors.LABEL)
+
+
+    // TODO : TEMP
+    val IMPORT = createTextAttributesKey("GLEAM_IMPORT", DefaultLanguageHighlighterColors.METADATA)
 }

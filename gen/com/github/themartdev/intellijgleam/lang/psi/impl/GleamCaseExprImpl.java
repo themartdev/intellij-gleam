@@ -29,8 +29,8 @@ public class GleamCaseExprImpl extends GleamExpressionImpl implements GleamCaseE
 
   @Override
   @NotNull
-  public GleamCaseClauses getCaseClauses() {
-    return findNotNullChildByClass(GleamCaseClauses.class);
+  public GleamCaseExprBody getCaseExprBody() {
+    return findNotNullChildByClass(GleamCaseExprBody.class);
   }
 
   @Override

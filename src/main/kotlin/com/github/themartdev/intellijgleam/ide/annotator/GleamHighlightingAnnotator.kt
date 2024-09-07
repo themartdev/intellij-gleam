@@ -1,15 +1,10 @@
 package com.github.themartdev.intellijgleam.ide.annotator
 
-import com.github.themartdev.intellijgleam.ide.editor.GleamQuoteHandler
 import com.github.themartdev.intellijgleam.ide.highlighting.GleamColors
-import com.github.themartdev.intellijgleam.lang.psi.GleamGenericIdentifier
+import com.github.themartdev.intellijgleam.lang.psi.GleamImportDeclaration
 import com.github.themartdev.intellijgleam.lang.psi.GleamLabeledArgument
 import com.github.themartdev.intellijgleam.lang.psi.GleamShortHandLabeledArgument
-import com.github.themartdev.intellijgleam.lang.psi.GleamTokenType
-import com.github.themartdev.intellijgleam.lang.psi.GleamTypeDeclarationName
-import com.github.themartdev.intellijgleam.lang.psi.GleamTypeUnqualifiedImport
 import com.github.themartdev.intellijgleam.lang.psi.GleamTypes
-import com.github.themartdev.intellijgleam.lang.psi.GleamUnqualifiedImport
 import com.intellij.codeInspection.util.InspectionMessage
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -29,7 +24,16 @@ class GleamHighlightingAnnotator : Annotator, DumbAware {
         }
 
         when (element) {
-            is GleamTypeUnqualifiedImport -> {
+            is GleamImportDeclaration -> {
+                element.unqualifiedImports?.typeUnqualifiedImportList?.forEach {
+                    it.nameOrAlias?.let { nameOrAlias ->
+                        newAnnotation(
+                            holder,
+                            nameOrAlias,
+                            GleamColors.TYPE_DECLARATION
+                        )
+                    }
+                }
             }
         }
 

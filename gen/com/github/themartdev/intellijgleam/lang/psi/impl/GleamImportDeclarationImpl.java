@@ -29,8 +29,8 @@ public class GleamImportDeclarationImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @Nullable
-  public GleamModule getModule() {
-    return findChildByClass(GleamModule.class);
+  public GleamModulePath getModulePath() {
+    return findChildByClass(GleamModulePath.class);
   }
 
   @Override
@@ -43,6 +43,12 @@ public class GleamImportDeclarationImpl extends ASTWrapperPsiElement implements 
   @Nullable
   public PsiElement getIdentifier() {
     return findChildByType(IDENTIFIER);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getNameOrAlias() {
+    return GleamPsiImplUtil.getNameOrAlias(this);
   }
 
 }

@@ -8,12 +8,15 @@ import com.intellij.psi.PsiElement;
 public interface GleamImportDeclaration extends PsiElement {
 
   @Nullable
-  GleamModule getModule();
+  GleamModulePath getModulePath();
 
   @Nullable
   GleamUnqualifiedImports getUnqualifiedImports();
 
   @Nullable
   PsiElement getIdentifier();
+
+  @Nullable
+  PsiElement getNameOrAlias();
 
 }

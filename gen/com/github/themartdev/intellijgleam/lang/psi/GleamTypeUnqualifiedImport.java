@@ -7,4 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface GleamTypeUnqualifiedImport extends PsiElement {
 
+  @Nullable
+  GleamAliasUpIdentifier getAliasUpIdentifier();
+
+  @Nullable
+  PsiElement getUpIdentifier();
+
+  @Nullable
+  PsiElement getNameOrAlias();
+
 }

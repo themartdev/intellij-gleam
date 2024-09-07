@@ -48,6 +48,30 @@ public class GleamParser implements PsiParser, LightPsiParser {
   };
 
   /* ********************************************************** */
+  // identifier
+  public static boolean aliasIdentifier(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "aliasIdentifier")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = identifier(b, l + 1);
+    exit_section_(b, m, ALIAS_IDENTIFIER, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // upIdentifier
+  public static boolean aliasUpIdentifier(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "aliasUpIdentifier")) return false;
+    if (!nextTokenIs(b, UP_IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = upIdentifier(b, l + 1);
+    exit_section_(b, m, ALIAS_UP_IDENTIFIER, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // anonymousFunctionParameterArgs [typeAnnotation]
   public static boolean anonymousFunctionParameter(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "anonymousFunctionParameter")) return false;
@@ -659,6 +683,20 @@ public class GleamParser implements PsiParser, LightPsiParser {
       if (!empty_element_parsed_guard_(b, "caseClauses", c)) break;
     }
     exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // LBRACE caseClauses RBRACE
+  public static boolean caseExprBody(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "caseExprBody")) return false;
+    if (!nextTokenIs(b, LBRACE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, LBRACE);
+    r = r && caseClauses(b, l + 1);
+    r = r && consumeToken(b, RBRACE);
+    exit_section_(b, m, CASE_EXPR_BODY, r);
     return r;
   }
 
@@ -1849,14 +1887,15 @@ public class GleamParser implements PsiParser, LightPsiParser {
   public static boolean functionType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "functionType")) return false;
     if (!nextTokenIs(b, FN)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, FUNCTION_TYPE, null);
     r = consumeToken(b, FN);
-    r = r && functionType_1(b, l + 1);
-    r = r && consumeToken(b, R_ARROW);
-    r = r && typeBase(b, l + 1);
-    exit_section_(b, m, FUNCTION_TYPE, r);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, functionType_1(b, l + 1));
+    r = p && report_error_(b, consumeToken(b, R_ARROW)) && r;
+    r = p && typeBase(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   // [functionParameterTypes]
@@ -1864,6 +1903,18 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "functionType_1")) return false;
     functionParameterTypes(b, l + 1);
     return true;
+  }
+
+  /* ********************************************************** */
+  // identifier
+  public static boolean genericType(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "genericType")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = identifier(b, l + 1);
+    exit_section_(b, m, GENERIC_TYPE, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -1919,7 +1970,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IMPORT module [DOT unqualifiedImports] [AS IDENTIFIER]
+  // IMPORT modulePath [DOT unqualifiedImports] [AS IDENTIFIER]
   public static boolean importDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "importDeclaration")) return false;
     if (!nextTokenIs(b, IMPORT)) return false;
@@ -1927,7 +1978,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, IMPORT_DECLARATION, null);
     r = consumeToken(b, IMPORT);
     p = r; // pin = 1
-    r = r && report_error_(b, module(b, l + 1));
+    r = r && report_error_(b, modulePath(b, l + 1));
     r = p && report_error_(b, importDeclaration_2(b, l + 1)) && r;
     r = p && importDeclaration_3(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
@@ -2216,31 +2267,32 @@ public class GleamParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // IDENTIFIER (SLASH IDENTIFIER)*
-  public static boolean module(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "module")) return false;
+  public static boolean modulePath(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "modulePath")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, MODULE_PATH, null);
     r = consumeToken(b, IDENTIFIER);
-    r = r && module_1(b, l + 1);
-    exit_section_(b, m, MODULE, r);
-    return r;
+    p = r; // pin = 1
+    r = r && modulePath_1(b, l + 1);
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   // (SLASH IDENTIFIER)*
-  private static boolean module_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "module_1")) return false;
+  private static boolean modulePath_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "modulePath_1")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!module_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "module_1", c)) break;
+      if (!modulePath_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "modulePath_1", c)) break;
     }
     return true;
   }
 
   // SLASH IDENTIFIER
-  private static boolean module_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "module_1_0")) return false;
+  private static boolean modulePath_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "modulePath_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, SLASH, IDENTIFIER);
@@ -2448,7 +2500,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier DOT typeReference
+  // identifier DOT upIdentifier
   public static boolean qualifiedTypeName(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "qualifiedTypeName")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
@@ -2456,7 +2508,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = identifier(b, l + 1);
     r = r && consumeToken(b, DOT);
-    r = r && typeReference(b, l + 1);
+    r = r && upIdentifier(b, l + 1);
     exit_section_(b, m, QUALIFIED_TYPE_NAME, r);
     return r;
   }
@@ -3107,13 +3159,14 @@ public class GleamParser implements PsiParser, LightPsiParser {
   public static boolean tupleType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "tupleType")) return false;
     if (!nextTokenIs(b, HASH)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, HASH, LPAREN);
-    r = r && tupleType_2(b, l + 1);
-    r = r && consumeToken(b, RPAREN);
-    exit_section_(b, m, TUPLE_TYPE, r);
-    return r;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, TUPLE_TYPE, null);
+    r = consumeTokens(b, 2, HASH, LPAREN);
+    p = r; // pin = 2
+    r = r && report_error_(b, tupleType_2(b, l + 1));
+    r = p && consumeToken(b, RPAREN) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   // [typeBase (COMMA typeBase)* [COMMA]]
@@ -3251,14 +3304,15 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // typeReference | tupleType | functionType
+  // tupleType | functionType | typeReference | genericType
   public static boolean typeBase(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "typeBase")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, TYPE_BASE, "<type base>");
-    r = typeReference(b, l + 1);
-    if (!r) r = tupleType(b, l + 1);
+    r = tupleType(b, l + 1);
     if (!r) r = functionType(b, l + 1);
+    if (!r) r = typeReference(b, l + 1);
+    if (!r) r = genericType(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -3337,33 +3391,34 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // TYPE upIdentifier (AS upIdentifier)?
+  // TYPE upIdentifier (AS aliasUpIdentifier)?
   public static boolean typeUnqualifiedImport(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "typeUnqualifiedImport")) return false;
     if (!nextTokenIs(b, TYPE)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, TYPE_UNQUALIFIED_IMPORT, null);
     r = consumeToken(b, TYPE);
-    r = r && upIdentifier(b, l + 1);
-    r = r && typeUnqualifiedImport_2(b, l + 1);
-    exit_section_(b, m, TYPE_UNQUALIFIED_IMPORT, r);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, upIdentifier(b, l + 1));
+    r = p && typeUnqualifiedImport_2(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
-  // (AS upIdentifier)?
+  // (AS aliasUpIdentifier)?
   private static boolean typeUnqualifiedImport_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "typeUnqualifiedImport_2")) return false;
     typeUnqualifiedImport_2_0(b, l + 1);
     return true;
   }
 
-  // AS upIdentifier
+  // AS aliasUpIdentifier
   private static boolean typeUnqualifiedImport_2_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "typeUnqualifiedImport_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, AS);
-    r = r && upIdentifier(b, l + 1);
+    r = r && aliasUpIdentifier(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -3484,7 +3539,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier (AS identifier)*
+  // identifier (AS aliasIdentifier)?
   public static boolean unqualifiedImport(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "unqualifiedImport")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
@@ -3496,24 +3551,20 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (AS identifier)*
+  // (AS aliasIdentifier)?
   private static boolean unqualifiedImport_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "unqualifiedImport_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!unqualifiedImport_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "unqualifiedImport_1", c)) break;
-    }
+    unqualifiedImport_1_0(b, l + 1);
     return true;
   }
 
-  // AS identifier
+  // AS aliasIdentifier
   private static boolean unqualifiedImport_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "unqualifiedImport_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, AS);
-    r = r && identifier(b, l + 1);
+    r = r && aliasIdentifier(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -3864,7 +3915,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // CASE caseSubjects LBRACE caseClauses RBRACE
+  // CASE caseSubjects caseExprBody
   public static boolean caseExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "caseExpr")) return false;
     if (!nextTokenIsSmart(b, CASE)) return false;
@@ -3872,9 +3923,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeTokenSmart(b, CASE);
     r = r && caseSubjects(b, l + 1);
-    r = r && consumeToken(b, LBRACE);
-    r = r && caseClauses(b, l + 1);
-    r = r && consumeToken(b, RBRACE);
+    r = r && caseExprBody(b, l + 1);
     exit_section_(b, m, CASE_EXPR, r);
     return r;
   }

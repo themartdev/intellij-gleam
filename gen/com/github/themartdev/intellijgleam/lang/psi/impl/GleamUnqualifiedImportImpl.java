@@ -27,4 +27,22 @@ public class GleamUnqualifiedImportImpl extends ASTWrapperPsiElement implements 
     else super.accept(visitor);
   }
 
+  @Override
+  @Nullable
+  public GleamAliasIdentifier getAliasIdentifier() {
+    return findChildByClass(GleamAliasIdentifier.class);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getIdentifier() {
+    return findNotNullChildByType(IDENTIFIER);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getNameOrAlias() {
+    return GleamPsiImplUtil.getNameOrAlias(this);
+  }
+
 }

@@ -11,20 +11,26 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamModuleImpl extends ASTWrapperPsiElement implements GleamModule {
+public class GleamGenericTypeImpl extends ASTWrapperPsiElement implements GleamGenericType {
 
-  public GleamModuleImpl(@NotNull ASTNode node) {
+  public GleamGenericTypeImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitModule(this);
+    visitor.visitGenericType(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof GleamVisitor) accept((GleamVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getIdentifier() {
+    return findNotNullChildByType(IDENTIFIER);
   }
 
 }

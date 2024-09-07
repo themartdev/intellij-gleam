@@ -29,14 +29,14 @@ public class GleamQualifiedTypeNameImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @NotNull
-  public GleamTypeReference getTypeReference() {
-    return findNotNullChildByClass(GleamTypeReference.class);
+  public PsiElement getIdentifier() {
+    return findNotNullChildByType(IDENTIFIER);
   }
 
   @Override
   @NotNull
-  public PsiElement getIdentifier() {
-    return findNotNullChildByType(IDENTIFIER);
+  public PsiElement getUpIdentifier() {
+    return findNotNullChildByType(UP_IDENTIFIER);
   }
 
 }

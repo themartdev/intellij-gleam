@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamUnqualifiedImport extends PsiElement {
-
-  @Nullable
-  GleamAliasIdentifier getAliasIdentifier();
+public interface GleamCaseExprBody extends PsiElement {
 
   @NotNull
-  PsiElement getIdentifier();
-
-  @Nullable
-  PsiElement getNameOrAlias();
+  GleamCaseClauses getCaseClauses();
 
 }

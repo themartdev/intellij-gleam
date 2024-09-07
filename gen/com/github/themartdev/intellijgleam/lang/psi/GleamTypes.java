@@ -9,6 +9,8 @@ import com.github.themartdev.intellijgleam.lang.psi.impl.*;
 public interface GleamTypes {
 
   IElementType ACCESS_EXPR = new GleamElementType("ACCESS_EXPR");
+  IElementType ALIAS_IDENTIFIER = new GleamElementType("ALIAS_IDENTIFIER");
+  IElementType ALIAS_UP_IDENTIFIER = new GleamElementType("ALIAS_UP_IDENTIFIER");
   IElementType ANONYMOUS_FUNCTION_EXPR = new GleamElementType("ANONYMOUS_FUNCTION_EXPR");
   IElementType ANONYMOUS_FUNCTION_PARAMETER = new GleamElementType("ANONYMOUS_FUNCTION_PARAMETER");
   IElementType ANONYMOUS_FUNCTION_PARAMETERS = new GleamElementType("ANONYMOUS_FUNCTION_PARAMETERS");
@@ -37,6 +39,7 @@ public interface GleamTypes {
   IElementType CASE_CLAUSE_PATTERNS = new GleamElementType("CASE_CLAUSE_PATTERNS");
   IElementType CASE_CLAUSE_TUPLE_ACCESS = new GleamElementType("CASE_CLAUSE_TUPLE_ACCESS");
   IElementType CASE_EXPR = new GleamElementType("CASE_EXPR");
+  IElementType CASE_EXPR_BODY = new GleamElementType("CASE_EXPR_BODY");
   IElementType CASE_SUBJECTS = new GleamElementType("CASE_SUBJECTS");
   IElementType CONSTANT_BIT_ARRAY_SEGMENT = new GleamElementType("CONSTANT_BIT_ARRAY_SEGMENT");
   IElementType CONSTANT_DECLARATION = new GleamElementType("CONSTANT_DECLARATION");
@@ -79,6 +82,7 @@ public interface GleamTypes {
   IElementType FUNCTION_PARAMETER_ARGS = new GleamElementType("FUNCTION_PARAMETER_ARGS");
   IElementType FUNCTION_PARAMETER_TYPES = new GleamElementType("FUNCTION_PARAMETER_TYPES");
   IElementType FUNCTION_TYPE = new GleamElementType("FUNCTION_TYPE");
+  IElementType GENERIC_TYPE = new GleamElementType("GENERIC_TYPE");
   IElementType HEX_INTEGER_LITERAL = new GleamElementType("HEX_INTEGER_LITERAL");
   IElementType IDENTIFIER_EXPR_CONST = new GleamElementType("IDENTIFIER_EXPR_CONST");
   IElementType IMPORT_DECLARATION = new GleamElementType("IMPORT_DECLARATION");
@@ -94,7 +98,7 @@ public interface GleamTypes {
   IElementType LIST_PATTERN_TAIL = new GleamElementType("LIST_PATTERN_TAIL");
   IElementType LITERAL_EXPR = new GleamElementType("LITERAL_EXPR");
   IElementType LITERAL_EXPR_CONST = new GleamElementType("LITERAL_EXPR_CONST");
-  IElementType MODULE = new GleamElementType("MODULE");
+  IElementType MODULE_PATH = new GleamElementType("MODULE_PATH");
   IElementType NAME_PARAM = new GleamElementType("NAME_PARAM");
   IElementType OCTAL_INTEGER_LITERAL = new GleamElementType("OCTAL_INTEGER_LITERAL");
   IElementType OMITTED_TYPE_VALUE = new GleamElementType("OMITTED_TYPE_VALUE");
@@ -250,6 +254,12 @@ public interface GleamTypes {
       if (type == ACCESS_EXPR) {
         return new GleamAccessExprImpl(node);
       }
+      else if (type == ALIAS_IDENTIFIER) {
+        return new GleamAliasIdentifierImpl(node);
+      }
+      else if (type == ALIAS_UP_IDENTIFIER) {
+        return new GleamAliasUpIdentifierImpl(node);
+      }
       else if (type == ANONYMOUS_FUNCTION_EXPR) {
         return new GleamAnonymousFunctionExprImpl(node);
       }
@@ -333,6 +343,9 @@ public interface GleamTypes {
       }
       else if (type == CASE_EXPR) {
         return new GleamCaseExprImpl(node);
+      }
+      else if (type == CASE_EXPR_BODY) {
+        return new GleamCaseExprBodyImpl(node);
       }
       else if (type == CASE_SUBJECTS) {
         return new GleamCaseSubjectsImpl(node);
@@ -451,6 +464,9 @@ public interface GleamTypes {
       else if (type == FUNCTION_TYPE) {
         return new GleamFunctionTypeImpl(node);
       }
+      else if (type == GENERIC_TYPE) {
+        return new GleamGenericTypeImpl(node);
+      }
       else if (type == HEX_INTEGER_LITERAL) {
         return new GleamHexIntegerLiteralImpl(node);
       }
@@ -493,8 +509,8 @@ public interface GleamTypes {
       else if (type == LITERAL_EXPR_CONST) {
         return new GleamLiteralExprConstImpl(node);
       }
-      else if (type == MODULE) {
-        return new GleamModuleImpl(node);
+      else if (type == MODULE_PATH) {
+        return new GleamModulePathImpl(node);
       }
       else if (type == NAME_PARAM) {
         return new GleamNameParamImpl(node);

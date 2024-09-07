@@ -10,7 +10,7 @@ public interface GleamFunctionType extends PsiElement {
   @Nullable
   GleamFunctionParameterTypes getFunctionParameterTypes();
 
-  @NotNull
+  @Nullable
   GleamTypeBase getTypeBase();
 
 }

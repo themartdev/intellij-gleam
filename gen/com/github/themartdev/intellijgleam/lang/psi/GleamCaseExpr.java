@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface GleamCaseExpr extends GleamExpression {
 
   @NotNull
-  GleamCaseClauses getCaseClauses();
+  GleamCaseExprBody getCaseExprBody();
 
   @NotNull
   GleamCaseSubjects getCaseSubjects();

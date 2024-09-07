@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamConstantBitArrayImpl extends ASTWrapperPsiElement implements GleamConstantBitArray {
+public class GleamUnqualifiedTypeNameImpl extends ASTWrapperPsiElement implements GleamUnqualifiedTypeName {
 
-  public GleamConstantBitArrayImpl(@NotNull ASTNode node) {
+  public GleamUnqualifiedTypeNameImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitConstantBitArray(this);
+    visitor.visitUnqualifiedTypeName(this);
   }
 
   @Override
@@ -29,8 +29,8 @@ public class GleamConstantBitArrayImpl extends ASTWrapperPsiElement implements G
 
   @Override
   @NotNull
-  public List<GleamConstantBitArraySegment> getConstantBitArraySegmentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamConstantBitArraySegment.class);
+  public PsiElement getUpIdentifier() {
+    return findNotNullChildByType(UP_IDENTIFIER);
   }
 
 }

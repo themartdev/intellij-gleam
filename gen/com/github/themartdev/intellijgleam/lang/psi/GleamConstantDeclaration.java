@@ -11,7 +11,7 @@ public interface GleamConstantDeclaration extends PsiElement {
   GleamConstantTypeAnnotation getConstantTypeAnnotation();
 
   @Nullable
-  GleamConstantValue getConstantValue();
+  GleamExpressionConst getExpressionConst();
 
   @Nullable
   GleamVisibilityModifier getVisibilityModifier();

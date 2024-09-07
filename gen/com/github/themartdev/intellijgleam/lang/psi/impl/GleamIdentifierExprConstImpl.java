@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamTypeIdentifierImpl extends ASTWrapperPsiElement implements GleamTypeIdentifier {
+public class GleamIdentifierExprConstImpl extends GleamExpressionConstImpl implements GleamIdentifierExprConst {
 
-  public GleamTypeIdentifierImpl(@NotNull ASTNode node) {
+  public GleamIdentifierExprConstImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitTypeIdentifier(this);
+    visitor.visitIdentifierExprConst(this);
   }
 
   @Override
@@ -29,8 +29,8 @@ public class GleamTypeIdentifierImpl extends ASTWrapperPsiElement implements Gle
 
   @Override
   @NotNull
-  public PsiElement getUpIdentifier() {
-    return findNotNullChildByType(UP_IDENTIFIER);
+  public PsiElement getIdentifier() {
+    return findNotNullChildByType(IDENTIFIER);
   }
 
 }

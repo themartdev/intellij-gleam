@@ -29,12 +29,6 @@ public class GleamTypeDeclarationImpl extends ASTWrapperPsiElement implements Gl
 
   @Override
   @Nullable
-  public GleamOpacityModifier getOpacityModifier() {
-    return findChildByClass(GleamOpacityModifier.class);
-  }
-
-  @Override
-  @Nullable
   public GleamTypeDeclarationName getTypeDeclarationName() {
     return findChildByClass(GleamTypeDeclarationName.class);
   }

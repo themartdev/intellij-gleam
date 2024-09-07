@@ -7,11 +7,11 @@ import com.intellij.psi.PsiElement;
 
 public interface GleamStringPattern extends PsiElement {
 
-  @Nullable
-  GleamDiscard getDiscard();
-
   @NotNull
   GleamStringLiteral getStringLiteral();
+
+  @Nullable
+  PsiElement getDiscardName();
 
   @Nullable
   PsiElement getIdentifier();

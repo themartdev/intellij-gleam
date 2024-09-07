@@ -11,9 +11,9 @@ public interface GleamConstantType extends PsiElement {
   GleamConstantTypeArguments getConstantTypeArguments();
 
   @Nullable
-  GleamRemoteTypeIdentifier getRemoteTypeIdentifier();
+  GleamQualifiedTypeName getQualifiedTypeName();
 
   @Nullable
-  GleamTypeIdentifier getTypeIdentifier();
+  GleamUnqualifiedTypeName getUnqualifiedTypeName();
 
 }

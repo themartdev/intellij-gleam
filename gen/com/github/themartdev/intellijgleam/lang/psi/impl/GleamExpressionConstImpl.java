@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamOpacityModifierImpl extends ASTWrapperPsiElement implements GleamOpacityModifier {
+public abstract class GleamExpressionConstImpl extends ASTWrapperPsiElement implements GleamExpressionConst {
 
-  public GleamOpacityModifierImpl(@NotNull ASTNode node) {
+  public GleamExpressionConstImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitOpacityModifier(this);
+    visitor.visitExpressionConst(this);
   }
 
   @Override

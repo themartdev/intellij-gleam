@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamRemoteTypeIdentifierImpl extends ASTWrapperPsiElement implements GleamRemoteTypeIdentifier {
+public class GleamQualifiedTypeNameImpl extends ASTWrapperPsiElement implements GleamQualifiedTypeName {
 
-  public GleamRemoteTypeIdentifierImpl(@NotNull ASTNode node) {
+  public GleamQualifiedTypeNameImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitRemoteTypeIdentifier(this);
+    visitor.visitQualifiedTypeName(this);
   }
 
   @Override
@@ -29,8 +29,8 @@ public class GleamRemoteTypeIdentifierImpl extends ASTWrapperPsiElement implemen
 
   @Override
   @NotNull
-  public GleamTypeIdentifier getTypeIdentifier() {
-    return findNotNullChildByClass(GleamTypeIdentifier.class);
+  public GleamTypeReference getTypeReference() {
+    return findNotNullChildByClass(GleamTypeReference.class);
   }
 
   @Override

@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamConstantListImpl extends ASTWrapperPsiElement implements GleamConstantList {
+public class GleamLiteralExprConstImpl extends GleamExpressionConstImpl implements GleamLiteralExprConst {
 
-  public GleamConstantListImpl(@NotNull ASTNode node) {
+  public GleamLiteralExprConstImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitConstantList(this);
+    visitor.visitLiteralExprConst(this);
   }
 
   @Override
@@ -28,9 +28,27 @@ public class GleamConstantListImpl extends ASTWrapperPsiElement implements Gleam
   }
 
   @Override
-  @NotNull
-  public List<GleamConstantValue> getConstantValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamConstantValue.class);
+  @Nullable
+  public GleamFloatLiteral getFloatLiteral() {
+    return findChildByClass(GleamFloatLiteral.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamIntegerLiteral getIntegerLiteral() {
+    return findChildByClass(GleamIntegerLiteral.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamStringLiteral getStringLiteral() {
+    return findChildByClass(GleamStringLiteral.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getBooleanLiteral() {
+    return findChildByType(BOOLEAN_LITERAL);
   }
 
 }

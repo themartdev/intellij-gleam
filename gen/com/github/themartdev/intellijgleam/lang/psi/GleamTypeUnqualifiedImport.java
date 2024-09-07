@@ -5,12 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamRemoteTypeIdentifier extends PsiElement {
-
-  @NotNull
-  GleamTypeIdentifier getTypeIdentifier();
-
-  @NotNull
-  PsiElement getIdentifier();
+public interface GleamTypeUnqualifiedImport extends PsiElement {
 
 }

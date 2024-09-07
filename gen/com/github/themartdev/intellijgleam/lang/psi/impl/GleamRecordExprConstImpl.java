@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamConstantFieldAccessImpl extends ASTWrapperPsiElement implements GleamConstantFieldAccess {
+public class GleamRecordExprConstImpl extends GleamExpressionConstImpl implements GleamRecordExprConst {
 
-  public GleamConstantFieldAccessImpl(@NotNull ASTNode node) {
+  public GleamRecordExprConstImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitConstantFieldAccess(this);
+    visitor.visitRecordExprConst(this);
   }
 
   @Override
@@ -28,15 +28,21 @@ public class GleamConstantFieldAccessImpl extends ASTWrapperPsiElement implement
   }
 
   @Override
-  @NotNull
-  public GleamLabel getLabel() {
-    return findNotNullChildByClass(GleamLabel.class);
+  @Nullable
+  public GleamConstantRecordArguments getConstantRecordArguments() {
+    return findChildByClass(GleamConstantRecordArguments.class);
   }
 
   @Override
-  @NotNull
-  public PsiElement getIdentifier() {
-    return findNotNullChildByType(IDENTIFIER);
+  @Nullable
+  public GleamQualifiedTypeName getQualifiedTypeName() {
+    return findChildByClass(GleamQualifiedTypeName.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamUnqualifiedTypeName getUnqualifiedTypeName() {
+    return findChildByClass(GleamUnqualifiedTypeName.class);
   }
 
 }

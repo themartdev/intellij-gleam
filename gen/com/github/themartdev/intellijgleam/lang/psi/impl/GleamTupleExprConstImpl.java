@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamTypeReferenceImpl extends ASTWrapperPsiElement implements GleamTypeReference {
+public class GleamTupleExprConstImpl extends GleamExpressionConstImpl implements GleamTupleExprConst {
 
-  public GleamTypeReferenceImpl(@NotNull ASTNode node) {
+  public GleamTupleExprConstImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitTypeReference(this);
+    visitor.visitTupleExprConst(this);
   }
 
   @Override
@@ -28,21 +28,9 @@ public class GleamTypeReferenceImpl extends ASTWrapperPsiElement implements Glea
   }
 
   @Override
-  @Nullable
-  public GleamQualifiedTypeName getQualifiedTypeName() {
-    return findChildByClass(GleamQualifiedTypeName.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamTypeArguments getTypeArguments() {
-    return findChildByClass(GleamTypeArguments.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamUnqualifiedTypeName getUnqualifiedTypeName() {
-    return findChildByClass(GleamUnqualifiedTypeName.class);
+  @NotNull
+  public List<GleamExpressionConst> getExpressionConstList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamExpressionConst.class);
   }
 
 }

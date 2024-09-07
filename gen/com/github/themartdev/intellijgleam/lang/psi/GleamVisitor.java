@@ -51,6 +51,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitExpression(o);
   }
 
+  public void visitBitArrayExprConst(@NotNull GleamBitArrayExprConst o) {
+    visitExpressionConst(o);
+  }
+
   public void visitBitArrayOptionName(@NotNull GleamBitArrayOptionName o) {
     visitPsiElement(o);
   }
@@ -123,10 +127,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitConstantBitArray(@NotNull GleamConstantBitArray o) {
-    visitPsiElement(o);
-  }
-
   public void visitConstantBitArraySegment(@NotNull GleamConstantBitArraySegment o) {
     visitPsiElement(o);
   }
@@ -135,19 +135,7 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitConstantFieldAccess(@NotNull GleamConstantFieldAccess o) {
-    visitPsiElement(o);
-  }
-
   public void visitConstantFunctionParameterTypes(@NotNull GleamConstantFunctionParameterTypes o) {
-    visitPsiElement(o);
-  }
-
-  public void visitConstantList(@NotNull GleamConstantList o) {
-    visitPsiElement(o);
-  }
-
-  public void visitConstantRecord(@NotNull GleamConstantRecord o) {
     visitPsiElement(o);
   }
 
@@ -156,10 +144,6 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitConstantRecordArguments(@NotNull GleamConstantRecordArguments o) {
-    visitPsiElement(o);
-  }
-
-  public void visitConstantTuple(@NotNull GleamConstantTuple o) {
     visitPsiElement(o);
   }
 
@@ -188,10 +172,6 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitConstantTypeTuple(@NotNull GleamConstantTypeTuple o) {
-    visitPsiElement(o);
-  }
-
-  public void visitConstantValue(@NotNull GleamConstantValue o) {
     visitPsiElement(o);
   }
 
@@ -235,15 +215,15 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitDiscard(@NotNull GleamDiscard o) {
-    visitPsiElement(o);
-  }
-
   public void visitDiscardParam(@NotNull GleamDiscardParam o) {
     visitPsiElement(o);
   }
 
   public void visitExpression(@NotNull GleamExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitExpressionConst(@NotNull GleamExpressionConst o) {
     visitPsiElement(o);
   }
 
@@ -269,6 +249,10 @@ public class GleamVisitor extends PsiElementVisitor {
 
   public void visitExternalTarget(@NotNull GleamExternalTarget o) {
     visitPsiElement(o);
+  }
+
+  public void visitFieldAccessExprConst(@NotNull GleamFieldAccessExprConst o) {
+    visitExpressionConst(o);
   }
 
   public void visitFloatLiteral(@NotNull GleamFloatLiteral o) {
@@ -307,12 +291,12 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitGenericIdentifier(@NotNull GleamGenericIdentifier o) {
+  public void visitHexIntegerLiteral(@NotNull GleamHexIntegerLiteral o) {
     visitPsiElement(o);
   }
 
-  public void visitHexIntegerLiteral(@NotNull GleamHexIntegerLiteral o) {
-    visitPsiElement(o);
+  public void visitIdentifierExprConst(@NotNull GleamIdentifierExprConst o) {
+    visitExpressionConst(o);
   }
 
   public void visitImportDeclaration(@NotNull GleamImportDeclaration o) {
@@ -347,6 +331,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitExpression(o);
   }
 
+  public void visitListExprConst(@NotNull GleamListExprConst o) {
+    visitExpressionConst(o);
+  }
+
   public void visitListPattern(@NotNull GleamListPattern o) {
     visitPsiElement(o);
   }
@@ -357,6 +345,10 @@ public class GleamVisitor extends PsiElementVisitor {
 
   public void visitLiteralExpr(@NotNull GleamLiteralExpr o) {
     visitExpression(o);
+  }
+
+  public void visitLiteralExprConst(@NotNull GleamLiteralExprConst o) {
+    visitExpressionConst(o);
   }
 
   public void visitModule(@NotNull GleamModule o) {
@@ -372,10 +364,6 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitOmittedTypeValue(@NotNull GleamOmittedTypeValue o) {
-    visitPsiElement(o);
-  }
-
-  public void visitOpacityModifier(@NotNull GleamOpacityModifier o) {
     visitPsiElement(o);
   }
 
@@ -399,6 +387,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitQualifiedTypeName(@NotNull GleamQualifiedTypeName o) {
+    visitPsiElement(o);
+  }
+
   public void visitRecordArgument(@NotNull GleamRecordArgument o) {
     visitPsiElement(o);
   }
@@ -409,6 +401,10 @@ public class GleamVisitor extends PsiElementVisitor {
 
   public void visitRecordExpr(@NotNull GleamRecordExpr o) {
     visitExpression(o);
+  }
+
+  public void visitRecordExprConst(@NotNull GleamRecordExprConst o) {
+    visitExpressionConst(o);
   }
 
   public void visitRecordPattern(@NotNull GleamRecordPattern o) {
@@ -451,10 +447,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitRemoteTypeIdentifier(@NotNull GleamRemoteTypeIdentifier o) {
-    visitPsiElement(o);
-  }
-
   public void visitShortHandLabeledArgument(@NotNull GleamShortHandLabeledArgument o) {
     visitPsiElement(o);
   }
@@ -481,6 +473,10 @@ public class GleamVisitor extends PsiElementVisitor {
 
   public void visitTupleExpr(@NotNull GleamTupleExpr o) {
     visitExpression(o);
+  }
+
+  public void visitTupleExprConst(@NotNull GleamTupleExprConst o) {
+    visitExpressionConst(o);
   }
 
   public void visitTuplePattern(@NotNull GleamTuplePattern o) {
@@ -515,11 +511,11 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitTypeIdentifier(@NotNull GleamTypeIdentifier o) {
+  public void visitTypeReference(@NotNull GleamTypeReference o) {
     visitPsiElement(o);
   }
 
-  public void visitTypeReference(@NotNull GleamTypeReference o) {
+  public void visitTypeUnqualifiedImport(@NotNull GleamTypeUnqualifiedImport o) {
     visitPsiElement(o);
   }
 
@@ -552,6 +548,10 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitUnqualifiedImports(@NotNull GleamUnqualifiedImports o) {
+    visitPsiElement(o);
+  }
+
+  public void visitUnqualifiedTypeName(@NotNull GleamUnqualifiedTypeName o) {
     visitPsiElement(o);
   }
 

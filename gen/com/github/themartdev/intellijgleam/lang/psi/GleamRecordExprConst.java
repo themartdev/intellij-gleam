@@ -5,15 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamConstantRecord extends PsiElement {
+public interface GleamRecordExprConst extends GleamExpressionConst {
 
   @Nullable
   GleamConstantRecordArguments getConstantRecordArguments();
 
   @Nullable
-  GleamConstructorIdentifier getConstructorIdentifier();
+  GleamQualifiedTypeName getQualifiedTypeName();
 
   @Nullable
-  GleamRemoteConstructorIdentifier getRemoteConstructorIdentifier();
+  GleamUnqualifiedTypeName getUnqualifiedTypeName();
 
 }

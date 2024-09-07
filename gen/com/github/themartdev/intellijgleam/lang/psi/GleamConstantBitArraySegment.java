@@ -11,6 +11,6 @@ public interface GleamConstantBitArraySegment extends PsiElement {
   GleamBitArraySegmentOptions getBitArraySegmentOptions();
 
   @NotNull
-  GleamConstantValue getConstantValue();
+  GleamExpressionConst getExpressionConst();
 
 }

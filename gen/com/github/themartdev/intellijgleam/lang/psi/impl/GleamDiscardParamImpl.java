@@ -29,8 +29,8 @@ public class GleamDiscardParamImpl extends ASTWrapperPsiElement implements Gleam
 
   @Override
   @NotNull
-  public GleamDiscard getDiscard() {
-    return findNotNullChildByClass(GleamDiscard.class);
+  public PsiElement getDiscardName() {
+    return findNotNullChildByType(DISCARD_NAME);
   }
 
 }

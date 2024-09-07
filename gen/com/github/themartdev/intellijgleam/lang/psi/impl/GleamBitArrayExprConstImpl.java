@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamConstantTupleImpl extends ASTWrapperPsiElement implements GleamConstantTuple {
+public class GleamBitArrayExprConstImpl extends GleamExpressionConstImpl implements GleamBitArrayExprConst {
 
-  public GleamConstantTupleImpl(@NotNull ASTNode node) {
+  public GleamBitArrayExprConstImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitConstantTuple(this);
+    visitor.visitBitArrayExprConst(this);
   }
 
   @Override
@@ -29,8 +29,8 @@ public class GleamConstantTupleImpl extends ASTWrapperPsiElement implements Glea
 
   @Override
   @NotNull
-  public List<GleamConstantValue> getConstantValueList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamConstantValue.class);
+  public List<GleamConstantBitArraySegment> getConstantBitArraySegmentList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamConstantBitArraySegment.class);
   }
 
 }

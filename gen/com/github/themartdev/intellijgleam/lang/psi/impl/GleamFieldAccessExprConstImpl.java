@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamDiscardImpl extends ASTWrapperPsiElement implements GleamDiscard {
+public class GleamFieldAccessExprConstImpl extends GleamExpressionConstImpl implements GleamFieldAccessExprConst {
 
-  public GleamDiscardImpl(@NotNull ASTNode node) {
+  public GleamFieldAccessExprConstImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitDiscard(this);
+    visitor.visitFieldAccessExprConst(this);
   }
 
   @Override
@@ -29,8 +29,14 @@ public class GleamDiscardImpl extends ASTWrapperPsiElement implements GleamDisca
 
   @Override
   @NotNull
-  public PsiElement getDiscardName() {
-    return findNotNullChildByType(DISCARD_NAME);
+  public GleamLabel getLabel() {
+    return findNotNullChildByClass(GleamLabel.class);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getIdentifier() {
+    return findNotNullChildByType(IDENTIFIER);
   }
 
 }

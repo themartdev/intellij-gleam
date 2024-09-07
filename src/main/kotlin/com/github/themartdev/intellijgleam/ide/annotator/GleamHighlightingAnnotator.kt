@@ -1,9 +1,15 @@
 package com.github.themartdev.intellijgleam.ide.annotator
 
+import com.github.themartdev.intellijgleam.ide.editor.GleamQuoteHandler
 import com.github.themartdev.intellijgleam.ide.highlighting.GleamColors
+import com.github.themartdev.intellijgleam.lang.psi.GleamGenericIdentifier
 import com.github.themartdev.intellijgleam.lang.psi.GleamLabeledArgument
 import com.github.themartdev.intellijgleam.lang.psi.GleamShortHandLabeledArgument
+import com.github.themartdev.intellijgleam.lang.psi.GleamTokenType
+import com.github.themartdev.intellijgleam.lang.psi.GleamTypeDeclarationName
+import com.github.themartdev.intellijgleam.lang.psi.GleamTypeUnqualifiedImport
 import com.github.themartdev.intellijgleam.lang.psi.GleamTypes
+import com.github.themartdev.intellijgleam.lang.psi.GleamUnqualifiedImport
 import com.intellij.codeInspection.util.InspectionMessage
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -20,7 +26,11 @@ class GleamHighlightingAnnotator : Annotator, DumbAware {
             GleamTypes.FUNCTION_NAME_DEFINITION -> newAnnotation(holder, element, GleamColors.FUNCTION_DECLARATION)
             GleamTypes.STRING_ESCAPE_SEGMENT -> newAnnotation(holder, element, GleamColors.STRING_ESCAPE)
             GleamTypes.TYPE_DECLARATION_NAME -> newAnnotation(holder, element, GleamColors.TYPE_DECLARATION)
-            GleamTypes.TYPE_IDENTIFIER -> newAnnotation(holder, element, GleamColors.TYPE_REFERENCE)
+        }
+
+        when (element) {
+            is GleamTypeUnqualifiedImport -> {
+            }
         }
 
         highlightLabels(element, holder)

@@ -29,14 +29,14 @@ public class GleamLabeledDiscardParamImpl extends ASTWrapperPsiElement implement
 
   @Override
   @NotNull
-  public GleamDiscard getDiscard() {
-    return findNotNullChildByClass(GleamDiscard.class);
+  public GleamLabel getLabel() {
+    return findNotNullChildByClass(GleamLabel.class);
   }
 
   @Override
   @NotNull
-  public GleamLabel getLabel() {
-    return findNotNullChildByClass(GleamLabel.class);
+  public PsiElement getDiscardName() {
+    return findNotNullChildByType(DISCARD_NAME);
   }
 
 }

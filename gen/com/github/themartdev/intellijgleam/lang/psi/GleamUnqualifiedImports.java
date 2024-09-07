@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface GleamUnqualifiedImports extends PsiElement {
 
   @NotNull
+  List<GleamTypeUnqualifiedImport> getTypeUnqualifiedImportList();
+
+  @NotNull
   List<GleamUnqualifiedImport> getUnqualifiedImportList();
 
 }

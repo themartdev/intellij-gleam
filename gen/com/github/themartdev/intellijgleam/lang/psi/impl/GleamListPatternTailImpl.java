@@ -29,8 +29,8 @@ public class GleamListPatternTailImpl extends ASTWrapperPsiElement implements Gl
 
   @Override
   @Nullable
-  public GleamDiscard getDiscard() {
-    return findChildByClass(GleamDiscard.class);
+  public PsiElement getDiscardName() {
+    return findChildByType(DISCARD_NAME);
   }
 
   @Override

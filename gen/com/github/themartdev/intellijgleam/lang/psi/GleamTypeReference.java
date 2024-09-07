@@ -8,12 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface GleamTypeReference extends PsiElement {
 
   @Nullable
-  GleamRemoteTypeIdentifier getRemoteTypeIdentifier();
+  GleamQualifiedTypeName getQualifiedTypeName();
 
   @Nullable
   GleamTypeArguments getTypeArguments();
 
   @Nullable
-  GleamTypeIdentifier getTypeIdentifier();
+  GleamUnqualifiedTypeName getUnqualifiedTypeName();
 
 }

@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamConstantTuple extends PsiElement {
+public interface GleamTupleExprConst extends GleamExpressionConst {
 
   @NotNull
-  List<GleamConstantValue> getConstantValueList();
+  List<GleamExpressionConst> getExpressionConstList();
 
 }

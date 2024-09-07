@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamConstantFieldAccess extends PsiElement {
+public interface GleamBitArrayExprConst extends GleamExpressionConst {
 
   @NotNull
-  GleamLabel getLabel();
-
-  @NotNull
-  PsiElement getIdentifier();
+  List<GleamConstantBitArraySegment> getConstantBitArraySegmentList();
 
 }

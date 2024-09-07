@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamConstantBitArray extends PsiElement {
+public interface GleamQualifiedTypeName extends PsiElement {
 
   @NotNull
-  List<GleamConstantBitArraySegment> getConstantBitArraySegmentList();
+  GleamTypeReference getTypeReference();
+
+  @NotNull
+  PsiElement getIdentifier();
 
 }

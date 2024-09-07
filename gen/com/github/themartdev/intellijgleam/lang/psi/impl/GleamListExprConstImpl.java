@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamConstantRecordImpl extends ASTWrapperPsiElement implements GleamConstantRecord {
+public class GleamListExprConstImpl extends GleamExpressionConstImpl implements GleamListExprConst {
 
-  public GleamConstantRecordImpl(@NotNull ASTNode node) {
+  public GleamListExprConstImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitConstantRecord(this);
+    visitor.visitListExprConst(this);
   }
 
   @Override
@@ -28,21 +28,9 @@ public class GleamConstantRecordImpl extends ASTWrapperPsiElement implements Gle
   }
 
   @Override
-  @Nullable
-  public GleamConstantRecordArguments getConstantRecordArguments() {
-    return findChildByClass(GleamConstantRecordArguments.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamConstructorIdentifier getConstructorIdentifier() {
-    return findChildByClass(GleamConstructorIdentifier.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamRemoteConstructorIdentifier getRemoteConstructorIdentifier() {
-    return findChildByClass(GleamRemoteConstructorIdentifier.class);
+  @NotNull
+  public List<GleamExpressionConst> getExpressionConstList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamExpressionConst.class);
   }
 
 }

@@ -12,8 +12,6 @@
   psiPackage="com.github.themartdev.intellijgleam.lang.psi"
   psiImplPackage="com.github.themartdev.intellijgleam.lang.psi.impl"
 
-  extends(".*Expr")=expression
-  extends(".*Decorator")=decorator
 
   tokens=[
     EOL             = '\\n, \\r\\n'
@@ -131,6 +129,10 @@
     UNKNOWN_NUMBER_BASE = "regexp:[a-zA-Z]"
     INVALID_UNKNOWN_BASE_DIGIT = "regexp:[a-zA-Z1-9]"
   ]
+
+  extends(".*Expr")=expression
+  extends(".*ExprConst")=expressionConst
+  extends(".*Decorator")=decorator
 }
 
 
@@ -149,7 +151,22 @@ private declarationRecover ::= !topLevelKeyword
 private topLevelKeyword ::= IMPORT | CONST | TYPE | FN | PUB | OPAQUE | DECORATOR_MARK
 
 
-// Decorators
+constantDeclaration ::= [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUAL expressionConst {pin=2}
+
+
+// ===== External =====
+externalFunctionSignature ::= [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase]
+externalFunctionNoFallbackDeclaration ::=  externalDecorator (externalDecorator)* externalFunctionSignature {pin=1}
+
+// ===== Imports =====
+module ::= IDENTIFIER (SLASH IDENTIFIER)*
+unqualifiedImport ::= identifier (AS identifier)*
+typeUnqualifiedImport ::= TYPE upIdentifier (AS upIdentifier)?
+private unqualifiedImportBase ::= unqualifiedImport | typeUnqualifiedImport
+unqualifiedImports ::= LBRACE [unqualifiedImportBase (COMMA unqualifiedImportBase)* [COMMA]] RBRACE
+importDeclaration ::= IMPORT module [DOT unqualifiedImports] [AS IDENTIFIER] {pin=1}
+
+// ===== Decorators =====
 externalTarget ::= "javascript" | "erlang"
 externalDecoratorName ::= "external"
 externalDecorator ::= DECORATOR_MARK externalDecoratorName LPAREN externalTarget COMMA stringLiteral COMMA stringLiteral RPAREN {pin=2}
@@ -163,68 +180,55 @@ unknownDecorator ::= DECORATOR_MARK unknownDecoratorName LPAREN [unknownDecorato
 
 decorator ::= externalDecorator | deprecatedDecorator | unknownDecorator
 
-// External
-externalFunctionSignature ::= [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase]
-externalFunctionNoFallbackDeclaration ::=  externalDecorator (externalDecorator)* externalFunctionSignature {pin=1}
-
-// Imports
-module ::= IDENTIFIER (SLASH IDENTIFIER)*
-unqualifiedImport ::= IDENTIFIER (AS IDENTIFIER)? | [TYPE] UP_IDENTIFIER (AS UP_IDENTIFIER)?
-unqualifiedImports ::= LBRACE [unqualifiedImport (COMMA unqualifiedImport)* [COMMA]] RBRACE
-importDeclaration ::= IMPORT module [DOT unqualifiedImports] [AS IDENTIFIER] {pin=1}
-
-// Types
+// ===== Rest =====
 constantFunctionParameterTypes ::= LPAREN [constantTypeSpecial (COMMA constantTypeSpecial)* [COMMA]] RPAREN
 constantTypeFunction ::= FN [constantFunctionParameterTypes] R_ARROW constantTypeSpecial
 
-constantTuple ::= HASH LPAREN [constantValue (COMMA constantValue)* [COMMA]] RPAREN
-constantTypeTuple ::= HASH LPAREN [constantTypeSpecial (COMMA constantTypeSpecial)* [COMMA]] RPAREN
 
 constantTypeArgument ::= constantTypeSpecial
 constantTypeArguments ::= LPAREN [constantTypeArgument (COMMA constantTypeArgument)* [COMMA]] RPAREN
 
-constantList ::= LBRACK [constantValue (COMMA constantValue)* [COMMA]] RBRACK
 
-constantRecordArgument ::= [label COLON] constantValue
-constantRecordArguments ::= LPAREN [constantRecordArgument (COMMA constantRecordArgument)* [COMMA]] RPAREN
-constantRecord ::= (constructorIdentifier | remoteConstructorIdentifier) [constantRecordArguments]
-
-
-bitArrayOptionName ::= IDENTIFIER
-bitArraySegmentOption ::= bitArrayOptionName [LPAREN wholeNumber RPAREN] | wholeNumber
-bitArraySegmentOptions ::= bitArraySegmentOption (MINUS bitArraySegmentOption)*
-
-constantBitArraySegment ::= constantValue [COLON bitArraySegmentOptions]
-constantBitArray ::= LT_LT [constantBitArraySegment (COMMA constantBitArraySegment)* [COMMA]] GT_GT
-
-constantType ::= (typeIdentifier | remoteTypeIdentifier) [constantTypeArguments]
-constantTypeSpecial ::= typeIdentifier
+constantType ::= typeName [constantTypeArguments]
+constantTypeTuple ::= HASH LPAREN [constantTypeSpecial (COMMA constantTypeSpecial)* [COMMA]] RPAREN
+constantTypeSpecial ::= typeName
                       | constantTypeTuple
                       | constantTypeFunction
                       | constantType
 constantTypeAnnotation ::= COLON constantType
-constantFieldAccess ::= IDENTIFIER DOT label
-constantValue ::= constantTuple
-                | constantList
-                | constantBitArray
-                | constantRecord
-                | constantFieldAccess
-                | literalExpr
-                // Can refer to another constant
-                | identifier
 
-constantDeclaration ::= [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUAL constantValue {pin=2}
+
+// ===== Constant expressions =====
+expressionConst ::= literalExprConst
+            | tupleExprConst
+            | bitArrayExprConst
+            | listExprConst
+            | recordExprConst
+            | fieldAccessExprConst
+            // Can refer to another constant
+            | identifierExprConst
+literalExprConst ::= literal
+tupleExprConst ::= HASH LPAREN [expressionConst (COMMA expressionConst)* [COMMA]] RPAREN {pin=2}
+constantBitArraySegment ::= expressionConst [COLON bitArraySegmentOptions]
+bitArrayExprConst ::= LT_LT [constantBitArraySegment (COMMA constantBitArraySegment)* [COMMA]] GT_GT {pin=1}
+listExprConst ::= LBRACK [expressionConst (COMMA expressionConst)* [COMMA]] RBRACK {pin=1}
+constantRecordArgument ::= [label COLON] expressionConst
+constantRecordArguments ::= LPAREN [constantRecordArgument (COMMA constantRecordArgument)* [COMMA]] RPAREN
+recordExprConst ::= typeName [constantRecordArguments]
+fieldAccessExprConst ::= IDENTIFIER DOT label
+identifierExprConst ::= identifier
+// ============
+
 
 functionParameterTypes ::= LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN
 tupleType ::= HASH LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN
 functionType ::= FN [functionParameterTypes] R_ARROW typeBase
 
-genericIdentifier ::= IDENTIFIER
-typeBase ::= typeReference | tupleType | functionType | genericIdentifier
+typeBase ::= typeReference | tupleType | functionType
 typeAnnotation ::= COLON typeBase
 typeArgument ::= typeBase
 typeArguments ::= LPAREN [typeArgument (COMMA typeArgument)* [COMMA]] RPAREN
-typeReference ::= (typeIdentifier | remoteTypeIdentifier) [typeArguments]
+typeReference ::= typeName [typeArguments]
 
 functionParameterArgs ::= labeledDiscardParam | discardParam | labeledNameParam | nameParam
 functionParameter ::= functionParameterArgs [typeAnnotation]
@@ -233,20 +237,16 @@ functionBody ::= LBRACE [expressionSeq] RBRACE {pin=1}
 functionDeclaration ::= (decorator)* [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody
 functionNameDefinition::= IDENTIFIER
 
-listPatternTail ::= DOT_DOT [IDENTIFIER | discard]
+listPatternTail ::= DOT_DOT [IDENTIFIER | discardIdentifier]
 listPattern ::= LBRACK [pattern (COMMA pattern)* [COMMA]] [listPatternTail] RBRACK
 
-patternBitArraySegment ::= pattern [COLON bitArraySegmentOptions]
-patternBitArray ::= LT_LT [patternBitArraySegment (COMMA patternBitArraySegment)* [COMMA]] GT_GT
-stringPattern ::= stringLiteral LT_GT [IDENTIFIER | discard]
+stringPattern ::= stringLiteral LT_GT [IDENTIFIER | discardIdentifier]
 
-tuplePattern ::= HASH LPAREN [pattern (COMMA pattern)* [COMMA]] RPAREN
 patternSpread ::= DOT_DOT [COMMA]
 recordPatternArgument ::= [label COLON] pattern
 recordPatternArguments ::= LPAREN [recordPatternArgument (COMMA recordPatternArgument)* [COMMA]] [patternSpread] RPAREN
 recordPattern ::= (constructorIdentifier | remoteConstructorIdentifier) [recordPatternArguments]
-pattern ::= (IDENTIFIER | discard | stringPattern | recordPattern | literalExpr | tuplePattern | patternBitArray | listPattern ) [AS IDENTIFIER]
-
+pattern ::= (IDENTIFIER | discardIdentifier | stringPattern | recordPattern | literalExpr | tuplePattern | patternBitArray | listPattern ) [AS IDENTIFIER]
 
 expressionSeq ::= (expression)+
 
@@ -261,11 +261,8 @@ recordUpdate ::= DOT_DOT variableReference {pin=1}
 recordArguments ::=  LPAREN (recordUpdate COMMA recordArgumentList | recordUpdate | recordArgumentList) RPAREN
 recordExpr ::= (constructorIdentifier | remoteConstructorIdentifier) [recordArguments]
 
-bitArraySegment ::= expression [COLON bitArraySegmentOptions]
-bitArrayExpr ::= LT_LT [bitArraySegment (COMMA bitArraySegment)* [COMMA]] GT_GT {pin=1}
 //private bitArrayRecover ::= !(GT_GT | LT_LT)
 
-tupleExpr ::= HASH LPAREN [expression (COMMA expression)* [COMMA]] RPAREN {pin=2}
 listExpr ::= LBRACK [expression ((COMMA expression)*)? [COMMA] [DOT_DOT expression]] RBRACK
 
 anonymousFunctionParameterArgs ::= discardParam | nameParam
@@ -276,7 +273,7 @@ anonymousFunctionExpr ::= FN anonymousFunctionParameters [R_ARROW typeReference]
 blockExpr ::= LBRACE expressionSeq RBRACE
 
 caseClauseTupleAccess ::= IDENTIFIER DOT wholeNumber
-caseClauseGuardUnit ::= IDENTIFIER | caseClauseTupleAccess | LBRACE caseClauseGuardExpression RBRACE | constantValue
+caseClauseGuardUnit ::= IDENTIFIER | caseClauseTupleAccess | LBRACE caseClauseGuardExpression RBRACE | expressionConst
 caseClauseGuardBinaryOperator ::= VBAR_VBAR | AMPER_AMPER | EQUAL_EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | LESS_DOT
                                 | LESS_EQUAL_DOT | GREATER | GREATER_EQUAL | GREATER_DOT | GREATER_EQUAL_DOT
 caseClauseGuardExpression ::= caseClauseGuardUnit caseClauseGuardTail*
@@ -313,10 +310,11 @@ accessExpr ::= expression DOT (label | wholeNumber)
 
 referenceExpr ::= IDENTIFIER
 
-literalExpr ::= floatLiteral
+private literal ::= floatLiteral
               | stringLiteral
               | integerLiteral
               | BOOLEAN_LITERAL
+literalExpr ::= literal
 
 private simpleKeywordExpr ::= letExpr | panicExpr | todoExpr
 expression ::= simpleKeywordExpr
@@ -339,7 +337,6 @@ expression ::= simpleKeywordExpr
 //private expressionRecoverWhile ::= !expressionRecoverUntil
 //private expressionRecoverUntil ::= RBRACE | RPAREN | RBRACK | EOL
 
-
 binaryExpr ::= expression binaryOperator expression
 binaryOperator ::= EQUAL_EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | LESS_DOT
                  | LESS_EQUAL_DOT | GREATER | GREATER_EQUAL | GREATER_DOT
@@ -350,21 +347,37 @@ binaryOperator ::= EQUAL_EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | LESS_DOT
 unaryExpr ::= unaryOperator expression
 unaryOperator ::= BANG | MINUS
 
-//// Types
+// ===== Tuple =====
+tuplePattern ::= HASH LPAREN [pattern (COMMA pattern)* [COMMA]] RPAREN
+tupleExpr ::= HASH LPAREN [expression (COMMA expression)* [COMMA]] RPAREN {pin=2}
+
+// ===== BitArray =====
+bitArrayOptionName ::= IDENTIFIER
+bitArraySegmentOption ::= bitArrayOptionName [LPAREN wholeNumber RPAREN] | wholeNumber
+bitArraySegmentOptions ::= bitArraySegmentOption (MINUS bitArraySegmentOption)*
+
+bitArraySegment ::= expression [COLON bitArraySegmentOptions]
+
+patternBitArraySegment ::= pattern [COLON bitArraySegmentOptions]
+
+patternBitArray ::= LT_LT [patternBitArraySegment (COMMA patternBitArraySegment)* [COMMA]] GT_GT
+bitArrayExpr ::= LT_LT [bitArraySegment (COMMA bitArraySegment)* [COMMA]] GT_GT {pin=1}
+
+// ===== Types =====
 dataConstructorArgument ::= [label COLON] typeBase
 dataConstructorArguments ::= LPAREN [dataConstructorArgument (COMMA dataConstructorArgument)* [COMMA]] RPAREN
 dataConstructor ::= constructorIdentifier [dataConstructorArguments]
 dataConstructors ::= dataConstructor+
-
 
 referenceTypeValue ::= EQUAL typeReference
 customTypeValue ::= LBRACE dataConstructors RBRACE
 omittedTypeValue ::=
 typeValue ::= referenceTypeValue | customTypeValue | omittedTypeValue
 typeDeclarationName ::= UP_IDENTIFIER
-typeDeclaration ::= [visibilityModifier] [opacityModifier] TYPE typeDeclarationName typeValue {pin=3}
+typeDeclaration ::= [visibilityModifier] [OPAQUE] TYPE typeDeclarationName typeValue {pin=3}
 
-//// Numbers
+// ===== Literals =====
+// Numbers
 binaryIntegerLiteral ::= BASE_NUMBER_PREFIX BINARY_NUMBER_BASE VALID_BINARY_DIGIT (NUMBER_SEPARATOR VALID_BINARY_DIGIT)*
 octalIntegerLiteral ::= BASE_NUMBER_PREFIX OCTAL_NUMBER_BASE VALID_OCTAL_DIGIT (NUMBER_SEPARATOR VALID_OCTAL_DIGIT)*
 hexIntegerLiteral ::= BASE_NUMBER_PREFIX HEX_NUMBER_BASE VALID_HEX_DIGIT (NUMBER_SEPARATOR VALID_HEX_DIGIT)*
@@ -384,19 +397,19 @@ stringLiteral ::= OPEN_QUOTE (REGULAR_STRING_PART | stringEscapeSegment)* CLOSE_
 // Aliases
 private identifier ::= IDENTIFIER
 private upIdentifier ::= UP_IDENTIFIER
+private discardIdentifier ::= DISCARD_NAME
+private typeName ::= qualifiedTypeName | unqualifiedTypeName
 
+unqualifiedTypeName ::= upIdentifier
+qualifiedTypeName ::= identifier DOT typeReference
 
 // Aliases
 variableReference ::= IDENTIFIER
 constructorIdentifier ::= UP_IDENTIFIER
-typeIdentifier ::= UP_IDENTIFIER
-discard ::= DISCARD_NAME
 label ::= IDENTIFIER
-discardParam ::= discard
+discardParam ::= discardIdentifier
 nameParam ::= IDENTIFIER
 labeledNameParam ::= label IDENTIFIER
-labeledDiscardParam ::= label discard
+labeledDiscardParam ::= label discardIdentifier
 remoteConstructorIdentifier ::= IDENTIFIER DOT constructorIdentifier
-remoteTypeIdentifier ::= IDENTIFIER DOT typeIdentifier
 visibilityModifier ::= PUB
-opacityModifier ::= OPAQUE

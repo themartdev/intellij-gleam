@@ -5,6 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamOpacityModifier extends PsiElement {
+public interface GleamIdentifierExprConst extends GleamExpressionConst {
+
+  @NotNull
+  PsiElement getIdentifier();
 
 }

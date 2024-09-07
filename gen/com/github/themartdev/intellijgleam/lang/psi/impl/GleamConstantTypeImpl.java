@@ -35,14 +35,14 @@ public class GleamConstantTypeImpl extends ASTWrapperPsiElement implements Gleam
 
   @Override
   @Nullable
-  public GleamRemoteTypeIdentifier getRemoteTypeIdentifier() {
-    return findChildByClass(GleamRemoteTypeIdentifier.class);
+  public GleamQualifiedTypeName getQualifiedTypeName() {
+    return findChildByClass(GleamQualifiedTypeName.class);
   }
 
   @Override
   @Nullable
-  public GleamTypeIdentifier getTypeIdentifier() {
-    return findChildByClass(GleamTypeIdentifier.class);
+  public GleamUnqualifiedTypeName getUnqualifiedTypeName() {
+    return findChildByClass(GleamUnqualifiedTypeName.class);
   }
 
 }

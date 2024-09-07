@@ -14,7 +14,7 @@ public interface GleamCaseClauseGuardUnit extends PsiElement {
   GleamCaseClauseTupleAccess getCaseClauseTupleAccess();
 
   @Nullable
-  GleamConstantValue getConstantValue();
+  GleamExpressionConst getExpressionConst();
 
   @Nullable
   PsiElement getIdentifier();

@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface GleamLabeledDiscardParam extends PsiElement {
 
   @NotNull
-  GleamDiscard getDiscard();
+  GleamLabel getLabel();
 
   @NotNull
-  GleamLabel getLabel();
+  PsiElement getDiscardName();
 
 }

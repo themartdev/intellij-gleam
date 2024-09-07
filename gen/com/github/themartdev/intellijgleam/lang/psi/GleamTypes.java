@@ -19,6 +19,7 @@ public interface GleamTypes {
   IElementType BINARY_INTEGER_LITERAL = new GleamElementType("BINARY_INTEGER_LITERAL");
   IElementType BINARY_OPERATOR = new GleamElementType("BINARY_OPERATOR");
   IElementType BIT_ARRAY_EXPR = new GleamElementType("BIT_ARRAY_EXPR");
+  IElementType BIT_ARRAY_EXPR_CONST = new GleamElementType("BIT_ARRAY_EXPR_CONST");
   IElementType BIT_ARRAY_OPTION_NAME = new GleamElementType("BIT_ARRAY_OPTION_NAME");
   IElementType BIT_ARRAY_SEGMENT = new GleamElementType("BIT_ARRAY_SEGMENT");
   IElementType BIT_ARRAY_SEGMENT_OPTION = new GleamElementType("BIT_ARRAY_SEGMENT_OPTION");
@@ -37,16 +38,11 @@ public interface GleamTypes {
   IElementType CASE_CLAUSE_TUPLE_ACCESS = new GleamElementType("CASE_CLAUSE_TUPLE_ACCESS");
   IElementType CASE_EXPR = new GleamElementType("CASE_EXPR");
   IElementType CASE_SUBJECTS = new GleamElementType("CASE_SUBJECTS");
-  IElementType CONSTANT_BIT_ARRAY = new GleamElementType("CONSTANT_BIT_ARRAY");
   IElementType CONSTANT_BIT_ARRAY_SEGMENT = new GleamElementType("CONSTANT_BIT_ARRAY_SEGMENT");
   IElementType CONSTANT_DECLARATION = new GleamElementType("CONSTANT_DECLARATION");
-  IElementType CONSTANT_FIELD_ACCESS = new GleamElementType("CONSTANT_FIELD_ACCESS");
   IElementType CONSTANT_FUNCTION_PARAMETER_TYPES = new GleamElementType("CONSTANT_FUNCTION_PARAMETER_TYPES");
-  IElementType CONSTANT_LIST = new GleamElementType("CONSTANT_LIST");
-  IElementType CONSTANT_RECORD = new GleamElementType("CONSTANT_RECORD");
   IElementType CONSTANT_RECORD_ARGUMENT = new GleamElementType("CONSTANT_RECORD_ARGUMENT");
   IElementType CONSTANT_RECORD_ARGUMENTS = new GleamElementType("CONSTANT_RECORD_ARGUMENTS");
-  IElementType CONSTANT_TUPLE = new GleamElementType("CONSTANT_TUPLE");
   IElementType CONSTANT_TYPE = new GleamElementType("CONSTANT_TYPE");
   IElementType CONSTANT_TYPE_ANNOTATION = new GleamElementType("CONSTANT_TYPE_ANNOTATION");
   IElementType CONSTANT_TYPE_ARGUMENT = new GleamElementType("CONSTANT_TYPE_ARGUMENT");
@@ -54,7 +50,6 @@ public interface GleamTypes {
   IElementType CONSTANT_TYPE_FUNCTION = new GleamElementType("CONSTANT_TYPE_FUNCTION");
   IElementType CONSTANT_TYPE_SPECIAL = new GleamElementType("CONSTANT_TYPE_SPECIAL");
   IElementType CONSTANT_TYPE_TUPLE = new GleamElementType("CONSTANT_TYPE_TUPLE");
-  IElementType CONSTANT_VALUE = new GleamElementType("CONSTANT_VALUE");
   IElementType CONSTRUCTOR_IDENTIFIER = new GleamElementType("CONSTRUCTOR_IDENTIFIER");
   IElementType CUSTOM_TYPE_VALUE = new GleamElementType("CUSTOM_TYPE_VALUE");
   IElementType DATA_CONSTRUCTOR = new GleamElementType("DATA_CONSTRUCTOR");
@@ -65,15 +60,16 @@ public interface GleamTypes {
   IElementType DECORATOR = new GleamElementType("DECORATOR");
   IElementType DEPRECATED_DECORATOR = new GleamElementType("DEPRECATED_DECORATOR");
   IElementType DEPRECATED_DECORATOR_NAME = new GleamElementType("DEPRECATED_DECORATOR_NAME");
-  IElementType DISCARD = new GleamElementType("DISCARD");
   IElementType DISCARD_PARAM = new GleamElementType("DISCARD_PARAM");
   IElementType EXPRESSION = new GleamElementType("EXPRESSION");
+  IElementType EXPRESSION_CONST = new GleamElementType("EXPRESSION_CONST");
   IElementType EXPRESSION_SEQ = new GleamElementType("EXPRESSION_SEQ");
   IElementType EXTERNAL_DECORATOR = new GleamElementType("EXTERNAL_DECORATOR");
   IElementType EXTERNAL_DECORATOR_NAME = new GleamElementType("EXTERNAL_DECORATOR_NAME");
   IElementType EXTERNAL_FUNCTION_NO_FALLBACK_DECLARATION = new GleamElementType("EXTERNAL_FUNCTION_NO_FALLBACK_DECLARATION");
   IElementType EXTERNAL_FUNCTION_SIGNATURE = new GleamElementType("EXTERNAL_FUNCTION_SIGNATURE");
   IElementType EXTERNAL_TARGET = new GleamElementType("EXTERNAL_TARGET");
+  IElementType FIELD_ACCESS_EXPR_CONST = new GleamElementType("FIELD_ACCESS_EXPR_CONST");
   IElementType FLOAT_LITERAL = new GleamElementType("FLOAT_LITERAL");
   IElementType FUNCTION_BODY = new GleamElementType("FUNCTION_BODY");
   IElementType FUNCTION_DECLARATION = new GleamElementType("FUNCTION_DECLARATION");
@@ -83,8 +79,8 @@ public interface GleamTypes {
   IElementType FUNCTION_PARAMETER_ARGS = new GleamElementType("FUNCTION_PARAMETER_ARGS");
   IElementType FUNCTION_PARAMETER_TYPES = new GleamElementType("FUNCTION_PARAMETER_TYPES");
   IElementType FUNCTION_TYPE = new GleamElementType("FUNCTION_TYPE");
-  IElementType GENERIC_IDENTIFIER = new GleamElementType("GENERIC_IDENTIFIER");
   IElementType HEX_INTEGER_LITERAL = new GleamElementType("HEX_INTEGER_LITERAL");
+  IElementType IDENTIFIER_EXPR_CONST = new GleamElementType("IDENTIFIER_EXPR_CONST");
   IElementType IMPORT_DECLARATION = new GleamElementType("IMPORT_DECLARATION");
   IElementType INTEGER_LITERAL = new GleamElementType("INTEGER_LITERAL");
   IElementType LABEL = new GleamElementType("LABEL");
@@ -93,22 +89,25 @@ public interface GleamTypes {
   IElementType LABELED_NAME_PARAM = new GleamElementType("LABELED_NAME_PARAM");
   IElementType LET_EXPR = new GleamElementType("LET_EXPR");
   IElementType LIST_EXPR = new GleamElementType("LIST_EXPR");
+  IElementType LIST_EXPR_CONST = new GleamElementType("LIST_EXPR_CONST");
   IElementType LIST_PATTERN = new GleamElementType("LIST_PATTERN");
   IElementType LIST_PATTERN_TAIL = new GleamElementType("LIST_PATTERN_TAIL");
   IElementType LITERAL_EXPR = new GleamElementType("LITERAL_EXPR");
+  IElementType LITERAL_EXPR_CONST = new GleamElementType("LITERAL_EXPR_CONST");
   IElementType MODULE = new GleamElementType("MODULE");
   IElementType NAME_PARAM = new GleamElementType("NAME_PARAM");
   IElementType OCTAL_INTEGER_LITERAL = new GleamElementType("OCTAL_INTEGER_LITERAL");
   IElementType OMITTED_TYPE_VALUE = new GleamElementType("OMITTED_TYPE_VALUE");
-  IElementType OPACITY_MODIFIER = new GleamElementType("OPACITY_MODIFIER");
   IElementType PANIC_EXPR = new GleamElementType("PANIC_EXPR");
   IElementType PATTERN = new GleamElementType("PATTERN");
   IElementType PATTERN_BIT_ARRAY = new GleamElementType("PATTERN_BIT_ARRAY");
   IElementType PATTERN_BIT_ARRAY_SEGMENT = new GleamElementType("PATTERN_BIT_ARRAY_SEGMENT");
   IElementType PATTERN_SPREAD = new GleamElementType("PATTERN_SPREAD");
+  IElementType QUALIFIED_TYPE_NAME = new GleamElementType("QUALIFIED_TYPE_NAME");
   IElementType RECORD_ARGUMENT = new GleamElementType("RECORD_ARGUMENT");
   IElementType RECORD_ARGUMENTS = new GleamElementType("RECORD_ARGUMENTS");
   IElementType RECORD_EXPR = new GleamElementType("RECORD_EXPR");
+  IElementType RECORD_EXPR_CONST = new GleamElementType("RECORD_EXPR_CONST");
   IElementType RECORD_PATTERN = new GleamElementType("RECORD_PATTERN");
   IElementType RECORD_PATTERN_ARGUMENT = new GleamElementType("RECORD_PATTERN_ARGUMENT");
   IElementType RECORD_PATTERN_ARGUMENTS = new GleamElementType("RECORD_PATTERN_ARGUMENTS");
@@ -119,7 +118,6 @@ public interface GleamTypes {
   IElementType REFERENCE_EXPR = new GleamElementType("REFERENCE_EXPR");
   IElementType REFERENCE_TYPE_VALUE = new GleamElementType("REFERENCE_TYPE_VALUE");
   IElementType REMOTE_CONSTRUCTOR_IDENTIFIER = new GleamElementType("REMOTE_CONSTRUCTOR_IDENTIFIER");
-  IElementType REMOTE_TYPE_IDENTIFIER = new GleamElementType("REMOTE_TYPE_IDENTIFIER");
   IElementType SHORT_HAND_LABELED_ARGUMENT = new GleamElementType("SHORT_HAND_LABELED_ARGUMENT");
   IElementType SIMPLE_LET_EXPR = new GleamElementType("SIMPLE_LET_EXPR");
   IElementType STRING_ESCAPE_SEGMENT = new GleamElementType("STRING_ESCAPE_SEGMENT");
@@ -127,6 +125,7 @@ public interface GleamTypes {
   IElementType STRING_PATTERN = new GleamElementType("STRING_PATTERN");
   IElementType TODO_EXPR = new GleamElementType("TODO_EXPR");
   IElementType TUPLE_EXPR = new GleamElementType("TUPLE_EXPR");
+  IElementType TUPLE_EXPR_CONST = new GleamElementType("TUPLE_EXPR_CONST");
   IElementType TUPLE_PATTERN = new GleamElementType("TUPLE_PATTERN");
   IElementType TUPLE_TYPE = new GleamElementType("TUPLE_TYPE");
   IElementType TYPE_ANNOTATION = new GleamElementType("TYPE_ANNOTATION");
@@ -135,8 +134,8 @@ public interface GleamTypes {
   IElementType TYPE_BASE = new GleamElementType("TYPE_BASE");
   IElementType TYPE_DECLARATION = new GleamElementType("TYPE_DECLARATION");
   IElementType TYPE_DECLARATION_NAME = new GleamElementType("TYPE_DECLARATION_NAME");
-  IElementType TYPE_IDENTIFIER = new GleamElementType("TYPE_IDENTIFIER");
   IElementType TYPE_REFERENCE = new GleamElementType("TYPE_REFERENCE");
+  IElementType TYPE_UNQUALIFIED_IMPORT = new GleamElementType("TYPE_UNQUALIFIED_IMPORT");
   IElementType TYPE_VALUE = new GleamElementType("TYPE_VALUE");
   IElementType UNARY_EXPR = new GleamElementType("UNARY_EXPR");
   IElementType UNARY_OPERATOR = new GleamElementType("UNARY_OPERATOR");
@@ -145,6 +144,7 @@ public interface GleamTypes {
   IElementType UNLABELED_ARGUMENT = new GleamElementType("UNLABELED_ARGUMENT");
   IElementType UNQUALIFIED_IMPORT = new GleamElementType("UNQUALIFIED_IMPORT");
   IElementType UNQUALIFIED_IMPORTS = new GleamElementType("UNQUALIFIED_IMPORTS");
+  IElementType UNQUALIFIED_TYPE_NAME = new GleamElementType("UNQUALIFIED_TYPE_NAME");
   IElementType USE_ARGS = new GleamElementType("USE_ARGS");
   IElementType USE_EXPR = new GleamElementType("USE_EXPR");
   IElementType VARIABLE_REFERENCE = new GleamElementType("VARIABLE_REFERENCE");
@@ -280,6 +280,9 @@ public interface GleamTypes {
       else if (type == BIT_ARRAY_EXPR) {
         return new GleamBitArrayExprImpl(node);
       }
+      else if (type == BIT_ARRAY_EXPR_CONST) {
+        return new GleamBitArrayExprConstImpl(node);
+      }
       else if (type == BIT_ARRAY_OPTION_NAME) {
         return new GleamBitArrayOptionNameImpl(node);
       }
@@ -334,35 +337,20 @@ public interface GleamTypes {
       else if (type == CASE_SUBJECTS) {
         return new GleamCaseSubjectsImpl(node);
       }
-      else if (type == CONSTANT_BIT_ARRAY) {
-        return new GleamConstantBitArrayImpl(node);
-      }
       else if (type == CONSTANT_BIT_ARRAY_SEGMENT) {
         return new GleamConstantBitArraySegmentImpl(node);
       }
       else if (type == CONSTANT_DECLARATION) {
         return new GleamConstantDeclarationImpl(node);
       }
-      else if (type == CONSTANT_FIELD_ACCESS) {
-        return new GleamConstantFieldAccessImpl(node);
-      }
       else if (type == CONSTANT_FUNCTION_PARAMETER_TYPES) {
         return new GleamConstantFunctionParameterTypesImpl(node);
-      }
-      else if (type == CONSTANT_LIST) {
-        return new GleamConstantListImpl(node);
-      }
-      else if (type == CONSTANT_RECORD) {
-        return new GleamConstantRecordImpl(node);
       }
       else if (type == CONSTANT_RECORD_ARGUMENT) {
         return new GleamConstantRecordArgumentImpl(node);
       }
       else if (type == CONSTANT_RECORD_ARGUMENTS) {
         return new GleamConstantRecordArgumentsImpl(node);
-      }
-      else if (type == CONSTANT_TUPLE) {
-        return new GleamConstantTupleImpl(node);
       }
       else if (type == CONSTANT_TYPE) {
         return new GleamConstantTypeImpl(node);
@@ -384,9 +372,6 @@ public interface GleamTypes {
       }
       else if (type == CONSTANT_TYPE_TUPLE) {
         return new GleamConstantTypeTupleImpl(node);
-      }
-      else if (type == CONSTANT_VALUE) {
-        return new GleamConstantValueImpl(node);
       }
       else if (type == CONSTRUCTOR_IDENTIFIER) {
         return new GleamConstructorIdentifierImpl(node);
@@ -415,9 +400,6 @@ public interface GleamTypes {
       else if (type == DEPRECATED_DECORATOR_NAME) {
         return new GleamDeprecatedDecoratorNameImpl(node);
       }
-      else if (type == DISCARD) {
-        return new GleamDiscardImpl(node);
-      }
       else if (type == DISCARD_PARAM) {
         return new GleamDiscardParamImpl(node);
       }
@@ -438,6 +420,9 @@ public interface GleamTypes {
       }
       else if (type == EXTERNAL_TARGET) {
         return new GleamExternalTargetImpl(node);
+      }
+      else if (type == FIELD_ACCESS_EXPR_CONST) {
+        return new GleamFieldAccessExprConstImpl(node);
       }
       else if (type == FLOAT_LITERAL) {
         return new GleamFloatLiteralImpl(node);
@@ -466,11 +451,11 @@ public interface GleamTypes {
       else if (type == FUNCTION_TYPE) {
         return new GleamFunctionTypeImpl(node);
       }
-      else if (type == GENERIC_IDENTIFIER) {
-        return new GleamGenericIdentifierImpl(node);
-      }
       else if (type == HEX_INTEGER_LITERAL) {
         return new GleamHexIntegerLiteralImpl(node);
+      }
+      else if (type == IDENTIFIER_EXPR_CONST) {
+        return new GleamIdentifierExprConstImpl(node);
       }
       else if (type == IMPORT_DECLARATION) {
         return new GleamImportDeclarationImpl(node);
@@ -493,6 +478,9 @@ public interface GleamTypes {
       else if (type == LIST_EXPR) {
         return new GleamListExprImpl(node);
       }
+      else if (type == LIST_EXPR_CONST) {
+        return new GleamListExprConstImpl(node);
+      }
       else if (type == LIST_PATTERN) {
         return new GleamListPatternImpl(node);
       }
@@ -501,6 +489,9 @@ public interface GleamTypes {
       }
       else if (type == LITERAL_EXPR) {
         return new GleamLiteralExprImpl(node);
+      }
+      else if (type == LITERAL_EXPR_CONST) {
+        return new GleamLiteralExprConstImpl(node);
       }
       else if (type == MODULE) {
         return new GleamModuleImpl(node);
@@ -513,9 +504,6 @@ public interface GleamTypes {
       }
       else if (type == OMITTED_TYPE_VALUE) {
         return new GleamOmittedTypeValueImpl(node);
-      }
-      else if (type == OPACITY_MODIFIER) {
-        return new GleamOpacityModifierImpl(node);
       }
       else if (type == PANIC_EXPR) {
         return new GleamPanicExprImpl(node);
@@ -532,6 +520,9 @@ public interface GleamTypes {
       else if (type == PATTERN_SPREAD) {
         return new GleamPatternSpreadImpl(node);
       }
+      else if (type == QUALIFIED_TYPE_NAME) {
+        return new GleamQualifiedTypeNameImpl(node);
+      }
       else if (type == RECORD_ARGUMENT) {
         return new GleamRecordArgumentImpl(node);
       }
@@ -540,6 +531,9 @@ public interface GleamTypes {
       }
       else if (type == RECORD_EXPR) {
         return new GleamRecordExprImpl(node);
+      }
+      else if (type == RECORD_EXPR_CONST) {
+        return new GleamRecordExprConstImpl(node);
       }
       else if (type == RECORD_PATTERN) {
         return new GleamRecordPatternImpl(node);
@@ -571,9 +565,6 @@ public interface GleamTypes {
       else if (type == REMOTE_CONSTRUCTOR_IDENTIFIER) {
         return new GleamRemoteConstructorIdentifierImpl(node);
       }
-      else if (type == REMOTE_TYPE_IDENTIFIER) {
-        return new GleamRemoteTypeIdentifierImpl(node);
-      }
       else if (type == SHORT_HAND_LABELED_ARGUMENT) {
         return new GleamShortHandLabeledArgumentImpl(node);
       }
@@ -594,6 +585,9 @@ public interface GleamTypes {
       }
       else if (type == TUPLE_EXPR) {
         return new GleamTupleExprImpl(node);
+      }
+      else if (type == TUPLE_EXPR_CONST) {
+        return new GleamTupleExprConstImpl(node);
       }
       else if (type == TUPLE_PATTERN) {
         return new GleamTuplePatternImpl(node);
@@ -619,11 +613,11 @@ public interface GleamTypes {
       else if (type == TYPE_DECLARATION_NAME) {
         return new GleamTypeDeclarationNameImpl(node);
       }
-      else if (type == TYPE_IDENTIFIER) {
-        return new GleamTypeIdentifierImpl(node);
-      }
       else if (type == TYPE_REFERENCE) {
         return new GleamTypeReferenceImpl(node);
+      }
+      else if (type == TYPE_UNQUALIFIED_IMPORT) {
+        return new GleamTypeUnqualifiedImportImpl(node);
       }
       else if (type == TYPE_VALUE) {
         return new GleamTypeValueImpl(node);
@@ -648,6 +642,9 @@ public interface GleamTypes {
       }
       else if (type == UNQUALIFIED_IMPORTS) {
         return new GleamUnqualifiedImportsImpl(node);
+      }
+      else if (type == UNQUALIFIED_TYPE_NAME) {
+        return new GleamUnqualifiedTypeNameImpl(node);
       }
       else if (type == USE_ARGS) {
         return new GleamUseArgsImpl(node);

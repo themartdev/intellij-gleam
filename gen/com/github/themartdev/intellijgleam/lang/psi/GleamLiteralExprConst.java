@@ -5,15 +5,18 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamTypeDeclaration extends PsiElement {
+public interface GleamLiteralExprConst extends GleamExpressionConst {
 
   @Nullable
-  GleamTypeDeclarationName getTypeDeclarationName();
+  GleamFloatLiteral getFloatLiteral();
 
   @Nullable
-  GleamTypeValue getTypeValue();
+  GleamIntegerLiteral getIntegerLiteral();
 
   @Nullable
-  GleamVisibilityModifier getVisibilityModifier();
+  GleamStringLiteral getStringLiteral();
+
+  @Nullable
+  PsiElement getBooleanLiteral();
 
 }

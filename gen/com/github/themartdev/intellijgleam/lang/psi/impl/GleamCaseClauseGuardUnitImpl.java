@@ -41,8 +41,8 @@ public class GleamCaseClauseGuardUnitImpl extends ASTWrapperPsiElement implement
 
   @Override
   @Nullable
-  public GleamConstantValue getConstantValue() {
-    return findChildByClass(GleamConstantValue.class);
+  public GleamExpressionConst getExpressionConst() {
+    return findChildByClass(GleamExpressionConst.class);
   }
 
   @Override

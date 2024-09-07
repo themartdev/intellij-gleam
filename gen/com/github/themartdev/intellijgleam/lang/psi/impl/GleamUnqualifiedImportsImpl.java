@@ -29,6 +29,12 @@ public class GleamUnqualifiedImportsImpl extends ASTWrapperPsiElement implements
 
   @Override
   @NotNull
+  public List<GleamTypeUnqualifiedImport> getTypeUnqualifiedImportList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamTypeUnqualifiedImport.class);
+  }
+
+  @Override
+  @NotNull
   public List<GleamUnqualifiedImport> getUnqualifiedImportList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamUnqualifiedImport.class);
   }

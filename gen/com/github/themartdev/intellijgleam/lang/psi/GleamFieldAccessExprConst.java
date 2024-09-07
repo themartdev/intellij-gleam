@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamTypeIdentifier extends PsiElement {
+public interface GleamFieldAccessExprConst extends GleamExpressionConst {
 
   @NotNull
-  PsiElement getUpIdentifier();
+  GleamLabel getLabel();
+
+  @NotNull
+  PsiElement getIdentifier();
 
 }

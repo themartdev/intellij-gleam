@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface GleamDiscardParam extends PsiElement {
 
   @NotNull
-  GleamDiscard getDiscard();
+  PsiElement getDiscardName();
 
 }

@@ -260,7 +260,7 @@ patternSpread ::= DOT_DOT [COMMA]
 recordPatternArgument ::= [label COLON] pattern
 recordPatternArguments ::= LPAREN [recordPatternArgument (COMMA recordPatternArgument)* [COMMA]] [patternSpread] RPAREN
 recordPattern ::= (constructorIdentifier | remoteConstructorIdentifier) [recordPatternArguments]
-pattern ::= (IDENTIFIER | discardIdentifier | stringPattern | recordPattern | literalExpr | tuplePattern | patternBitArray | listPattern ) [AS IDENTIFIER]
+pattern ::= (hole | IDENTIFIER | discardIdentifier | stringPattern | recordPattern | literalExpr | tuplePattern | patternBitArray | listPattern) [AS IDENTIFIER]
 
 expressionSeq ::= (expression)+
 
@@ -318,7 +318,7 @@ recordUpdateArguments ::= recordUpdateArgument (COMMA recordUpdateArgument)* [CO
 recordUpdateExpr ::= (constructorIdentifier | remoteConstructorIdentifier) LPAREN DOT_DOT expression COMMA recordUpdateArguments RPAREN
 
 
-callArgument ::= labeledArgument | unlabeledArgument | HOLE
+callArgument ::= labeledArgument | unlabeledArgument | hole
 callArguments ::= LPAREN [callArgument (COMMA callArgument)* [COMMA]] RPAREN
 
 callExpr ::= expression callArguments
@@ -418,6 +418,7 @@ private discardIdentifier ::= DISCARD_NAME
 private typeName ::= qualifiedTypeName | unqualifiedTypeName
 aliasIdentifier ::= identifier
 aliasUpIdentifier ::= upIdentifier
+private hole ::= HOLE
 
 unqualifiedTypeName ::= upIdentifier
 qualifiedTypeName ::= identifier DOT upIdentifier

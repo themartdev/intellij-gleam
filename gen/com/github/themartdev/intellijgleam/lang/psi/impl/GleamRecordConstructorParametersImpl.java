@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamDataConstructorImpl extends ASTWrapperPsiElement implements GleamDataConstructor {
+public class GleamRecordConstructorParametersImpl extends ASTWrapperPsiElement implements GleamRecordConstructorParameters {
 
-  public GleamDataConstructorImpl(@NotNull ASTNode node) {
+  public GleamRecordConstructorParametersImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitDataConstructor(this);
+    visitor.visitRecordConstructorParameters(this);
   }
 
   @Override
@@ -29,14 +29,14 @@ public class GleamDataConstructorImpl extends ASTWrapperPsiElement implements Gl
 
   @Override
   @NotNull
-  public GleamConstructorIdentifier getConstructorIdentifier() {
-    return findNotNullChildByClass(GleamConstructorIdentifier.class);
+  public List<GleamLabeledParameter> getLabeledParameterList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamLabeledParameter.class);
   }
 
   @Override
-  @Nullable
-  public GleamDataConstructorArguments getDataConstructorArguments() {
-    return findChildByClass(GleamDataConstructorArguments.class);
+  @NotNull
+  public List<GleamUnlabeledParameter> getUnlabeledParameterList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamUnlabeledParameter.class);
   }
 
 }

@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamDataConstructorArgumentImpl extends ASTWrapperPsiElement implements GleamDataConstructorArgument {
+public class GleamRecordConstructorsImpl extends ASTWrapperPsiElement implements GleamRecordConstructors {
 
-  public GleamDataConstructorArgumentImpl(@NotNull ASTNode node) {
+  public GleamRecordConstructorsImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitDataConstructorArgument(this);
+    visitor.visitRecordConstructors(this);
   }
 
   @Override
@@ -28,15 +28,9 @@ public class GleamDataConstructorArgumentImpl extends ASTWrapperPsiElement imple
   }
 
   @Override
-  @Nullable
-  public GleamLabel getLabel() {
-    return findChildByClass(GleamLabel.class);
-  }
-
-  @Override
   @NotNull
-  public GleamTypeBase getTypeBase() {
-    return findNotNullChildByClass(GleamTypeBase.class);
+  public List<GleamRecordConstructor> getRecordConstructorList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamRecordConstructor.class);
   }
 
 }

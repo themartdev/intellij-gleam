@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamDataConstructorArgumentsImpl extends ASTWrapperPsiElement implements GleamDataConstructorArguments {
+public class GleamLabeledParameterImpl extends ASTWrapperPsiElement implements GleamLabeledParameter {
 
-  public GleamDataConstructorArgumentsImpl(@NotNull ASTNode node) {
+  public GleamLabeledParameterImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitDataConstructorArguments(this);
+    visitor.visitLabeledParameter(this);
   }
 
   @Override
@@ -29,8 +29,14 @@ public class GleamDataConstructorArgumentsImpl extends ASTWrapperPsiElement impl
 
   @Override
   @NotNull
-  public List<GleamDataConstructorArgument> getDataConstructorArgumentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamDataConstructorArgument.class);
+  public GleamLabel getLabel() {
+    return findNotNullChildByClass(GleamLabel.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamTypeBase getTypeBase() {
+    return findChildByClass(GleamTypeBase.class);
   }
 
 }

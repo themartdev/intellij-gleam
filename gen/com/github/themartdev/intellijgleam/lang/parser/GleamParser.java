@@ -1244,145 +1244,16 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LBRACE dataConstructors RBRACE
+  // LBRACE recordConstructors RBRACE
   public static boolean customTypeValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "customTypeValue")) return false;
     if (!nextTokenIs(b, LBRACE)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, LBRACE);
-    r = r && dataConstructors(b, l + 1);
+    r = r && recordConstructors(b, l + 1);
     r = r && consumeToken(b, RBRACE);
     exit_section_(b, m, CUSTOM_TYPE_VALUE, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // constructorIdentifier [dataConstructorArguments]
-  public static boolean dataConstructor(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dataConstructor")) return false;
-    if (!nextTokenIs(b, UP_IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = constructorIdentifier(b, l + 1);
-    r = r && dataConstructor_1(b, l + 1);
-    exit_section_(b, m, DATA_CONSTRUCTOR, r);
-    return r;
-  }
-
-  // [dataConstructorArguments]
-  private static boolean dataConstructor_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dataConstructor_1")) return false;
-    dataConstructorArguments(b, l + 1);
-    return true;
-  }
-
-  /* ********************************************************** */
-  // [label COLON] typeBase
-  public static boolean dataConstructorArgument(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dataConstructorArgument")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, DATA_CONSTRUCTOR_ARGUMENT, "<data constructor argument>");
-    r = dataConstructorArgument_0(b, l + 1);
-    r = r && typeBase(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // [label COLON]
-  private static boolean dataConstructorArgument_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dataConstructorArgument_0")) return false;
-    dataConstructorArgument_0_0(b, l + 1);
-    return true;
-  }
-
-  // label COLON
-  private static boolean dataConstructorArgument_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dataConstructorArgument_0_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = label(b, l + 1);
-    r = r && consumeToken(b, COLON);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // LPAREN [dataConstructorArgument (COMMA dataConstructorArgument)* [COMMA]] RPAREN
-  public static boolean dataConstructorArguments(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dataConstructorArguments")) return false;
-    if (!nextTokenIs(b, LPAREN)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, LPAREN);
-    r = r && dataConstructorArguments_1(b, l + 1);
-    r = r && consumeToken(b, RPAREN);
-    exit_section_(b, m, DATA_CONSTRUCTOR_ARGUMENTS, r);
-    return r;
-  }
-
-  // [dataConstructorArgument (COMMA dataConstructorArgument)* [COMMA]]
-  private static boolean dataConstructorArguments_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dataConstructorArguments_1")) return false;
-    dataConstructorArguments_1_0(b, l + 1);
-    return true;
-  }
-
-  // dataConstructorArgument (COMMA dataConstructorArgument)* [COMMA]
-  private static boolean dataConstructorArguments_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dataConstructorArguments_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = dataConstructorArgument(b, l + 1);
-    r = r && dataConstructorArguments_1_0_1(b, l + 1);
-    r = r && dataConstructorArguments_1_0_2(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (COMMA dataConstructorArgument)*
-  private static boolean dataConstructorArguments_1_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dataConstructorArguments_1_0_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!dataConstructorArguments_1_0_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "dataConstructorArguments_1_0_1", c)) break;
-    }
-    return true;
-  }
-
-  // COMMA dataConstructorArgument
-  private static boolean dataConstructorArguments_1_0_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dataConstructorArguments_1_0_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, COMMA);
-    r = r && dataConstructorArgument(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [COMMA]
-  private static boolean dataConstructorArguments_1_0_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dataConstructorArguments_1_0_2")) return false;
-    consumeToken(b, COMMA);
-    return true;
-  }
-
-  /* ********************************************************** */
-  // dataConstructor+
-  public static boolean dataConstructors(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dataConstructors")) return false;
-    if (!nextTokenIs(b, UP_IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = dataConstructor(b, l + 1);
-    while (r) {
-      int c = current_position_(b);
-      if (!dataConstructor(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "dataConstructors", c)) break;
-    }
-    exit_section_(b, m, DATA_CONSTRUCTORS, r);
     return r;
   }
 
@@ -2159,6 +2030,21 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // label COLON typeBase
+  public static boolean labeledParameter(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "labeledParameter")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, LABELED_PARAMETER, null);
+    r = label(b, l + 1);
+    r = r && consumeToken(b, COLON);
+    p = r; // pin = 2
+    r = r && typeBase(b, l + 1);
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  /* ********************************************************** */
   // LBRACK [expressionConst (COMMA expressionConst)* [COMMA]] RBRACK
   public static boolean listExprConst(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "listExprConst")) return false;
@@ -2692,6 +2578,115 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = r && consumeToken(b, COMMA);
     r = r && recordArgumentList(b, l + 1);
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // constructorIdentifier [recordConstructorParameters]
+  public static boolean recordConstructor(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordConstructor")) return false;
+    if (!nextTokenIs(b, UP_IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = constructorIdentifier(b, l + 1);
+    r = r && recordConstructor_1(b, l + 1);
+    exit_section_(b, m, RECORD_CONSTRUCTOR, r);
+    return r;
+  }
+
+  // [recordConstructorParameters]
+  private static boolean recordConstructor_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordConstructor_1")) return false;
+    recordConstructorParameters(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // labeledParameter | unlabeledParameter
+  static boolean recordConstructorParameter(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordConstructorParameter")) return false;
+    boolean r;
+    r = labeledParameter(b, l + 1);
+    if (!r) r = unlabeledParameter(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // LPAREN [recordConstructorParameter (COMMA recordConstructorParameter)* [COMMA]] RPAREN
+  public static boolean recordConstructorParameters(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordConstructorParameters")) return false;
+    if (!nextTokenIs(b, LPAREN)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, LPAREN);
+    r = r && recordConstructorParameters_1(b, l + 1);
+    r = r && consumeToken(b, RPAREN);
+    exit_section_(b, m, RECORD_CONSTRUCTOR_PARAMETERS, r);
+    return r;
+  }
+
+  // [recordConstructorParameter (COMMA recordConstructorParameter)* [COMMA]]
+  private static boolean recordConstructorParameters_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordConstructorParameters_1")) return false;
+    recordConstructorParameters_1_0(b, l + 1);
+    return true;
+  }
+
+  // recordConstructorParameter (COMMA recordConstructorParameter)* [COMMA]
+  private static boolean recordConstructorParameters_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordConstructorParameters_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = recordConstructorParameter(b, l + 1);
+    r = r && recordConstructorParameters_1_0_1(b, l + 1);
+    r = r && recordConstructorParameters_1_0_2(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (COMMA recordConstructorParameter)*
+  private static boolean recordConstructorParameters_1_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordConstructorParameters_1_0_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!recordConstructorParameters_1_0_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "recordConstructorParameters_1_0_1", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA recordConstructorParameter
+  private static boolean recordConstructorParameters_1_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordConstructorParameters_1_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && recordConstructorParameter(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [COMMA]
+  private static boolean recordConstructorParameters_1_0_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordConstructorParameters_1_0_2")) return false;
+    consumeToken(b, COMMA);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // recordConstructor+
+  public static boolean recordConstructors(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordConstructors")) return false;
+    if (!nextTokenIs(b, UP_IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = recordConstructor(b, l + 1);
+    while (r) {
+      int c = current_position_(b);
+      if (!recordConstructor(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "recordConstructors", c)) break;
+    }
+    exit_section_(b, m, RECORD_CONSTRUCTORS, r);
     return r;
   }
 
@@ -3621,6 +3616,17 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // typeBase
+  public static boolean unlabeledParameter(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "unlabeledParameter")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, UNLABELED_PARAMETER, "<unlabeled parameter>");
+    r = typeBase(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
   // identifier (AS aliasIdentifier)?
   public static boolean unqualifiedImport(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "unqualifiedImport")) return false;
@@ -3652,13 +3658,13 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // unqualifiedImport | typeUnqualifiedImport
+  // unqualifiedImport | typeUnqualifiedImport | upUnqualifiedImport
   static boolean unqualifiedImportBase(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "unqualifiedImportBase")) return false;
-    if (!nextTokenIs(b, "", IDENTIFIER, TYPE)) return false;
     boolean r;
     r = unqualifiedImport(b, l + 1);
     if (!r) r = typeUnqualifiedImport(b, l + 1);
+    if (!r) r = upUnqualifiedImport(b, l + 1);
     return r;
   }
 
@@ -3740,6 +3746,37 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // UP_IDENTIFIER
   static boolean upIdentifier(PsiBuilder b, int l) {
     return consumeToken(b, UP_IDENTIFIER);
+  }
+
+  /* ********************************************************** */
+  // upIdentifier (AS aliasUpIdentifier)?
+  public static boolean upUnqualifiedImport(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "upUnqualifiedImport")) return false;
+    if (!nextTokenIs(b, UP_IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = upIdentifier(b, l + 1);
+    r = r && upUnqualifiedImport_1(b, l + 1);
+    exit_section_(b, m, UP_UNQUALIFIED_IMPORT, r);
+    return r;
+  }
+
+  // (AS aliasUpIdentifier)?
+  private static boolean upUnqualifiedImport_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "upUnqualifiedImport_1")) return false;
+    upUnqualifiedImport_1_0(b, l + 1);
+    return true;
+  }
+
+  // AS aliasUpIdentifier
+  private static boolean upUnqualifiedImport_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "upUnqualifiedImport_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, AS);
+    r = r && aliasUpIdentifier(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */

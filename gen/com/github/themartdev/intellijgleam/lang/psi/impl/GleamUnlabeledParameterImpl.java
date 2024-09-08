@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamUnqualifiedImportsImpl extends ASTWrapperPsiElement implements GleamUnqualifiedImports {
+public class GleamUnlabeledParameterImpl extends ASTWrapperPsiElement implements GleamUnlabeledParameter {
 
-  public GleamUnqualifiedImportsImpl(@NotNull ASTNode node) {
+  public GleamUnlabeledParameterImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitUnqualifiedImports(this);
+    visitor.visitUnlabeledParameter(this);
   }
 
   @Override
@@ -29,20 +29,8 @@ public class GleamUnqualifiedImportsImpl extends ASTWrapperPsiElement implements
 
   @Override
   @NotNull
-  public List<GleamTypeUnqualifiedImport> getTypeUnqualifiedImportList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamTypeUnqualifiedImport.class);
-  }
-
-  @Override
-  @NotNull
-  public List<GleamUnqualifiedImport> getUnqualifiedImportList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamUnqualifiedImport.class);
-  }
-
-  @Override
-  @NotNull
-  public List<GleamUpUnqualifiedImport> getUpUnqualifiedImportList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamUpUnqualifiedImport.class);
+  public GleamTypeBase getTypeBase() {
+    return findNotNullChildByClass(GleamTypeBase.class);
   }
 
 }

@@ -13,4 +13,7 @@ public interface GleamUnqualifiedImports extends PsiElement {
   @NotNull
   List<GleamUnqualifiedImport> getUnqualifiedImportList();
 
+  @NotNull
+  List<GleamUpUnqualifiedImport> getUpUnqualifiedImportList();
+
 }

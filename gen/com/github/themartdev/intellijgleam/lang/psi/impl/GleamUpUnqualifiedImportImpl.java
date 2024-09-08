@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamUnqualifiedImportsImpl extends ASTWrapperPsiElement implements GleamUnqualifiedImports {
+public class GleamUpUnqualifiedImportImpl extends ASTWrapperPsiElement implements GleamUpUnqualifiedImport {
 
-  public GleamUnqualifiedImportsImpl(@NotNull ASTNode node) {
+  public GleamUpUnqualifiedImportImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitUnqualifiedImports(this);
+    visitor.visitUpUnqualifiedImport(this);
   }
 
   @Override
@@ -28,21 +28,21 @@ public class GleamUnqualifiedImportsImpl extends ASTWrapperPsiElement implements
   }
 
   @Override
-  @NotNull
-  public List<GleamTypeUnqualifiedImport> getTypeUnqualifiedImportList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamTypeUnqualifiedImport.class);
+  @Nullable
+  public GleamAliasUpIdentifier getAliasUpIdentifier() {
+    return findChildByClass(GleamAliasUpIdentifier.class);
   }
 
   @Override
   @NotNull
-  public List<GleamUnqualifiedImport> getUnqualifiedImportList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamUnqualifiedImport.class);
+  public PsiElement getUpIdentifier() {
+    return findNotNullChildByType(UP_IDENTIFIER);
   }
 
   @Override
   @NotNull
-  public List<GleamUpUnqualifiedImport> getUpUnqualifiedImportList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamUpUnqualifiedImport.class);
+  public PsiElement getNameOrAlias() {
+    return GleamPsiImplUtil.getNameOrAlias(this);
   }
 
 }

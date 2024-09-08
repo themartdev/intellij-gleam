@@ -4,6 +4,7 @@ import com.github.themartdev.intellijgleam.lang.psi.GleamImportDeclaration
 import com.github.themartdev.intellijgleam.lang.psi.GleamModulePath
 import com.github.themartdev.intellijgleam.lang.psi.GleamTypeUnqualifiedImport
 import com.github.themartdev.intellijgleam.lang.psi.GleamUnqualifiedImport
+import com.github.themartdev.intellijgleam.lang.psi.GleamUpUnqualifiedImport
 import com.intellij.psi.PsiElement
 
 class GleamPsiImplUtil {
@@ -26,6 +27,11 @@ class GleamPsiImplUtil {
         @JvmStatic
         fun getNameOrAlias(typeUnqualifiedImport: GleamTypeUnqualifiedImport): PsiElement? {
             return typeUnqualifiedImport.aliasUpIdentifier ?: typeUnqualifiedImport.upIdentifier
+        }
+
+        @JvmStatic
+        fun getNameOrAlias(upUnqualifiedImport: GleamUpUnqualifiedImport): PsiElement {
+            return upUnqualifiedImport.aliasUpIdentifier ?: upUnqualifiedImport.upIdentifier
         }
 
 //        @JvmStatic

@@ -1,10 +1,7 @@
 package com.github.themartdev.intellijgleam.ide.annotator
 
 import com.github.themartdev.intellijgleam.ide.highlighting.GleamColors
-import com.github.themartdev.intellijgleam.lang.psi.GleamImportDeclaration
-import com.github.themartdev.intellijgleam.lang.psi.GleamLabeledArgument
-import com.github.themartdev.intellijgleam.lang.psi.GleamShortHandLabeledArgument
-import com.github.themartdev.intellijgleam.lang.psi.GleamTypes
+import com.github.themartdev.intellijgleam.lang.psi.*
 import com.intellij.codeInspection.util.InspectionMessage
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -20,7 +17,6 @@ class GleamHighlightingAnnotator : Annotator, DumbAware {
         when (element.elementType) {
             GleamTypes.FUNCTION_NAME_DEFINITION -> newAnnotation(holder, element, GleamColors.FUNCTION_DECLARATION)
             GleamTypes.STRING_ESCAPE_SEGMENT -> newAnnotation(holder, element, GleamColors.STRING_ESCAPE)
-            GleamTypes.TYPE_DECLARATION_NAME -> newAnnotation(holder, element, GleamColors.TYPE_DECLARATION)
         }
 
         when (element) {
@@ -34,13 +30,36 @@ class GleamHighlightingAnnotator : Annotator, DumbAware {
                         )
                     }
                 }
+                element.unqualifiedImports?.upUnqualifiedImportList?.forEach {
+                    newAnnotation(
+                        holder,
+                        it.nameOrAlias,
+                        GleamColors.TYPE_DECLARATION
+                    )
+                }
                 element.nameOrAlias?.let {
                     newAnnotation(holder, it, GleamColors.IMPORT)
                 }
             }
+
+            is GleamCallExpr -> {
+                highlightFunctionCall(element, holder)
+            }
         }
 
         highlightLabels(element, holder)
+    }
+
+    private fun highlightFunctionCall(element: GleamCallExpr, holder: AnnotationHolder) {
+        when (val inner = element.expression) {
+            is GleamAccessExpr -> {
+                inner.label?.let { newAnnotation(holder, it, GleamColors.FUNCTION_CALL) }
+            }
+
+            is GleamReferenceExpr -> {
+                newAnnotation(holder, inner.identifier, GleamColors.FUNCTION_CALL)
+            }
+        }
     }
 
     private fun highlightLabels(element: PsiElement, holder: AnnotationHolder) {

@@ -28,6 +28,7 @@ val ATTRIBUTES = buildMap<IElementType, TextAttributesKey> {
     put(GleamTypes.BOOLEAN_LITERAL, GleamColors.KEYWORD)
     put(GleamTypes.DOT, GleamColors.DOT)
     put(GleamTypes.COMMA, GleamColors.COMMA)
+    put(GleamTypes.UP_IDENTIFIER, GleamColors.TYPE_REFERENCE)
 
     SyntaxHighlighterBase.fillMap(this, GLEAM_STRINGS, GleamColors.STRING)
     SyntaxHighlighterBase.fillMap(this, GLEAM_KEYWORDS, GleamColors.KEYWORD)

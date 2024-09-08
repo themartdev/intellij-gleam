@@ -29,8 +29,8 @@ public class GleamCustomTypeValueImpl extends ASTWrapperPsiElement implements Gl
 
   @Override
   @NotNull
-  public GleamDataConstructors getDataConstructors() {
-    return findNotNullChildByClass(GleamDataConstructors.class);
+  public GleamRecordConstructors getRecordConstructors() {
+    return findNotNullChildByClass(GleamRecordConstructors.class);
   }
 
 }

@@ -203,22 +203,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitDataConstructor(@NotNull GleamDataConstructor o) {
-    visitPsiElement(o);
-  }
-
-  public void visitDataConstructorArgument(@NotNull GleamDataConstructorArgument o) {
-    visitPsiElement(o);
-  }
-
-  public void visitDataConstructorArguments(@NotNull GleamDataConstructorArguments o) {
-    visitPsiElement(o);
-  }
-
-  public void visitDataConstructors(@NotNull GleamDataConstructors o) {
-    visitPsiElement(o);
-  }
-
   public void visitDecimalIntegerLiteral(@NotNull GleamDecimalIntegerLiteral o) {
     visitPsiElement(o);
   }
@@ -347,6 +331,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitLabeledParameter(@NotNull GleamLabeledParameter o) {
+    visitPsiElement(o);
+  }
+
   public void visitLetExpr(@NotNull GleamLetExpr o) {
     visitExpression(o);
   }
@@ -420,6 +408,18 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitRecordArguments(@NotNull GleamRecordArguments o) {
+    visitPsiElement(o);
+  }
+
+  public void visitRecordConstructor(@NotNull GleamRecordConstructor o) {
+    visitPsiElement(o);
+  }
+
+  public void visitRecordConstructorParameters(@NotNull GleamRecordConstructorParameters o) {
+    visitPsiElement(o);
+  }
+
+  public void visitRecordConstructors(@NotNull GleamRecordConstructors o) {
     visitPsiElement(o);
   }
 
@@ -567,6 +567,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitUnlabeledParameter(@NotNull GleamUnlabeledParameter o) {
+    visitPsiElement(o);
+  }
+
   public void visitUnqualifiedImport(@NotNull GleamUnqualifiedImport o) {
     visitPsiElement(o);
   }
@@ -576,6 +580,10 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitUnqualifiedTypeName(@NotNull GleamUnqualifiedTypeName o) {
+    visitPsiElement(o);
+  }
+
+  public void visitUpUnqualifiedImport(@NotNull GleamUpUnqualifiedImport o) {
     visitPsiElement(o);
   }
 

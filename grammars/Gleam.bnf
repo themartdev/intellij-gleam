@@ -163,11 +163,14 @@ externalFunctionNoFallbackDeclaration ::=  externalDecorator (externalDecorator)
 unqualifiedImport ::= identifier (AS aliasIdentifier)? {
   methods=[getNameOrAlias]
 }
+upUnqualifiedImport ::= upIdentifier (AS aliasUpIdentifier)? {
+  methods=[getNameOrAlias]
+}
 typeUnqualifiedImport ::= TYPE upIdentifier (AS aliasUpIdentifier)? {
   pin=1
   methods=[getNameOrAlias]
 }
-private unqualifiedImportBase ::= unqualifiedImport | typeUnqualifiedImport
+private unqualifiedImportBase ::= unqualifiedImport | typeUnqualifiedImport | upUnqualifiedImport
 unqualifiedImports ::= LBRACE [unqualifiedImportBase (COMMA unqualifiedImportBase)* [COMMA]] RBRACE
 modulePath ::= IDENTIFIER (SLASH IDENTIFIER)* {
   pin=1
@@ -381,13 +384,15 @@ patternBitArray ::= LT_LT [patternBitArraySegment (COMMA patternBitArraySegment)
 bitArrayExpr ::= LT_LT [bitArraySegment (COMMA bitArraySegment)* [COMMA]] GT_GT {pin=1}
 
 // ===== Types =====
-dataConstructorArgument ::= [label COLON] typeBase
-dataConstructorArguments ::= LPAREN [dataConstructorArgument (COMMA dataConstructorArgument)* [COMMA]] RPAREN
-dataConstructor ::= constructorIdentifier [dataConstructorArguments]
-dataConstructors ::= dataConstructor+
+labeledParameter ::= label COLON typeBase {pin=2}
+unlabeledParameter ::= typeBase
+private recordConstructorParameter ::= labeledParameter | unlabeledParameter
+recordConstructorParameters ::= LPAREN [recordConstructorParameter (COMMA recordConstructorParameter)* [COMMA]] RPAREN
+recordConstructor ::= constructorIdentifier [recordConstructorParameters]
+recordConstructors ::= recordConstructor+
 
 referenceTypeValue ::= EQUAL typeReference
-customTypeValue ::= LBRACE dataConstructors RBRACE
+customTypeValue ::= LBRACE recordConstructors RBRACE
 omittedTypeValue ::=
 typeValue ::= referenceTypeValue | customTypeValue | omittedTypeValue
 typeDeclarationName ::= UP_IDENTIFIER

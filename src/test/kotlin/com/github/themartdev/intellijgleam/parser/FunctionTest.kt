@@ -18,5 +18,4 @@ class FunctionTest : GleamParsingTestCase() {
     fun testLabeledArguments() = assertParsedCorrectly()
 
     fun testPipelines() = assertParsedCorrectly()
-
 }

@@ -34,6 +34,9 @@ class GleamHighlightingAnnotator : Annotator, DumbAware {
                         )
                     }
                 }
+                element.nameOrAlias?.let {
+                    newAnnotation(holder, it, GleamColors.IMPORT)
+                }
             }
         }
 

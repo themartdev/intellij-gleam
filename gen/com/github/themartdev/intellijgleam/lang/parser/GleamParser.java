@@ -456,6 +456,81 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // labeledArgument | unlabeledArgument | HOLE
+  public static boolean callArgument(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "callArgument")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, CALL_ARGUMENT, "<call argument>");
+    r = labeledArgument(b, l + 1);
+    if (!r) r = unlabeledArgument(b, l + 1);
+    if (!r) r = consumeToken(b, HOLE);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // LPAREN [callArgument (COMMA callArgument)* [COMMA]] RPAREN
+  public static boolean callArguments(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "callArguments")) return false;
+    if (!nextTokenIs(b, LPAREN)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, LPAREN);
+    r = r && callArguments_1(b, l + 1);
+    r = r && consumeToken(b, RPAREN);
+    exit_section_(b, m, CALL_ARGUMENTS, r);
+    return r;
+  }
+
+  // [callArgument (COMMA callArgument)* [COMMA]]
+  private static boolean callArguments_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "callArguments_1")) return false;
+    callArguments_1_0(b, l + 1);
+    return true;
+  }
+
+  // callArgument (COMMA callArgument)* [COMMA]
+  private static boolean callArguments_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "callArguments_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = callArgument(b, l + 1);
+    r = r && callArguments_1_0_1(b, l + 1);
+    r = r && callArguments_1_0_2(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (COMMA callArgument)*
+  private static boolean callArguments_1_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "callArguments_1_0_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!callArguments_1_0_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "callArguments_1_0_1", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA callArgument
+  private static boolean callArguments_1_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "callArguments_1_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && callArgument(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [COMMA]
+  private static boolean callArguments_1_0_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "callArguments_1_0_2")) return false;
+    consumeToken(b, COMMA);
+    return true;
+  }
+
+  /* ********************************************************** */
   // caseClausePatterns [caseClauseGuard] R_ARROW expression
   public static boolean caseClause(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "caseClause")) return false;
@@ -3792,7 +3867,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     boolean r = true;
     while (true) {
       Marker m = enter_section_(b, l, _LEFT_, null);
-      if (g < 6 && recordArguments(b, l + 1)) {
+      if (g < 6 && callArguments(b, l + 1)) {
         r = true;
         exit_section_(b, l, m, CALL_EXPR, r, true, null);
       }

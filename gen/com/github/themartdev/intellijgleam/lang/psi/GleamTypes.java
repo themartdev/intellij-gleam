@@ -27,6 +27,8 @@ public interface GleamTypes {
   IElementType BIT_ARRAY_SEGMENT_OPTION = new GleamElementType("BIT_ARRAY_SEGMENT_OPTION");
   IElementType BIT_ARRAY_SEGMENT_OPTIONS = new GleamElementType("BIT_ARRAY_SEGMENT_OPTIONS");
   IElementType BLOCK_EXPR = new GleamElementType("BLOCK_EXPR");
+  IElementType CALL_ARGUMENT = new GleamElementType("CALL_ARGUMENT");
+  IElementType CALL_ARGUMENTS = new GleamElementType("CALL_ARGUMENTS");
   IElementType CALL_EXPR = new GleamElementType("CALL_EXPR");
   IElementType CASE_CLAUSE = new GleamElementType("CASE_CLAUSE");
   IElementType CASE_CLAUSES = new GleamElementType("CASE_CLAUSES");
@@ -189,6 +191,7 @@ public interface GleamTypes {
   IElementType GT_GT = new GleamTokenType(">>");
   IElementType HASH = new GleamTokenType("#");
   IElementType HEX_NUMBER_BASE = new GleamTokenType("HEX_NUMBER_BASE");
+  IElementType HOLE = new GleamTokenType("HOLE");
   IElementType IDENTIFIER = new GleamTokenType("IDENTIFIER");
   IElementType IF = new GleamTokenType("if");
   IElementType IMPORT = new GleamTokenType("import");
@@ -307,6 +310,12 @@ public interface GleamTypes {
       }
       else if (type == BLOCK_EXPR) {
         return new GleamBlockExprImpl(node);
+      }
+      else if (type == CALL_ARGUMENT) {
+        return new GleamCallArgumentImpl(node);
+      }
+      else if (type == CALL_ARGUMENTS) {
+        return new GleamCallArgumentsImpl(node);
       }
       else if (type == CALL_EXPR) {
         return new GleamCallExprImpl(node);

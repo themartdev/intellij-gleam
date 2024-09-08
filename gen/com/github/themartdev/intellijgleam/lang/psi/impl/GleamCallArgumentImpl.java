@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamCallExprImpl extends GleamExpressionImpl implements GleamCallExpr {
+public class GleamCallArgumentImpl extends ASTWrapperPsiElement implements GleamCallArgument {
 
-  public GleamCallExprImpl(@NotNull ASTNode node) {
+  public GleamCallArgumentImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitCallExpr(this);
+    visitor.visitCallArgument(this);
   }
 
   @Override
@@ -28,15 +28,15 @@ public class GleamCallExprImpl extends GleamExpressionImpl implements GleamCallE
   }
 
   @Override
-  @NotNull
-  public GleamCallArguments getCallArguments() {
-    return findNotNullChildByClass(GleamCallArguments.class);
+  @Nullable
+  public GleamLabeledArgument getLabeledArgument() {
+    return findChildByClass(GleamLabeledArgument.class);
   }
 
   @Override
-  @NotNull
-  public GleamExpression getExpression() {
-    return findNotNullChildByClass(GleamExpression.class);
+  @Nullable
+  public GleamUnlabeledArgument getUnlabeledArgument() {
+    return findChildByClass(GleamUnlabeledArgument.class);
   }
 
 }

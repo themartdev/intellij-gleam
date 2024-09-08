@@ -59,6 +59,7 @@ BOOLEAN_LITERAL=True|False
 DISCARD_NAME=_[_0-9a-z]*
 UP_IDENTIFIER=[A-Z][a-zA-Z0-9_]*
 IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
+HOLE=_
 MODULE_COMMENT="////"[^\n]*
 FUNCTION_COMMENT="///"[^\n]*
 LINE_COMMENT="//"[^\n]*
@@ -161,6 +162,7 @@ NUMBER_SEPARATOR = "_"
   [0-9]+                   { pushState(DECIMAL_NUMBER); return GleamTypes.VALID_DECIMAL_DIGIT; }
 
   {BOOLEAN_LITERAL}        { return GleamTypes.BOOLEAN_LITERAL; }
+  {HOLE} / [^a-zA-Z0-9]    { return GleamTypes.HOLE; }
   {DISCARD_NAME}           { return GleamTypes.DISCARD_NAME; }
   {UP_IDENTIFIER}          { return GleamTypes.UP_IDENTIFIER; }
   {IDENTIFIER}             { return GleamTypes.IDENTIFIER; }

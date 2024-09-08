@@ -76,6 +76,7 @@
     LESS_EQUAL_DOT  = '<=.'
     GREATER_EQUAL_DOT = '>=.'
     LT_GT           = '<>'
+    HOLE            = '_'
 
     //// Annotation
     DECORATOR_MARK = '@'
@@ -317,8 +318,10 @@ recordUpdateArguments ::= recordUpdateArgument (COMMA recordUpdateArgument)* [CO
 recordUpdateExpr ::= (constructorIdentifier | remoteConstructorIdentifier) LPAREN DOT_DOT expression COMMA recordUpdateArguments RPAREN
 
 
+callArgument ::= labeledArgument | unlabeledArgument | HOLE
+callArguments ::= LPAREN [callArgument (COMMA callArgument)* [COMMA]] RPAREN
 
-callExpr ::= expression recordArguments
+callExpr ::= expression callArguments
 
 accessExpr ::= expression DOT (label | wholeNumber)
 

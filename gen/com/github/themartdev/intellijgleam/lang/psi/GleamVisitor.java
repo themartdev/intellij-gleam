@@ -83,6 +83,14 @@ public class GleamVisitor extends PsiElementVisitor {
     visitExpression(o);
   }
 
+  public void visitCallArgument(@NotNull GleamCallArgument o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCallArguments(@NotNull GleamCallArguments o) {
+    visitPsiElement(o);
+  }
+
   public void visitCallExpr(@NotNull GleamCallExpr o) {
     visitExpression(o);
   }

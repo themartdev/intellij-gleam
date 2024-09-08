@@ -15,4 +15,8 @@ class FunctionTest : GleamParsingTestCase() {
 
     fun testVoid() = assertParsedCorrectly()
 
+    fun testLabeledArguments() = assertParsedCorrectly()
+
+    fun testPipelines() = assertParsedCorrectly()
+
 }

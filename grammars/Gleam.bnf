@@ -340,9 +340,6 @@ expression ::= simpleKeywordExpr
              | tupleExpr
              | literalExpr
              | bitArrayExpr
-             | callExpr
-             | accessExpr
-             | recordExpr
              | anonymousFunctionExpr
              | listExpr
              | blockExpr
@@ -350,6 +347,9 @@ expression ::= simpleKeywordExpr
              | referenceExpr
              | binaryExpr
              | unaryExpr
+             | callExpr
+             | accessExpr
+             | recordExpr
 
 //private expressionRecoverWhile ::= !expressionRecoverUntil
 //private expressionRecoverUntil ::= RBRACE | RPAREN | RBRACK | EOL

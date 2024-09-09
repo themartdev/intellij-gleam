@@ -37,9 +37,6 @@ class GleamHighlightingAnnotator : Annotator, DumbAware {
                         GleamColors.TYPE_DECLARATION
                     )
                 }
-                element.nameOrAlias?.let {
-                    newAnnotation(holder, it, GleamColors.IMPORT)
-                }
             }
 
             is GleamCallExpr -> {

@@ -1365,32 +1365,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (expression)+
-  public static boolean expressionSeq(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expressionSeq")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, EXPRESSION_SEQ, "<expression seq>");
-    r = expressionSeq_0(b, l + 1);
-    while (r) {
-      int c = current_position_(b);
-      if (!expressionSeq_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "expressionSeq", c)) break;
-    }
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // (expression)
-  private static boolean expressionSeq_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expressionSeq_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = expression(b, l + 1, -1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
   // DECORATOR_MARK externalDecoratorName LPAREN externalTarget COMMA stringLiteral COMMA stringLiteral RPAREN
   public static boolean externalDecorator(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "externalDecorator")) return false;
@@ -1573,7 +1547,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LBRACE [expressionSeq] RBRACE
+  // LBRACE expression* RBRACE
   public static boolean functionBody(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "functionBody")) return false;
     if (!nextTokenIs(b, LBRACE)) return false;
@@ -1587,10 +1561,14 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r || p;
   }
 
-  // [expressionSeq]
+  // expression*
   private static boolean functionBody_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "functionBody_1")) return false;
-    expressionSeq(b, l + 1);
+    while (true) {
+      int c = current_position_(b);
+      if (!expression(b, l + 1, -1)) break;
+      if (!empty_element_parsed_guard_(b, "functionBody_1", c)) break;
+    }
     return true;
   }
 
@@ -4300,17 +4278,28 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // LBRACE expressionSeq RBRACE
+  // LBRACE expression* RBRACE
   public static boolean blockExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "blockExpr")) return false;
     if (!nextTokenIsSmart(b, LBRACE)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokenSmart(b, LBRACE);
-    r = r && expressionSeq(b, l + 1);
+    r = r && blockExpr_1(b, l + 1);
     r = r && consumeToken(b, RBRACE);
     exit_section_(b, m, BLOCK_EXPR, r);
     return r;
+  }
+
+  // expression*
+  private static boolean blockExpr_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "blockExpr_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!expression(b, l + 1, -1)) break;
+      if (!empty_element_parsed_guard_(b, "blockExpr_1", c)) break;
+    }
+    return true;
   }
 
   public static boolean recordUpdateExpr(PsiBuilder b, int l) {

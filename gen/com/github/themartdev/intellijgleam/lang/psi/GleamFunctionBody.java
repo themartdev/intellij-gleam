@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface GleamFunctionBody extends PsiElement {
 
-  @Nullable
-  GleamExpressionSeq getExpressionSeq();
+  @NotNull
+  List<GleamExpression> getExpressionList();
 
 }

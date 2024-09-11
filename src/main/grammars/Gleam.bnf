@@ -250,7 +250,7 @@ typeReference ::= typeName [typeArguments]
 functionParameterArgs ::= labeledDiscardParam | discardParam | labeledNameParam | nameParam
 functionParameter ::= functionParameterArgs [typeAnnotation]
 functionParameters ::= LPAREN [functionParameter (COMMA functionParameter)* [COMMA]] RPAREN
-functionBody ::= LBRACE [expressionSeq] RBRACE {pin=1}
+functionBody ::= LBRACE expression* RBRACE {pin=1}
 functionDeclaration ::= (decorator)* [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody
 functionNameDefinition::= IDENTIFIER
 
@@ -264,8 +264,6 @@ recordPatternArgument ::= [label COLON] pattern
 recordPatternArguments ::= LPAREN [recordPatternArgument (COMMA recordPatternArgument)* [COMMA]] [patternSpread] RPAREN
 recordPattern ::= (constructorIdentifier | remoteConstructorIdentifier) [recordPatternArguments]
 pattern ::= (hole | IDENTIFIER | discardIdentifier | stringPattern | recordPattern | literalExpr | tuplePattern | patternBitArray | listPattern) [AS IDENTIFIER]
-
-expressionSeq ::= (expression)+
 
 shortHandLabeledArgument ::= identifier COLON
 labeledArgument ::= identifier COLON expression
@@ -287,7 +285,7 @@ anonymousFunctionParameter ::= anonymousFunctionParameterArgs [typeAnnotation]
 anonymousFunctionParameters ::= LPAREN [anonymousFunctionParameter (COMMA anonymousFunctionParameter)* [COMMA]] RPAREN
 anonymousFunctionExpr ::= FN anonymousFunctionParameters [R_ARROW typeReference] functionBody
 
-blockExpr ::= LBRACE expressionSeq RBRACE
+blockExpr ::= LBRACE expression* RBRACE
 
 caseClauseTupleAccess ::= IDENTIFIER DOT wholeNumber
 caseClauseGuardUnit ::= IDENTIFIER | caseClauseTupleAccess | LBRACE caseClauseGuardExpression RBRACE | expressionConst

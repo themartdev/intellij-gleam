@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface GleamBlockExpr extends GleamExpression {
 
   @NotNull
-  GleamExpressionSeq getExpressionSeq();
+  List<GleamExpression> getExpressionList();
 
 }

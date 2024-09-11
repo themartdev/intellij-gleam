@@ -28,9 +28,9 @@ public class GleamFunctionBodyImpl extends ASTWrapperPsiElement implements Gleam
   }
 
   @Override
-  @Nullable
-  public GleamExpressionSeq getExpressionSeq() {
-    return findChildByClass(GleamExpressionSeq.class);
+  @NotNull
+  public List<GleamExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamExpression.class);
   }
 
 }

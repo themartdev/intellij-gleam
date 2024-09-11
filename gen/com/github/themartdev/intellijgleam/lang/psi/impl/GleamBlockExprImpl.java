@@ -29,8 +29,8 @@ public class GleamBlockExprImpl extends GleamExpressionImpl implements GleamBloc
 
   @Override
   @NotNull
-  public GleamExpressionSeq getExpressionSeq() {
-    return findNotNullChildByClass(GleamExpressionSeq.class);
+  public List<GleamExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamExpression.class);
   }
 
 }

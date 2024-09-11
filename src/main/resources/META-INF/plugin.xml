@@ -50,6 +50,14 @@
         <lang.quoteHandler language="Gleam"
                            implementationClass="com.github.themartdev.intellijgleam.ide.editor.GleamQuoteHandler"/>
 
+        <lang.formatter language="Gleam"
+                        implementationClass="com.github.themartdev.intellijgleam.ide.formatter.GleamFormattingModelBuilder"/>
+
+        <formattingService id="GleamLspFormattingOnlyServiceProxy"
+                           implementation="com.github.themartdev.intellijgleam.ide.formatter.GleamLspFormattingOnlyServiceProxy"/>
+        <formattingService id="ZigLSPFormattingAndRangeBothServiceProxy"
+                           implementation="com.github.themartdev.intellijgleam.ide.formatter.GleamLspFormattingAndRangeBothServiceProxy"/>
+
         <projectConfigurable id="settings.prisma"
                              groupId="language"
                              instance="com.github.themartdev.intellijgleam.ide.ui.GleamSettingsConfigurable"

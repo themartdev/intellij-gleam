@@ -64,7 +64,6 @@ public interface GleamTypes {
   IElementType DISCARD_PARAM = new GleamElementType("DISCARD_PARAM");
   IElementType EXPRESSION = new GleamElementType("EXPRESSION");
   IElementType EXPRESSION_CONST = new GleamElementType("EXPRESSION_CONST");
-  IElementType EXPRESSION_SEQ = new GleamElementType("EXPRESSION_SEQ");
   IElementType EXTERNAL_DECORATOR = new GleamElementType("EXTERNAL_DECORATOR");
   IElementType EXTERNAL_DECORATOR_NAME = new GleamElementType("EXTERNAL_DECORATOR_NAME");
   IElementType EXTERNAL_FUNCTION_NO_FALLBACK_DECLARATION = new GleamElementType("EXTERNAL_FUNCTION_NO_FALLBACK_DECLARATION");
@@ -414,9 +413,6 @@ public interface GleamTypes {
       }
       else if (type == DISCARD_PARAM) {
         return new GleamDiscardParamImpl(node);
-      }
-      else if (type == EXPRESSION_SEQ) {
-        return new GleamExpressionSeqImpl(node);
       }
       else if (type == EXTERNAL_DECORATOR) {
         return new GleamExternalDecoratorImpl(node);

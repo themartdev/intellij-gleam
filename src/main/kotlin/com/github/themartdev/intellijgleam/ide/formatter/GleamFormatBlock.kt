@@ -1,7 +1,5 @@
 package com.github.themartdev.intellijgleam.ide.formatter
 
-import com.github.themartdev.intellijgleam.lang.psi.GLEAM_BLOCKS
-import com.github.themartdev.intellijgleam.lang.psi.GLEAM_BRACES
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.psi.TokenType
@@ -12,51 +10,33 @@ class GleamFormatBlock(
     wrap: Wrap?,
     alignment: Alignment?,
 ) : AbstractBlock(node, wrap, alignment) {
+    private val currentIndent = GleamIndentProcessor.getIndent(node)
+
     override fun getSpacing(p0: Block?, p1: Block): Spacing? {
-        TODO("Not yet implemented")
+        return null
     }
 
     override fun isLeaf(): Boolean {
-        TODO("Not yet implemented")
+        return node.firstChildNode == null
     }
 
     override fun buildChildren(): MutableList<Block> {
         val blocks = mutableListOf<Block>()
-        node.getChildren(null).asSequence()
-            .filter { it.elementType != TokenType.WHITE_SPACE && (it.textLength > 0) }
-            .forEach { createBlocks(blocks, it) }
+        for (child in node.getChildren(null)) {
+            if (child.elementType != TokenType.WHITE_SPACE) {
+                processBlock(blocks, child)
+            }
+        }
         return blocks
     }
 
-    private fun createBlocks(
-        blocks: MutableList<in Block>,
-        child: ASTNode,
-    ) {
-        val childElement = child.psi
-
-//        blocks.add(GleamFormatBlock(child, null, newAlignment, context, newChildAlignment))
+    private fun processBlock(blocks: MutableList<Block>, child: ASTNode) {
+        blocks.add(GleamFormatBlock(child, wrap, alignment))
     }
 
 
-    // indented: blockExpr, functionBody, caseExpr, customTypeValue
-    // optional indented: unqualifiedImports
-    override fun getIndent(): Indent? {
-        val elementType = node.elementType
-        val parent: ASTNode? = node.treeParent
+    override fun getIndent(): Indent = currentIndent
 
-        if (parent == null || parent.treeParent == null) {
-            return Indent.getNoneIndent()
-        }
-
-        val parentType = parent.elementType
-        if (parentType in GLEAM_BLOCKS) {
-            if (elementType in GLEAM_BRACES) {
-                return Indent.getNoneIndent()
-            }
-            return Indent.getNormalIndent()
-        }
-
-        return Indent.getNoneIndent()
-    }
+    override fun getChildIndent(): Indent? = GleamIndentProcessor.getChildIndent(node)
 
 }

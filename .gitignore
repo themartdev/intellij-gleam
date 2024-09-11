@@ -4,6 +4,7 @@
 .qodana
 build
 .kotlin
+.local
 
 
 # JFlex generator download

@@ -19,7 +19,6 @@
             </description>
         </server>
         <languageMapping language="Gleam" serverId="gleam-ls"/>
-        <!--        <fileNamePatternMapping patterns="*.gleam" serverId="gleam-ls"/>-->
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">

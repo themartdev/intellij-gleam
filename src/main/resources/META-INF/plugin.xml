@@ -64,5 +64,10 @@
                              key="gleam.settings.configurable.title"
                              nonDefaultProject="true"/>
 
+        <notificationGroup displayType="BALLOON"
+                           bundle="messages.GleamBundle"
+                           key="gleam.notification.error.key"
+                           id="intellij-gleam.gleam-ls"/>
+
     </extensions>
 </idea-plugin>

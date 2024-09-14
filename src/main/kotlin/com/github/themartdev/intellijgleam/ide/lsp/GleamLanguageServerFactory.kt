@@ -7,9 +7,7 @@ import com.redhat.devtools.lsp4ij.server.StreamConnectionProvider
 
 class GleamLanguageServerFactory : LanguageServerFactory, LanguageServerEnablementSupport {
     override fun createConnectionProvider(project: Project): StreamConnectionProvider {
-        val settings = GleamServiceSettings.getInstance(project)
-        val gleamPath = settings.lspPath
-        return GleamLanguageServer(gleamPath)
+        return GleamLanguageServer(project)
     }
 
     override fun isEnabled(project: Project): Boolean {

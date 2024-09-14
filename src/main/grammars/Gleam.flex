@@ -215,7 +215,7 @@ NUMBER_SEPARATOR = "_"
 
 <DECIMAL_EXPONENT_SIGN> {
   {SIGN_OPERATOR}                { yybegin(DECIMAL_EXPONENT); return GleamTypes.EXPONENT_SIGN; }
-  [^]                            { yybegin(DECIMAL_EXPONENT); }
+  [^]                            { yypushback(yylength()); yybegin(DECIMAL_EXPONENT); }
 }
 
 <DECIMAL_NUMBER> {
@@ -223,7 +223,7 @@ NUMBER_SEPARATOR = "_"
 }
 
 <DECIMAL_FRACTION> {
-  "e"                           { yybegin(DECIMAL_EXPONENT); return GleamTypes.EXPONENT_MARK; }
+  "e"                           { yybegin(DECIMAL_EXPONENT_SIGN); return GleamTypes.EXPONENT_MARK; }
 }
 
 <DECIMAL_NUMBER, DECIMAL_FRACTION, DECIMAL_EXPONENT> {

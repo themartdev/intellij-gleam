@@ -961,12 +961,12 @@ public class _GleamLexer implements FlexLexer {
           // fall through
           case 154: break;
           case 56:
-            { yybegin(DECIMAL_EXPONENT); return GleamTypes.EXPONENT_MARK;
+            { yybegin(DECIMAL_EXPONENT_SIGN); return GleamTypes.EXPONENT_MARK;
             }
           // fall through
           case 155: break;
           case 57:
-            { yybegin(DECIMAL_EXPONENT);
+            { yypushback(yylength()); yybegin(DECIMAL_EXPONENT);
             }
           // fall through
           case 156: break;

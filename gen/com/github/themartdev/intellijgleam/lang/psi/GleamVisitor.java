@@ -200,7 +200,7 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitCustomTypeValue(@NotNull GleamCustomTypeValue o) {
-    visitPsiElement(o);
+    visitTypeValue(o);
   }
 
   public void visitDecimalIntegerLiteral(@NotNull GleamDecimalIntegerLiteral o) {
@@ -376,7 +376,7 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitOmittedTypeValue(@NotNull GleamOmittedTypeValue o) {
-    visitPsiElement(o);
+    visitTypeValue(o);
   }
 
   public void visitPanicExpr(@NotNull GleamPanicExpr o) {
@@ -416,10 +416,6 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitRecordConstructorParameters(@NotNull GleamRecordConstructorParameters o) {
-    visitPsiElement(o);
-  }
-
-  public void visitRecordConstructors(@NotNull GleamRecordConstructors o) {
     visitPsiElement(o);
   }
 
@@ -464,7 +460,7 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitReferenceTypeValue(@NotNull GleamReferenceTypeValue o) {
-    visitPsiElement(o);
+    visitTypeValue(o);
   }
 
   public void visitRemoteConstructorIdentifier(@NotNull GleamRemoteConstructorIdentifier o) {

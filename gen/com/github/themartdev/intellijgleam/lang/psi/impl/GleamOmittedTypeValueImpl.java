@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamOmittedTypeValueImpl extends ASTWrapperPsiElement implements GleamOmittedTypeValue {
+public class GleamOmittedTypeValueImpl extends GleamTypeValueImpl implements GleamOmittedTypeValue {
 
   public GleamOmittedTypeValueImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull GleamVisitor visitor) {
     visitor.visitOmittedTypeValue(this);
   }

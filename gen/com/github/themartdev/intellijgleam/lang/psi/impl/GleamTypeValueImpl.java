@@ -11,7 +11,7 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamTypeValueImpl extends ASTWrapperPsiElement implements GleamTypeValue {
+public abstract class GleamTypeValueImpl extends ASTWrapperPsiElement implements GleamTypeValue {
 
   public GleamTypeValueImpl(@NotNull ASTNode node) {
     super(node);
@@ -25,24 +25,6 @@ public class GleamTypeValueImpl extends ASTWrapperPsiElement implements GleamTyp
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof GleamVisitor) accept((GleamVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public GleamCustomTypeValue getCustomTypeValue() {
-    return findChildByClass(GleamCustomTypeValue.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamOmittedTypeValue getOmittedTypeValue() {
-    return findChildByClass(GleamOmittedTypeValue.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamReferenceTypeValue getReferenceTypeValue() {
-    return findChildByClass(GleamReferenceTypeValue.class);
   }
 
 }

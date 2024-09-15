@@ -134,6 +134,7 @@
   extends(".*Expr")=expression
   extends(".*ExprConst")=expressionConst
   extends(".*Decorator")=decorator
+  extends(".*TypeValue")=typeValue
 }
 
 
@@ -393,10 +394,9 @@ unlabeledParameter ::= typeBase
 private recordConstructorParameter ::= labeledParameter | unlabeledParameter
 recordConstructorParameters ::= LPAREN [recordConstructorParameter (COMMA recordConstructorParameter)* [COMMA]] RPAREN
 recordConstructor ::= constructorIdentifier [recordConstructorParameters]
-recordConstructors ::= recordConstructor+
 
 referenceTypeValue ::= EQUAL typeReference
-customTypeValue ::= LBRACE recordConstructors RBRACE
+customTypeValue ::= LBRACE recordConstructor* RBRACE {pin=1}
 omittedTypeValue ::=
 typeValue ::= referenceTypeValue | customTypeValue | omittedTypeValue
 typeDeclarationName ::= UP_IDENTIFIER

@@ -37,6 +37,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
 
   public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
     create_token_set_(DECORATOR, DEPRECATED_DECORATOR, EXTERNAL_DECORATOR, UNKNOWN_DECORATOR),
+    create_token_set_(CUSTOM_TYPE_VALUE, OMITTED_TYPE_VALUE, REFERENCE_TYPE_VALUE, TYPE_VALUE),
     create_token_set_(BIT_ARRAY_EXPR_CONST, EXPRESSION_CONST, FIELD_ACCESS_EXPR_CONST, IDENTIFIER_EXPR_CONST,
       LIST_EXPR_CONST, LITERAL_EXPR_CONST, RECORD_EXPR_CONST, TUPLE_EXPR_CONST),
     create_token_set_(ACCESS_EXPR, ANONYMOUS_FUNCTION_EXPR, ASSERT_LET_EXPR, BINARY_EXPR,
@@ -1245,17 +1246,29 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LBRACE recordConstructors RBRACE
+  // LBRACE recordConstructor* RBRACE
   public static boolean customTypeValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "customTypeValue")) return false;
     if (!nextTokenIs(b, LBRACE)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, CUSTOM_TYPE_VALUE, null);
     r = consumeToken(b, LBRACE);
-    r = r && recordConstructors(b, l + 1);
-    r = r && consumeToken(b, RBRACE);
-    exit_section_(b, m, CUSTOM_TYPE_VALUE, r);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, customTypeValue_1(b, l + 1));
+    r = p && consumeToken(b, RBRACE) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // recordConstructor*
+  private static boolean customTypeValue_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "customTypeValue_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!recordConstructor(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "customTypeValue_1", c)) break;
+    }
+    return true;
   }
 
   /* ********************************************************** */
@@ -2697,23 +2710,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // recordConstructor+
-  public static boolean recordConstructors(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "recordConstructors")) return false;
-    if (!nextTokenIs(b, UP_IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = recordConstructor(b, l + 1);
-    while (r) {
-      int c = current_position_(b);
-      if (!recordConstructor(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "recordConstructors", c)) break;
-    }
-    exit_section_(b, m, RECORD_CONSTRUCTORS, r);
-    return r;
-  }
-
-  /* ********************************************************** */
   // typeName [constantRecordArguments]
   public static boolean recordExprConst(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "recordExprConst")) return false;
@@ -3528,7 +3524,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   public static boolean typeValue(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "typeValue")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, TYPE_VALUE, "<type value>");
+    Marker m = enter_section_(b, l, _COLLAPSE_, TYPE_VALUE, "<type value>");
     r = referenceTypeValue(b, l + 1);
     if (!r) r = customTypeValue(b, l + 1);
     if (!r) r = omittedTypeValue(b, l + 1);

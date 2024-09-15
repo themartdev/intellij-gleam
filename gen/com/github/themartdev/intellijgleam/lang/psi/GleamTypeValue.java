@@ -7,13 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface GleamTypeValue extends PsiElement {
 
-  @Nullable
-  GleamCustomTypeValue getCustomTypeValue();
-
-  @Nullable
-  GleamOmittedTypeValue getOmittedTypeValue();
-
-  @Nullable
-  GleamReferenceTypeValue getReferenceTypeValue();
-
 }

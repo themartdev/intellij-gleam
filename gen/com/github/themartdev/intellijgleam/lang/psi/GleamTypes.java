@@ -110,7 +110,6 @@ public interface GleamTypes {
   IElementType RECORD_ARGUMENT = new GleamElementType("RECORD_ARGUMENT");
   IElementType RECORD_ARGUMENTS = new GleamElementType("RECORD_ARGUMENTS");
   IElementType RECORD_CONSTRUCTOR = new GleamElementType("RECORD_CONSTRUCTOR");
-  IElementType RECORD_CONSTRUCTORS = new GleamElementType("RECORD_CONSTRUCTORS");
   IElementType RECORD_CONSTRUCTOR_PARAMETERS = new GleamElementType("RECORD_CONSTRUCTOR_PARAMETERS");
   IElementType RECORD_EXPR = new GleamElementType("RECORD_EXPR");
   IElementType RECORD_EXPR_CONST = new GleamElementType("RECORD_EXPR_CONST");
@@ -553,9 +552,6 @@ public interface GleamTypes {
       else if (type == RECORD_CONSTRUCTOR) {
         return new GleamRecordConstructorImpl(node);
       }
-      else if (type == RECORD_CONSTRUCTORS) {
-        return new GleamRecordConstructorsImpl(node);
-      }
       else if (type == RECORD_CONSTRUCTOR_PARAMETERS) {
         return new GleamRecordConstructorParametersImpl(node);
       }
@@ -648,9 +644,6 @@ public interface GleamTypes {
       }
       else if (type == TYPE_UNQUALIFIED_IMPORT) {
         return new GleamTypeUnqualifiedImportImpl(node);
-      }
-      else if (type == TYPE_VALUE) {
-        return new GleamTypeValueImpl(node);
       }
       else if (type == UNARY_EXPR) {
         return new GleamUnaryExprImpl(node);

@@ -53,7 +53,7 @@ class GleamFormatBlock(
             parentType == GleamTypes.FUNCTION_BODY ||
                     parentType == GleamTypes.BLOCK_EXPR ||
                     parentType == GleamTypes.CASE_EXPR_BODY ||
-                    parentType == GleamTypes.TYPE_VALUE -> Indent.getNormalIndent()
+                    parentType == GleamTypes.CUSTOM_TYPE_VALUE -> Indent.getNormalIndent()
 
             else -> Indent.getNoneIndent()
         }

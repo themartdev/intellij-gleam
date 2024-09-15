@@ -1,4 +1,4 @@
-package com.github.themartdev.intellijgleam.ide.formatter
+package com.github.themartdev.intellijgleam.ide.formatter.lsp
 
 import com.intellij.formatting.service.FormattingService
 import com.redhat.devtools.lsp4ij.LanguageServerItem

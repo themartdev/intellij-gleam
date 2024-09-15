@@ -1,4 +1,4 @@
-package com.github.themartdev.intellijgleam.ide.formatter
+package com.github.themartdev.intellijgleam.ide.formatter.lsp
 
 import com.github.themartdev.intellijgleam.lang.GleamLanguage
 import com.intellij.formatting.FormattingRangesInfo

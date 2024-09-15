@@ -301,7 +301,7 @@ caseClausePatterns ::= caseClausePattern (VBAR caseClausePattern)* [VBAR]
 caseClause ::= caseClausePatterns [caseClauseGuard] R_ARROW expression
 caseClauses ::= caseClause+
 caseSubjects ::= expression (COMMA expression)*
-caseExprBody ::= LBRACE caseClauses RBRACE
+caseExprBody ::= LBRACE caseClauses RBRACE {pin=1}
 caseExpr ::= CASE caseSubjects caseExprBody
 
 useArgs ::= IDENTIFIER | IDENTIFIER COMMA useArgs

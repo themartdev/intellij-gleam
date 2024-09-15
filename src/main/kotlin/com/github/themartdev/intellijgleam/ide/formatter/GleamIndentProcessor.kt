@@ -1,40 +1,35 @@
 package com.github.themartdev.intellijgleam.ide.formatter
 
-import com.github.themartdev.intellijgleam.lang.psi.GLEAM_BLOCKS
-import com.github.themartdev.intellijgleam.lang.psi.GLEAM_BRACES
-import com.github.themartdev.intellijgleam.lang.psi.GleamBlockExpr
-import com.github.themartdev.intellijgleam.lang.psi.GleamCaseExprBody
-import com.github.themartdev.intellijgleam.lang.psi.GleamFunctionBody
-import com.github.themartdev.intellijgleam.lang.psi.GleamTypeValue
+import com.github.themartdev.intellijgleam.lang.psi.*
 import com.intellij.formatting.Indent
 import com.intellij.lang.ASTNode
-import com.intellij.psi.PsiFile
 
-object GleamIndentProcessor {
-    fun getIndent(node: ASTNode): Indent {
+class GleamIndentProcessor {
+    fun getChildIndent(node: ASTNode): Indent? {
         val elementType = node.elementType
-        val parent: ASTNode? = node.treeParent
+        val parent = node.treeParent
+        val parentType = parent?.elementType
 
         if (parent == null || parent.treeParent == null) {
             return Indent.getNoneIndent()
         }
 
-        val parentType = parent.elementType
-        if (parentType in GLEAM_BLOCKS) {
-            if (elementType in GLEAM_BRACES) {
-                return Indent.getNoneIndent()
+        if (parentType == GleamTypes.FUNCTION_BODY ||
+            parentType == GleamTypes.BLOCK_EXPR ||
+            parentType == GleamTypes.CASE_EXPR_BODY ||
+            parentType == GleamTypes.TYPE_VALUE
+        ) {
+            return if (elementType == GleamTypes.RBRACE) {
+                Indent.getNoneIndent()
+            } else {
+                Indent.getNormalIndent()
             }
-            return Indent.getSpaceIndent(2)
+        }
+
+        if (elementType == GleamTypes.LBRACE || elementType == GleamTypes.RBRACE) {
+            return Indent.getNoneIndent()
         }
 
         return Indent.getNoneIndent()
-    }
-
-    fun getChildIndent(node: ASTNode): Indent? {
-        return when (node.psi) {
-            is PsiFile -> Indent.getNoneIndent()
-            is GleamFunctionBody, is GleamTypeValue, is GleamBlockExpr, is GleamCaseExprBody -> Indent.getSpaceIndent(2)
-            else -> Indent.getNoneIndent()
-        }
     }
 }

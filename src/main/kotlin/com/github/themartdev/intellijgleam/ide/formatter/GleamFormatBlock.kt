@@ -1,5 +1,6 @@
 package com.github.themartdev.intellijgleam.ide.formatter
 
+import com.github.themartdev.intellijgleam.lang.psi.GleamTypes
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.psi.TokenType
@@ -9,34 +10,60 @@ class GleamFormatBlock(
     node: ASTNode,
     wrap: Wrap?,
     alignment: Alignment?,
+    private val context: GleamFormatBlockContext
 ) : AbstractBlock(node, wrap, alignment) {
-    private val currentIndent = GleamIndentProcessor.getIndent(node)
+    private val spacingProcessor = GleamSpacingProcessor(this, context)
+    private val indentProcessor = GleamIndentProcessor()
 
-    override fun getSpacing(p0: Block?, p1: Block): Spacing? {
-        return null
-    }
+    private var subBlocks: List<Block>? = null
 
-    override fun isLeaf(): Boolean {
-        return node.firstChildNode == null
-    }
-
-    override fun buildChildren(): MutableList<Block> {
-        val blocks = mutableListOf<Block>()
-        for (child in node.getChildren(null)) {
-            if (child.elementType != TokenType.WHITE_SPACE) {
-                processBlock(blocks, child)
+    override fun buildChildren(): List<Block> {
+        if (subBlocks == null) {
+            val blocks = mutableListOf<Block>()
+            var child = node.firstChildNode
+            while (child != null) {
+                if (child.elementType != TokenType.WHITE_SPACE) {
+                    val childBlock = GleamFormatBlock(
+                        child,
+                        null,
+                        null,
+                        context
+                    )
+                    blocks.add(childBlock)
+                }
+                child = child.treeNext
             }
+            subBlocks = if (blocks.isNotEmpty()) blocks else EMPTY
         }
-        return blocks
+        return subBlocks!!
     }
 
-    private fun processBlock(blocks: MutableList<Block>, child: ASTNode) {
-        blocks.add(GleamFormatBlock(child, wrap, alignment))
+    override fun getIndent(): Indent? {
+        return indentProcessor.getChildIndent(node)
     }
 
+    override fun getSpacing(child1: Block?, child2: Block): Spacing? {
+        return spacingProcessor.createSpacing(child1, child2)
+    }
 
-    override fun getIndent(): Indent = currentIndent
+    override fun getChildAttributes(newChildIndex: Int): ChildAttributes {
+        val parentType = node.elementType
 
-    override fun getChildIndent(): Indent? = GleamIndentProcessor.getChildIndent(node)
+        val indent = when {
+            parentType == GleamTypes.FUNCTION_BODY ||
+                    parentType == GleamTypes.BLOCK_EXPR ||
+                    parentType == GleamTypes.CASE_EXPR_BODY ||
+                    parentType == GleamTypes.TYPE_VALUE -> Indent.getNormalIndent()
 
+            else -> Indent.getNoneIndent()
+        }
+
+        return ChildAttributes(indent, null)
+    }
+
+    override fun isLeaf(): Boolean = node.firstChildNode == null
+
+    companion object {
+        private val EMPTY = emptyList<Block>()
+    }
 }

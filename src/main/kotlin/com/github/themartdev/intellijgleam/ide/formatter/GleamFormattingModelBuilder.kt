@@ -1,17 +1,21 @@
 package com.github.themartdev.intellijgleam.ide.formatter
 
-import com.intellij.formatting.FormattingContext
-import com.intellij.formatting.FormattingModel
-import com.intellij.formatting.FormattingModelBuilder
-import com.intellij.formatting.FormattingModelProvider
+import com.intellij.formatting.*
 
 class GleamFormattingModelBuilder : FormattingModelBuilder {
-
     override fun createModel(formattingContext: FormattingContext): FormattingModel {
+        val settings = formattingContext.codeStyleSettings
+        val context = GleamFormatBlockContext(settings)
+        val block = GleamFormatBlock(
+            formattingContext.node,
+            null,
+            null,
+            context
+        )
         return FormattingModelProvider.createFormattingModelForPsiFile(
             formattingContext.containingFile,
-            GleamFormatBlock(formattingContext.node, null, null),
-            formattingContext.codeStyleSettings
+            block,
+            settings
         )
     }
 }

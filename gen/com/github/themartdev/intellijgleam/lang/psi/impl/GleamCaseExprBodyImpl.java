@@ -28,9 +28,9 @@ public class GleamCaseExprBodyImpl extends ASTWrapperPsiElement implements Gleam
   }
 
   @Override
-  @NotNull
+  @Nullable
   public GleamCaseClauses getCaseClauses() {
-    return findNotNullChildByClass(GleamCaseClauses.class);
+    return findChildByClass(GleamCaseClauses.class);
   }
 
 }

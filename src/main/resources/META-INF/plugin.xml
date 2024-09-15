@@ -56,10 +56,13 @@
         <lang.formatter language="Gleam"
                         implementationClass="com.github.themartdev.intellijgleam.ide.formatter.GleamFormattingModelBuilder"/>
 
+        <langCodeStyleSettingsProvider
+                implementation="com.github.themartdev.intellijgleam.ide.formatter.GleamLanguageCodeStyleSettingsProvider"/>
+
         <formattingService id="GleamLspFormattingOnlyServiceProxy"
-                           implementation="com.github.themartdev.intellijgleam.ide.formatter.GleamLspFormattingOnlyServiceProxy"/>
+                           implementation="com.github.themartdev.intellijgleam.ide.formatter.lsp.GleamLspFormattingOnlyServiceProxy"/>
         <formattingService id="ZigLSPFormattingAndRangeBothServiceProxy"
-                           implementation="com.github.themartdev.intellijgleam.ide.formatter.GleamLspFormattingAndRangeBothServiceProxy"/>
+                           implementation="com.github.themartdev.intellijgleam.ide.formatter.lsp.GleamLspFormattingAndRangeBothServiceProxy"/>
 
         <projectConfigurable id="settings.prisma"
                              groupId="language"

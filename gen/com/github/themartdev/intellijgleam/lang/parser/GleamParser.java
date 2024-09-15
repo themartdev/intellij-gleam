@@ -766,13 +766,14 @@ public class GleamParser implements PsiParser, LightPsiParser {
   public static boolean caseExprBody(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "caseExprBody")) return false;
     if (!nextTokenIs(b, LBRACE)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, CASE_EXPR_BODY, null);
     r = consumeToken(b, LBRACE);
-    r = r && caseClauses(b, l + 1);
-    r = r && consumeToken(b, RBRACE);
-    exit_section_(b, m, CASE_EXPR_BODY, r);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, caseClauses(b, l + 1));
+    r = p && consumeToken(b, RBRACE) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   /* ********************************************************** */

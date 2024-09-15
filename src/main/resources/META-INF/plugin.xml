@@ -4,6 +4,7 @@
     <name>Gleam Language</name>
     <vendor>themartdev</vendor>
 
+    <depends>com.intellij.modules.platform</depends>
     <depends>com.redhat.devtools.lsp4ij</depends>
 
     <resource-bundle>messages.GleamBundle</resource-bundle>

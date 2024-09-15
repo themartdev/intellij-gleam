@@ -7,7 +7,6 @@ import com.intellij.psi.PsiElement;
 
 public interface GleamModulePath extends PsiElement {
 
-  @NotNull
-  PsiElement getModuleName();
+  @NotNull PsiElement getModuleName();
 
 }

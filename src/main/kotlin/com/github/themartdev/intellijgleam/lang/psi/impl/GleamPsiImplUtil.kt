@@ -33,10 +33,5 @@ class GleamPsiImplUtil {
         fun getNameOrAlias(upUnqualifiedImport: GleamUpUnqualifiedImport): PsiElement {
             return upUnqualifiedImport.aliasUpIdentifier ?: upUnqualifiedImport.upIdentifier
         }
-
-//        @JvmStatic
-//        fun getAlias(importMixin: GleamImportMixin): String? {
-//            return gleamModulePath.moduleName
-//        }
     }
 }

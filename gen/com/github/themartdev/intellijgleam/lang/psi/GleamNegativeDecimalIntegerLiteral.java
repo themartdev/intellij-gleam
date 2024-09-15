@@ -5,14 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamTypeUnqualifiedImport extends PsiElement {
+public interface GleamNegativeDecimalIntegerLiteral extends PsiElement {
 
-  @Nullable
-  GleamAliasUpIdentifier getAliasUpIdentifier();
-
-  @Nullable
-  PsiElement getUpIdentifier();
-
-  @Nullable PsiElement getNameOrAlias();
+  @NotNull
+  GleamWholeNumber getWholeNumber();
 
 }

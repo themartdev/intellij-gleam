@@ -41,6 +41,12 @@ public class GleamLiteralExprConstImpl extends GleamExpressionConstImpl implemen
 
   @Override
   @Nullable
+  public GleamNegativeDecimalIntegerLiteral getNegativeDecimalIntegerLiteral() {
+    return findChildByClass(GleamNegativeDecimalIntegerLiteral.class);
+  }
+
+  @Override
+  @Nullable
   public GleamStringLiteral getStringLiteral() {
     return findChildByClass(GleamStringLiteral.class);
   }

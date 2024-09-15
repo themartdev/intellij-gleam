@@ -223,7 +223,8 @@ expressionConst ::= literalExprConst
             | fieldAccessExprConst
             // Can refer to another constant
             | identifierExprConst
-literalExprConst ::= literal
+// Special for negative number constants - in expressions the '-' is a unary operator, but in constants it's part of the number
+literalExprConst ::= literal | negativeDecimalIntegerLiteral
 tupleExprConst ::= HASH LPAREN [expressionConst (COMMA expressionConst)* [COMMA]] RPAREN {pin=2}
 constantBitArraySegment ::= expressionConst [COLON bitArraySegmentOptions]
 bitArrayExprConst ::= LT_LT [constantBitArraySegment (COMMA constantBitArraySegment)* [COMMA]] GT_GT {pin=1}
@@ -332,10 +333,13 @@ private literal ::= floatLiteral
               | stringLiteral
               | integerLiteral
               | BOOLEAN_LITERAL
+
 literalExpr ::= literal
 
 private simpleKeywordExpr ::= letExpr | panicExpr | todoExpr
-expression ::= simpleKeywordExpr
+expression ::=
+             // Unambiguous expressions - each has a unique pinnable first token
+               simpleKeywordExpr
              | useExpr
              | caseExpr
              | tupleExpr
@@ -344,16 +348,18 @@ expression ::= simpleKeywordExpr
              | anonymousFunctionExpr
              | listExpr
              | blockExpr
+
+             // Potentially ambiguous expressions
              | recordUpdateExpr
              | referenceExpr
+             // Binary must come before unary for negation/subtraction precedence
              | binaryExpr
              | unaryExpr
              | callExpr
              | accessExpr
-             | recordExpr
+             | recordExpr { recoverWhile=expressionRecoverWhile }
 
-//private expressionRecoverWhile ::= !expressionRecoverUntil
-//private expressionRecoverUntil ::= RBRACE | RPAREN | RBRACK | EOL
+private expressionRecoverWhile ::= !(RBRACE | RPAREN | RBRACK | EOL)
 
 binaryExpr ::= expression binaryOperator expression
 binaryOperator ::= EQUAL_EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | LESS_DOT
@@ -404,10 +410,10 @@ hexIntegerLiteral ::= BASE_NUMBER_PREFIX HEX_NUMBER_BASE VALID_HEX_DIGIT (NUMBER
 
 wholeNumber ::= VALID_DECIMAL_DIGIT (NUMBER_SEPARATOR VALID_DECIMAL_DIGIT)*
 decimalIntegerLiteral ::= wholeNumber
+negativeDecimalIntegerLiteral ::= MINUS wholeNumber
 
-floatLiteral ::= wholeNumber DECIMAL_MARK wholeNumber? (EXPONENT_MARK EXPONENT_SIGN? wholeNumber)?
+floatLiteral ::= MINUS? wholeNumber DECIMAL_MARK wholeNumber? (EXPONENT_MARK EXPONENT_SIGN? wholeNumber)?
 integerLiteral ::= binaryIntegerLiteral | octalIntegerLiteral | hexIntegerLiteral | decimalIntegerLiteral
-
 
 //// Strings
 stringEscapeSegment ::= (ESCAPE ESCAPE_CHAR) | (ESCAPE UNICODE_ESCAPE_CHAR LBRACE UNICODE_CODEPOINT RBRACE)

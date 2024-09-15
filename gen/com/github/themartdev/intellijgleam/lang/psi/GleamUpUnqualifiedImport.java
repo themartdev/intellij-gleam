@@ -13,7 +13,6 @@ public interface GleamUpUnqualifiedImport extends PsiElement {
   @NotNull
   PsiElement getUpIdentifier();
 
-  @NotNull
-  PsiElement getNameOrAlias();
+  @NotNull PsiElement getNameOrAlias();
 
 }

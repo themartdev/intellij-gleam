@@ -46,8 +46,7 @@ public class GleamImportDeclarationImpl extends ASTWrapperPsiElement implements 
   }
 
   @Override
-  @Nullable
-  public PsiElement getNameOrAlias() {
+  public @Nullable PsiElement getNameOrAlias() {
     return GleamPsiImplUtil.getNameOrAlias(this);
   }
 

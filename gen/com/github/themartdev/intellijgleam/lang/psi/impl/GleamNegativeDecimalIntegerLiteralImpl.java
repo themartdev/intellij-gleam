@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamTypeUnqualifiedImportImpl extends ASTWrapperPsiElement implements GleamTypeUnqualifiedImport {
+public class GleamNegativeDecimalIntegerLiteralImpl extends ASTWrapperPsiElement implements GleamNegativeDecimalIntegerLiteral {
 
-  public GleamTypeUnqualifiedImportImpl(@NotNull ASTNode node) {
+  public GleamNegativeDecimalIntegerLiteralImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitTypeUnqualifiedImport(this);
+    visitor.visitNegativeDecimalIntegerLiteral(this);
   }
 
   @Override
@@ -28,20 +28,9 @@ public class GleamTypeUnqualifiedImportImpl extends ASTWrapperPsiElement impleme
   }
 
   @Override
-  @Nullable
-  public GleamAliasUpIdentifier getAliasUpIdentifier() {
-    return findChildByClass(GleamAliasUpIdentifier.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getUpIdentifier() {
-    return findChildByType(UP_IDENTIFIER);
-  }
-
-  @Override
-  public @Nullable PsiElement getNameOrAlias() {
-    return GleamPsiImplUtil.getNameOrAlias(this);
+  @NotNull
+  public GleamWholeNumber getWholeNumber() {
+    return findNotNullChildByClass(GleamWholeNumber.class);
   }
 
 }

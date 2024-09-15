@@ -98,6 +98,7 @@ public interface GleamTypes {
   IElementType LITERAL_EXPR_CONST = new GleamElementType("LITERAL_EXPR_CONST");
   IElementType MODULE_PATH = new GleamElementType("MODULE_PATH");
   IElementType NAME_PARAM = new GleamElementType("NAME_PARAM");
+  IElementType NEGATIVE_DECIMAL_INTEGER_LITERAL = new GleamElementType("NEGATIVE_DECIMAL_INTEGER_LITERAL");
   IElementType OCTAL_INTEGER_LITERAL = new GleamElementType("OCTAL_INTEGER_LITERAL");
   IElementType OMITTED_TYPE_VALUE = new GleamElementType("OMITTED_TYPE_VALUE");
   IElementType PANIC_EXPR = new GleamElementType("PANIC_EXPR");
@@ -414,6 +415,9 @@ public interface GleamTypes {
       else if (type == DISCARD_PARAM) {
         return new GleamDiscardParamImpl(node);
       }
+      else if (type == EXPRESSION) {
+        return new GleamExpressionImpl(node);
+      }
       else if (type == EXTERNAL_DECORATOR) {
         return new GleamExternalDecoratorImpl(node);
       }
@@ -512,6 +516,9 @@ public interface GleamTypes {
       }
       else if (type == NAME_PARAM) {
         return new GleamNameParamImpl(node);
+      }
+      else if (type == NEGATIVE_DECIMAL_INTEGER_LITERAL) {
+        return new GleamNegativeDecimalIntegerLiteralImpl(node);
       }
       else if (type == OCTAL_INTEGER_LITERAL) {
         return new GleamOctalIntegerLiteralImpl(node);

@@ -367,6 +367,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitNegativeDecimalIntegerLiteral(@NotNull GleamNegativeDecimalIntegerLiteral o) {
+    visitPsiElement(o);
+  }
+
   public void visitOctalIntegerLiteral(@NotNull GleamOctalIntegerLiteral o) {
     visitPsiElement(o);
   }

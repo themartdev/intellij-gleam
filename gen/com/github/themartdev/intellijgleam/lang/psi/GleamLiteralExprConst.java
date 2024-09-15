@@ -14,6 +14,9 @@ public interface GleamLiteralExprConst extends GleamExpressionConst {
   GleamIntegerLiteral getIntegerLiteral();
 
   @Nullable
+  GleamNegativeDecimalIntegerLiteral getNegativeDecimalIntegerLiteral();
+
+  @Nullable
   GleamStringLiteral getStringLiteral();
 
   @Nullable

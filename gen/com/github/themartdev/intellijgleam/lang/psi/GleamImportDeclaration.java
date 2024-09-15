@@ -16,7 +16,6 @@ public interface GleamImportDeclaration extends PsiElement {
   @Nullable
   PsiElement getIdentifier();
 
-  @Nullable
-  PsiElement getNameOrAlias();
+  @Nullable PsiElement getNameOrAlias();
 
 }

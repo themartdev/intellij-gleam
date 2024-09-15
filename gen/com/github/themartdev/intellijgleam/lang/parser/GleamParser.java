@@ -1365,6 +1365,28 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // !(RBRACE | RPAREN | RBRACK | EOL)
+  static boolean expressionRecoverWhile(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "expressionRecoverWhile")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !expressionRecoverWhile_0(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // RBRACE | RPAREN | RBRACK | EOL
+  private static boolean expressionRecoverWhile_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "expressionRecoverWhile_0")) return false;
+    boolean r;
+    r = consumeToken(b, RBRACE);
+    if (!r) r = consumeToken(b, RPAREN);
+    if (!r) r = consumeToken(b, RBRACK);
+    if (!r) r = consumeToken(b, EOL);
+    return r;
+  }
+
+  /* ********************************************************** */
   // DECORATOR_MARK externalDecoratorName LPAREN externalTarget COMMA stringLiteral COMMA stringLiteral RPAREN
   public static boolean externalDecorator(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "externalDecorator")) return false;
@@ -1499,49 +1521,57 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // wholeNumber DECIMAL_MARK wholeNumber? (EXPONENT_MARK EXPONENT_SIGN? wholeNumber)?
+  // MINUS? wholeNumber DECIMAL_MARK wholeNumber? (EXPONENT_MARK EXPONENT_SIGN? wholeNumber)?
   public static boolean floatLiteral(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "floatLiteral")) return false;
-    if (!nextTokenIs(b, VALID_DECIMAL_DIGIT)) return false;
+    if (!nextTokenIs(b, "<float literal>", MINUS, VALID_DECIMAL_DIGIT)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = wholeNumber(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, FLOAT_LITERAL, "<float literal>");
+    r = floatLiteral_0(b, l + 1);
+    r = r && wholeNumber(b, l + 1);
     r = r && consumeToken(b, DECIMAL_MARK);
-    r = r && floatLiteral_2(b, l + 1);
     r = r && floatLiteral_3(b, l + 1);
-    exit_section_(b, m, FLOAT_LITERAL, r);
+    r = r && floatLiteral_4(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
+  // MINUS?
+  private static boolean floatLiteral_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "floatLiteral_0")) return false;
+    consumeToken(b, MINUS);
+    return true;
+  }
+
   // wholeNumber?
-  private static boolean floatLiteral_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "floatLiteral_2")) return false;
+  private static boolean floatLiteral_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "floatLiteral_3")) return false;
     wholeNumber(b, l + 1);
     return true;
   }
 
   // (EXPONENT_MARK EXPONENT_SIGN? wholeNumber)?
-  private static boolean floatLiteral_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "floatLiteral_3")) return false;
-    floatLiteral_3_0(b, l + 1);
+  private static boolean floatLiteral_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "floatLiteral_4")) return false;
+    floatLiteral_4_0(b, l + 1);
     return true;
   }
 
   // EXPONENT_MARK EXPONENT_SIGN? wholeNumber
-  private static boolean floatLiteral_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "floatLiteral_3_0")) return false;
+  private static boolean floatLiteral_4_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "floatLiteral_4_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, EXPONENT_MARK);
-    r = r && floatLiteral_3_0_1(b, l + 1);
+    r = r && floatLiteral_4_0_1(b, l + 1);
     r = r && wholeNumber(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // EXPONENT_SIGN?
-  private static boolean floatLiteral_3_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "floatLiteral_3_0_1")) return false;
+  private static boolean floatLiteral_4_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "floatLiteral_4_0_1")) return false;
     consumeToken(b, EXPONENT_SIGN);
     return true;
   }
@@ -2200,12 +2230,13 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // literal
+  // literal | negativeDecimalIntegerLiteral
   public static boolean literalExprConst(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "literalExprConst")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, LITERAL_EXPR_CONST, "<literal expr const>");
     r = literal(b, l + 1);
+    if (!r) r = negativeDecimalIntegerLiteral(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -2254,6 +2285,19 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeToken(b, IDENTIFIER);
     exit_section_(b, m, NAME_PARAM, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // MINUS wholeNumber
+  public static boolean negativeDecimalIntegerLiteral(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "negativeDecimalIntegerLiteral")) return false;
+    if (!nextTokenIs(b, MINUS)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, MINUS);
+    r = r && wholeNumber(b, l + 1);
+    exit_section_(b, m, NEGATIVE_DECIMAL_INTEGER_LITERAL, r);
     return r;
   }
 

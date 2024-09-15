@@ -28,8 +28,7 @@ public class GleamModulePathImpl extends ASTWrapperPsiElement implements GleamMo
   }
 
   @Override
-  @NotNull
-  public PsiElement getModuleName() {
+  public @NotNull PsiElement getModuleName() {
     return GleamPsiImplUtil.getModuleName(this);
   }
 

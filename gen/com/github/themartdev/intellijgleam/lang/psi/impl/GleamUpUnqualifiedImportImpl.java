@@ -40,8 +40,7 @@ public class GleamUpUnqualifiedImportImpl extends ASTWrapperPsiElement implement
   }
 
   @Override
-  @NotNull
-  public PsiElement getNameOrAlias() {
+  public @NotNull PsiElement getNameOrAlias() {
     return GleamPsiImplUtil.getNameOrAlias(this);
   }
 

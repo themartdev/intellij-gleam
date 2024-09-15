@@ -71,6 +71,24 @@ class GleamNewlineIndentTest : LightPlatformCodeInsightFixture4TestCase() {
         testNewlineIndentation(before, after)
     }
 
+    @Test
+    fun testAnonymousFn() {
+        val before = """
+            fn main() {
+              let x = fn() {<caret>}
+            }
+        """.trimIndent()
+
+        val after = """
+            fn main() {
+              let x = fn() {
+                <caret>
+              }
+            }
+        """.trimIndent()
+        testNewlineIndentation(before, after)
+    }
+
     private fun testNewlineIndentation(before: String, after: String) {
         myFixture.configureByText(GleamFileType, before)
         myFixture.type('\n')

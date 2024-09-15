@@ -50,6 +50,9 @@
         <lang.quoteHandler language="Gleam"
                            implementationClass="com.github.themartdev.intellijgleam.ide.editor.GleamQuoteHandler"/>
 
+        <lang.foldingBuilder language="Gleam"
+                             implementationClass="com.github.themartdev.intellijgleam.ide.editor.GleamFoldingBuilder"/>
+
         <lang.formatter language="Gleam"
                         implementationClass="com.github.themartdev.intellijgleam.ide.formatter.GleamFormattingModelBuilder"/>
 

@@ -5,6 +5,7 @@
 build
 .kotlin
 .local
+secrets
 
 
 # JFlex generator download

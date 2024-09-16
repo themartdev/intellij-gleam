@@ -154,6 +154,14 @@ tasks {
             systemProperty("idea.log.debug.categories", "com.redhat.devtools")
         }
     }
+    signPlugin {
+        certificateChainFile.set(file("secrets/chain.crt"))
+        privateKeyFile.set(file("secrets/private.pem"))
+        password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
+    }
+    publishPlugin {
+        token.set(providers.environmentVariable("PUBLISH_TOKEN"))
+    }
 }
 
 intellijPlatformTesting {

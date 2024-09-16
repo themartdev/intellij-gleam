@@ -1433,83 +1433,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // externalDecorator (externalDecorator)* externalFunctionSignature
-  public static boolean externalFunctionNoFallbackDeclaration(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "externalFunctionNoFallbackDeclaration")) return false;
-    if (!nextTokenIs(b, DECORATOR_MARK)) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, EXTERNAL_FUNCTION_NO_FALLBACK_DECLARATION, null);
-    r = externalDecorator(b, l + 1);
-    p = r; // pin = 1
-    r = r && report_error_(b, externalFunctionNoFallbackDeclaration_1(b, l + 1));
-    r = p && externalFunctionSignature(b, l + 1) && r;
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  // (externalDecorator)*
-  private static boolean externalFunctionNoFallbackDeclaration_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "externalFunctionNoFallbackDeclaration_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!externalFunctionNoFallbackDeclaration_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "externalFunctionNoFallbackDeclaration_1", c)) break;
-    }
-    return true;
-  }
-
-  // (externalDecorator)
-  private static boolean externalFunctionNoFallbackDeclaration_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "externalFunctionNoFallbackDeclaration_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = externalDecorator(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase]
-  public static boolean externalFunctionSignature(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "externalFunctionSignature")) return false;
-    if (!nextTokenIs(b, "<external function signature>", FN, PUB)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, EXTERNAL_FUNCTION_SIGNATURE, "<external function signature>");
-    r = externalFunctionSignature_0(b, l + 1);
-    r = r && consumeToken(b, FN);
-    r = r && functionNameDefinition(b, l + 1);
-    r = r && functionParameters(b, l + 1);
-    r = r && externalFunctionSignature_4(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // [visibilityModifier]
-  private static boolean externalFunctionSignature_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "externalFunctionSignature_0")) return false;
-    visibilityModifier(b, l + 1);
-    return true;
-  }
-
-  // [R_ARROW typeBase]
-  private static boolean externalFunctionSignature_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "externalFunctionSignature_4")) return false;
-    externalFunctionSignature_4_0(b, l + 1);
-    return true;
-  }
-
-  // R_ARROW typeBase
-  private static boolean externalFunctionSignature_4_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "externalFunctionSignature_4_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, R_ARROW);
-    r = r && typeBase(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
   // "javascript" | "erlang"
   public static boolean externalTarget(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "externalTarget")) return false;
@@ -1617,20 +1540,21 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (decorator)* [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody
+  // (decorator)* [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody?
   public static boolean functionDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "functionDeclaration")) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, FUNCTION_DECLARATION, "<function declaration>");
     r = functionDeclaration_0(b, l + 1);
     r = r && functionDeclaration_1(b, l + 1);
     r = r && consumeToken(b, FN);
-    r = r && functionNameDefinition(b, l + 1);
-    r = r && functionParameters(b, l + 1);
-    r = r && functionDeclaration_5(b, l + 1);
-    r = r && functionBody(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    p = r; // pin = 3
+    r = r && report_error_(b, functionNameDefinition(b, l + 1));
+    r = p && report_error_(b, functionParameters(b, l + 1)) && r;
+    r = p && report_error_(b, functionDeclaration_5(b, l + 1)) && r;
+    r = p && functionDeclaration_6(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   // (decorator)*
@@ -1677,6 +1601,13 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = r && typeBase(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  // functionBody?
+  private static boolean functionDeclaration_6(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionDeclaration_6")) return false;
+    functionBody(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
@@ -3096,7 +3027,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   //                             | constantDeclaration
   //                             | typeDeclaration
   //                             | functionDeclaration
-  //                             | externalFunctionNoFallbackDeclaration
   static boolean topLevelDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "topLevelDeclaration")) return false;
     boolean r;
@@ -3105,7 +3035,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!r) r = constantDeclaration(b, l + 1);
     if (!r) r = typeDeclaration(b, l + 1);
     if (!r) r = functionDeclaration(b, l + 1);
-    if (!r) r = externalFunctionNoFallbackDeclaration(b, l + 1);
     exit_section_(b, l, m, r, false, GleamParser::declarationRecover);
     return r;
   }

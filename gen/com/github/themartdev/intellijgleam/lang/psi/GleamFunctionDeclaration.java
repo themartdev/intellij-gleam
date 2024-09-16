@@ -10,13 +10,13 @@ public interface GleamFunctionDeclaration extends PsiElement {
   @NotNull
   List<GleamDecorator> getDecoratorList();
 
-  @NotNull
+  @Nullable
   GleamFunctionBody getFunctionBody();
 
-  @NotNull
+  @Nullable
   GleamFunctionNameDefinition getFunctionNameDefinition();
 
-  @NotNull
+  @Nullable
   GleamFunctionParameters getFunctionParameters();
 
   @Nullable

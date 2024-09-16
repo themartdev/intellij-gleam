@@ -239,14 +239,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitExternalFunctionNoFallbackDeclaration(@NotNull GleamExternalFunctionNoFallbackDeclaration o) {
-    visitPsiElement(o);
-  }
-
-  public void visitExternalFunctionSignature(@NotNull GleamExternalFunctionSignature o) {
-    visitPsiElement(o);
-  }
-
   public void visitExternalTarget(@NotNull GleamExternalTarget o) {
     visitPsiElement(o);
   }

@@ -34,21 +34,21 @@ public class GleamFunctionDeclarationImpl extends ASTWrapperPsiElement implement
   }
 
   @Override
-  @NotNull
+  @Nullable
   public GleamFunctionBody getFunctionBody() {
-    return findNotNullChildByClass(GleamFunctionBody.class);
+    return findChildByClass(GleamFunctionBody.class);
   }
 
   @Override
-  @NotNull
+  @Nullable
   public GleamFunctionNameDefinition getFunctionNameDefinition() {
-    return findNotNullChildByClass(GleamFunctionNameDefinition.class);
+    return findChildByClass(GleamFunctionNameDefinition.class);
   }
 
   @Override
-  @NotNull
+  @Nullable
   public GleamFunctionParameters getFunctionParameters() {
-    return findNotNullChildByClass(GleamFunctionParameters.class);
+    return findChildByClass(GleamFunctionParameters.class);
   }
 
   @Override

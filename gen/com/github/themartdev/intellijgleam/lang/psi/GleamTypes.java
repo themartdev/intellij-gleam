@@ -66,8 +66,6 @@ public interface GleamTypes {
   IElementType EXPRESSION_CONST = new GleamElementType("EXPRESSION_CONST");
   IElementType EXTERNAL_DECORATOR = new GleamElementType("EXTERNAL_DECORATOR");
   IElementType EXTERNAL_DECORATOR_NAME = new GleamElementType("EXTERNAL_DECORATOR_NAME");
-  IElementType EXTERNAL_FUNCTION_NO_FALLBACK_DECLARATION = new GleamElementType("EXTERNAL_FUNCTION_NO_FALLBACK_DECLARATION");
-  IElementType EXTERNAL_FUNCTION_SIGNATURE = new GleamElementType("EXTERNAL_FUNCTION_SIGNATURE");
   IElementType EXTERNAL_TARGET = new GleamElementType("EXTERNAL_TARGET");
   IElementType FIELD_ACCESS_EXPR_CONST = new GleamElementType("FIELD_ACCESS_EXPR_CONST");
   IElementType FLOAT_LITERAL = new GleamElementType("FLOAT_LITERAL");
@@ -422,12 +420,6 @@ public interface GleamTypes {
       }
       else if (type == EXTERNAL_DECORATOR_NAME) {
         return new GleamExternalDecoratorNameImpl(node);
-      }
-      else if (type == EXTERNAL_FUNCTION_NO_FALLBACK_DECLARATION) {
-        return new GleamExternalFunctionNoFallbackDeclarationImpl(node);
-      }
-      else if (type == EXTERNAL_FUNCTION_SIGNATURE) {
-        return new GleamExternalFunctionSignatureImpl(node);
       }
       else if (type == EXTERNAL_TARGET) {
         return new GleamExternalTargetImpl(node);

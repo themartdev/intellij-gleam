@@ -145,20 +145,13 @@ private topLevelDeclaration ::= importDeclaration
                             | constantDeclaration
                             | typeDeclaration
                             | functionDeclaration
-                            | externalFunctionNoFallbackDeclaration
                             {
                               recoverWhile=declarationRecover
                             }
 private declarationRecover ::= !topLevelKeyword
 private topLevelKeyword ::= IMPORT | CONST | TYPE | FN | PUB | OPAQUE | DECORATOR_MARK
 
-
 constantDeclaration ::= [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUAL expressionConst {pin=2}
-
-
-// ===== External =====
-externalFunctionSignature ::= [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase]
-externalFunctionNoFallbackDeclaration ::=  externalDecorator (externalDecorator)* externalFunctionSignature {pin=1}
 
 // ===== Imports =====
 unqualifiedImport ::= identifier (AS aliasIdentifier)? {
@@ -237,7 +230,6 @@ fieldAccessExprConst ::= IDENTIFIER DOT label
 identifierExprConst ::= identifier
 // ============
 
-
 functionParameterTypes ::= LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN
 tupleType ::= HASH LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN {pin=2}
 functionType ::= FN [functionParameterTypes] R_ARROW typeBase {pin=1}
@@ -253,7 +245,9 @@ functionParameterArgs ::= labeledDiscardParam | discardParam | labeledNameParam 
 functionParameter ::= functionParameterArgs [typeAnnotation]
 functionParameters ::= LPAREN [functionParameter (COMMA functionParameter)* [COMMA]] RPAREN
 functionBody ::= LBRACE expression* RBRACE {pin=1}
-functionDeclaration ::= (decorator)* [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody
+functionDeclaration ::= (decorator)* [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody? {
+  pin=3
+}
 functionNameDefinition::= IDENTIFIER
 
 listPatternTail ::= DOT_DOT [IDENTIFIER | discardIdentifier]

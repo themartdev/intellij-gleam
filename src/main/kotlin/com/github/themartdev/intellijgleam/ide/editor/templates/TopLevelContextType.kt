@@ -2,7 +2,6 @@ package com.github.themartdev.intellijgleam.ide.editor.templates
 
 import com.github.themartdev.intellijgleam.GleamBundle
 import com.github.themartdev.intellijgleam.lang.psi.GleamConstantDeclaration
-import com.github.themartdev.intellijgleam.lang.psi.GleamExternalFunctionNoFallbackDeclaration
 import com.github.themartdev.intellijgleam.lang.psi.GleamFunctionDeclaration
 import com.github.themartdev.intellijgleam.lang.psi.GleamImportDeclaration
 import com.github.themartdev.intellijgleam.lang.psi.GleamTypeDeclaration
@@ -27,5 +26,4 @@ private val TOP_LEVEL_CONTAINERS = arrayOf(
     GleamTypeDeclaration::class.java,
     GleamConstantDeclaration::class.java,
     GleamImportDeclaration::class.java,
-    GleamExternalFunctionNoFallbackDeclaration::class.java
 )

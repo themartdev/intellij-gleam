@@ -64,7 +64,7 @@
         <formattingService id="ZigLSPFormattingAndRangeBothServiceProxy"
                            implementation="com.github.themartdev.intellijgleam.ide.formatter.lsp.GleamLspFormattingAndRangeBothServiceProxy"/>
 
-        <projectConfigurable id="settings.prisma"
+        <projectConfigurable id="settings.gleam"
                              groupId="language"
                              instance="com.github.themartdev.intellijgleam.ide.ui.GleamSettingsConfigurable"
                              bundle="messages.GleamBundle"
@@ -76,5 +76,13 @@
                            key="gleam.notification.error.key"
                            id="intellij-gleam.gleam-ls"/>
 
+        <liveTemplateContext contextId="GLEAM"
+                             implementation="com.github.themartdev.intellijgleam.ide.editor.templates.GleamLiveTemplateContextType"/>
+        <liveTemplateContext contextId="GLEAM_TOP_LEVEL" baseContextId="GLEAM"
+                             implementation="com.github.themartdev.intellijgleam.ide.editor.templates.TopLevelContextType"/>
+        <liveTemplateContext contextId="GLEAM_FUNCTION" baseContextId="GLEAM"
+                             implementation="com.github.themartdev.intellijgleam.ide.editor.templates.FunctionContextType"/>
+
+        <defaultLiveTemplates file="liveTemplates/Gleam.xml"/>
     </extensions>
 </idea-plugin>

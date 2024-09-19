@@ -389,10 +389,11 @@ private recordConstructorParameter ::= labeledParameter | unlabeledParameter
 recordConstructorParameters ::= LPAREN [recordConstructorParameter (COMMA recordConstructorParameter)* [COMMA]] RPAREN
 recordConstructor ::= constructorIdentifier [recordConstructorParameters]
 
-referenceTypeValue ::= EQUAL typeReference
-customTypeValue ::= LBRACE recordConstructor* RBRACE {pin=1}
+typeGenerics ::= LPAREN [IDENTIFIER (COMMA IDENTIFIER)* [COMMA]] RPAREN
+aliasTypeValue ::= typeGenerics? EQUAL typeBase
+customTypeValue ::= typeGenerics? LBRACE recordConstructor* RBRACE {pin=2}
 omittedTypeValue ::=
-typeValue ::= referenceTypeValue | customTypeValue | omittedTypeValue
+typeValue ::= aliasTypeValue | customTypeValue | omittedTypeValue
 typeDeclarationName ::= UP_IDENTIFIER
 typeDeclaration ::= [visibilityModifier] [OPAQUE] TYPE typeDeclarationName typeValue {pin=3}
 

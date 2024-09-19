@@ -10,6 +10,7 @@ public interface GleamTypes {
 
   IElementType ACCESS_EXPR = new GleamElementType("ACCESS_EXPR");
   IElementType ALIAS_IDENTIFIER = new GleamElementType("ALIAS_IDENTIFIER");
+  IElementType ALIAS_TYPE_VALUE = new GleamElementType("ALIAS_TYPE_VALUE");
   IElementType ALIAS_UP_IDENTIFIER = new GleamElementType("ALIAS_UP_IDENTIFIER");
   IElementType ANONYMOUS_FUNCTION_EXPR = new GleamElementType("ANONYMOUS_FUNCTION_EXPR");
   IElementType ANONYMOUS_FUNCTION_PARAMETER = new GleamElementType("ANONYMOUS_FUNCTION_PARAMETER");
@@ -119,7 +120,6 @@ public interface GleamTypes {
   IElementType RECORD_UPDATE_ARGUMENTS = new GleamElementType("RECORD_UPDATE_ARGUMENTS");
   IElementType RECORD_UPDATE_EXPR = new GleamElementType("RECORD_UPDATE_EXPR");
   IElementType REFERENCE_EXPR = new GleamElementType("REFERENCE_EXPR");
-  IElementType REFERENCE_TYPE_VALUE = new GleamElementType("REFERENCE_TYPE_VALUE");
   IElementType REMOTE_CONSTRUCTOR_IDENTIFIER = new GleamElementType("REMOTE_CONSTRUCTOR_IDENTIFIER");
   IElementType SHORT_HAND_LABELED_ARGUMENT = new GleamElementType("SHORT_HAND_LABELED_ARGUMENT");
   IElementType SIMPLE_LET_EXPR = new GleamElementType("SIMPLE_LET_EXPR");
@@ -137,6 +137,7 @@ public interface GleamTypes {
   IElementType TYPE_BASE = new GleamElementType("TYPE_BASE");
   IElementType TYPE_DECLARATION = new GleamElementType("TYPE_DECLARATION");
   IElementType TYPE_DECLARATION_NAME = new GleamElementType("TYPE_DECLARATION_NAME");
+  IElementType TYPE_GENERICS = new GleamElementType("TYPE_GENERICS");
   IElementType TYPE_REFERENCE = new GleamElementType("TYPE_REFERENCE");
   IElementType TYPE_UNQUALIFIED_IMPORT = new GleamElementType("TYPE_UNQUALIFIED_IMPORT");
   IElementType TYPE_VALUE = new GleamElementType("TYPE_VALUE");
@@ -258,6 +259,9 @@ public interface GleamTypes {
       }
       else if (type == ALIAS_IDENTIFIER) {
         return new GleamAliasIdentifierImpl(node);
+      }
+      else if (type == ALIAS_TYPE_VALUE) {
+        return new GleamAliasTypeValueImpl(node);
       }
       else if (type == ALIAS_UP_IDENTIFIER) {
         return new GleamAliasUpIdentifierImpl(node);
@@ -577,9 +581,6 @@ public interface GleamTypes {
       else if (type == REFERENCE_EXPR) {
         return new GleamReferenceExprImpl(node);
       }
-      else if (type == REFERENCE_TYPE_VALUE) {
-        return new GleamReferenceTypeValueImpl(node);
-      }
       else if (type == REMOTE_CONSTRUCTOR_IDENTIFIER) {
         return new GleamRemoteConstructorIdentifierImpl(node);
       }
@@ -630,6 +631,9 @@ public interface GleamTypes {
       }
       else if (type == TYPE_DECLARATION_NAME) {
         return new GleamTypeDeclarationNameImpl(node);
+      }
+      else if (type == TYPE_GENERICS) {
+        return new GleamTypeGenericsImpl(node);
       }
       else if (type == TYPE_REFERENCE) {
         return new GleamTypeReferenceImpl(node);

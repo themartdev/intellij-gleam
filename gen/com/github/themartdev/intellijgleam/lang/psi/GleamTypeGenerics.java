@@ -5,9 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamReferenceTypeValue extends GleamTypeValue {
-
-  @NotNull
-  GleamTypeReference getTypeReference();
+public interface GleamTypeGenerics extends PsiElement {
 
 }

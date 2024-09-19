@@ -1,6 +1,6 @@
 package com.github.themartdev.intellijgleam.parser
 
-class Tuple : GleamParsingTestCase() {
+class TupleTest : GleamParsingTestCase() {
     override fun getTestDataPath(): String = super.getTestDataPath() + "/tuple"
 
     fun testSimple() = assertParsedCorrectly()

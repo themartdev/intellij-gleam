@@ -5,10 +5,10 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamCustomTypeValue extends GleamTypeValue {
+public interface GleamAliasTypeValue extends GleamTypeValue {
 
   @NotNull
-  List<GleamRecordConstructor> getRecordConstructorList();
+  GleamTypeBase getTypeBase();
 
   @Nullable
   GleamTypeGenerics getTypeGenerics();

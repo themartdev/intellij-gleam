@@ -15,6 +15,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitAliasTypeValue(@NotNull GleamAliasTypeValue o) {
+    visitTypeValue(o);
+  }
+
   public void visitAliasUpIdentifier(@NotNull GleamAliasUpIdentifier o) {
     visitPsiElement(o);
   }
@@ -451,10 +455,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitExpression(o);
   }
 
-  public void visitReferenceTypeValue(@NotNull GleamReferenceTypeValue o) {
-    visitTypeValue(o);
-  }
-
   public void visitRemoteConstructorIdentifier(@NotNull GleamRemoteConstructorIdentifier o) {
     visitPsiElement(o);
   }
@@ -520,6 +520,10 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitTypeDeclarationName(@NotNull GleamTypeDeclarationName o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTypeGenerics(@NotNull GleamTypeGenerics o) {
     visitPsiElement(o);
   }
 

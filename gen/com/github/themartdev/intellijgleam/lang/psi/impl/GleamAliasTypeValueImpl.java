@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamReferenceTypeValueImpl extends GleamTypeValueImpl implements GleamReferenceTypeValue {
+public class GleamAliasTypeValueImpl extends GleamTypeValueImpl implements GleamAliasTypeValue {
 
-  public GleamReferenceTypeValueImpl(@NotNull ASTNode node) {
+  public GleamAliasTypeValueImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitReferenceTypeValue(this);
+    visitor.visitAliasTypeValue(this);
   }
 
   @Override
@@ -29,8 +29,14 @@ public class GleamReferenceTypeValueImpl extends GleamTypeValueImpl implements G
 
   @Override
   @NotNull
-  public GleamTypeReference getTypeReference() {
-    return findNotNullChildByClass(GleamTypeReference.class);
+  public GleamTypeBase getTypeBase() {
+    return findNotNullChildByClass(GleamTypeBase.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamTypeGenerics getTypeGenerics() {
+    return findChildByClass(GleamTypeGenerics.class);
   }
 
 }

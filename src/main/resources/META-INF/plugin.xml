@@ -87,5 +87,8 @@
 
         <editorNotificationProvider
                 implementation="com.github.themartdev.intellijgleam.ide.ui.GleamEditorNotificationProvider"/>
+
+        <configurationType implementation="com.github.themartdev.intellijgleam.ide.run.GleamRunConfigurationType"/>
+
     </extensions>
 </idea-plugin>

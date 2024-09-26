@@ -6,7 +6,6 @@ import com.github.themartdev.intellijgleam.ide.ui.components.PathItem.Value
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.project.Project
-import okio.Path
 import kotlin.io.path.Path
 
 class GleamPathComboBox(val project: Project) : AbstractPathComboBox(project) {

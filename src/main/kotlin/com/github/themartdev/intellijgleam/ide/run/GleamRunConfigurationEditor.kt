@@ -22,13 +22,13 @@ class GleamRunConfigurationEditor(project: Project) : SettingsEditor<GleamRunCon
     lateinit var useCustomGleam: Cell<JBCheckBox>
 
     override fun resetEditorFrom(s: GleamRunConfiguration) {
-        modulePathField.text = s.options.modulePath ?: ""
+        modulePathField.text = s.options.filePath ?: ""
         customGleamField.selectedPath = s.options.customGleamPath ?: ""
         useCustomGleam.component.isSelected = s.options.useCustomGleam
     }
 
     override fun applyEditorTo(s: GleamRunConfiguration) {
-        s.options.modulePath = modulePathField.text
+        s.options.filePath = modulePathField.text
         s.options.customGleamPath = customGleamField.selectedPath
         s.options.useCustomGleam = useCustomGleam.component.isSelected
     }

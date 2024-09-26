@@ -90,5 +90,10 @@
 
         <configurationType implementation="com.github.themartdev.intellijgleam.ide.run.GleamRunConfigurationType"/>
 
+        <runLineMarkerContributor language="Gleam"
+                                  implementationClass="com.github.themartdev.intellijgleam.ide.run.GleamRunLineMarker"/>
+
+        <runConfigurationProducer
+                implementation="com.github.themartdev.intellijgleam.ide.run.GleamRunConfigurationProducer"/>
     </extensions>
 </idea-plugin>

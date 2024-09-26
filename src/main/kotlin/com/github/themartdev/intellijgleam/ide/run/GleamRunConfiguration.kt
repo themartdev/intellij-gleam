@@ -1,5 +1,6 @@
 package com.github.themartdev.intellijgleam.ide.run
 
+import com.github.themartdev.intellijgleam.ide.common.GleamProjectUtils
 import com.github.themartdev.intellijgleam.ide.lsp.GleamServiceSettings
 import com.intellij.execution.Executor
 import com.intellij.execution.configurations.CommandLineState
@@ -42,10 +43,23 @@ class GleamRunConfiguration(project: Project, configurationFactory: Configuratio
     private fun buildCommandLine(): GeneralCommandLine {
         val cmdLine = PtyCommandLine()
             .withExePath(computeGleamPath())
-            .withParameters("run", options.modulePath ?: "")
+            .withParameters("run")
             .withWorkDirectory(project.basePath)
             .withEnvironment(computeEnvironment())
+
+        options.filePath?.let {
+            cmdLine.addParameters("-m", computeModulePath(it))
+        }
+
         return cmdLine
+    }
+
+    private fun computeModulePath(filePath: String): String {
+        val srcDir = GleamProjectUtils.getSrcDir(project) ?: return ""
+        return filePath
+            .removePrefix(srcDir + File.separator)
+            .removeSuffix(".gleam")
+            .replace(File.separator, ".")
     }
 
     private fun computeEnvironment(): Map<String, String> {

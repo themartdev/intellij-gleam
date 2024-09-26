@@ -1,4 +1,4 @@
-package com.github.themartdev.intellijgleam.ide.run
+package com.github.themartdev.intellijgleam.ide.runconf.run
 
 import com.intellij.openapi.fileChooser.FileChooserDescriptor
 import com.intellij.openapi.project.Project

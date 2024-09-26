@@ -1,9 +1,7 @@
-package com.github.themartdev.intellijgleam.ide.run
+package com.github.themartdev.intellijgleam.ide.runconf.run
 
 import com.github.themartdev.intellijgleam.GleamIcons
 import com.intellij.execution.configurations.ConfigurationTypeBase
-import com.intellij.execution.configurations.RunConfiguration
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.NotNullLazyValue
 
 

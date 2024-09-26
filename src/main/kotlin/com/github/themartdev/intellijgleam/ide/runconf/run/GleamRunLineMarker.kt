@@ -1,4 +1,4 @@
-package com.github.themartdev.intellijgleam.ide.run
+package com.github.themartdev.intellijgleam.ide.runconf.run
 
 import com.github.themartdev.intellijgleam.lang.GleamFileType
 import com.github.themartdev.intellijgleam.lang.psi.GleamFunctionDeclaration

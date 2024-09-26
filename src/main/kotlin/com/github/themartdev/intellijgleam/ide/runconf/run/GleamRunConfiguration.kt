@@ -1,4 +1,4 @@
-package com.github.themartdev.intellijgleam.ide.run
+package com.github.themartdev.intellijgleam.ide.runconf.run
 
 import com.github.themartdev.intellijgleam.ide.common.GleamProjectUtils
 import com.github.themartdev.intellijgleam.ide.lsp.GleamServiceSettings
@@ -14,11 +14,12 @@ import com.intellij.execution.process.ProcessHandler
 import com.intellij.execution.process.ProcessHandlerFactory
 import com.intellij.execution.process.ProcessTerminatedListener
 import com.intellij.execution.runners.ExecutionEnvironment
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.project.Project
 import java.io.File
 
-val LOG = com.intellij.openapi.diagnostic.Logger.getInstance(GleamRunConfiguration::class.java)
+val LOG = Logger.getInstance(GleamRunConfiguration::class.java)
 
 class GleamRunConfiguration(project: Project, configurationFactory: ConfigurationFactory, name: String) :
     RunConfigurationBase<GleamRunConfigurationOptions>(project, configurationFactory, name) {

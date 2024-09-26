@@ -1,7 +1,6 @@
 package com.github.themartdev.intellijgleam.ide.run
 
 import com.github.themartdev.intellijgleam.lang.GleamFileType
-import com.github.themartdev.intellijgleam.lang.psi.GleamElementType
 import com.github.themartdev.intellijgleam.lang.psi.GleamFunctionDeclaration
 import com.github.themartdev.intellijgleam.lang.psi.GleamFunctionNameDefinition
 import com.github.themartdev.intellijgleam.lang.psi.GleamTypes
@@ -16,6 +15,7 @@ class GleamRunLineMarker : RunLineMarkerContributor(), DumbAware {
 
     override fun getInfo(element: PsiElement): Info? {
         if (element.containingFile.fileType !is GleamFileType) return null
+        if (element.containingFile.name.endsWith("_test.gleam")) return null
         if (element.elementType != GleamTypes.IDENTIFIER) return null
         if (element.text != "main") return null
         if (element.parent !is GleamFunctionNameDefinition) return null

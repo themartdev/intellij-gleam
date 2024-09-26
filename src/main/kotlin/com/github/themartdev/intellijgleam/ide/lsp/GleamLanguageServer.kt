@@ -21,9 +21,8 @@ class GleamLanguageServer(private val project: Project) : ProcessStreamConnectio
         val settings = getGleamSettings()
 
         autoSetGleamPathIfEmpty()
-        val gleamPath = settings.lspPath
+        val gleamPath = settings.gleamPath
         if (gleamPath.isEmpty()) {
-            LOG.warn("Gleam path is not set")
             Notifications.Bus.notify(
                 Notification(
                     "intellij-gleam.gleam-ls",
@@ -36,7 +35,7 @@ class GleamLanguageServer(private val project: Project) : ProcessStreamConnectio
         }
 
         if (!FsUtils.validateGleamPath(gleamPath)) {
-            settings.serviceMode = GleamLspMode.DISABLED
+            settings.lspMode = GleamLspMode.DISABLED
             Notifications.Bus.notify(
                 Notification(
                     "intellij-gleam.gleam-ls",
@@ -53,20 +52,6 @@ class GleamLanguageServer(private val project: Project) : ProcessStreamConnectio
 
     private fun autoSetGleamPathIfEmpty() {
         val settings = getGleamSettings()
-        if (settings.lspPath.isNotEmpty()) return
-
-        val gleamInPath = FsUtils.findGleamInPath()
-        if (gleamInPath != null) {
-            settings.lspPath = gleamInPath.toAbsolutePath().toString()
-            Notifications.Bus.notify(
-                Notification(
-                    "intellij-gleam.gleam-ls",
-                    "Gleam language server",
-                    "Gleam Language Server path has been automatically set to $gleamInPath because it was found in PATH. You can change it in settings",
-                    NotificationType.INFORMATION
-                )
-            )
-        }
+        if (settings.gleamPath.isNotEmpty()) return
     }
-
 }

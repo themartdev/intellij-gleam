@@ -84,5 +84,8 @@
                              implementation="com.github.themartdev.intellijgleam.ide.editor.templates.FunctionContextType"/>
 
         <defaultLiveTemplates file="liveTemplates/Gleam.xml"/>
+
+        <editorNotificationProvider
+                implementation="com.github.themartdev.intellijgleam.ide.ui.GleamEditorNotificationProvider"/>
     </extensions>
 </idea-plugin>

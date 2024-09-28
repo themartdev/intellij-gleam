@@ -84,5 +84,16 @@
                              implementation="com.github.themartdev.intellijgleam.ide.editor.templates.FunctionContextType"/>
 
         <defaultLiveTemplates file="liveTemplates/Gleam.xml"/>
+
+        <editorNotificationProvider
+                implementation="com.github.themartdev.intellijgleam.ide.ui.GleamEditorNotificationProvider"/>
+
+        <configurationType implementation="com.github.themartdev.intellijgleam.ide.runconf.run.GleamRunConfigurationType"/>
+
+        <runLineMarkerContributor language="Gleam"
+                                  implementationClass="com.github.themartdev.intellijgleam.ide.runconf.run.GleamRunLineMarker"/>
+
+        <runConfigurationProducer
+                implementation="com.github.themartdev.intellijgleam.ide.runconf.run.GleamRunConfigurationProducer"/>
     </extensions>
 </idea-plugin>

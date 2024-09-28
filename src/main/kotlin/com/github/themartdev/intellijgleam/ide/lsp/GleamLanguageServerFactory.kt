@@ -12,15 +12,15 @@ class GleamLanguageServerFactory : LanguageServerFactory, LanguageServerEnableme
 
     override fun isEnabled(project: Project): Boolean {
         val settings = GleamServiceSettings.getInstance(project)
-        return settings.serviceMode == GleamLspMode.ENABLED
+        return settings.lspMode == GleamLspMode.ENABLED
     }
 
     override fun setEnabled(enabled: Boolean, project: Project) {
         val settings = GleamServiceSettings.getInstance(project)
         if (enabled) {
-            settings.serviceMode = GleamLspMode.ENABLED
+            settings.lspMode = GleamLspMode.ENABLED
         } else {
-            settings.serviceMode = GleamLspMode.DISABLED
+            settings.lspMode = GleamLspMode.DISABLED
         }
     }
 }

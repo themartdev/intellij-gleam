@@ -13,31 +13,6 @@ import kotlin.io.path.isExecutable
 import kotlin.io.path.isRegularFile
 
 object FsUtils {
-
-    fun findGleamInPath(): Path? {
-        val name = if (SystemInfo.isWindows) "gleam.exe" else "gleam"
-        val pathDirs = System.getenv("PATH").split(File.pathSeparator)
-
-        for (dir in pathDirs) {
-            var path = Path(dir);
-            try {
-                path = path.toAbsolutePath()
-            } catch (_: Exception) {
-                continue
-            }
-            if (!path.exists() || !path.isDirectory()) {
-                continue
-            }
-            val executablePath = path.resolve(name)
-
-            if (!executablePath.exists() || !executablePath.isRegularFile() || !executablePath.isExecutable()) {
-                continue
-            }
-            return executablePath
-        }
-        return null
-    }
-
     fun validateGleamPath(path: String): Boolean {
         val path = Path(path)
         if (!(path.exists() && path.isRegularFile() && path.isExecutable())) {
@@ -51,5 +26,31 @@ object FsUtils {
         }
         val output = result.getOrElse { return false }
         return String(output).contains("gleam")
+    }
+
+    fun isValidDir(path: Path): Boolean {
+        return path.exists() && path.isDirectory()
+    }
+
+    fun isValidDir(path: String): Boolean {
+        val path = Path(path)
+        return path.exists() && path.isDirectory()
+    }
+
+    fun isValidExe(path: Path): Boolean {
+        return path.exists() && path.isExecutable()
+    }
+
+    fun detectAsdf(): Path? {
+        System.getenv("ASDF_DIR")?.let {
+            if (isValidDir(it)) {
+                return Path(it)
+            }
+        }
+        val asdfPath = when {
+            SystemInfo.isWindows -> Path(System.getenv("USERPROFILE")).resolve(".asdf")
+            else -> Path(System.getenv("HOME")).resolve(".asdf")
+        }
+        return if (isValidDir(asdfPath)) asdfPath else null
     }
 }

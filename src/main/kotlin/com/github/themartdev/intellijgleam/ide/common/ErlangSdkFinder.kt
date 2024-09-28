@@ -19,7 +19,7 @@ object ErlangSdkFinder {
         candidates.addAll(findErlangInCommonPaths())
         findErlangInPath()?.let { candidates.add(it) }
         return candidates
-            .filter { validateSdkShape(it) }
+            .filter { validateErlangSdkShape(it) }
             .mapNotNull { captureErlang(it) }
     }
 
@@ -83,7 +83,7 @@ object ErlangSdkFinder {
             if (!executablePath.exists() || !executablePath.isRegularFile() || !executablePath.isExecutable()) {
                 continue
             }
-            if (validateSdkShape(executablePath.parent)) {
+            if (validateErlangSdkShape(executablePath.parent)) {
                 return executablePath.parent
             }
             return executablePath.parent.parent // Assuming bin/erl, go up to SDK root
@@ -100,13 +100,15 @@ fun exeName(name: String): String {
     }
 }
 
-fun validateSdkShape(path: Path): Boolean {
+fun validateErlangSdkShape(path: Path): Boolean {
     val binDir = path.resolve("bin")
     val libDir = path.resolve("lib")
+    val releasesDir = path.resolve("releases")
     val erlExecutable = binDir.resolve(exeName("erl"))
 
     return binDir.exists() && binDir.isDirectory() &&
             libDir.exists() && libDir.isDirectory() &&
+            releasesDir.exists() && releasesDir.isDirectory() &&
             erlExecutable.exists() && erlExecutable.isExecutable()
 }
 

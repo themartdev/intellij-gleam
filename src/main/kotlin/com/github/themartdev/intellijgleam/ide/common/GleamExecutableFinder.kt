@@ -58,7 +58,8 @@ object GleamExecutableFinder {
 }
 
 fun captureGleam(path: Path): GleamExecutable? {
-    val res = PsUtil.runAndGetOutput(path.toString(), "--version")?.stdout ?: return GleamExecutable(path.toString(), false)
+    val res =
+        PsUtil.runAndGetOutput(path.toString(), "--version")?.stdout ?: return GleamExecutable(path.toString(), false)
     val version = res.split(" ").lastOrNull()
     return GleamExecutable(path.toString(), true, version)
 }

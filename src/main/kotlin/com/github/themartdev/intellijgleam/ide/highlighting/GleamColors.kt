@@ -29,7 +29,8 @@ object GleamColors {
     val DECORATOR = createTextAttributesKey("GLEAM_DECORATOR", DefaultLanguageHighlighterColors.METADATA)
     val TYPE_DECLARATION =
         createTextAttributesKey("GLEAM_TYPE_DECLARATION", DefaultLanguageHighlighterColors.CLASS_NAME)
-    val TYPE_REFERENCE = createTextAttributesKey("GLEAM_TYPE_REFERENCE", DefaultLanguageHighlighterColors.CLASS_REFERENCE)
+    val TYPE_REFERENCE =
+        createTextAttributesKey("GLEAM_TYPE_REFERENCE", DefaultLanguageHighlighterColors.CLASS_REFERENCE)
     val LABEL = createTextAttributesKey("GLEAM_LABEL", DefaultLanguageHighlighterColors.LABEL)
     val DOT = createTextAttributesKey("GLEAM_DOT", DefaultLanguageHighlighterColors.DOT)
     val COMMA = createTextAttributesKey("GLEAM_COMMA", DefaultLanguageHighlighterColors.COMMA)

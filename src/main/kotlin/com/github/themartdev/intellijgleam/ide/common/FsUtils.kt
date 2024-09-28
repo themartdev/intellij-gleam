@@ -4,7 +4,6 @@ import com.intellij.execution.processTools.getResultStdout
 import com.intellij.openapi.util.SystemInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import java.io.File
 import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.io.path.exists

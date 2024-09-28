@@ -1,6 +1,5 @@
 package com.github.themartdev.intellijgleam.lang.parser
 
-import com.github.themartdev.intellijgleam.lang.GleamFileType
 import com.github.themartdev.intellijgleam.lang.lexer.GleamLexer
 import com.github.themartdev.intellijgleam.lang.psi.*
 import com.intellij.lang.ASTNode

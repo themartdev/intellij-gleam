@@ -7,8 +7,6 @@ import com.intellij.notification.Notifications
 import com.intellij.openapi.project.Project
 import com.redhat.devtools.lsp4ij.server.ProcessStreamConnectionProvider
 
-val LOG = com.intellij.openapi.diagnostic.Logger.getInstance(GleamLanguageServer::class.java)
-
 class GleamLanguageServer(private val project: Project) : ProcessStreamConnectionProvider() {
     private fun getGleamSettings(): GleamServiceSettings = GleamServiceSettings.getInstance(project)
 

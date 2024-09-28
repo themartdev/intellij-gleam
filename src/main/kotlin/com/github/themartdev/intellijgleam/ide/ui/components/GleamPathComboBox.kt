@@ -2,7 +2,6 @@ package com.github.themartdev.intellijgleam.ide.ui.components
 
 import com.github.themartdev.intellijgleam.ide.common.GleamExecutable
 import com.github.themartdev.intellijgleam.ide.common.captureGleam
-import com.github.themartdev.intellijgleam.ide.ui.components.PathItem.Value
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.project.Project
@@ -27,7 +26,7 @@ class GleamPathComboBox(val project: Project) : AbstractPathComboBox(project) {
     }
 }
 
-fun Value.Companion.fromExecutable(executable: GleamExecutable): Value {
+fun PathItem.Value.Companion.fromExecutable(executable: GleamExecutable): PathItem.Value {
     val versionString = if (executable.valid) executable.version?.toString() ?: "Unknown" else "Invalid"
-    return Value(executable.path, versionString)
+    return PathItem.Value(executable.path, versionString)
 }

@@ -60,7 +60,7 @@ class GleamRunConfigurationEditor(project: Project) : SettingsEditor<GleamRunCon
             val pathItems = detectedGleamPaths.map { PathItem.Value.fromExecutable(it) }
             ApplicationManager.getApplication().invokeLater({
                 customGleamField.addItems(pathItems)
-            }, modalityState);
+            }, modalityState)
         }
     }
 }

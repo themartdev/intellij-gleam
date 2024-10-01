@@ -26,7 +26,7 @@ class GleamRunLineMarker : RunLineMarkerContributor(), DumbAware {
 
         return Info(
             AllIcons.RunConfigurations.TestState.Run,
-            actions,
-        )
+            actions
+        ) { "Run Gleam main function" }
     }
 }

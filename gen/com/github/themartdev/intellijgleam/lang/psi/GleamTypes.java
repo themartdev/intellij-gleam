@@ -126,6 +126,7 @@ public interface GleamTypes {
   IElementType STRING_ESCAPE_SEGMENT = new GleamElementType("STRING_ESCAPE_SEGMENT");
   IElementType STRING_LITERAL = new GleamElementType("STRING_LITERAL");
   IElementType STRING_PATTERN = new GleamElementType("STRING_PATTERN");
+  IElementType TARGET_DECORATOR = new GleamElementType("TARGET_DECORATOR");
   IElementType TODO_EXPR = new GleamElementType("TODO_EXPR");
   IElementType TUPLE_EXPR = new GleamElementType("TUPLE_EXPR");
   IElementType TUPLE_EXPR_CONST = new GleamElementType("TUPLE_EXPR_CONST");
@@ -598,6 +599,9 @@ public interface GleamTypes {
       }
       else if (type == STRING_PATTERN) {
         return new GleamStringPatternImpl(node);
+      }
+      else if (type == TARGET_DECORATOR) {
+        return new GleamTargetDecoratorImpl(node);
       }
       else if (type == TODO_EXPR) {
         return new GleamTodoExprImpl(node);

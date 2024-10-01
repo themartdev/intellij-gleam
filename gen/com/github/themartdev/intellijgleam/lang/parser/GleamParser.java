@@ -36,8 +36,9 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
-    create_token_set_(DECORATOR, DEPRECATED_DECORATOR, EXTERNAL_DECORATOR, UNKNOWN_DECORATOR),
     create_token_set_(ALIAS_TYPE_VALUE, CUSTOM_TYPE_VALUE, OMITTED_TYPE_VALUE, TYPE_VALUE),
+    create_token_set_(DECORATOR, DEPRECATED_DECORATOR, EXTERNAL_DECORATOR, TARGET_DECORATOR,
+      UNKNOWN_DECORATOR),
     create_token_set_(BIT_ARRAY_EXPR_CONST, EXPRESSION_CONST, FIELD_ACCESS_EXPR_CONST, IDENTIFIER_EXPR_CONST,
       LIST_EXPR_CONST, LITERAL_EXPR_CONST, RECORD_EXPR_CONST, TUPLE_EXPR_CONST),
     create_token_set_(ACCESS_EXPR, ANONYMOUS_FUNCTION_EXPR, ASSERT_LET_EXPR, BINARY_EXPR,
@@ -1324,7 +1325,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // externalDecorator | deprecatedDecorator | unknownDecorator
+  // externalDecorator | deprecatedDecorator | targetDecorator | unknownDecorator
   public static boolean decorator(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "decorator")) return false;
     if (!nextTokenIs(b, DECORATOR_MARK)) return false;
@@ -1332,6 +1333,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _COLLAPSE_, DECORATOR, null);
     r = externalDecorator(b, l + 1);
     if (!r) r = deprecatedDecorator(b, l + 1);
+    if (!r) r = targetDecorator(b, l + 1);
     if (!r) r = unknownDecorator(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -1904,31 +1906,39 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IMPORT modulePath [DOT unqualifiedImports] [AS IDENTIFIER]
+  // targetDecorator? IMPORT modulePath [DOT unqualifiedImports] [AS IDENTIFIER]
   public static boolean importDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "importDeclaration")) return false;
-    if (!nextTokenIs(b, IMPORT)) return false;
+    if (!nextTokenIs(b, "<import declaration>", DECORATOR_MARK, IMPORT)) return false;
     boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, IMPORT_DECLARATION, null);
-    r = consumeToken(b, IMPORT);
-    p = r; // pin = 1
+    Marker m = enter_section_(b, l, _NONE_, IMPORT_DECLARATION, "<import declaration>");
+    r = importDeclaration_0(b, l + 1);
+    r = r && consumeToken(b, IMPORT);
+    p = r; // pin = 2
     r = r && report_error_(b, modulePath(b, l + 1));
-    r = p && report_error_(b, importDeclaration_2(b, l + 1)) && r;
-    r = p && importDeclaration_3(b, l + 1) && r;
+    r = p && report_error_(b, importDeclaration_3(b, l + 1)) && r;
+    r = p && importDeclaration_4(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
+  // targetDecorator?
+  private static boolean importDeclaration_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "importDeclaration_0")) return false;
+    targetDecorator(b, l + 1);
+    return true;
+  }
+
   // [DOT unqualifiedImports]
-  private static boolean importDeclaration_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "importDeclaration_2")) return false;
-    importDeclaration_2_0(b, l + 1);
+  private static boolean importDeclaration_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "importDeclaration_3")) return false;
+    importDeclaration_3_0(b, l + 1);
     return true;
   }
 
   // DOT unqualifiedImports
-  private static boolean importDeclaration_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "importDeclaration_2_0")) return false;
+  private static boolean importDeclaration_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "importDeclaration_3_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, DOT);
@@ -1938,8 +1948,8 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   // [AS IDENTIFIER]
-  private static boolean importDeclaration_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "importDeclaration_3")) return false;
+  private static boolean importDeclaration_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "importDeclaration_4")) return false;
     parseTokens(b, 0, AS, IDENTIFIER);
     return true;
   }
@@ -3036,6 +3046,21 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, IDENTIFIER);
     if (!r) r = discardIdentifier(b, l + 1);
     return r;
+  }
+
+  /* ********************************************************** */
+  // DECORATOR_MARK "target" LPAREN IDENTIFIER RPAREN
+  public static boolean targetDecorator(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "targetDecorator")) return false;
+    if (!nextTokenIs(b, DECORATOR_MARK)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, TARGET_DECORATOR, null);
+    r = consumeToken(b, DECORATOR_MARK);
+    r = r && consumeToken(b, "target");
+    p = r; // pin = 2
+    r = r && report_error_(b, consumeTokens(b, -1, LPAREN, IDENTIFIER, RPAREN));
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   /* ********************************************************** */

@@ -15,4 +15,6 @@ class DecoratorTest : GleamParsingTestCase() {
     fun testUnknown() = assertParsedCorrectly()
 
     fun testWithoutFunction() = assertParsedWithErrors()
+
+    fun testTarget() = assertParsedCorrectly()
 }

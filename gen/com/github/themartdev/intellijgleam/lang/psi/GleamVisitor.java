@@ -479,6 +479,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitTargetDecorator(@NotNull GleamTargetDecorator o) {
+    visitDecorator(o);
+  }
+
   public void visitTodoExpr(@NotNull GleamTodoExpr o) {
     visitExpression(o);
   }

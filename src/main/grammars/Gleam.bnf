@@ -171,8 +171,8 @@ modulePath ::= IDENTIFIER (SLASH IDENTIFIER)* {
   methods=[getModuleName]
 }
 
-importDeclaration ::= IMPORT modulePath [DOT unqualifiedImports] [AS IDENTIFIER] {
-  pin=1
+importDeclaration ::= targetDecorator? IMPORT modulePath [DOT unqualifiedImports] [AS IDENTIFIER] {
+  pin=2
   methods=[getNameOrAlias]
 }
 
@@ -184,11 +184,13 @@ externalDecorator ::= DECORATOR_MARK externalDecoratorName LPAREN externalTarget
 deprecatedDecoratorName ::= "deprecated"
 deprecatedDecorator ::= DECORATOR_MARK deprecatedDecoratorName LPAREN stringLiteral RPAREN {pin=2}
 
+targetDecorator ::= DECORATOR_MARK "target" LPAREN IDENTIFIER RPAREN {pin=2}
+
 unknownDecoratorName ::= DECORATOR_NAME
 private unknownDecoratorArgument ::= literalExpr | IDENTIFIER
 unknownDecorator ::= DECORATOR_MARK unknownDecoratorName LPAREN [unknownDecoratorArgument (COMMA unknownDecoratorArgument)*] RPAREN
 
-decorator ::= externalDecorator | deprecatedDecorator | unknownDecorator
+decorator ::= externalDecorator | deprecatedDecorator | targetDecorator | unknownDecorator
 
 // ===== Rest =====
 constantFunctionParameterTypes ::= LPAREN [constantTypeSpecial (COMMA constantTypeSpecial)* [COMMA]] RPAREN

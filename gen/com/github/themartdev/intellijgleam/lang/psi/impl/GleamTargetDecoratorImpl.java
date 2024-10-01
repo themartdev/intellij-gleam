@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamImportDeclarationImpl extends ASTWrapperPsiElement implements GleamImportDeclaration {
+public class GleamTargetDecoratorImpl extends GleamDecoratorImpl implements GleamTargetDecorator {
 
-  public GleamImportDeclarationImpl(@NotNull ASTNode node) {
+  public GleamTargetDecoratorImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitImportDeclaration(this);
+    visitor.visitTargetDecorator(this);
   }
 
   @Override
@@ -29,31 +29,8 @@ public class GleamImportDeclarationImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @Nullable
-  public GleamModulePath getModulePath() {
-    return findChildByClass(GleamModulePath.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamTargetDecorator getTargetDecorator() {
-    return findChildByClass(GleamTargetDecorator.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamUnqualifiedImports getUnqualifiedImports() {
-    return findChildByClass(GleamUnqualifiedImports.class);
-  }
-
-  @Override
-  @Nullable
   public PsiElement getIdentifier() {
     return findChildByType(IDENTIFIER);
-  }
-
-  @Override
-  public @Nullable PsiElement getNameOrAlias() {
-    return GleamPsiImplUtil.getNameOrAlias(this);
   }
 
 }

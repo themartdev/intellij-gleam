@@ -92,7 +92,6 @@ abstract class AbstractPathComboBox(
 
     override fun setSelectedItem(anObject: Any?) {
         if (anObject is PathItem.BrowseAction) {
-            // Hide popup and show file chooser dialog
             hidePopup()
             showBrowseDialog()
             return
@@ -142,19 +141,6 @@ sealed class PathItem {
 }
 
 private class PathCellRenderer : ColoredListCellRenderer<PathItem>() {
-    //    override fun getListCellRendererComponent(
-//        list: JList<*>, value: Any?, index: Int, isSelected: Boolean, cellHasFocus: Boolean
-//    ): Component {
-//        val component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
-//        if (value is PathItem) {
-//            text = when (value) {
-//                is PathItem.None -> "<unset>"
-//                is PathItem.Value -> value.toString()
-//                is PathItem.BrowseAction -> "Browse..."
-//            }
-//        }
-//        return component
-//    }
     override fun customizeCellRenderer(
         list: JList<out PathItem?>,
         value: PathItem?,

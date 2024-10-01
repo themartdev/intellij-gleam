@@ -88,7 +88,8 @@
         <editorNotificationProvider
                 implementation="com.github.themartdev.intellijgleam.ide.ui.GleamEditorNotificationProvider"/>
 
-        <configurationType implementation="com.github.themartdev.intellijgleam.ide.runconf.run.GleamRunConfigurationType"/>
+        <configurationType
+                implementation="com.github.themartdev.intellijgleam.ide.runconf.run.GleamRunConfigurationType"/>
 
         <runLineMarkerContributor language="Gleam"
                                   implementationClass="com.github.themartdev.intellijgleam.ide.runconf.run.GleamRunLineMarker"/>

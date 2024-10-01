@@ -1,21 +1,22 @@
 package com.github.themartdev.intellijgleam.ide.lsp
 
 import com.github.themartdev.intellijgleam.ide.common.FsUtils
+import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
 import com.intellij.notification.Notifications
 import com.intellij.openapi.project.Project
-import com.redhat.devtools.lsp4ij.server.ProcessStreamConnectionProvider
+import com.redhat.devtools.lsp4ij.server.OSProcessStreamConnectionProvider
 
-class GleamLanguageServer(private val project: Project) : ProcessStreamConnectionProvider() {
+class GleamLanguageServer(private val project: Project) : OSProcessStreamConnectionProvider() {
     private fun getGleamSettings(): GleamServiceSettings = GleamServiceSettings.getInstance(project)
 
     override fun start() {
-        super.commands = buildCommands()
+        super.commandLine = buildCommandLine()
         super.start()
     }
 
-    private fun buildCommands(): List<String?>? {
+    private fun buildCommandLine(): GeneralCommandLine? {
         val settings = getGleamSettings()
 
         autoSetGleamPathIfEmpty()
@@ -45,7 +46,7 @@ class GleamLanguageServer(private val project: Project) : ProcessStreamConnectio
             return null
         }
 
-        return listOf(gleamPath, "lsp")
+        return GeneralCommandLine(gleamPath, "lsp")
     }
 
     private fun autoSetGleamPathIfEmpty() {

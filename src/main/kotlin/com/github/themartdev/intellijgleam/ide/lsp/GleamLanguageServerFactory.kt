@@ -15,6 +15,9 @@ class GleamLanguageServerFactory : LanguageServerFactory, LanguageServerEnableme
     }
 
     override fun isEnabled(project: Project): Boolean {
+        if (!validateLSP4IJCompatibility()) {
+            return false;
+        }
         val settings = GleamServiceSettings.getInstance(project)
         if (settings.lspMode != GleamLspMode.ENABLED) {
             return false
@@ -34,7 +37,15 @@ class GleamLanguageServerFactory : LanguageServerFactory, LanguageServerEnableme
             )
             return false
         }
+    }
 
+    private fun validateLSP4IJCompatibility(): Boolean {
+        try {
+            Class.forName("com.redhat.devtools.lsp4ij.server.OSProcessStreamConnectionProvider")
+            return true
+        } catch (_: ClassNotFoundException) {
+            return false
+        }
     }
 
     override fun setEnabled(enabled: Boolean, project: Project) {

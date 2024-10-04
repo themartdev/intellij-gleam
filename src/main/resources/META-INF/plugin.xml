@@ -96,5 +96,7 @@
 
         <runConfigurationProducer
                 implementation="com.github.themartdev.intellijgleam.ide.runconf.run.GleamRunConfigurationProducer"/>
+
+        <postStartupActivity implementation="com.github.themartdev.intellijgleam.ide.lifecycle.GleamStartupActivity"/>
     </extensions>
 </idea-plugin>

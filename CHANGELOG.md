@@ -12,6 +12,8 @@
     - Requires setting up the Erlang SDK in <kbd>Settings/Preferences</kbd> > <kbd>Languages & Frameworks</kbd> > <kbd>
       Gleam</kbd> > <kbd>Erlang SDK</kbd>
 - Added "Run" line marker for `pub fn main()` functions
+- Added startup info message when LSP server is disabled
+- Added startup error message when LSP4IJ version is incompatible
 
 ### Fixed
 

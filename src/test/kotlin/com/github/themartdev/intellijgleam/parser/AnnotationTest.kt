@@ -17,4 +17,9 @@ class AnnotationTest : GleamParsingTestCase() {
     fun testWithoutFunction() = assertParsedWithErrors()
 
     fun testTarget() = assertParsedCorrectly()
+
+    // Should be parsed as an "otherAnnotation"
+    fun testInternal() = assertParsedCorrectly()
+
+    fun testUnknownNoParen() = assertParsedCorrectly()
 }

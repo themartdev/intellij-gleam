@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- `@internal` annotation no longer breaks syntax highlighting
+
 ## [0.2.0]
 
 ### Added

@@ -375,6 +375,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitTypeValue(o);
   }
 
+  public void visitOtherAnnotation(@NotNull GleamOtherAnnotation o) {
+    visitAnnotation(o);
+  }
+
   public void visitPanicExpr(@NotNull GleamPanicExpr o) {
     visitExpression(o);
   }
@@ -549,10 +553,6 @@ public class GleamVisitor extends PsiElementVisitor {
 
   public void visitUnaryOperator(@NotNull GleamUnaryOperator o) {
     visitPsiElement(o);
-  }
-
-  public void visitUnknownAnnotation(@NotNull GleamUnknownAnnotation o) {
-    visitAnnotation(o);
   }
 
   public void visitUnknownAnnotationName(@NotNull GleamUnknownAnnotationName o) {

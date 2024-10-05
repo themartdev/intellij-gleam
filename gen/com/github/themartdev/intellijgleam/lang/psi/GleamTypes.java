@@ -100,6 +100,7 @@ public interface GleamTypes {
   IElementType NEGATIVE_DECIMAL_INTEGER_LITERAL = new GleamElementType("NEGATIVE_DECIMAL_INTEGER_LITERAL");
   IElementType OCTAL_INTEGER_LITERAL = new GleamElementType("OCTAL_INTEGER_LITERAL");
   IElementType OMITTED_TYPE_VALUE = new GleamElementType("OMITTED_TYPE_VALUE");
+  IElementType OTHER_ANNOTATION = new GleamElementType("OTHER_ANNOTATION");
   IElementType PANIC_EXPR = new GleamElementType("PANIC_EXPR");
   IElementType PATTERN = new GleamElementType("PATTERN");
   IElementType PATTERN_BIT_ARRAY = new GleamElementType("PATTERN_BIT_ARRAY");
@@ -144,7 +145,6 @@ public interface GleamTypes {
   IElementType TYPE_VALUE = new GleamElementType("TYPE_VALUE");
   IElementType UNARY_EXPR = new GleamElementType("UNARY_EXPR");
   IElementType UNARY_OPERATOR = new GleamElementType("UNARY_OPERATOR");
-  IElementType UNKNOWN_ANNOTATION = new GleamElementType("UNKNOWN_ANNOTATION");
   IElementType UNKNOWN_ANNOTATION_NAME = new GleamElementType("UNKNOWN_ANNOTATION_NAME");
   IElementType UNLABELED_ARGUMENT = new GleamElementType("UNLABELED_ARGUMENT");
   IElementType UNLABELED_PARAMETER = new GleamElementType("UNLABELED_PARAMETER");
@@ -522,6 +522,9 @@ public interface GleamTypes {
       else if (type == OMITTED_TYPE_VALUE) {
         return new GleamOmittedTypeValueImpl(node);
       }
+      else if (type == OTHER_ANNOTATION) {
+        return new GleamOtherAnnotationImpl(node);
+      }
       else if (type == PANIC_EXPR) {
         return new GleamPanicExprImpl(node);
       }
@@ -650,9 +653,6 @@ public interface GleamTypes {
       }
       else if (type == UNARY_OPERATOR) {
         return new GleamUnaryOperatorImpl(node);
-      }
-      else if (type == UNKNOWN_ANNOTATION) {
-        return new GleamUnknownAnnotationImpl(node);
       }
       else if (type == UNKNOWN_ANNOTATION_NAME) {
         return new GleamUnknownAnnotationNameImpl(node);

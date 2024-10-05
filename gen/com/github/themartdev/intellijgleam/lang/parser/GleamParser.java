@@ -38,7 +38,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
     create_token_set_(ALIAS_TYPE_VALUE, CUSTOM_TYPE_VALUE, OMITTED_TYPE_VALUE, TYPE_VALUE),
     create_token_set_(ANNOTATION, CONSTANT_TYPE_ANNOTATION, DEPRECATED_ANNOTATION, EXTERNAL_ANNOTATION,
-      TARGET_ANNOTATION, TYPE_ANNOTATION, UNKNOWN_ANNOTATION),
+      OTHER_ANNOTATION, TARGET_ANNOTATION, TYPE_ANNOTATION),
     create_token_set_(BIT_ARRAY_EXPR_CONST, EXPRESSION_CONST, FIELD_ACCESS_EXPR_CONST, IDENTIFIER_EXPR_CONST,
       LIST_EXPR_CONST, LITERAL_EXPR_CONST, RECORD_EXPR_CONST, TUPLE_EXPR_CONST),
     create_token_set_(ACCESS_EXPR, ANONYMOUS_FUNCTION_EXPR, ASSERT_LET_EXPR, BINARY_EXPR,
@@ -95,7 +95,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // externalAnnotation | deprecatedAnnotation | targetAnnotation | unknownAnnotation
+  // externalAnnotation | deprecatedAnnotation | targetAnnotation | otherAnnotation
   public static boolean annotation(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "annotation")) return false;
     if (!nextTokenIs(b, ANNOTATION_MARK)) return false;
@@ -104,7 +104,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = externalAnnotation(b, l + 1);
     if (!r) r = deprecatedAnnotation(b, l + 1);
     if (!r) r = targetAnnotation(b, l + 1);
-    if (!r) r = unknownAnnotation(b, l + 1);
+    if (!r) r = otherAnnotation(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -2327,6 +2327,79 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // ANNOTATION_MARK unknownAnnotationName [LPAREN [unknownAnnotationArgument (COMMA unknownAnnotationArgument)*] RPAREN]
+  public static boolean otherAnnotation(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "otherAnnotation")) return false;
+    if (!nextTokenIs(b, ANNOTATION_MARK)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ANNOTATION_MARK);
+    r = r && unknownAnnotationName(b, l + 1);
+    r = r && otherAnnotation_2(b, l + 1);
+    exit_section_(b, m, OTHER_ANNOTATION, r);
+    return r;
+  }
+
+  // [LPAREN [unknownAnnotationArgument (COMMA unknownAnnotationArgument)*] RPAREN]
+  private static boolean otherAnnotation_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "otherAnnotation_2")) return false;
+    otherAnnotation_2_0(b, l + 1);
+    return true;
+  }
+
+  // LPAREN [unknownAnnotationArgument (COMMA unknownAnnotationArgument)*] RPAREN
+  private static boolean otherAnnotation_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "otherAnnotation_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, LPAREN);
+    r = r && otherAnnotation_2_0_1(b, l + 1);
+    r = r && consumeToken(b, RPAREN);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [unknownAnnotationArgument (COMMA unknownAnnotationArgument)*]
+  private static boolean otherAnnotation_2_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "otherAnnotation_2_0_1")) return false;
+    otherAnnotation_2_0_1_0(b, l + 1);
+    return true;
+  }
+
+  // unknownAnnotationArgument (COMMA unknownAnnotationArgument)*
+  private static boolean otherAnnotation_2_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "otherAnnotation_2_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = unknownAnnotationArgument(b, l + 1);
+    r = r && otherAnnotation_2_0_1_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (COMMA unknownAnnotationArgument)*
+  private static boolean otherAnnotation_2_0_1_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "otherAnnotation_2_0_1_0_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!otherAnnotation_2_0_1_0_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "otherAnnotation_2_0_1_0_1", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA unknownAnnotationArgument
+  private static boolean otherAnnotation_2_0_1_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "otherAnnotation_2_0_1_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && unknownAnnotationArgument(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // (hole | IDENTIFIER | discardIdentifier | stringPattern | recordPattern | literalExpr | tuplePattern | patternBitArray | listPattern) [AS IDENTIFIER]
   public static boolean pattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "pattern")) return false;
@@ -3573,62 +3646,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, BANG);
     if (!r) r = consumeToken(b, MINUS);
     exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // ANNOTATION_MARK unknownAnnotationName LPAREN [unknownAnnotationArgument (COMMA unknownAnnotationArgument)*] RPAREN
-  public static boolean unknownAnnotation(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "unknownAnnotation")) return false;
-    if (!nextTokenIs(b, ANNOTATION_MARK)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, ANNOTATION_MARK);
-    r = r && unknownAnnotationName(b, l + 1);
-    r = r && consumeToken(b, LPAREN);
-    r = r && unknownAnnotation_3(b, l + 1);
-    r = r && consumeToken(b, RPAREN);
-    exit_section_(b, m, UNKNOWN_ANNOTATION, r);
-    return r;
-  }
-
-  // [unknownAnnotationArgument (COMMA unknownAnnotationArgument)*]
-  private static boolean unknownAnnotation_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "unknownAnnotation_3")) return false;
-    unknownAnnotation_3_0(b, l + 1);
-    return true;
-  }
-
-  // unknownAnnotationArgument (COMMA unknownAnnotationArgument)*
-  private static boolean unknownAnnotation_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "unknownAnnotation_3_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = unknownAnnotationArgument(b, l + 1);
-    r = r && unknownAnnotation_3_0_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (COMMA unknownAnnotationArgument)*
-  private static boolean unknownAnnotation_3_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "unknownAnnotation_3_0_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!unknownAnnotation_3_0_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "unknownAnnotation_3_0_1", c)) break;
-    }
-    return true;
-  }
-
-  // COMMA unknownAnnotationArgument
-  private static boolean unknownAnnotation_3_0_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "unknownAnnotation_3_0_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, COMMA);
-    r = r && unknownAnnotationArgument(b, l + 1);
-    exit_section_(b, m, null, r);
     return r;
   }
 

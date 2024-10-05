@@ -29,8 +29,8 @@ public class GleamFunctionDeclarationImpl extends ASTWrapperPsiElement implement
 
   @Override
   @NotNull
-  public List<GleamDecorator> getDecoratorList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamDecorator.class);
+  public List<GleamAnnotation> getAnnotationList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamAnnotation.class);
   }
 
   @Override

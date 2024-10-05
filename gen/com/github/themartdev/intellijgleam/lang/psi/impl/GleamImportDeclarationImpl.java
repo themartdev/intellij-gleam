@@ -35,8 +35,8 @@ public class GleamImportDeclarationImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @Nullable
-  public GleamTargetDecorator getTargetDecorator() {
-    return findChildByClass(GleamTargetDecorator.class);
+  public GleamTargetAnnotation getTargetAnnotation() {
+    return findChildByClass(GleamTargetAnnotation.class);
   }
 
   @Override

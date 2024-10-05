@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface GleamFunctionDeclaration extends PsiElement {
 
   @NotNull
-  List<GleamDecorator> getDecoratorList();
+  List<GleamAnnotation> getAnnotationList();
 
   @Nullable
   GleamFunctionBody getFunctionBody();

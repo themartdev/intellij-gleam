@@ -11,26 +11,20 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamUnknownDecoratorNameImpl extends ASTWrapperPsiElement implements GleamUnknownDecoratorName {
+public abstract class GleamAnnotationImpl extends ASTWrapperPsiElement implements GleamAnnotation {
 
-  public GleamUnknownDecoratorNameImpl(@NotNull ASTNode node) {
+  public GleamAnnotationImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitUnknownDecoratorName(this);
+    visitor.visitAnnotation(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof GleamVisitor) accept((GleamVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getDecoratorName() {
-    return findNotNullChildByType(DECORATOR_NAME);
   }
 
 }

@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamExternalDecoratorImpl extends GleamDecoratorImpl implements GleamExternalDecorator {
+public class GleamTargetAnnotationImpl extends GleamAnnotationImpl implements GleamTargetAnnotation {
 
-  public GleamExternalDecoratorImpl(@NotNull ASTNode node) {
+  public GleamTargetAnnotationImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitExternalDecorator(this);
+    visitor.visitTargetAnnotation(this);
   }
 
   @Override
@@ -28,21 +28,9 @@ public class GleamExternalDecoratorImpl extends GleamDecoratorImpl implements Gl
   }
 
   @Override
-  @NotNull
-  public GleamExternalDecoratorName getExternalDecoratorName() {
-    return findNotNullChildByClass(GleamExternalDecoratorName.class);
-  }
-
-  @Override
   @Nullable
-  public GleamExternalTarget getExternalTarget() {
-    return findChildByClass(GleamExternalTarget.class);
-  }
-
-  @Override
-  @NotNull
-  public List<GleamStringLiteral> getStringLiteralList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamStringLiteral.class);
+  public PsiElement getIdentifier() {
+    return findChildByType(IDENTIFIER);
   }
 
 }

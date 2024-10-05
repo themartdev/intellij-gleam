@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamDeprecatedDecoratorImpl extends GleamDecoratorImpl implements GleamDeprecatedDecorator {
+public class GleamUnknownAnnotationNameImpl extends ASTWrapperPsiElement implements GleamUnknownAnnotationName {
 
-  public GleamDeprecatedDecoratorImpl(@NotNull ASTNode node) {
+  public GleamUnknownAnnotationNameImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitDeprecatedDecorator(this);
+    visitor.visitUnknownAnnotationName(this);
   }
 
   @Override
@@ -29,14 +29,8 @@ public class GleamDeprecatedDecoratorImpl extends GleamDecoratorImpl implements 
 
   @Override
   @NotNull
-  public GleamDeprecatedDecoratorName getDeprecatedDecoratorName() {
-    return findNotNullChildByClass(GleamDeprecatedDecoratorName.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamStringLiteral getStringLiteral() {
-    return findChildByClass(GleamStringLiteral.class);
+  public PsiElement getAnnotationName() {
+    return findNotNullChildByType(ANNOTATION_NAME);
   }
 
 }

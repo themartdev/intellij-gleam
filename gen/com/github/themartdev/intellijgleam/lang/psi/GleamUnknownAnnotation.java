@@ -5,6 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamDeprecatedDecoratorName extends PsiElement {
+public interface GleamUnknownAnnotation extends GleamAnnotation {
+
+  @NotNull
+  List<GleamLiteralExpr> getLiteralExprList();
+
+  @NotNull
+  GleamUnknownAnnotationName getUnknownAnnotationName();
 
 }

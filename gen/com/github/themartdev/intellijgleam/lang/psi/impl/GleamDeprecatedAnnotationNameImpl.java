@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamDeprecatedDecoratorNameImpl extends ASTWrapperPsiElement implements GleamDeprecatedDecoratorName {
+public class GleamDeprecatedAnnotationNameImpl extends ASTWrapperPsiElement implements GleamDeprecatedAnnotationName {
 
-  public GleamDeprecatedDecoratorNameImpl(@NotNull ASTNode node) {
+  public GleamDeprecatedAnnotationNameImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitDeprecatedDecoratorName(this);
+    visitor.visitDeprecatedAnnotationName(this);
   }
 
   @Override

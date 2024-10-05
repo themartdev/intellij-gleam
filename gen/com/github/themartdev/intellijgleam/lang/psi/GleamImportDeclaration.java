@@ -11,7 +11,7 @@ public interface GleamImportDeclaration extends PsiElement {
   GleamModulePath getModulePath();
 
   @Nullable
-  GleamTargetDecorator getTargetDecorator();
+  GleamTargetAnnotation getTargetAnnotation();
 
   @Nullable
   GleamUnqualifiedImports getUnqualifiedImports();

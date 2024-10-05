@@ -71,7 +71,7 @@ SIGN_OPERATOR = "+" | "-"
 NUMBER_SEPARATOR = "_"
 
 ////
-%state WAITING_DECORATOR_NAME
+%state WAITING_ANNOTATION_NAME
 
 //// String states
 %state IN_STRING
@@ -150,7 +150,7 @@ NUMBER_SEPARATOR = "_"
   "<=."                    { return GleamTypes.LESS_EQUAL_DOT; }
   ">=."                    { return GleamTypes.GREATER_EQUAL_DOT; }
   "<>"                     { return GleamTypes.LT_GT; }
-  "@"                      { pushState(WAITING_DECORATOR_NAME); return GleamTypes.DECORATOR_MARK; }
+  "@"                      { pushState(WAITING_ANNOTATION_NAME); return GleamTypes.ANNOTATION_MARK; }
 
   //// Strings
   \"                       { pushState(IN_STRING); return GleamTypes.OPEN_QUOTE; }
@@ -172,9 +172,9 @@ NUMBER_SEPARATOR = "_"
   {WHITE_SPACE}            { return TokenType.WHITE_SPACE; }
 }
 
-// DECORATOR STATES
-<WAITING_DECORATOR_NAME> {
-  {IDENTIFIER}               { popState(); return GleamTypes.DECORATOR_NAME; }
+// ANNOTATION STATES
+<WAITING_ANNOTATION_NAME> {
+  {IDENTIFIER}               { popState(); return GleamTypes.ANNOTATION_NAME; }
   [^]                        { handleInLastState(); }
 }
 

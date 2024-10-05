@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamTargetDecorator extends GleamDecorator {
+public interface GleamDeprecatedAnnotation extends GleamAnnotation {
+
+  @NotNull
+  GleamDeprecatedAnnotationName getDeprecatedAnnotationName();
 
   @Nullable
-  PsiElement getIdentifier();
+  GleamStringLiteral getStringLiteral();
 
 }

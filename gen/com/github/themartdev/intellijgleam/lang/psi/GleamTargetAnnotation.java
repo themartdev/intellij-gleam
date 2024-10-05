@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamUnknownDecorator extends GleamDecorator {
+public interface GleamTargetAnnotation extends GleamAnnotation {
 
-  @NotNull
-  List<GleamLiteralExpr> getLiteralExprList();
-
-  @NotNull
-  GleamUnknownDecoratorName getUnknownDecoratorName();
+  @Nullable
+  PsiElement getIdentifier();
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamTypeAnnotation extends PsiElement {
+public interface GleamTypeAnnotation extends GleamAnnotation {
 
   @NotNull
   GleamTypeBase getTypeBase();

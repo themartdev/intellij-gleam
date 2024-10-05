@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamUnknownDecoratorImpl extends GleamDecoratorImpl implements GleamUnknownDecorator {
+public class GleamUnknownAnnotationImpl extends GleamAnnotationImpl implements GleamUnknownAnnotation {
 
-  public GleamUnknownDecoratorImpl(@NotNull ASTNode node) {
+  public GleamUnknownAnnotationImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitUnknownDecorator(this);
+    visitor.visitUnknownAnnotation(this);
   }
 
   @Override
@@ -35,8 +35,8 @@ public class GleamUnknownDecoratorImpl extends GleamDecoratorImpl implements Gle
 
   @Override
   @NotNull
-  public GleamUnknownDecoratorName getUnknownDecoratorName() {
-    return findNotNullChildByClass(GleamUnknownDecoratorName.class);
+  public GleamUnknownAnnotationName getUnknownAnnotationName() {
+    return findNotNullChildByClass(GleamUnknownAnnotationName.class);
   }
 
 }

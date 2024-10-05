@@ -20,7 +20,7 @@ public class _GleamLexer implements FlexLexer {
 
   /** lexical states */
   public static final int YYINITIAL = 0;
-  public static final int WAITING_DECORATOR_NAME = 2;
+  public static final int WAITING_ANNOTATION_NAME = 2;
   public static final int IN_STRING = 4;
   public static final int ESCAPE_SEQUENCE = 6;
   public static final int UNICODE_ESCAPE_SEQUENCE = 8;
@@ -786,7 +786,7 @@ public class _GleamLexer implements FlexLexer {
           // fall through
           case 119: break;
           case 21:
-            { pushState(WAITING_DECORATOR_NAME); return GleamTypes.DECORATOR_MARK;
+            { pushState(WAITING_ANNOTATION_NAME); return GleamTypes.ANNOTATION_MARK;
             }
           // fall through
           case 120: break;
@@ -836,7 +836,7 @@ public class _GleamLexer implements FlexLexer {
           // fall through
           case 129: break;
           case 31:
-            { popState(); return GleamTypes.DECORATOR_NAME;
+            { popState(); return GleamTypes.ANNOTATION_NAME;
             }
           // fall through
           case 130: break;

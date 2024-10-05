@@ -1,6 +1,6 @@
 package com.github.themartdev.intellijgleam.parser
 
-class DecoratorTest : GleamParsingTestCase() {
+class AnnotationTest : GleamParsingTestCase() {
     override fun getTestDataPath(): String = super.getTestDataPath() + "/decorator"
 
     fun testDeprecated() = assertParsedCorrectly()

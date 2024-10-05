@@ -1,6 +1,6 @@
 Gleam File(0,70)
   PsiElement(@)('@')(0,1)
-  PsiElement(DECORATOR_NAME)('external')(1,9)
+  PsiElement(ANNOTATION_NAME)('external')(1,9)
   PsiElement(()('(')(9,10)
   PsiElement(IDENTIFIER)('javascript')(10,20)
   PsiElement(,)(',')(20,21)

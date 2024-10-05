@@ -23,6 +23,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitAnnotation(@NotNull GleamAnnotation o) {
+    visitPsiElement(o);
+  }
+
   public void visitAnonymousFunctionExpr(@NotNull GleamAnonymousFunctionExpr o) {
     visitExpression(o);
   }
@@ -176,7 +180,7 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitConstantTypeAnnotation(@NotNull GleamConstantTypeAnnotation o) {
-    visitPsiElement(o);
+    visitAnnotation(o);
   }
 
   public void visitConstantTypeArgument(@NotNull GleamConstantTypeArgument o) {
@@ -211,15 +215,11 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitDecorator(@NotNull GleamDecorator o) {
-    visitPsiElement(o);
+  public void visitDeprecatedAnnotation(@NotNull GleamDeprecatedAnnotation o) {
+    visitAnnotation(o);
   }
 
-  public void visitDeprecatedDecorator(@NotNull GleamDeprecatedDecorator o) {
-    visitDecorator(o);
-  }
-
-  public void visitDeprecatedDecoratorName(@NotNull GleamDeprecatedDecoratorName o) {
+  public void visitDeprecatedAnnotationName(@NotNull GleamDeprecatedAnnotationName o) {
     visitPsiElement(o);
   }
 
@@ -235,11 +235,11 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitExternalDecorator(@NotNull GleamExternalDecorator o) {
-    visitDecorator(o);
+  public void visitExternalAnnotation(@NotNull GleamExternalAnnotation o) {
+    visitAnnotation(o);
   }
 
-  public void visitExternalDecoratorName(@NotNull GleamExternalDecoratorName o) {
+  public void visitExternalAnnotationName(@NotNull GleamExternalAnnotationName o) {
     visitPsiElement(o);
   }
 
@@ -479,8 +479,8 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitTargetDecorator(@NotNull GleamTargetDecorator o) {
-    visitDecorator(o);
+  public void visitTargetAnnotation(@NotNull GleamTargetAnnotation o) {
+    visitAnnotation(o);
   }
 
   public void visitTodoExpr(@NotNull GleamTodoExpr o) {
@@ -504,7 +504,7 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitTypeAnnotation(@NotNull GleamTypeAnnotation o) {
-    visitPsiElement(o);
+    visitAnnotation(o);
   }
 
   public void visitTypeArgument(@NotNull GleamTypeArgument o) {
@@ -551,11 +551,11 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitUnknownDecorator(@NotNull GleamUnknownDecorator o) {
-    visitDecorator(o);
+  public void visitUnknownAnnotation(@NotNull GleamUnknownAnnotation o) {
+    visitAnnotation(o);
   }
 
-  public void visitUnknownDecoratorName(@NotNull GleamUnknownDecoratorName o) {
+  public void visitUnknownAnnotationName(@NotNull GleamUnknownAnnotationName o) {
     visitPsiElement(o);
   }
 

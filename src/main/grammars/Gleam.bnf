@@ -79,8 +79,8 @@
     HOLE            = '_'
 
     //// Annotation
-    DECORATOR_MARK = '@'
-    DECORATOR_NAME = "regexp:[a-zA-Z_][a-zA-Z0-9_]*"
+    ANNOTATION_MARK = '@'
+    ANNOTATION_NAME = "regexp:[a-zA-Z_][a-zA-Z0-9_]*"
 
     // Literals
     BOOLEAN_LITERAL = "regexp:True|False"
@@ -133,7 +133,7 @@
 
   extends(".*Expr")=expression
   extends(".*ExprConst")=expressionConst
-  extends(".*Decorator")=decorator
+  extends(".*Annotation")=annotation
   extends(".*TypeValue")=typeValue
 }
 
@@ -149,7 +149,7 @@ private topLevelDeclaration ::= importDeclaration
                               recoverWhile=declarationRecover
                             }
 private declarationRecover ::= !topLevelKeyword
-private topLevelKeyword ::= IMPORT | CONST | TYPE | FN | PUB | OPAQUE | DECORATOR_MARK
+private topLevelKeyword ::= IMPORT | CONST | TYPE | FN | PUB | OPAQUE | ANNOTATION_MARK
 
 constantDeclaration ::= [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUAL expressionConst {pin=2}
 
@@ -171,26 +171,26 @@ modulePath ::= IDENTIFIER (SLASH IDENTIFIER)* {
   methods=[getModuleName]
 }
 
-importDeclaration ::= targetDecorator? IMPORT modulePath [DOT unqualifiedImports] [AS IDENTIFIER] {
+importDeclaration ::= targetAnnotation? IMPORT modulePath [DOT unqualifiedImports] [AS IDENTIFIER] {
   pin=2
   methods=[getNameOrAlias]
 }
 
-// ===== Decorators =====
+// ===== Annotations =====
 externalTarget ::= "javascript" | "erlang"
-externalDecoratorName ::= "external"
-externalDecorator ::= DECORATOR_MARK externalDecoratorName LPAREN externalTarget COMMA stringLiteral COMMA stringLiteral RPAREN {pin=2}
+externalAnnotationName ::= "external"
+externalAnnotation ::= ANNOTATION_MARK externalAnnotationName LPAREN externalTarget COMMA stringLiteral COMMA stringLiteral RPAREN {pin=2}
 
-deprecatedDecoratorName ::= "deprecated"
-deprecatedDecorator ::= DECORATOR_MARK deprecatedDecoratorName LPAREN stringLiteral RPAREN {pin=2}
+deprecatedAnnotationName ::= "deprecated"
+deprecatedAnnotation ::= ANNOTATION_MARK deprecatedAnnotationName LPAREN stringLiteral RPAREN {pin=2}
 
-targetDecorator ::= DECORATOR_MARK "target" LPAREN IDENTIFIER RPAREN {pin=2}
+targetAnnotation ::= ANNOTATION_MARK "target" LPAREN IDENTIFIER RPAREN {pin=2}
 
-unknownDecoratorName ::= DECORATOR_NAME
-private unknownDecoratorArgument ::= literalExpr | IDENTIFIER
-unknownDecorator ::= DECORATOR_MARK unknownDecoratorName LPAREN [unknownDecoratorArgument (COMMA unknownDecoratorArgument)*] RPAREN
+unknownAnnotationName ::= ANNOTATION_NAME
+private unknownAnnotationArgument ::= literalExpr | IDENTIFIER
+unknownAnnotation ::= ANNOTATION_MARK unknownAnnotationName LPAREN [unknownAnnotationArgument (COMMA unknownAnnotationArgument)*] RPAREN
 
-decorator ::= externalDecorator | deprecatedDecorator | targetDecorator | unknownDecorator
+annotation ::= externalAnnotation | deprecatedAnnotation | targetAnnotation | unknownAnnotation
 
 // ===== Rest =====
 constantFunctionParameterTypes ::= LPAREN [constantTypeSpecial (COMMA constantTypeSpecial)* [COMMA]] RPAREN
@@ -247,7 +247,7 @@ functionParameterArgs ::= labeledDiscardParam | discardParam | labeledNameParam 
 functionParameter ::= functionParameterArgs [typeAnnotation]
 functionParameters ::= LPAREN [functionParameter (COMMA functionParameter)* [COMMA]] RPAREN
 functionBody ::= LBRACE expression* RBRACE {pin=1}
-functionDeclaration ::= (decorator)* [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody? {
+functionDeclaration ::= (annotation)* [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody? {
   pin=3
 }
 functionNameDefinition::= IDENTIFIER

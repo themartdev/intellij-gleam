@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamConstantTypeAnnotation extends PsiElement {
+public interface GleamConstantTypeAnnotation extends GleamAnnotation {
 
   @NotNull
   GleamConstantType getConstantType();

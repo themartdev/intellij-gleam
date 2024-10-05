@@ -5,10 +5,10 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamExternalDecorator extends GleamDecorator {
+public interface GleamExternalAnnotation extends GleamAnnotation {
 
   @NotNull
-  GleamExternalDecoratorName getExternalDecoratorName();
+  GleamExternalAnnotationName getExternalAnnotationName();
 
   @Nullable
   GleamExternalTarget getExternalTarget();

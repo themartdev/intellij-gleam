@@ -12,6 +12,7 @@ public interface GleamTypes {
   IElementType ALIAS_IDENTIFIER = new GleamElementType("ALIAS_IDENTIFIER");
   IElementType ALIAS_TYPE_VALUE = new GleamElementType("ALIAS_TYPE_VALUE");
   IElementType ALIAS_UP_IDENTIFIER = new GleamElementType("ALIAS_UP_IDENTIFIER");
+  IElementType ANNOTATION = new GleamElementType("ANNOTATION");
   IElementType ANONYMOUS_FUNCTION_EXPR = new GleamElementType("ANONYMOUS_FUNCTION_EXPR");
   IElementType ANONYMOUS_FUNCTION_PARAMETER = new GleamElementType("ANONYMOUS_FUNCTION_PARAMETER");
   IElementType ANONYMOUS_FUNCTION_PARAMETERS = new GleamElementType("ANONYMOUS_FUNCTION_PARAMETERS");
@@ -59,14 +60,13 @@ public interface GleamTypes {
   IElementType CONSTRUCTOR_IDENTIFIER = new GleamElementType("CONSTRUCTOR_IDENTIFIER");
   IElementType CUSTOM_TYPE_VALUE = new GleamElementType("CUSTOM_TYPE_VALUE");
   IElementType DECIMAL_INTEGER_LITERAL = new GleamElementType("DECIMAL_INTEGER_LITERAL");
-  IElementType DECORATOR = new GleamElementType("DECORATOR");
-  IElementType DEPRECATED_DECORATOR = new GleamElementType("DEPRECATED_DECORATOR");
-  IElementType DEPRECATED_DECORATOR_NAME = new GleamElementType("DEPRECATED_DECORATOR_NAME");
+  IElementType DEPRECATED_ANNOTATION = new GleamElementType("DEPRECATED_ANNOTATION");
+  IElementType DEPRECATED_ANNOTATION_NAME = new GleamElementType("DEPRECATED_ANNOTATION_NAME");
   IElementType DISCARD_PARAM = new GleamElementType("DISCARD_PARAM");
   IElementType EXPRESSION = new GleamElementType("EXPRESSION");
   IElementType EXPRESSION_CONST = new GleamElementType("EXPRESSION_CONST");
-  IElementType EXTERNAL_DECORATOR = new GleamElementType("EXTERNAL_DECORATOR");
-  IElementType EXTERNAL_DECORATOR_NAME = new GleamElementType("EXTERNAL_DECORATOR_NAME");
+  IElementType EXTERNAL_ANNOTATION = new GleamElementType("EXTERNAL_ANNOTATION");
+  IElementType EXTERNAL_ANNOTATION_NAME = new GleamElementType("EXTERNAL_ANNOTATION_NAME");
   IElementType EXTERNAL_TARGET = new GleamElementType("EXTERNAL_TARGET");
   IElementType FIELD_ACCESS_EXPR_CONST = new GleamElementType("FIELD_ACCESS_EXPR_CONST");
   IElementType FLOAT_LITERAL = new GleamElementType("FLOAT_LITERAL");
@@ -126,7 +126,7 @@ public interface GleamTypes {
   IElementType STRING_ESCAPE_SEGMENT = new GleamElementType("STRING_ESCAPE_SEGMENT");
   IElementType STRING_LITERAL = new GleamElementType("STRING_LITERAL");
   IElementType STRING_PATTERN = new GleamElementType("STRING_PATTERN");
-  IElementType TARGET_DECORATOR = new GleamElementType("TARGET_DECORATOR");
+  IElementType TARGET_ANNOTATION = new GleamElementType("TARGET_ANNOTATION");
   IElementType TODO_EXPR = new GleamElementType("TODO_EXPR");
   IElementType TUPLE_EXPR = new GleamElementType("TUPLE_EXPR");
   IElementType TUPLE_EXPR_CONST = new GleamElementType("TUPLE_EXPR_CONST");
@@ -144,8 +144,8 @@ public interface GleamTypes {
   IElementType TYPE_VALUE = new GleamElementType("TYPE_VALUE");
   IElementType UNARY_EXPR = new GleamElementType("UNARY_EXPR");
   IElementType UNARY_OPERATOR = new GleamElementType("UNARY_OPERATOR");
-  IElementType UNKNOWN_DECORATOR = new GleamElementType("UNKNOWN_DECORATOR");
-  IElementType UNKNOWN_DECORATOR_NAME = new GleamElementType("UNKNOWN_DECORATOR_NAME");
+  IElementType UNKNOWN_ANNOTATION = new GleamElementType("UNKNOWN_ANNOTATION");
+  IElementType UNKNOWN_ANNOTATION_NAME = new GleamElementType("UNKNOWN_ANNOTATION_NAME");
   IElementType UNLABELED_ARGUMENT = new GleamElementType("UNLABELED_ARGUMENT");
   IElementType UNLABELED_PARAMETER = new GleamElementType("UNLABELED_PARAMETER");
   IElementType UNQUALIFIED_IMPORT = new GleamElementType("UNQUALIFIED_IMPORT");
@@ -159,6 +159,8 @@ public interface GleamTypes {
   IElementType WHOLE_NUMBER = new GleamElementType("WHOLE_NUMBER");
 
   IElementType AMPER_AMPER = new GleamTokenType("&&");
+  IElementType ANNOTATION_MARK = new GleamTokenType("@");
+  IElementType ANNOTATION_NAME = new GleamTokenType("ANNOTATION_NAME");
   IElementType AS = new GleamTokenType("as");
   IElementType ASSERT = new GleamTokenType("assert");
   IElementType BANG = new GleamTokenType("!");
@@ -171,8 +173,6 @@ public interface GleamTypes {
   IElementType COMMA = new GleamTokenType(",");
   IElementType CONST = new GleamTokenType("const");
   IElementType DECIMAL_MARK = new GleamTokenType(". (decimal separator)");
-  IElementType DECORATOR_MARK = new GleamTokenType("@");
-  IElementType DECORATOR_NAME = new GleamTokenType("DECORATOR_NAME");
   IElementType DISCARD_NAME = new GleamTokenType("DISCARD_NAME");
   IElementType DOT = new GleamTokenType(".");
   IElementType DOT_DOT = new GleamTokenType("..");
@@ -408,11 +408,11 @@ public interface GleamTypes {
       else if (type == DECIMAL_INTEGER_LITERAL) {
         return new GleamDecimalIntegerLiteralImpl(node);
       }
-      else if (type == DEPRECATED_DECORATOR) {
-        return new GleamDeprecatedDecoratorImpl(node);
+      else if (type == DEPRECATED_ANNOTATION) {
+        return new GleamDeprecatedAnnotationImpl(node);
       }
-      else if (type == DEPRECATED_DECORATOR_NAME) {
-        return new GleamDeprecatedDecoratorNameImpl(node);
+      else if (type == DEPRECATED_ANNOTATION_NAME) {
+        return new GleamDeprecatedAnnotationNameImpl(node);
       }
       else if (type == DISCARD_PARAM) {
         return new GleamDiscardParamImpl(node);
@@ -420,11 +420,11 @@ public interface GleamTypes {
       else if (type == EXPRESSION) {
         return new GleamExpressionImpl(node);
       }
-      else if (type == EXTERNAL_DECORATOR) {
-        return new GleamExternalDecoratorImpl(node);
+      else if (type == EXTERNAL_ANNOTATION) {
+        return new GleamExternalAnnotationImpl(node);
       }
-      else if (type == EXTERNAL_DECORATOR_NAME) {
-        return new GleamExternalDecoratorNameImpl(node);
+      else if (type == EXTERNAL_ANNOTATION_NAME) {
+        return new GleamExternalAnnotationNameImpl(node);
       }
       else if (type == EXTERNAL_TARGET) {
         return new GleamExternalTargetImpl(node);
@@ -600,8 +600,8 @@ public interface GleamTypes {
       else if (type == STRING_PATTERN) {
         return new GleamStringPatternImpl(node);
       }
-      else if (type == TARGET_DECORATOR) {
-        return new GleamTargetDecoratorImpl(node);
+      else if (type == TARGET_ANNOTATION) {
+        return new GleamTargetAnnotationImpl(node);
       }
       else if (type == TODO_EXPR) {
         return new GleamTodoExprImpl(node);
@@ -651,11 +651,11 @@ public interface GleamTypes {
       else if (type == UNARY_OPERATOR) {
         return new GleamUnaryOperatorImpl(node);
       }
-      else if (type == UNKNOWN_DECORATOR) {
-        return new GleamUnknownDecoratorImpl(node);
+      else if (type == UNKNOWN_ANNOTATION) {
+        return new GleamUnknownAnnotationImpl(node);
       }
-      else if (type == UNKNOWN_DECORATOR_NAME) {
-        return new GleamUnknownDecoratorNameImpl(node);
+      else if (type == UNKNOWN_ANNOTATION_NAME) {
+        return new GleamUnknownAnnotationNameImpl(node);
       }
       else if (type == UNLABELED_ARGUMENT) {
         return new GleamUnlabeledArgumentImpl(node);

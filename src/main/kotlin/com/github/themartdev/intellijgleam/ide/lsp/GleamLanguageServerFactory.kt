@@ -7,6 +7,7 @@ import com.intellij.notification.Notifications
 import com.intellij.openapi.project.Project
 import com.redhat.devtools.lsp4ij.LanguageServerEnablementSupport
 import com.redhat.devtools.lsp4ij.LanguageServerFactory
+import com.redhat.devtools.lsp4ij.client.features.LSPClientFeatures
 import com.redhat.devtools.lsp4ij.server.StreamConnectionProvider
 
 class GleamLanguageServerFactory : LanguageServerFactory, LanguageServerEnablementSupport {
@@ -55,5 +56,10 @@ class GleamLanguageServerFactory : LanguageServerFactory, LanguageServerEnableme
         } else {
             settings.lspMode = GleamLspMode.DISABLED
         }
+    }
+
+    override fun createClientFeatures(): LSPClientFeatures {
+        return LSPClientFeatures()
+            .setFormattingFeature(GleamLSPFormatFeature())
     }
 }

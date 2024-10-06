@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface GleamAliasIdentifier extends PsiElement {
 
   @NotNull
-  PsiElement getIdentifier();
+  GleamIdentifierDiscardable getIdentifierDiscardable();
 
 }

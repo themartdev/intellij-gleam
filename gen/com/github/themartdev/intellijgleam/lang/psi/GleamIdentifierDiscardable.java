@@ -5,9 +5,16 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamNameParam extends PsiElement {
+public interface GleamIdentifierDiscardable extends PsiElement {
 
-  @NotNull
+  @Nullable
+  PsiElement getDiscardName();
+
+  @Nullable
   PsiElement getIdentifier();
+
+  boolean isDiscard();
+
+  @NotNull PsiElement getActualElement();
 
 }

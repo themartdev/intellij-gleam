@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface GleamPattern extends PsiElement {
 
   @Nullable
+  GleamIdentifierDiscardable getIdentifierDiscardable();
+
+  @Nullable
   GleamListPattern getListPattern();
 
   @Nullable
@@ -26,6 +29,6 @@ public interface GleamPattern extends PsiElement {
   GleamTuplePattern getTuplePattern();
 
   @Nullable
-  PsiElement getDiscardName();
+  PsiElement getIdentifier();
 
 }

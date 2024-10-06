@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface GleamShortHandLabeledArgument extends PsiElement {
 
   @NotNull
-  PsiElement getIdentifier();
+  GleamIdentifierDiscardable getIdentifierDiscardable();
 
 }

@@ -50,14 +50,14 @@ public class GleamParser implements PsiParser, LightPsiParser {
   };
 
   /* ********************************************************** */
-  // identifier
+  // identifierDiscardable
   public static boolean aliasIdentifier(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "aliasIdentifier")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    if (!nextTokenIs(b, "<alias identifier>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = identifier(b, l + 1);
-    exit_section_(b, m, ALIAS_IDENTIFIER, r);
+    Marker m = enter_section_(b, l, _NONE_, ALIAS_IDENTIFIER, "<alias identifier>");
+    r = identifierDiscardable(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -130,14 +130,13 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // discardParam | nameParam
+  // identifierDiscardable
   public static boolean anonymousFunctionParameterArgs(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "anonymousFunctionParameterArgs")) return false;
     if (!nextTokenIs(b, "<anonymous function parameter args>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, ANONYMOUS_FUNCTION_PARAMETER_ARGS, "<anonymous function parameter args>");
-    r = discardParam(b, l + 1);
-    if (!r) r = nameParam(b, l + 1);
+    r = identifierDiscardable(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -1067,7 +1066,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // typeName [constantTypeArguments]
   public static boolean constantType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "constantType")) return false;
-    if (!nextTokenIs(b, "<constant type>", IDENTIFIER, UP_IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, CONSTANT_TYPE, "<constant type>");
     r = typeName(b, l + 1);
@@ -1368,24 +1366,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // DISCARD_NAME
-  static boolean discardIdentifier(PsiBuilder b, int l) {
-    return consumeToken(b, DISCARD_NAME);
-  }
-
-  /* ********************************************************** */
-  // discardIdentifier
-  public static boolean discardParam(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "discardParam")) return false;
-    if (!nextTokenIs(b, DISCARD_NAME)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = discardIdentifier(b, l + 1);
-    exit_section_(b, m, DISCARD_PARAM, r);
-    return r;
-  }
-
-  /* ********************************************************** */
   // literalExprConst
   //             | tupleExprConst
   //             | bitArrayExprConst
@@ -1674,17 +1654,26 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // labeledDiscardParam | discardParam | labeledNameParam | nameParam
+  // label identifierDiscardable | identifierDiscardable
   public static boolean functionParameterArgs(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "functionParameterArgs")) return false;
     if (!nextTokenIs(b, "<function parameter args>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FUNCTION_PARAMETER_ARGS, "<function parameter args>");
-    r = labeledDiscardParam(b, l + 1);
-    if (!r) r = discardParam(b, l + 1);
-    if (!r) r = labeledNameParam(b, l + 1);
-    if (!r) r = nameParam(b, l + 1);
+    r = functionParameterArgs_0(b, l + 1);
+    if (!r) r = identifierDiscardable(b, l + 1);
     exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // label identifierDiscardable
+  private static boolean functionParameterArgs_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionParameterArgs_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = label(b, l + 1);
+    r = r && identifierDiscardable(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1836,14 +1825,14 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier
+  // identifierDiscardable
   public static boolean genericType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "genericType")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    if (!nextTokenIs(b, "<generic type>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = identifier(b, l + 1);
-    exit_section_(b, m, GENERIC_TYPE, r);
+    Marker m = enter_section_(b, l, _NONE_, GENERIC_TYPE, "<generic type>");
+    r = identifierDiscardable(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -1888,20 +1877,27 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IDENTIFIER
-  static boolean identifier(PsiBuilder b, int l) {
-    return consumeToken(b, IDENTIFIER);
+  // IDENTIFIER | DISCARD_NAME
+  public static boolean identifierDiscardable(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "identifierDiscardable")) return false;
+    if (!nextTokenIs(b, "<identifier discardable>", DISCARD_NAME, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, IDENTIFIER_DISCARDABLE, "<identifier discardable>");
+    r = consumeToken(b, IDENTIFIER);
+    if (!r) r = consumeToken(b, DISCARD_NAME);
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
   /* ********************************************************** */
-  // identifier
+  // identifierDiscardable
   public static boolean identifierExprConst(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "identifierExprConst")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    if (!nextTokenIs(b, "<identifier expr const>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = identifier(b, l + 1);
-    exit_section_(b, m, IDENTIFIER_EXPR_CONST, r);
+    Marker m = enter_section_(b, l, _NONE_, IDENTIFIER_EXPR_CONST, "<identifier expr const>");
+    r = identifierDiscardable(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -1982,42 +1978,16 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier COLON expression
+  // identifierDiscardable COLON expression
   public static boolean labeledArgument(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "labeledArgument")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    if (!nextTokenIs(b, "<labeled argument>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = identifier(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, LABELED_ARGUMENT, "<labeled argument>");
+    r = identifierDiscardable(b, l + 1);
     r = r && consumeToken(b, COLON);
     r = r && expression(b, l + 1, -1);
-    exit_section_(b, m, LABELED_ARGUMENT, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // label discardIdentifier
-  public static boolean labeledDiscardParam(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "labeledDiscardParam")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = label(b, l + 1);
-    r = r && discardIdentifier(b, l + 1);
-    exit_section_(b, m, LABELED_DISCARD_PARAM, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // label IDENTIFIER
-  public static boolean labeledNameParam(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "labeledNameParam")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = label(b, l + 1);
-    r = r && consumeToken(b, IDENTIFIER);
-    exit_section_(b, m, LABELED_NAME_PARAM, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -2170,31 +2140,15 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // DOT_DOT [IDENTIFIER | discardIdentifier]
+  // DOT_DOT identifierDiscardable
   public static boolean listPatternTail(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "listPatternTail")) return false;
     if (!nextTokenIs(b, DOT_DOT)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, DOT_DOT);
-    r = r && listPatternTail_1(b, l + 1);
+    r = r && identifierDiscardable(b, l + 1);
     exit_section_(b, m, LIST_PATTERN_TAIL, r);
-    return r;
-  }
-
-  // [IDENTIFIER | discardIdentifier]
-  private static boolean listPatternTail_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "listPatternTail_1")) return false;
-    listPatternTail_1_0(b, l + 1);
-    return true;
-  }
-
-  // IDENTIFIER | discardIdentifier
-  private static boolean listPatternTail_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "listPatternTail_1_0")) return false;
-    boolean r;
-    r = consumeToken(b, IDENTIFIER);
-    if (!r) r = discardIdentifier(b, l + 1);
     return r;
   }
 
@@ -2257,18 +2211,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, SLASH, IDENTIFIER);
     exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // IDENTIFIER
-  public static boolean nameParam(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "nameParam")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, IDENTIFIER);
-    exit_section_(b, m, NAME_PARAM, r);
     return r;
   }
 
@@ -2400,7 +2342,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (hole | IDENTIFIER | discardIdentifier | stringPattern | recordPattern | literalExpr | tuplePattern | patternBitArray | listPattern) [AS IDENTIFIER]
+  // (hole | identifierDiscardable | stringPattern | recordPattern | literalExpr | tuplePattern | patternBitArray | listPattern) [AS IDENTIFIER]
   public static boolean pattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "pattern")) return false;
     boolean r;
@@ -2411,13 +2353,12 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // hole | IDENTIFIER | discardIdentifier | stringPattern | recordPattern | literalExpr | tuplePattern | patternBitArray | listPattern
+  // hole | identifierDiscardable | stringPattern | recordPattern | literalExpr | tuplePattern | patternBitArray | listPattern
   private static boolean pattern_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "pattern_0")) return false;
     boolean r;
     r = hole(b, l + 1);
-    if (!r) r = consumeToken(b, IDENTIFIER);
-    if (!r) r = discardIdentifier(b, l + 1);
+    if (!r) r = identifierDiscardable(b, l + 1);
     if (!r) r = stringPattern(b, l + 1);
     if (!r) r = recordPattern(b, l + 1);
     if (!r) r = literalExpr(b, l + 1);
@@ -2547,16 +2488,16 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier DOT upIdentifier
+  // identifierDiscardable DOT upIdentifier
   public static boolean qualifiedTypeName(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "qualifiedTypeName")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    if (!nextTokenIs(b, "<qualified type name>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = identifier(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, QUALIFIED_TYPE_NAME, "<qualified type name>");
+    r = identifierDiscardable(b, l + 1);
     r = r && consumeToken(b, DOT);
     r = r && upIdentifier(b, l + 1);
-    exit_section_(b, m, QUALIFIED_TYPE_NAME, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -2756,7 +2697,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // typeName [constantRecordArguments]
   public static boolean recordExprConst(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "recordExprConst")) return false;
-    if (!nextTokenIs(b, "<record expr const>", IDENTIFIER, UP_IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, RECORD_EXPR_CONST, "<record expr const>");
     r = typeName(b, l + 1);
@@ -2998,15 +2938,15 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier COLON
+  // identifierDiscardable COLON
   public static boolean shortHandLabeledArgument(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "shortHandLabeledArgument")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    if (!nextTokenIs(b, "<short hand labeled argument>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = identifier(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, SHORT_HAND_LABELED_ARGUMENT, "<short hand labeled argument>");
+    r = identifierDiscardable(b, l + 1);
     r = r && consumeToken(b, COLON);
-    exit_section_(b, m, SHORT_HAND_LABELED_ARGUMENT, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -3092,7 +3032,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // stringLiteral LT_GT [IDENTIFIER | discardIdentifier]
+  // stringLiteral LT_GT identifierDiscardable
   public static boolean stringPattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "stringPattern")) return false;
     if (!nextTokenIs(b, OPEN_QUOTE)) return false;
@@ -3100,24 +3040,8 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = stringLiteral(b, l + 1);
     r = r && consumeToken(b, LT_GT);
-    r = r && stringPattern_2(b, l + 1);
+    r = r && identifierDiscardable(b, l + 1);
     exit_section_(b, m, STRING_PATTERN, r);
-    return r;
-  }
-
-  // [IDENTIFIER | discardIdentifier]
-  private static boolean stringPattern_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "stringPattern_2")) return false;
-    stringPattern_2_0(b, l + 1);
-    return true;
-  }
-
-  // IDENTIFIER | discardIdentifier
-  private static boolean stringPattern_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "stringPattern_2_0")) return false;
-    boolean r;
-    r = consumeToken(b, IDENTIFIER);
-    if (!r) r = discardIdentifier(b, l + 1);
     return r;
   }
 
@@ -3563,7 +3487,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // qualifiedTypeName | unqualifiedTypeName
   static boolean typeName(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "typeName")) return false;
-    if (!nextTokenIs(b, "", IDENTIFIER, UP_IDENTIFIER)) return false;
     boolean r;
     r = qualifiedTypeName(b, l + 1);
     if (!r) r = unqualifiedTypeName(b, l + 1);
@@ -3574,7 +3497,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // typeName [typeArguments]
   public static boolean typeReference(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "typeReference")) return false;
-    if (!nextTokenIs(b, "<type reference>", IDENTIFIER, UP_IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, TYPE_REFERENCE, "<type reference>");
     r = typeName(b, l + 1);
@@ -3694,15 +3616,15 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier (AS aliasIdentifier)?
+  // identifierDiscardable (AS aliasIdentifier)?
   public static boolean unqualifiedImport(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "unqualifiedImport")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    if (!nextTokenIs(b, "<unqualified import>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = identifier(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, UNQUALIFIED_IMPORT, "<unqualified import>");
+    r = identifierDiscardable(b, l + 1);
     r = r && unqualifiedImport_1(b, l + 1);
-    exit_section_(b, m, UNQUALIFIED_IMPORT, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -3847,24 +3769,25 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IDENTIFIER | IDENTIFIER COMMA useArgs
+  // identifierDiscardable | identifierDiscardable COMMA useArgs
   public static boolean useArgs(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "useArgs")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    if (!nextTokenIs(b, "<use args>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, IDENTIFIER);
+    Marker m = enter_section_(b, l, _NONE_, USE_ARGS, "<use args>");
+    r = identifierDiscardable(b, l + 1);
     if (!r) r = useArgs_1(b, l + 1);
-    exit_section_(b, m, USE_ARGS, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // IDENTIFIER COMMA useArgs
+  // identifierDiscardable COMMA useArgs
   private static boolean useArgs_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "useArgs_1")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, IDENTIFIER, COMMA);
+    r = identifierDiscardable(b, l + 1);
+    r = r && consumeToken(b, COMMA);
     r = r && useArgs(b, l + 1);
     exit_section_(b, m, null, r);
     return r;

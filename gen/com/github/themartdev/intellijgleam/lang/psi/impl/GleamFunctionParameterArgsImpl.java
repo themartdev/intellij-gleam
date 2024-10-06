@@ -28,27 +28,15 @@ public class GleamFunctionParameterArgsImpl extends ASTWrapperPsiElement impleme
   }
 
   @Override
-  @Nullable
-  public GleamDiscardParam getDiscardParam() {
-    return findChildByClass(GleamDiscardParam.class);
+  @NotNull
+  public GleamIdentifierDiscardable getIdentifierDiscardable() {
+    return findNotNullChildByClass(GleamIdentifierDiscardable.class);
   }
 
   @Override
   @Nullable
-  public GleamLabeledDiscardParam getLabeledDiscardParam() {
-    return findChildByClass(GleamLabeledDiscardParam.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamLabeledNameParam getLabeledNameParam() {
-    return findChildByClass(GleamLabeledNameParam.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamNameParam getNameParam() {
-    return findChildByClass(GleamNameParam.class);
+  public GleamLabel getLabel() {
+    return findChildByClass(GleamLabel.class);
   }
 
 }

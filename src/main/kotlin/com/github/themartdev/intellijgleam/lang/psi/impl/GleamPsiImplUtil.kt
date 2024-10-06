@@ -1,5 +1,6 @@
 package com.github.themartdev.intellijgleam.lang.psi.impl
 
+import com.github.themartdev.intellijgleam.lang.psi.GleamIdentifierDiscardable
 import com.github.themartdev.intellijgleam.lang.psi.GleamImportDeclaration
 import com.github.themartdev.intellijgleam.lang.psi.GleamModulePath
 import com.github.themartdev.intellijgleam.lang.psi.GleamTypeUnqualifiedImport
@@ -21,7 +22,7 @@ class GleamPsiImplUtil {
 
         @JvmStatic
         fun getNameOrAlias(unqualifiedImport: GleamUnqualifiedImport): PsiElement? {
-            return unqualifiedImport.aliasIdentifier ?: unqualifiedImport.identifier
+            return unqualifiedImport.aliasIdentifier ?: unqualifiedImport.identifierDiscardable.actualElement
         }
 
         @JvmStatic
@@ -32,6 +33,16 @@ class GleamPsiImplUtil {
         @JvmStatic
         fun getNameOrAlias(upUnqualifiedImport: GleamUpUnqualifiedImport): PsiElement {
             return upUnqualifiedImport.aliasUpIdentifier ?: upUnqualifiedImport.upIdentifier
+        }
+
+        @JvmStatic
+        fun isDiscard(identifierDiscardable: GleamIdentifierDiscardable): Boolean {
+            return identifierDiscardable.discardName != null
+        }
+
+        @JvmStatic
+        fun getActualElement(identifierDiscardable: GleamIdentifierDiscardable): PsiElement {
+            return identifierDiscardable.identifier ?: identifierDiscardable.discardName!!
         }
     }
 }

@@ -154,7 +154,7 @@ private topLevelKeyword ::= IMPORT | CONST | TYPE | FN | PUB | OPAQUE | ANNOTATI
 constantDeclaration ::= [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUAL expressionConst {pin=2}
 
 // ===== Imports =====
-unqualifiedImport ::= identifier (AS aliasIdentifier)? {
+unqualifiedImport ::= identifierDiscardable (AS aliasIdentifier)? {
   methods=[getNameOrAlias]
 }
 upUnqualifiedImport ::= upIdentifier (AS aliasUpIdentifier)? {
@@ -229,7 +229,7 @@ constantRecordArgument ::= [label COLON] expressionConst
 constantRecordArguments ::= LPAREN [constantRecordArgument (COMMA constantRecordArgument)* [COMMA]] RPAREN
 recordExprConst ::= typeName [constantRecordArguments]
 fieldAccessExprConst ::= IDENTIFIER DOT label
-identifierExprConst ::= identifier
+identifierExprConst ::= identifierDiscardable
 // ============
 
 functionParameterTypes ::= LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN
@@ -238,12 +238,12 @@ functionType ::= FN [functionParameterTypes] R_ARROW typeBase {pin=1}
 
 typeBase ::=  tupleType | functionType | typeReference | genericType
 typeAnnotation ::= COLON typeBase
-genericType ::= identifier
+genericType ::= identifierDiscardable
 typeArgument ::= typeBase
 typeArguments ::= LPAREN [typeArgument (COMMA typeArgument)* [COMMA]] RPAREN
 typeReference ::= typeName [typeArguments]
 
-functionParameterArgs ::= labeledDiscardParam | discardParam | labeledNameParam | nameParam
+functionParameterArgs ::= label identifierDiscardable | identifierDiscardable
 functionParameter ::= functionParameterArgs [typeAnnotation]
 functionParameters ::= LPAREN [functionParameter (COMMA functionParameter)* [COMMA]] RPAREN
 functionBody ::= LBRACE expression* RBRACE {pin=1}
@@ -252,19 +252,19 @@ functionDeclaration ::= (annotation)* [visibilityModifier] FN functionNameDefini
 }
 functionNameDefinition::= IDENTIFIER
 
-listPatternTail ::= DOT_DOT [IDENTIFIER | discardIdentifier]
+listPatternTail ::= DOT_DOT identifierDiscardable
 listPattern ::= LBRACK [pattern (COMMA pattern)* [COMMA]] [listPatternTail] RBRACK
 
-stringPattern ::= stringLiteral LT_GT [IDENTIFIER | discardIdentifier]
+stringPattern ::= stringLiteral LT_GT identifierDiscardable
 
 patternSpread ::= DOT_DOT [COMMA]
 recordPatternArgument ::= [label COLON] pattern
 recordPatternArguments ::= LPAREN [recordPatternArgument (COMMA recordPatternArgument)* [COMMA]] [patternSpread] RPAREN
 recordPattern ::= (constructorIdentifier | remoteConstructorIdentifier) [recordPatternArguments]
-pattern ::= (hole | IDENTIFIER | discardIdentifier | stringPattern | recordPattern | literalExpr | tuplePattern | patternBitArray | listPattern) [AS IDENTIFIER]
+pattern ::= (hole | identifierDiscardable | stringPattern | recordPattern | literalExpr | tuplePattern | patternBitArray | listPattern) [AS IDENTIFIER]
 
-shortHandLabeledArgument ::= identifier COLON
-labeledArgument ::= identifier COLON expression
+shortHandLabeledArgument ::= identifierDiscardable COLON
+labeledArgument ::= identifierDiscardable COLON expression
 unlabeledArgument ::= expression
 
 recordArgument ::= labeledArgument | shortHandLabeledArgument | unlabeledArgument
@@ -278,7 +278,7 @@ recordExpr ::= (constructorIdentifier | remoteConstructorIdentifier) [recordArgu
 
 listExpr ::= LBRACK [expression ((COMMA expression)*)? [COMMA] [DOT_DOT expression]] RBRACK
 
-anonymousFunctionParameterArgs ::= discardParam | nameParam
+anonymousFunctionParameterArgs ::= identifierDiscardable
 anonymousFunctionParameter ::= anonymousFunctionParameterArgs [typeAnnotation]
 anonymousFunctionParameters ::= LPAREN [anonymousFunctionParameter (COMMA anonymousFunctionParameter)* [COMMA]] RPAREN
 anonymousFunctionExpr ::= FN anonymousFunctionParameters [R_ARROW typeReference] functionBody
@@ -301,7 +301,7 @@ caseSubjects ::= expression (COMMA expression)*
 caseExprBody ::= LBRACE caseClauses RBRACE {pin=1}
 caseExpr ::= CASE caseSubjects caseExprBody
 
-useArgs ::= IDENTIFIER | IDENTIFIER COMMA useArgs
+useArgs ::= identifierDiscardable | identifierDiscardable COMMA useArgs
 useExpr ::= USE [useArgs] L_ARROW expression
 
 assignment ::= pattern [typeAnnotation] EQUAL expression
@@ -418,24 +418,21 @@ stringLiteral ::= OPEN_QUOTE (REGULAR_STRING_PART | stringEscapeSegment)* CLOSE_
 
 
 // Aliases
-private identifier ::= IDENTIFIER
+identifierDiscardable ::= IDENTIFIER | DISCARD_NAME {
+  methods=[isDiscard getActualElement]
+}
 private upIdentifier ::= UP_IDENTIFIER
-private discardIdentifier ::= DISCARD_NAME
 private typeName ::= qualifiedTypeName | unqualifiedTypeName
-aliasIdentifier ::= identifier
+aliasIdentifier ::= identifierDiscardable
 aliasUpIdentifier ::= upIdentifier
 private hole ::= HOLE
 
 unqualifiedTypeName ::= upIdentifier
-qualifiedTypeName ::= identifier DOT upIdentifier
+qualifiedTypeName ::= identifierDiscardable DOT upIdentifier
 
 // Aliases
 variableReference ::= IDENTIFIER
 constructorIdentifier ::= UP_IDENTIFIER
 label ::= IDENTIFIER
-discardParam ::= discardIdentifier
-nameParam ::= IDENTIFIER
-labeledNameParam ::= label IDENTIFIER
-labeledDiscardParam ::= label discardIdentifier
 remoteConstructorIdentifier ::= IDENTIFIER DOT constructorIdentifier
 visibilityModifier ::= PUB

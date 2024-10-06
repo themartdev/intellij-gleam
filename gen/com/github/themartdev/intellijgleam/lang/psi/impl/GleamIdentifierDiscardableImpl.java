@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamNameParamImpl extends ASTWrapperPsiElement implements GleamNameParam {
+public class GleamIdentifierDiscardableImpl extends ASTWrapperPsiElement implements GleamIdentifierDiscardable {
 
-  public GleamNameParamImpl(@NotNull ASTNode node) {
+  public GleamIdentifierDiscardableImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitNameParam(this);
+    visitor.visitIdentifierDiscardable(this);
   }
 
   @Override
@@ -28,9 +28,25 @@ public class GleamNameParamImpl extends ASTWrapperPsiElement implements GleamNam
   }
 
   @Override
-  @NotNull
+  @Nullable
+  public PsiElement getDiscardName() {
+    return findChildByType(DISCARD_NAME);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getIdentifier() {
-    return findNotNullChildByType(IDENTIFIER);
+    return findChildByType(IDENTIFIER);
+  }
+
+  @Override
+  public boolean isDiscard() {
+    return GleamPsiImplUtil.isDiscard(this);
+  }
+
+  @Override
+  public @NotNull PsiElement getActualElement() {
+    return GleamPsiImplUtil.getActualElement(this);
   }
 
 }

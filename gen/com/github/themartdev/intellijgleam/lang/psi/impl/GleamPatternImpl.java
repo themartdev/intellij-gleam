@@ -29,6 +29,12 @@ public class GleamPatternImpl extends ASTWrapperPsiElement implements GleamPatte
 
   @Override
   @Nullable
+  public GleamIdentifierDiscardable getIdentifierDiscardable() {
+    return findChildByClass(GleamIdentifierDiscardable.class);
+  }
+
+  @Override
+  @Nullable
   public GleamListPattern getListPattern() {
     return findChildByClass(GleamListPattern.class);
   }
@@ -65,8 +71,8 @@ public class GleamPatternImpl extends ASTWrapperPsiElement implements GleamPatte
 
   @Override
   @Nullable
-  public PsiElement getDiscardName() {
-    return findChildByType(DISCARD_NAME);
+  public PsiElement getIdentifier() {
+    return findChildByType(IDENTIFIER);
   }
 
 }

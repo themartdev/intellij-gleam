@@ -29,8 +29,8 @@ public class GleamAliasIdentifierImpl extends ASTWrapperPsiElement implements Gl
 
   @Override
   @NotNull
-  public PsiElement getIdentifier() {
-    return findNotNullChildByType(IDENTIFIER);
+  public GleamIdentifierDiscardable getIdentifierDiscardable() {
+    return findNotNullChildByClass(GleamIdentifierDiscardable.class);
   }
 
 }

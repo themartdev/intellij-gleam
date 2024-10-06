@@ -29,8 +29,8 @@ public class GleamIdentifierExprConstImpl extends GleamExpressionConstImpl imple
 
   @Override
   @NotNull
-  public PsiElement getIdentifier() {
-    return findNotNullChildByType(IDENTIFIER);
+  public GleamIdentifierDiscardable getIdentifierDiscardable() {
+    return findNotNullChildByClass(GleamIdentifierDiscardable.class);
   }
 
 }

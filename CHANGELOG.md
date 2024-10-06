@@ -7,6 +7,7 @@
 ### Fixed
 
 - `@internal` annotation no longer breaks syntax highlighting
+- Using a discard name in a `use` expression no longer gets marked as an error
 
 ## [0.2.0]
 

@@ -29,8 +29,8 @@ public class GleamShortHandLabeledArgumentImpl extends ASTWrapperPsiElement impl
 
   @Override
   @NotNull
-  public PsiElement getIdentifier() {
-    return findNotNullChildByType(IDENTIFIER);
+  public GleamIdentifierDiscardable getIdentifierDiscardable() {
+    return findNotNullChildByClass(GleamIdentifierDiscardable.class);
   }
 
 }

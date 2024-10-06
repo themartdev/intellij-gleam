@@ -28,15 +28,9 @@ public class GleamAnonymousFunctionParameterArgsImpl extends ASTWrapperPsiElemen
   }
 
   @Override
-  @Nullable
-  public GleamDiscardParam getDiscardParam() {
-    return findChildByClass(GleamDiscardParam.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamNameParam getNameParam() {
-    return findChildByClass(GleamNameParam.class);
+  @NotNull
+  public GleamIdentifierDiscardable getIdentifierDiscardable() {
+    return findNotNullChildByClass(GleamIdentifierDiscardable.class);
   }
 
 }

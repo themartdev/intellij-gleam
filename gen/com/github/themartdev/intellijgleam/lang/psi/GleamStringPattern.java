@@ -8,12 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface GleamStringPattern extends PsiElement {
 
   @NotNull
+  GleamIdentifierDiscardable getIdentifierDiscardable();
+
+  @NotNull
   GleamStringLiteral getStringLiteral();
-
-  @Nullable
-  PsiElement getDiscardName();
-
-  @Nullable
-  PsiElement getIdentifier();
 
 }

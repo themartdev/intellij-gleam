@@ -29,20 +29,14 @@ public class GleamStringPatternImpl extends ASTWrapperPsiElement implements Glea
 
   @Override
   @NotNull
+  public GleamIdentifierDiscardable getIdentifierDiscardable() {
+    return findNotNullChildByClass(GleamIdentifierDiscardable.class);
+  }
+
+  @Override
+  @NotNull
   public GleamStringLiteral getStringLiteral() {
     return findNotNullChildByClass(GleamStringLiteral.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getDiscardName() {
-    return findChildByType(DISCARD_NAME);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getIdentifier() {
-    return findChildByType(IDENTIFIER);
   }
 
 }

@@ -11,7 +11,7 @@ public interface GleamUnqualifiedImport extends PsiElement {
   GleamAliasIdentifier getAliasIdentifier();
 
   @NotNull
-  PsiElement getIdentifier();
+  GleamIdentifierDiscardable getIdentifierDiscardable();
 
   @Nullable PsiElement getNameOrAlias();
 

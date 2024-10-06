@@ -62,7 +62,6 @@ public interface GleamTypes {
   IElementType DECIMAL_INTEGER_LITERAL = new GleamElementType("DECIMAL_INTEGER_LITERAL");
   IElementType DEPRECATED_ANNOTATION = new GleamElementType("DEPRECATED_ANNOTATION");
   IElementType DEPRECATED_ANNOTATION_NAME = new GleamElementType("DEPRECATED_ANNOTATION_NAME");
-  IElementType DISCARD_PARAM = new GleamElementType("DISCARD_PARAM");
   IElementType EXPRESSION = new GleamElementType("EXPRESSION");
   IElementType EXPRESSION_CONST = new GleamElementType("EXPRESSION_CONST");
   IElementType EXTERNAL_ANNOTATION = new GleamElementType("EXTERNAL_ANNOTATION");
@@ -80,13 +79,12 @@ public interface GleamTypes {
   IElementType FUNCTION_TYPE = new GleamElementType("FUNCTION_TYPE");
   IElementType GENERIC_TYPE = new GleamElementType("GENERIC_TYPE");
   IElementType HEX_INTEGER_LITERAL = new GleamElementType("HEX_INTEGER_LITERAL");
+  IElementType IDENTIFIER_DISCARDABLE = new GleamElementType("IDENTIFIER_DISCARDABLE");
   IElementType IDENTIFIER_EXPR_CONST = new GleamElementType("IDENTIFIER_EXPR_CONST");
   IElementType IMPORT_DECLARATION = new GleamElementType("IMPORT_DECLARATION");
   IElementType INTEGER_LITERAL = new GleamElementType("INTEGER_LITERAL");
   IElementType LABEL = new GleamElementType("LABEL");
   IElementType LABELED_ARGUMENT = new GleamElementType("LABELED_ARGUMENT");
-  IElementType LABELED_DISCARD_PARAM = new GleamElementType("LABELED_DISCARD_PARAM");
-  IElementType LABELED_NAME_PARAM = new GleamElementType("LABELED_NAME_PARAM");
   IElementType LABELED_PARAMETER = new GleamElementType("LABELED_PARAMETER");
   IElementType LET_EXPR = new GleamElementType("LET_EXPR");
   IElementType LIST_EXPR = new GleamElementType("LIST_EXPR");
@@ -96,7 +94,6 @@ public interface GleamTypes {
   IElementType LITERAL_EXPR = new GleamElementType("LITERAL_EXPR");
   IElementType LITERAL_EXPR_CONST = new GleamElementType("LITERAL_EXPR_CONST");
   IElementType MODULE_PATH = new GleamElementType("MODULE_PATH");
-  IElementType NAME_PARAM = new GleamElementType("NAME_PARAM");
   IElementType NEGATIVE_DECIMAL_INTEGER_LITERAL = new GleamElementType("NEGATIVE_DECIMAL_INTEGER_LITERAL");
   IElementType OCTAL_INTEGER_LITERAL = new GleamElementType("OCTAL_INTEGER_LITERAL");
   IElementType OMITTED_TYPE_VALUE = new GleamElementType("OMITTED_TYPE_VALUE");
@@ -414,9 +411,6 @@ public interface GleamTypes {
       else if (type == DEPRECATED_ANNOTATION_NAME) {
         return new GleamDeprecatedAnnotationNameImpl(node);
       }
-      else if (type == DISCARD_PARAM) {
-        return new GleamDiscardParamImpl(node);
-      }
       else if (type == EXPRESSION) {
         return new GleamExpressionImpl(node);
       }
@@ -465,6 +459,9 @@ public interface GleamTypes {
       else if (type == HEX_INTEGER_LITERAL) {
         return new GleamHexIntegerLiteralImpl(node);
       }
+      else if (type == IDENTIFIER_DISCARDABLE) {
+        return new GleamIdentifierDiscardableImpl(node);
+      }
       else if (type == IDENTIFIER_EXPR_CONST) {
         return new GleamIdentifierExprConstImpl(node);
       }
@@ -479,12 +476,6 @@ public interface GleamTypes {
       }
       else if (type == LABELED_ARGUMENT) {
         return new GleamLabeledArgumentImpl(node);
-      }
-      else if (type == LABELED_DISCARD_PARAM) {
-        return new GleamLabeledDiscardParamImpl(node);
-      }
-      else if (type == LABELED_NAME_PARAM) {
-        return new GleamLabeledNameParamImpl(node);
       }
       else if (type == LABELED_PARAMETER) {
         return new GleamLabeledParameterImpl(node);
@@ -509,9 +500,6 @@ public interface GleamTypes {
       }
       else if (type == MODULE_PATH) {
         return new GleamModulePathImpl(node);
-      }
-      else if (type == NAME_PARAM) {
-        return new GleamNameParamImpl(node);
       }
       else if (type == NEGATIVE_DECIMAL_INTEGER_LITERAL) {
         return new GleamNegativeDecimalIntegerLiteralImpl(node);

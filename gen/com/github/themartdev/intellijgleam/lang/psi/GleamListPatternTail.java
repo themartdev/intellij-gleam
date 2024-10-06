@@ -7,10 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface GleamListPatternTail extends PsiElement {
 
-  @Nullable
-  PsiElement getDiscardName();
-
-  @Nullable
-  PsiElement getIdentifier();
+  @NotNull
+  GleamIdentifierDiscardable getIdentifierDiscardable();
 
 }

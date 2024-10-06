@@ -64,7 +64,7 @@ class GleamHighlightingAnnotator : Annotator, DumbAware {
             is GleamLabeledArgument -> {
                 newAnnotationBuilder(holder, GleamColors.LABEL.externalName)
                     .textAttributes(GleamColors.LABEL)
-                    .range(element.identifier)
+                    .range(element.identifierDiscardable)
                     .create()
             }
 

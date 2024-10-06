@@ -28,15 +28,15 @@ public class GleamUseArgsImpl extends ASTWrapperPsiElement implements GleamUseAr
   }
 
   @Override
-  @Nullable
-  public GleamUseArgs getUseArgs() {
-    return findChildByClass(GleamUseArgs.class);
+  @NotNull
+  public GleamIdentifierDiscardable getIdentifierDiscardable() {
+    return findNotNullChildByClass(GleamIdentifierDiscardable.class);
   }
 
   @Override
-  @NotNull
-  public PsiElement getIdentifier() {
-    return findNotNullChildByType(IDENTIFIER);
+  @Nullable
+  public GleamUseArgs getUseArgs() {
+    return findChildByClass(GleamUseArgs.class);
   }
 
 }

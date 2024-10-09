@@ -85,6 +85,8 @@
 
         <defaultLiveTemplates file="liveTemplates/Gleam.xml"/>
 
+        <defaultLiveTemplates file="liveTemplates/Gleam-2.xml"/>
+
         <editorNotificationProvider
                 implementation="com.github.themartdev.intellijgleam.ide.ui.GleamEditorNotificationProvider"/>
 

@@ -1,0 +1,14 @@
+<!-- We make another group to allow name collisions in different contexts (e.g. `fn`) -->
+<templateSet group="Gleam-2">
+    <!-- Root level -->
+
+    <!-- Expression level -->
+    <template name="fn" id="fn-anonymous" value="fn($PARAMS$) { $END$ }" toReformat="false"
+              toShortenFQNames="true" key="live.template.anonymousFn.description"
+              resource-bundle="messages.GleamBundle">
+        <variable name="PARAMS" expression="" defaultValue="" alwaysStopAt="true"/>
+        <context>
+            <option name="GLEAM_FUNCTION" value="true"/>
+        </context>
+    </template>
+</templateSet>

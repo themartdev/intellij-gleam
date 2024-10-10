@@ -35,5 +35,4 @@ object GleamColors {
     val DOT = createTextAttributesKey("GLEAM_DOT", DefaultLanguageHighlighterColors.DOT)
     val COMMA = createTextAttributesKey("GLEAM_COMMA", DefaultLanguageHighlighterColors.COMMA)
     val OPERATOR = createTextAttributesKey("GLEAM_OPERATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN)
-    val IMPORT = createTextAttributesKey("GLEAM_IMPORT", DefaultLanguageHighlighterColors.STATIC_FIELD)
 }

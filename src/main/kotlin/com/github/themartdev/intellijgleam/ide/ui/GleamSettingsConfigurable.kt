@@ -109,7 +109,7 @@ class GleamSettingsConfigurable(project: Project) : UiDslUnnamedConfigurable.Sim
             val pathItems = detectedGleamPaths.map { PathItem.Value.fromExecutable(it) }
             ApplicationManager.getApplication().invokeLater({
                 gleamPathComboBox.addItems(pathItems)
-            }, modalityState);
+            }, modalityState)
         }
     }
 
@@ -120,7 +120,7 @@ class GleamSettingsConfigurable(project: Project) : UiDslUnnamedConfigurable.Sim
             val pathItems = detectedErlangPaths.map { PathItem.Value.fromErlangSdk(it) }
             ApplicationManager.getApplication().invokeLater({
                 erlangPathComboBox.addItems(pathItems)
-            }, modalityState);
+            }, modalityState)
         }
     }
 }

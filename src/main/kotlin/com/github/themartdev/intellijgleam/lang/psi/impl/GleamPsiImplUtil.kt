@@ -12,7 +12,7 @@ class GleamPsiImplUtil {
     companion object {
         @JvmStatic
         fun getModuleName(gleamModulePath: GleamModulePath): PsiElement {
-            return gleamModulePath.lastChild;
+            return gleamModulePath.lastChild
         }
 
         @JvmStatic

@@ -11,7 +11,7 @@ import com.intellij.util.ui.JBInsets
 import javax.swing.JList
 
 abstract class AbstractPathComboBox(
-    private val project: Project?
+    protected val project: Project?
 ) : ComboBox<PathItem>(MutableCollectionComboBoxModel()) {
     protected val collectionModel: MutableCollectionComboBoxModel<PathItem>
         get() = model as MutableCollectionComboBoxModel

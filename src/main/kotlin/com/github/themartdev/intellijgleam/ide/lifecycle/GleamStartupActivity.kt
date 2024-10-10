@@ -10,7 +10,7 @@ import com.intellij.openapi.startup.ProjectActivity
 
 class GleamStartupActivity : ProjectActivity {
     override suspend fun execute(project: Project) {
-        checkLSP4IJVersion();
+        checkLSP4IJVersion()
         checkLSPEnabled(project)
     }
 

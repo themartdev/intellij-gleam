@@ -16,7 +16,7 @@ class GleamLanguageServerFactory : LanguageServerFactory, LanguageServerEnableme
 
     override fun isEnabled(project: Project): Boolean {
         if (!validateLSP4IJCompatibility()) {
-            return false;
+            return false
         }
         val settings = GleamServiceSettings.getInstance(project)
         if (settings.lspMode != GleamLspMode.ENABLED) {

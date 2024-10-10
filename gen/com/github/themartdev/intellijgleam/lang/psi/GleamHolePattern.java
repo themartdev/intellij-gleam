@@ -5,15 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamAssignment extends PsiElement {
-
-  @NotNull
-  GleamExpression getExpression();
-
-  @NotNull
-  GleamPattern getPattern();
-
-  @Nullable
-  GleamTypeAnnotation getTypeAnnotation();
+public interface GleamHolePattern extends GleamPattern {
 
 }

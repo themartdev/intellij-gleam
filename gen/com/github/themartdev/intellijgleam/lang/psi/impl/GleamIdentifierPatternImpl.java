@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamAssertLetExprImpl extends GleamExpressionImpl implements GleamAssertLetExpr {
+public class GleamIdentifierPatternImpl extends GleamPatternImpl implements GleamIdentifierPattern {
 
-  public GleamAssertLetExprImpl(@NotNull ASTNode node) {
+  public GleamIdentifierPatternImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitAssertLetExpr(this);
+    visitor.visitIdentifierPattern(this);
   }
 
   @Override
@@ -28,9 +28,9 @@ public class GleamAssertLetExprImpl extends GleamExpressionImpl implements Gleam
   }
 
   @Override
-  @Nullable
-  public GleamAssignment getAssignment() {
-    return findChildByClass(GleamAssignment.class);
+  @NotNull
+  public GleamIdentifierDiscardable getIdentifierDiscardable() {
+    return findNotNullChildByClass(GleamIdentifierDiscardable.class);
   }
 
 }

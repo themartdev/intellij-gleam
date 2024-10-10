@@ -5,12 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamListPattern extends PsiElement {
+public interface GleamListPattern extends GleamPattern {
 
   @Nullable
   GleamListPatternTail getListPatternTail();
 
   @NotNull
-  List<GleamPattern> getPatternList();
+  List<GleamPatternAliasable> getPatternAliasableList();
 
 }

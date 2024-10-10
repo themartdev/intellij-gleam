@@ -11,6 +11,6 @@ public interface GleamPatternBitArraySegment extends PsiElement {
   GleamBitArraySegmentOptions getBitArraySegmentOptions();
 
   @NotNull
-  GleamPattern getPattern();
+  GleamPatternAliasable getPatternAliasable();
 
 }

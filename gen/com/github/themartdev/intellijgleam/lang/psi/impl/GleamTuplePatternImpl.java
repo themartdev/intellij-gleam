@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamTuplePatternImpl extends ASTWrapperPsiElement implements GleamTuplePattern {
+public class GleamTuplePatternImpl extends GleamPatternImpl implements GleamTuplePattern {
 
   public GleamTuplePatternImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull GleamVisitor visitor) {
     visitor.visitTuplePattern(this);
   }
@@ -29,8 +29,8 @@ public class GleamTuplePatternImpl extends ASTWrapperPsiElement implements Gleam
 
   @Override
   @NotNull
-  public List<GleamPattern> getPatternList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamPattern.class);
+  public List<GleamPatternAliasable> getPatternAliasableList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamPatternAliasable.class);
   }
 
 }

@@ -7,28 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface GleamPattern extends PsiElement {
 
-  @Nullable
-  GleamIdentifierDiscardable getIdentifierDiscardable();
-
-  @Nullable
-  GleamListPattern getListPattern();
-
-  @Nullable
-  GleamLiteralExpr getLiteralExpr();
-
-  @Nullable
-  GleamPatternBitArray getPatternBitArray();
-
-  @Nullable
-  GleamRecordPattern getRecordPattern();
-
-  @Nullable
-  GleamStringPattern getStringPattern();
-
-  @Nullable
-  GleamTuplePattern getTuplePattern();
-
-  @Nullable
-  PsiElement getIdentifier();
-
 }

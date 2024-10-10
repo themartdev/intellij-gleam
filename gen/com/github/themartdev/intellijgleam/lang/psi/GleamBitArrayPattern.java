@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamAssertLetExpr extends GleamExpression {
+public interface GleamBitArrayPattern extends GleamPattern {
 
-  @Nullable
-  GleamAssignment getAssignment();
+  @NotNull
+  List<GleamPatternBitArraySegment> getPatternBitArraySegmentList();
 
 }

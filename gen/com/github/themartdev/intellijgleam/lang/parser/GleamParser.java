@@ -41,12 +41,14 @@ public class GleamParser implements PsiParser, LightPsiParser {
       OTHER_ANNOTATION, TARGET_ANNOTATION, TYPE_ANNOTATION),
     create_token_set_(BIT_ARRAY_EXPR_CONST, EXPRESSION_CONST, FIELD_ACCESS_EXPR_CONST, IDENTIFIER_EXPR_CONST,
       LIST_EXPR_CONST, LITERAL_EXPR_CONST, RECORD_EXPR_CONST, TUPLE_EXPR_CONST),
-    create_token_set_(ACCESS_EXPR, ANONYMOUS_FUNCTION_EXPR, ASSERT_LET_EXPR, BINARY_EXPR,
-      BIT_ARRAY_EXPR, BLOCK_EXPR, CALL_EXPR, CASE_EXPR,
-      EXPRESSION, LET_EXPR, LIST_EXPR, LITERAL_EXPR,
-      PANIC_EXPR, RECORD_EXPR, RECORD_UPDATE_EXPR, REFERENCE_EXPR,
-      SIMPLE_LET_EXPR, TODO_EXPR, TUPLE_EXPR, UNARY_EXPR,
-      USE_EXPR),
+    create_token_set_(BIT_ARRAY_PATTERN, CASE_CLAUSE_PATTERN, HOLE_PATTERN, IDENTIFIER_PATTERN,
+      LIST_PATTERN, LITERAL_PATTERN, PATTERN, RECORD_PATTERN,
+      STRING_PATTERN, TUPLE_PATTERN),
+    create_token_set_(ACCESS_EXPR, ANONYMOUS_FUNCTION_EXPR, BINARY_EXPR, BIT_ARRAY_EXPR,
+      BLOCK_EXPR, CALL_EXPR, CASE_EXPR, EXPRESSION,
+      LET_EXPR, LIST_EXPR, LITERAL_EXPR, PANIC_EXPR,
+      RECORD_EXPR, RECORD_UPDATE_EXPR, REFERENCE_EXPR, TODO_EXPR,
+      TUPLE_EXPR, UNARY_EXPR, USE_EXPR),
   };
 
   /* ********************************************************** */
@@ -204,41 +206,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LET ASSERT assignment
-  public static boolean assertLetExpr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "assertLetExpr")) return false;
-    if (!nextTokenIs(b, LET)) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, ASSERT_LET_EXPR, null);
-    r = consumeTokens(b, 2, LET, ASSERT);
-    p = r; // pin = 2
-    r = r && assignment(b, l + 1);
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  /* ********************************************************** */
-  // pattern [typeAnnotation] EQUAL expression
-  public static boolean assignment(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "assignment")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, ASSIGNMENT, "<assignment>");
-    r = pattern(b, l + 1);
-    r = r && assignment_1(b, l + 1);
-    r = r && consumeToken(b, EQUAL);
-    r = r && expression(b, l + 1, -1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // [typeAnnotation]
-  private static boolean assignment_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "assignment_1")) return false;
-    typeAnnotation(b, l + 1);
-    return true;
-  }
-
-  /* ********************************************************** */
   // BASE_NUMBER_PREFIX BINARY_NUMBER_BASE VALID_BINARY_DIGIT (NUMBER_SEPARATOR VALID_BINARY_DIGIT)*
   public static boolean binaryIntegerLiteral(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "binaryIntegerLiteral")) return false;
@@ -382,6 +349,69 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, IDENTIFIER);
     exit_section_(b, m, BIT_ARRAY_OPTION_NAME, r);
     return r;
+  }
+
+  /* ********************************************************** */
+  // LT_LT [patternBitArraySegment (COMMA patternBitArraySegment)* [COMMA]] GT_GT
+  public static boolean bitArrayPattern(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bitArrayPattern")) return false;
+    if (!nextTokenIs(b, LT_LT)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, BIT_ARRAY_PATTERN, null);
+    r = consumeToken(b, LT_LT);
+    p = r; // pin = 1
+    r = r && report_error_(b, bitArrayPattern_1(b, l + 1));
+    r = p && consumeToken(b, GT_GT) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // [patternBitArraySegment (COMMA patternBitArraySegment)* [COMMA]]
+  private static boolean bitArrayPattern_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bitArrayPattern_1")) return false;
+    bitArrayPattern_1_0(b, l + 1);
+    return true;
+  }
+
+  // patternBitArraySegment (COMMA patternBitArraySegment)* [COMMA]
+  private static boolean bitArrayPattern_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bitArrayPattern_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = patternBitArraySegment(b, l + 1);
+    r = r && bitArrayPattern_1_0_1(b, l + 1);
+    r = r && bitArrayPattern_1_0_2(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (COMMA patternBitArraySegment)*
+  private static boolean bitArrayPattern_1_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bitArrayPattern_1_0_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!bitArrayPattern_1_0_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "bitArrayPattern_1_0_1", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA patternBitArraySegment
+  private static boolean bitArrayPattern_1_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bitArrayPattern_1_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && patternBitArraySegment(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [COMMA]
+  private static boolean bitArrayPattern_1_0_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bitArrayPattern_1_0_2")) return false;
+    consumeToken(b, COMMA);
+    return true;
   }
 
   /* ********************************************************** */
@@ -686,19 +716,19 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // pattern (COMMA pattern)* [COMMA]
+  // patternAliasable (COMMA patternAliasable)* [COMMA]
   public static boolean caseClausePattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "caseClausePattern")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, CASE_CLAUSE_PATTERN, "<case clause pattern>");
-    r = pattern(b, l + 1);
+    r = patternAliasable(b, l + 1);
     r = r && caseClausePattern_1(b, l + 1);
     r = r && caseClausePattern_2(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // (COMMA pattern)*
+  // (COMMA patternAliasable)*
   private static boolean caseClausePattern_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "caseClausePattern_1")) return false;
     while (true) {
@@ -709,13 +739,13 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // COMMA pattern
+  // COMMA patternAliasable
   private static boolean caseClausePattern_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "caseClausePattern_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, COMMA);
-    r = r && pattern(b, l + 1);
+    r = r && patternAliasable(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -1390,7 +1420,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !(RBRACE | RPAREN | RBRACK | EOL)
+  // !(RBRACE | RPAREN | RBRACK | EOL | LET | expression)
   static boolean expressionRecoverWhile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expressionRecoverWhile")) return false;
     boolean r;
@@ -1400,14 +1430,18 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // RBRACE | RPAREN | RBRACK | EOL
+  // RBRACE | RPAREN | RBRACK | EOL | LET | expression
   private static boolean expressionRecoverWhile_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expressionRecoverWhile_0")) return false;
     boolean r;
+    Marker m = enter_section_(b);
     r = consumeToken(b, RBRACE);
     if (!r) r = consumeToken(b, RPAREN);
     if (!r) r = consumeToken(b, RBRACK);
     if (!r) r = consumeToken(b, EOL);
+    if (!r) r = consumeToken(b, LET);
+    if (!r) r = expression(b, l + 1, -1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1877,6 +1911,18 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // HOLE
+  public static boolean holePattern(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "holePattern")) return false;
+    if (!nextTokenIs(b, HOLE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, HOLE);
+    exit_section_(b, m, HOLE_PATTERN, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // IDENTIFIER | DISCARD_NAME
   public static boolean identifierDiscardable(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "identifierDiscardable")) return false;
@@ -1896,6 +1942,18 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!nextTokenIs(b, "<identifier expr const>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, IDENTIFIER_EXPR_CONST, "<identifier expr const>");
+    r = identifierDiscardable(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // identifierDiscardable
+  public static boolean identifierPattern(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "identifierPattern")) return false;
+    if (!nextTokenIs(b, "<identifier pattern>", DISCARD_NAME, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, IDENTIFIER_PATTERN, "<identifier pattern>");
     r = identifierDiscardable(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -2070,40 +2128,41 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LBRACK [pattern (COMMA pattern)* [COMMA]] [listPatternTail] RBRACK
+  // LBRACK [patternAliasable (COMMA patternAliasable)* [COMMA]] [listPatternTail] RBRACK
   public static boolean listPattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "listPattern")) return false;
     if (!nextTokenIs(b, LBRACK)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, LIST_PATTERN, null);
     r = consumeToken(b, LBRACK);
-    r = r && listPattern_1(b, l + 1);
-    r = r && listPattern_2(b, l + 1);
-    r = r && consumeToken(b, RBRACK);
-    exit_section_(b, m, LIST_PATTERN, r);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, listPattern_1(b, l + 1));
+    r = p && report_error_(b, listPattern_2(b, l + 1)) && r;
+    r = p && consumeToken(b, RBRACK) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
-  // [pattern (COMMA pattern)* [COMMA]]
+  // [patternAliasable (COMMA patternAliasable)* [COMMA]]
   private static boolean listPattern_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "listPattern_1")) return false;
     listPattern_1_0(b, l + 1);
     return true;
   }
 
-  // pattern (COMMA pattern)* [COMMA]
+  // patternAliasable (COMMA patternAliasable)* [COMMA]
   private static boolean listPattern_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "listPattern_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = pattern(b, l + 1);
+    r = patternAliasable(b, l + 1);
     r = r && listPattern_1_0_1(b, l + 1);
     r = r && listPattern_1_0_2(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // (COMMA pattern)*
+  // (COMMA patternAliasable)*
   private static boolean listPattern_1_0_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "listPattern_1_0_1")) return false;
     while (true) {
@@ -2114,13 +2173,13 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // COMMA pattern
+  // COMMA patternAliasable
   private static boolean listPattern_1_0_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "listPattern_1_0_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, COMMA);
-    r = r && pattern(b, l + 1);
+    r = r && patternAliasable(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -2175,6 +2234,17 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, LITERAL_EXPR_CONST, "<literal expr const>");
     r = literal(b, l + 1);
     if (!r) r = negativeDecimalIntegerLiteral(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // literal
+  public static boolean literalPattern(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "literalPattern")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, LITERAL_PATTERN, "<literal pattern>");
+    r = literal(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -2342,108 +2412,56 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (hole | identifierDiscardable | stringPattern | recordPattern | literalExpr | tuplePattern | patternBitArray | listPattern) [AS IDENTIFIER]
+  // bitArrayPattern
+  //             | tuplePattern
+  //             | recordPattern
+  //             | listPattern
+  //             | stringPattern
+  //             | literalPattern
+  //             | identifierPattern
+  //             | holePattern
   public static boolean pattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "pattern")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, PATTERN, "<pattern>");
-    r = pattern_0(b, l + 1);
-    r = r && pattern_1(b, l + 1);
+    Marker m = enter_section_(b, l, _COLLAPSE_, PATTERN, "<pattern>");
+    r = bitArrayPattern(b, l + 1);
+    if (!r) r = tuplePattern(b, l + 1);
+    if (!r) r = recordPattern(b, l + 1);
+    if (!r) r = listPattern(b, l + 1);
+    if (!r) r = stringPattern(b, l + 1);
+    if (!r) r = literalPattern(b, l + 1);
+    if (!r) r = identifierPattern(b, l + 1);
+    if (!r) r = holePattern(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // hole | identifierDiscardable | stringPattern | recordPattern | literalExpr | tuplePattern | patternBitArray | listPattern
-  private static boolean pattern_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "pattern_0")) return false;
+  /* ********************************************************** */
+  // pattern [AS IDENTIFIER]
+  public static boolean patternAliasable(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "patternAliasable")) return false;
     boolean r;
-    r = hole(b, l + 1);
-    if (!r) r = identifierDiscardable(b, l + 1);
-    if (!r) r = stringPattern(b, l + 1);
-    if (!r) r = recordPattern(b, l + 1);
-    if (!r) r = literalExpr(b, l + 1);
-    if (!r) r = tuplePattern(b, l + 1);
-    if (!r) r = patternBitArray(b, l + 1);
-    if (!r) r = listPattern(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, PATTERN_ALIASABLE, "<pattern aliasable>");
+    r = pattern(b, l + 1);
+    r = r && patternAliasable_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   // [AS IDENTIFIER]
-  private static boolean pattern_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "pattern_1")) return false;
+  private static boolean patternAliasable_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "patternAliasable_1")) return false;
     parseTokens(b, 0, AS, IDENTIFIER);
     return true;
   }
 
   /* ********************************************************** */
-  // LT_LT [patternBitArraySegment (COMMA patternBitArraySegment)* [COMMA]] GT_GT
-  public static boolean patternBitArray(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "patternBitArray")) return false;
-    if (!nextTokenIs(b, LT_LT)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, LT_LT);
-    r = r && patternBitArray_1(b, l + 1);
-    r = r && consumeToken(b, GT_GT);
-    exit_section_(b, m, PATTERN_BIT_ARRAY, r);
-    return r;
-  }
-
-  // [patternBitArraySegment (COMMA patternBitArraySegment)* [COMMA]]
-  private static boolean patternBitArray_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "patternBitArray_1")) return false;
-    patternBitArray_1_0(b, l + 1);
-    return true;
-  }
-
-  // patternBitArraySegment (COMMA patternBitArraySegment)* [COMMA]
-  private static boolean patternBitArray_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "patternBitArray_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = patternBitArraySegment(b, l + 1);
-    r = r && patternBitArray_1_0_1(b, l + 1);
-    r = r && patternBitArray_1_0_2(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (COMMA patternBitArraySegment)*
-  private static boolean patternBitArray_1_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "patternBitArray_1_0_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!patternBitArray_1_0_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "patternBitArray_1_0_1", c)) break;
-    }
-    return true;
-  }
-
-  // COMMA patternBitArraySegment
-  private static boolean patternBitArray_1_0_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "patternBitArray_1_0_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, COMMA);
-    r = r && patternBitArraySegment(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [COMMA]
-  private static boolean patternBitArray_1_0_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "patternBitArray_1_0_2")) return false;
-    consumeToken(b, COMMA);
-    return true;
-  }
-
-  /* ********************************************************** */
-  // pattern [COLON bitArraySegmentOptions]
+  // patternAliasable [COLON bitArraySegmentOptions]
   public static boolean patternBitArraySegment(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "patternBitArraySegment")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, PATTERN_BIT_ARRAY_SEGMENT, "<pattern bit array segment>");
-    r = pattern(b, l + 1);
+    r = patternAliasable(b, l + 1);
     r = r && patternBitArraySegment_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -2717,12 +2735,13 @@ public class GleamParser implements PsiParser, LightPsiParser {
   public static boolean recordPattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "recordPattern")) return false;
     if (!nextTokenIs(b, "<record pattern>", IDENTIFIER, UP_IDENTIFIER)) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, RECORD_PATTERN, "<record pattern>");
     r = recordPattern_0(b, l + 1);
+    p = r; // pin = 1
     r = r && recordPattern_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   // constructorIdentifier | remoteConstructorIdentifier
@@ -2742,13 +2761,13 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // [label COLON] pattern
+  // [label COLON] patternAliasable
   public static boolean recordPatternArgument(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "recordPatternArgument")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, RECORD_PATTERN_ARGUMENT, "<record pattern argument>");
     r = recordPatternArgument_0(b, l + 1);
-    r = r && pattern(b, l + 1);
+    r = r && patternAliasable(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -2951,20 +2970,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LET assignment
-  public static boolean simpleLetExpr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "simpleLetExpr")) return false;
-    if (!nextTokenIs(b, LET)) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, SIMPLE_LET_EXPR, null);
-    r = consumeToken(b, LET);
-    p = r; // pin = 1
-    r = r && assignment(b, l + 1);
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  /* ********************************************************** */
   // (ESCAPE ESCAPE_CHAR) | (ESCAPE UNICODE_ESCAPE_CHAR LBRACE UNICODE_CODEPOINT RBRACE)
   public static boolean stringEscapeSegment(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "stringEscapeSegment")) return false;
@@ -3036,13 +3041,14 @@ public class GleamParser implements PsiParser, LightPsiParser {
   public static boolean stringPattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "stringPattern")) return false;
     if (!nextTokenIs(b, OPEN_QUOTE)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, STRING_PATTERN, null);
     r = stringLiteral(b, l + 1);
     r = r && consumeToken(b, LT_GT);
+    p = r; // pin = 2
     r = r && identifierDiscardable(b, l + 1);
-    exit_section_(b, m, STRING_PATTERN, r);
-    return r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   /* ********************************************************** */
@@ -3156,39 +3162,40 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // HASH LPAREN [pattern (COMMA pattern)* [COMMA]] RPAREN
+  // HASH LPAREN [patternAliasable (COMMA patternAliasable)* [COMMA]] RPAREN
   public static boolean tuplePattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "tuplePattern")) return false;
     if (!nextTokenIs(b, HASH)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, HASH, LPAREN);
-    r = r && tuplePattern_2(b, l + 1);
-    r = r && consumeToken(b, RPAREN);
-    exit_section_(b, m, TUPLE_PATTERN, r);
-    return r;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, TUPLE_PATTERN, null);
+    r = consumeTokens(b, 2, HASH, LPAREN);
+    p = r; // pin = 2
+    r = r && report_error_(b, tuplePattern_2(b, l + 1));
+    r = p && consumeToken(b, RPAREN) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
-  // [pattern (COMMA pattern)* [COMMA]]
+  // [patternAliasable (COMMA patternAliasable)* [COMMA]]
   private static boolean tuplePattern_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "tuplePattern_2")) return false;
     tuplePattern_2_0(b, l + 1);
     return true;
   }
 
-  // pattern (COMMA pattern)* [COMMA]
+  // patternAliasable (COMMA patternAliasable)* [COMMA]
   private static boolean tuplePattern_2_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "tuplePattern_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = pattern(b, l + 1);
+    r = patternAliasable(b, l + 1);
     r = r && tuplePattern_2_0_1(b, l + 1);
     r = r && tuplePattern_2_0_2(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // (COMMA pattern)*
+  // (COMMA patternAliasable)*
   private static boolean tuplePattern_2_0_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "tuplePattern_2_0_1")) return false;
     while (true) {
@@ -3199,13 +3206,13 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // COMMA pattern
+  // COMMA patternAliasable
   private static boolean tuplePattern_2_0_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "tuplePattern_2_0_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, COMMA);
-    r = r && pattern(b, l + 1);
+    r = r && patternAliasable(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -3921,16 +3928,35 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // assertLetExpr | simpleLetExpr
+  // LET ASSERT? patternAliasable [typeAnnotation] EQUAL expression
   public static boolean letExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "letExpr")) return false;
     if (!nextTokenIsSmart(b, LET)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _COLLAPSE_, LET_EXPR, null);
-    r = assertLetExpr(b, l + 1);
-    if (!r) r = simpleLetExpr(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, LET_EXPR, null);
+    r = consumeTokenSmart(b, LET);
+    p = r; // pin = 1
+    r = r && report_error_(b, letExpr_1(b, l + 1));
+    r = p && report_error_(b, patternAliasable(b, l + 1)) && r;
+    r = p && report_error_(b, letExpr_3(b, l + 1)) && r;
+    r = p && report_error_(b, consumeToken(b, EQUAL)) && r;
+    r = p && expression(b, l + 1, -1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // ASSERT?
+  private static boolean letExpr_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "letExpr_1")) return false;
+    consumeTokenSmart(b, ASSERT);
+    return true;
+  }
+
+  // [typeAnnotation]
+  private static boolean letExpr_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "letExpr_3")) return false;
+    typeAnnotation(b, l + 1);
+    return true;
   }
 
   // PANIC (AS stringLiteral)?

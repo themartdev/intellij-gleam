@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamSimpleLetExprImpl extends GleamExpressionImpl implements GleamSimpleLetExpr {
+public class GleamLiteralPatternImpl extends GleamPatternImpl implements GleamLiteralPattern {
 
-  public GleamSimpleLetExprImpl(@NotNull ASTNode node) {
+  public GleamLiteralPatternImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitSimpleLetExpr(this);
+    visitor.visitLiteralPattern(this);
   }
 
   @Override
@@ -29,8 +29,26 @@ public class GleamSimpleLetExprImpl extends GleamExpressionImpl implements Gleam
 
   @Override
   @Nullable
-  public GleamAssignment getAssignment() {
-    return findChildByClass(GleamAssignment.class);
+  public GleamFloatLiteral getFloatLiteral() {
+    return findChildByClass(GleamFloatLiteral.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamIntegerLiteral getIntegerLiteral() {
+    return findChildByClass(GleamIntegerLiteral.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamStringLiteral getStringLiteral() {
+    return findChildByClass(GleamStringLiteral.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getBooleanLiteral() {
+    return findChildByType(BOOLEAN_LITERAL);
   }
 
 }

@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- Improved parsing of partial `let` expressions
+
 ### Fixed
 
 - `@internal` annotation no longer breaks syntax highlighting

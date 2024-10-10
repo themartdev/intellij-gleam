@@ -5,15 +5,18 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamRecordPattern extends GleamPattern {
+public interface GleamLiteralPattern extends GleamPattern {
 
   @Nullable
-  GleamConstructorIdentifier getConstructorIdentifier();
+  GleamFloatLiteral getFloatLiteral();
 
   @Nullable
-  GleamRecordPatternArguments getRecordPatternArguments();
+  GleamIntegerLiteral getIntegerLiteral();
 
   @Nullable
-  GleamRemoteConstructorIdentifier getRemoteConstructorIdentifier();
+  GleamStringLiteral getStringLiteral();
+
+  @Nullable
+  PsiElement getBooleanLiteral();
 
 }

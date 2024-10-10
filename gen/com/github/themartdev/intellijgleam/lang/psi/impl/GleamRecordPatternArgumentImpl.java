@@ -35,8 +35,8 @@ public class GleamRecordPatternArgumentImpl extends ASTWrapperPsiElement impleme
 
   @Override
   @NotNull
-  public GleamPattern getPattern() {
-    return findNotNullChildByClass(GleamPattern.class);
+  public GleamPatternAliasable getPatternAliasable() {
+    return findNotNullChildByClass(GleamPatternAliasable.class);
   }
 
 }

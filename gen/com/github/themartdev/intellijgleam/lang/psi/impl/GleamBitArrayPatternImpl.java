@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamListPatternImpl extends GleamPatternImpl implements GleamListPattern {
+public class GleamBitArrayPatternImpl extends GleamPatternImpl implements GleamBitArrayPattern {
 
-  public GleamListPatternImpl(@NotNull ASTNode node) {
+  public GleamBitArrayPatternImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitListPattern(this);
+    visitor.visitBitArrayPattern(this);
   }
 
   @Override
@@ -28,15 +28,9 @@ public class GleamListPatternImpl extends GleamPatternImpl implements GleamListP
   }
 
   @Override
-  @Nullable
-  public GleamListPatternTail getListPatternTail() {
-    return findChildByClass(GleamListPatternTail.class);
-  }
-
-  @Override
   @NotNull
-  public List<GleamPatternAliasable> getPatternAliasableList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamPatternAliasable.class);
+  public List<GleamPatternBitArraySegment> getPatternBitArraySegmentList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamPatternBitArraySegment.class);
   }
 
 }

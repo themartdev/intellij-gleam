@@ -6,10 +6,10 @@ import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
 import com.intellij.notification.Notifications
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.startup.StartupActivity
+import com.intellij.openapi.startup.ProjectActivity
 
-class GleamStartupActivity : StartupActivity {
-    override fun runActivity(project: Project) {
+class GleamStartupActivity : ProjectActivity {
+    override suspend fun execute(project: Project) {
         checkLSP4IJVersion();
         checkLSPEnabled(project)
     }

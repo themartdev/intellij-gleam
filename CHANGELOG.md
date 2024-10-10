@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- Added "Gleam file" in the _New_ dialog
+
 ## [0.2.1] - 2024-10-10
 
 ### Added

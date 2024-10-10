@@ -23,7 +23,7 @@
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="Gleam"
+        <fileType name="Gleam File"
                   language="Gleam"
                   implementationClass="com.github.themartdev.intellijgleam.lang.GleamFileType"
                   extensions="gleam"
@@ -100,5 +100,13 @@
                 implementation="com.github.themartdev.intellijgleam.ide.runconf.run.GleamRunConfigurationProducer"/>
 
         <postStartupActivity implementation="com.github.themartdev.intellijgleam.ide.lifecycle.GleamStartupActivity"/>
+
     </extensions>
+
+    <actions>
+        <action id="Gleam.NewGleamFile" class="com.github.themartdev.intellijgleam.ide.actions.CreateGleamFileAction"
+                text="Gleam File" description="Create new Gleam file">
+            <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
+        </action>
+    </actions>
 </idea-plugin>

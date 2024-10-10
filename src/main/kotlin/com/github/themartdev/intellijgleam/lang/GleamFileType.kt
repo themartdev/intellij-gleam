@@ -6,7 +6,7 @@ import com.intellij.openapi.fileTypes.LanguageFileType
 import javax.swing.Icon
 
 object GleamFileType : LanguageFileType(GleamLanguage) {
-    override fun getName(): String = "Gleam"
+    override fun getName(): String = "Gleam File"
 
     override fun getDescription(): String = GleamBundle.message("gleam.fileType.description")
 

@@ -112,13 +112,13 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // anonymousFunctionParameterArgs [typeAnnotation]
+  // identifierDiscardable [typeAnnotation]
   public static boolean anonymousFunctionParameter(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "anonymousFunctionParameter")) return false;
     if (!nextTokenIs(b, "<anonymous function parameter>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, ANONYMOUS_FUNCTION_PARAMETER, "<anonymous function parameter>");
-    r = anonymousFunctionParameterArgs(b, l + 1);
+    r = identifierDiscardable(b, l + 1);
     r = r && anonymousFunctionParameter_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -129,18 +129,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "anonymousFunctionParameter_1")) return false;
     typeAnnotation(b, l + 1);
     return true;
-  }
-
-  /* ********************************************************** */
-  // identifierDiscardable
-  public static boolean anonymousFunctionParameterArgs(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "anonymousFunctionParameterArgs")) return false;
-    if (!nextTokenIs(b, "<anonymous function parameter args>", DISCARD_NAME, IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, ANONYMOUS_FUNCTION_PARAMETER_ARGS, "<anonymous function parameter args>");
-    r = identifierDiscardable(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
   }
 
   /* ********************************************************** */
@@ -1668,15 +1656,37 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // functionParameterArgs [typeAnnotation]
+  // (label identifierDiscardable | identifierDiscardable) [typeAnnotation]
   public static boolean functionParameter(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "functionParameter")) return false;
     if (!nextTokenIs(b, "<function parameter>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FUNCTION_PARAMETER, "<function parameter>");
-    r = functionParameterArgs(b, l + 1);
+    r = functionParameter_0(b, l + 1);
     r = r && functionParameter_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // label identifierDiscardable | identifierDiscardable
+  private static boolean functionParameter_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionParameter_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = functionParameter_0_0(b, l + 1);
+    if (!r) r = identifierDiscardable(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // label identifierDiscardable
+  private static boolean functionParameter_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionParameter_0_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = label(b, l + 1);
+    r = r && identifierDiscardable(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1685,30 +1695,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "functionParameter_1")) return false;
     typeAnnotation(b, l + 1);
     return true;
-  }
-
-  /* ********************************************************** */
-  // label identifierDiscardable | identifierDiscardable
-  public static boolean functionParameterArgs(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "functionParameterArgs")) return false;
-    if (!nextTokenIs(b, "<function parameter args>", DISCARD_NAME, IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, FUNCTION_PARAMETER_ARGS, "<function parameter args>");
-    r = functionParameterArgs_0(b, l + 1);
-    if (!r) r = identifierDiscardable(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // label identifierDiscardable
-  private static boolean functionParameterArgs_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "functionParameterArgs_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = label(b, l + 1);
-    r = r && identifierDiscardable(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
   }
 
   /* ********************************************************** */

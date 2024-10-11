@@ -244,8 +244,7 @@ typeArgument ::= typeBase
 typeArguments ::= LPAREN [typeArgument (COMMA typeArgument)* [COMMA]] RPAREN
 typeReference ::= typeName [typeArguments]
 
-functionParameterArgs ::= label identifierDiscardable | identifierDiscardable
-functionParameter ::= functionParameterArgs [typeAnnotation]
+functionParameter ::= (label identifierDiscardable | identifierDiscardable) [typeAnnotation]
 functionParameters ::= LPAREN [functionParameter (COMMA functionParameter)* [COMMA]] RPAREN
 functionBody ::= LBRACE expression* RBRACE {pin=1}
 functionDeclaration ::= (annotation)* [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody? {
@@ -292,8 +291,7 @@ recordExpr ::= (constructorIdentifier | remoteConstructorIdentifier) [recordArgu
 
 listExpr ::= LBRACK [expression ((COMMA expression)*)? [COMMA] [DOT_DOT expression]] RBRACK
 
-anonymousFunctionParameterArgs ::= identifierDiscardable
-anonymousFunctionParameter ::= anonymousFunctionParameterArgs [typeAnnotation]
+anonymousFunctionParameter ::= identifierDiscardable [typeAnnotation]
 anonymousFunctionParameters ::= LPAREN [anonymousFunctionParameter (COMMA anonymousFunctionParameter)* [COMMA]] RPAREN
 anonymousFunctionExpr ::= FN anonymousFunctionParameters [R_ARROW typeReference] functionBody
 

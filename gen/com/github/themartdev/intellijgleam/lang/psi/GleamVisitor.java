@@ -35,10 +35,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitAnonymousFunctionParameterArgs(@NotNull GleamAnonymousFunctionParameterArgs o) {
-    visitPsiElement(o);
-  }
-
   public void visitAnonymousFunctionParameters(@NotNull GleamAnonymousFunctionParameters o) {
     visitPsiElement(o);
   }
@@ -260,10 +256,6 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitFunctionParameter(@NotNull GleamFunctionParameter o) {
-    visitPsiElement(o);
-  }
-
-  public void visitFunctionParameterArgs(@NotNull GleamFunctionParameterArgs o) {
     visitPsiElement(o);
   }
 

@@ -16,7 +16,6 @@ public interface GleamTypes {
   IElementType ANONYMOUS_FUNCTION_EXPR = new GleamElementType("ANONYMOUS_FUNCTION_EXPR");
   IElementType ANONYMOUS_FUNCTION_PARAMETER = new GleamElementType("ANONYMOUS_FUNCTION_PARAMETER");
   IElementType ANONYMOUS_FUNCTION_PARAMETERS = new GleamElementType("ANONYMOUS_FUNCTION_PARAMETERS");
-  IElementType ANONYMOUS_FUNCTION_PARAMETER_ARGS = new GleamElementType("ANONYMOUS_FUNCTION_PARAMETER_ARGS");
   IElementType BINARY_EXPR = new GleamElementType("BINARY_EXPR");
   IElementType BINARY_INTEGER_LITERAL = new GleamElementType("BINARY_INTEGER_LITERAL");
   IElementType BINARY_OPERATOR = new GleamElementType("BINARY_OPERATOR");
@@ -73,7 +72,6 @@ public interface GleamTypes {
   IElementType FUNCTION_NAME_DEFINITION = new GleamElementType("FUNCTION_NAME_DEFINITION");
   IElementType FUNCTION_PARAMETER = new GleamElementType("FUNCTION_PARAMETER");
   IElementType FUNCTION_PARAMETERS = new GleamElementType("FUNCTION_PARAMETERS");
-  IElementType FUNCTION_PARAMETER_ARGS = new GleamElementType("FUNCTION_PARAMETER_ARGS");
   IElementType FUNCTION_PARAMETER_TYPES = new GleamElementType("FUNCTION_PARAMETER_TYPES");
   IElementType FUNCTION_TYPE = new GleamElementType("FUNCTION_TYPE");
   IElementType GENERIC_TYPE = new GleamElementType("GENERIC_TYPE");
@@ -274,9 +272,6 @@ public interface GleamTypes {
       else if (type == ANONYMOUS_FUNCTION_PARAMETERS) {
         return new GleamAnonymousFunctionParametersImpl(node);
       }
-      else if (type == ANONYMOUS_FUNCTION_PARAMETER_ARGS) {
-        return new GleamAnonymousFunctionParameterArgsImpl(node);
-      }
       else if (type == BINARY_EXPR) {
         return new GleamBinaryExprImpl(node);
       }
@@ -441,9 +436,6 @@ public interface GleamTypes {
       }
       else if (type == FUNCTION_PARAMETERS) {
         return new GleamFunctionParametersImpl(node);
-      }
-      else if (type == FUNCTION_PARAMETER_ARGS) {
-        return new GleamFunctionParameterArgsImpl(node);
       }
       else if (type == FUNCTION_PARAMETER_TYPES) {
         return new GleamFunctionParameterTypesImpl(node);

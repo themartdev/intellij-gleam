@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface GleamAnonymousFunctionParameter extends PsiElement {
 
   @NotNull
-  GleamAnonymousFunctionParameterArgs getAnonymousFunctionParameterArgs();
+  GleamIdentifierDiscardable getIdentifierDiscardable();
 
   @Nullable
   GleamTypeAnnotation getTypeAnnotation();

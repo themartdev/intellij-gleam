@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamCaseClausePattern extends PsiElement {
+public interface GleamCaseClausePattern extends GleamPattern {
 
   @NotNull
-  List<GleamPattern> getPatternList();
+  List<GleamPatternAliasable> getPatternAliasableList();
 
 }

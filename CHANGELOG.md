@@ -4,6 +4,17 @@
 
 ## [Unreleased]
 
+### Added
+
+- Added "Gleam file" in the _New_ dialog
+- Syntax highlighting for function parameters
+
+## [0.2.1] - 2024-10-10
+
+### Added
+
+- Improved parsing of partial `let` expressions
+
 ### Fixed
 
 - `@internal` annotation no longer breaks syntax highlighting
@@ -59,7 +70,9 @@
     - Root keyword completion
     - Auto indentation, brace matching, etc.
 
-[Unreleased]: https://github.com/themartdev/intellij-gleam/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/themartdev/intellij-gleam/compare/v0.2.1...HEAD
+
+[0.2.1]: https://github.com/themartdev/intellij-gleam/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/themartdev/intellij-gleam/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/themartdev/intellij-gleam/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/themartdev/intellij-gleam/compare/v0.1.0...v0.1.1

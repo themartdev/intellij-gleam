@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamStringPatternImpl extends ASTWrapperPsiElement implements GleamStringPattern {
+public class GleamStringPatternImpl extends GleamPatternImpl implements GleamStringPattern {
 
   public GleamStringPatternImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull GleamVisitor visitor) {
     visitor.visitStringPattern(this);
   }
@@ -28,9 +28,9 @@ public class GleamStringPatternImpl extends ASTWrapperPsiElement implements Glea
   }
 
   @Override
-  @NotNull
+  @Nullable
   public GleamIdentifierDiscardable getIdentifierDiscardable() {
-    return findNotNullChildByClass(GleamIdentifierDiscardable.class);
+    return findChildByClass(GleamIdentifierDiscardable.class);
   }
 
   @Override

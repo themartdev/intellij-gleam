@@ -29,8 +29,14 @@ public class GleamFunctionParameterImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @NotNull
-  public GleamFunctionParameterArgs getFunctionParameterArgs() {
-    return findNotNullChildByClass(GleamFunctionParameterArgs.class);
+  public GleamIdentifierDiscardable getIdentifierDiscardable() {
+    return findNotNullChildByClass(GleamIdentifierDiscardable.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamLabel getLabel() {
+    return findChildByClass(GleamLabel.class);
   }
 
   @Override

@@ -44,4 +44,56 @@ abstract class GleamParsingTestCase : ParsingTestCase(
         })
         return errorElementList
     }
+
+    protected fun <T : PsiElement> getSinglePsiOfType(
+        root: PsiElement,
+        type: Class<T>,
+    ): T {
+        return getSinglePsiElement(root) { element -> type.isInstance(element) } as T
+    }
+
+    protected fun getSinglePsiElement(
+        root: PsiElement,
+        predicate: ((element: PsiElement) -> Boolean)
+    ): PsiElement {
+        val elements = mutableListOf<PsiElement>()
+        root.accept(object : PsiRecursiveElementWalkingVisitor() {
+            override fun visitElement(element: PsiElement) {
+                if (predicate(element)) {
+                    elements.add(element)
+                }
+                super.visitElement(element)
+            }
+        })
+        assertEquals("Expected to find 1 element but got ${elements.size}", 1, elements.size)
+        return elements[0]
+    }
+
+    protected fun getPsiElementsInFile(
+        predicate: ((element: PsiElement) -> Boolean)
+    ): List<PsiElement> {
+        val root = myFile.viewProvider.getPsi(GleamLanguage)
+        return getPsiElements(root, predicate)
+    }
+
+    protected fun getPsiElements(
+        root: PsiElement,
+        predicate: ((element: PsiElement) -> Boolean)
+    ): List<PsiElement> {
+        val elements = mutableListOf<PsiElement>()
+        root.accept(object : PsiRecursiveElementWalkingVisitor() {
+            override fun visitElement(element: PsiElement) {
+                if (predicate(element)) {
+                    elements.add(element)
+                }
+                super.visitElement(element)
+            }
+        })
+        return elements
+    }
+
+    protected fun assertErrorElementIn(element: PsiElement) {
+        val errors = getPsiElements(element) { it is PsiErrorElement }
+        assertTrue("Expected child PsiErrorElement of $element", errors.isNotEmpty())
+    }
 }

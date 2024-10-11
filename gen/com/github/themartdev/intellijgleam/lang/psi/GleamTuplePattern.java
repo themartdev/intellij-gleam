@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamTuplePattern extends PsiElement {
+public interface GleamTuplePattern extends GleamPattern {
 
   @NotNull
-  List<GleamPattern> getPatternList();
+  List<GleamPatternAliasable> getPatternAliasableList();
 
 }

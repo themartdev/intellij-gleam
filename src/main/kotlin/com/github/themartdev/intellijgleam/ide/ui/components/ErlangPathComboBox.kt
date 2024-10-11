@@ -7,7 +7,7 @@ import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.project.Project
 import kotlin.io.path.Path
 
-class ErlangPathComboBox(val project: Project) : AbstractPathComboBox(project) {
+class ErlangPathComboBox(project: Project) : AbstractPathComboBox(project) {
     override fun computeVersionInline(item: PathItem.Value) {
         val executable = captureErlang(Path(item.path))
         item.version = executable?.version?.toString()

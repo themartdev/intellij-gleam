@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamAssertLetExprImpl extends GleamExpressionImpl implements GleamAssertLetExpr {
+public class GleamPatternAliasableImpl extends ASTWrapperPsiElement implements GleamPatternAliasable {
 
-  public GleamAssertLetExprImpl(@NotNull ASTNode node) {
+  public GleamPatternAliasableImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitAssertLetExpr(this);
+    visitor.visitPatternAliasable(this);
   }
 
   @Override
@@ -28,9 +28,15 @@ public class GleamAssertLetExprImpl extends GleamExpressionImpl implements Gleam
   }
 
   @Override
+  @NotNull
+  public GleamPattern getPattern() {
+    return findNotNullChildByClass(GleamPattern.class);
+  }
+
+  @Override
   @Nullable
-  public GleamAssignment getAssignment() {
-    return findChildByClass(GleamAssignment.class);
+  public PsiElement getIdentifier() {
+    return findChildByType(IDENTIFIER);
   }
 
 }

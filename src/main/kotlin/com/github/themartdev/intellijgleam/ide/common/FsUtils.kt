@@ -36,10 +36,6 @@ object FsUtils {
         return path.exists() && path.isDirectory()
     }
 
-    fun isValidExe(path: Path): Boolean {
-        return path.exists() && path.isExecutable()
-    }
-
     fun detectAsdf(): Path? {
         System.getenv("ASDF_DIR")?.let {
             if (isValidDir(it)) {

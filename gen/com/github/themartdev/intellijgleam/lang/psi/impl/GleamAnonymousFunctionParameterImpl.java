@@ -29,8 +29,8 @@ public class GleamAnonymousFunctionParameterImpl extends ASTWrapperPsiElement im
 
   @Override
   @NotNull
-  public GleamAnonymousFunctionParameterArgs getAnonymousFunctionParameterArgs() {
-    return findNotNullChildByClass(GleamAnonymousFunctionParameterArgs.class);
+  public GleamIdentifierDiscardable getIdentifierDiscardable() {
+    return findNotNullChildByClass(GleamIdentifierDiscardable.class);
   }
 
   @Override

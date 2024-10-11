@@ -11,6 +11,6 @@ public interface GleamRecordPatternArgument extends PsiElement {
   GleamLabel getLabel();
 
   @NotNull
-  GleamPattern getPattern();
+  GleamPatternAliasable getPatternAliasable();
 
 }

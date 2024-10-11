@@ -9,5 +9,5 @@ private const val STUB_VERSION = 1
 object GleamFileElementType : IStubFileElementType<GleamFileStub>("GLEAM_FILE", GleamLanguage) {
     override fun getExternalId(): String = "${language.id}.file"
 
-    override fun getStubVersion(): Int = super.getStubVersion() + STUB_VERSION
+    override fun getStubVersion(): Int = super.stubVersion + STUB_VERSION
 }

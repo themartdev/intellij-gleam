@@ -42,6 +42,14 @@ class GleamHighlightingAnnotator : Annotator, DumbAware {
             is GleamCallExpr -> {
                 highlightFunctionCall(element, holder)
             }
+
+            is GleamFunctionParameter -> {
+                newAnnotation(holder, element.identifierDiscardable, GleamColors.FUNCTION_PARAMETERS)
+            }
+
+            is GleamAnonymousFunctionParameter -> {
+                newAnnotation(holder, element.identifierDiscardable, GleamColors.FUNCTION_PARAMETERS)
+            }
         }
 
         highlightLabels(element, holder)
@@ -73,6 +81,15 @@ class GleamHighlightingAnnotator : Annotator, DumbAware {
                     .textAttributes(GleamColors.LABEL)
                     .range(element)
                     .create()
+            }
+
+            is GleamFunctionParameter -> {
+                element.label?.let {
+                    newAnnotationBuilder(holder, GleamColors.LABEL.externalName)
+                        .textAttributes(GleamColors.LABEL)
+                        .range(it)
+                        .create()
+                }
             }
         }
     }

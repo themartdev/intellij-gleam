@@ -35,19 +35,7 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitAnonymousFunctionParameterArgs(@NotNull GleamAnonymousFunctionParameterArgs o) {
-    visitPsiElement(o);
-  }
-
   public void visitAnonymousFunctionParameters(@NotNull GleamAnonymousFunctionParameters o) {
-    visitPsiElement(o);
-  }
-
-  public void visitAssertLetExpr(@NotNull GleamAssertLetExpr o) {
-    visitExpression(o);
-  }
-
-  public void visitAssignment(@NotNull GleamAssignment o) {
     visitPsiElement(o);
   }
 
@@ -73,6 +61,10 @@ public class GleamVisitor extends PsiElementVisitor {
 
   public void visitBitArrayOptionName(@NotNull GleamBitArrayOptionName o) {
     visitPsiElement(o);
+  }
+
+  public void visitBitArrayPattern(@NotNull GleamBitArrayPattern o) {
+    visitPattern(o);
   }
 
   public void visitBitArraySegment(@NotNull GleamBitArraySegment o) {
@@ -128,7 +120,7 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitCaseClausePattern(@NotNull GleamCaseClausePattern o) {
-    visitPsiElement(o);
+    visitPattern(o);
   }
 
   public void visitCaseClausePatterns(@NotNull GleamCaseClausePatterns o) {
@@ -267,10 +259,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitFunctionParameterArgs(@NotNull GleamFunctionParameterArgs o) {
-    visitPsiElement(o);
-  }
-
   public void visitFunctionParameterTypes(@NotNull GleamFunctionParameterTypes o) {
     visitPsiElement(o);
   }
@@ -291,12 +279,20 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitHolePattern(@NotNull GleamHolePattern o) {
+    visitPattern(o);
+  }
+
   public void visitIdentifierDiscardable(@NotNull GleamIdentifierDiscardable o) {
     visitPsiElement(o);
   }
 
   public void visitIdentifierExprConst(@NotNull GleamIdentifierExprConst o) {
     visitExpressionConst(o);
+  }
+
+  public void visitIdentifierPattern(@NotNull GleamIdentifierPattern o) {
+    visitPattern(o);
   }
 
   public void visitImportDeclaration(@NotNull GleamImportDeclaration o) {
@@ -332,7 +328,7 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitListPattern(@NotNull GleamListPattern o) {
-    visitPsiElement(o);
+    visitPattern(o);
   }
 
   public void visitListPatternTail(@NotNull GleamListPatternTail o) {
@@ -345,6 +341,10 @@ public class GleamVisitor extends PsiElementVisitor {
 
   public void visitLiteralExprConst(@NotNull GleamLiteralExprConst o) {
     visitExpressionConst(o);
+  }
+
+  public void visitLiteralPattern(@NotNull GleamLiteralPattern o) {
+    visitPattern(o);
   }
 
   public void visitModulePath(@NotNull GleamModulePath o) {
@@ -375,7 +375,7 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitPatternBitArray(@NotNull GleamPatternBitArray o) {
+  public void visitPatternAliasable(@NotNull GleamPatternAliasable o) {
     visitPsiElement(o);
   }
 
@@ -416,7 +416,7 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitRecordPattern(@NotNull GleamRecordPattern o) {
-    visitPsiElement(o);
+    visitPattern(o);
   }
 
   public void visitRecordPatternArgument(@NotNull GleamRecordPatternArgument o) {
@@ -455,10 +455,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitSimpleLetExpr(@NotNull GleamSimpleLetExpr o) {
-    visitExpression(o);
-  }
-
   public void visitStringEscapeSegment(@NotNull GleamStringEscapeSegment o) {
     visitPsiElement(o);
   }
@@ -468,7 +464,7 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitStringPattern(@NotNull GleamStringPattern o) {
-    visitPsiElement(o);
+    visitPattern(o);
   }
 
   public void visitTargetAnnotation(@NotNull GleamTargetAnnotation o) {
@@ -488,7 +484,7 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitTuplePattern(@NotNull GleamTuplePattern o) {
-    visitPsiElement(o);
+    visitPattern(o);
   }
 
   public void visitTupleType(@NotNull GleamTupleType o) {

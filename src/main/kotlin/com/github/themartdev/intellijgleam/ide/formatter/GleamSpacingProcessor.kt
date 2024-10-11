@@ -5,6 +5,7 @@ import com.intellij.formatting.Spacing
 import com.intellij.formatting.SpacingBuilder
 import com.intellij.psi.formatter.common.AbstractBlock
 
+@Suppress("unused")
 class GleamSpacingProcessor(
     private val block: AbstractBlock,
     context: GleamFormatBlockContext

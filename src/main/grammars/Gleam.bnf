@@ -135,6 +135,7 @@
   extends(".*ExprConst")=expressionConst
   extends(".*Annotation")=annotation
   extends(".*TypeValue")=typeValue
+  extends(".*Pattern")=pattern
 }
 
 
@@ -243,8 +244,7 @@ typeArgument ::= typeBase
 typeArguments ::= LPAREN [typeArgument (COMMA typeArgument)* [COMMA]] RPAREN
 typeReference ::= typeName [typeArguments]
 
-functionParameterArgs ::= label identifierDiscardable | identifierDiscardable
-functionParameter ::= functionParameterArgs [typeAnnotation]
+functionParameter ::= (label identifierDiscardable | identifierDiscardable) [typeAnnotation]
 functionParameters ::= LPAREN [functionParameter (COMMA functionParameter)* [COMMA]] RPAREN
 functionBody ::= LBRACE expression* RBRACE {pin=1}
 functionDeclaration ::= (annotation)* [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody? {
@@ -253,15 +253,28 @@ functionDeclaration ::= (annotation)* [visibilityModifier] FN functionNameDefini
 functionNameDefinition::= IDENTIFIER
 
 listPatternTail ::= DOT_DOT identifierDiscardable
-listPattern ::= LBRACK [pattern (COMMA pattern)* [COMMA]] [listPatternTail] RBRACK
+listPattern ::= LBRACK [patternAliasable (COMMA patternAliasable)* [COMMA]] [listPatternTail] RBRACK {pin=1}
 
-stringPattern ::= stringLiteral LT_GT identifierDiscardable
+stringPattern ::= stringLiteral LT_GT identifierDiscardable {pin=2}
 
 patternSpread ::= DOT_DOT [COMMA]
-recordPatternArgument ::= [label COLON] pattern
+recordPatternArgument ::= [label COLON] patternAliasable
 recordPatternArguments ::= LPAREN [recordPatternArgument (COMMA recordPatternArgument)* [COMMA]] [patternSpread] RPAREN
-recordPattern ::= (constructorIdentifier | remoteConstructorIdentifier) [recordPatternArguments]
-pattern ::= (hole | identifierDiscardable | stringPattern | recordPattern | literalExpr | tuplePattern | patternBitArray | listPattern) [AS IDENTIFIER]
+recordPattern ::= (constructorIdentifier | remoteConstructorIdentifier) [recordPatternArguments] {pin=1}
+holePattern ::= HOLE
+literalPattern ::= literal
+identifierPattern ::= identifierDiscardable
+pattern ::=
+            bitArrayPattern
+            | tuplePattern
+            | recordPattern
+            | listPattern
+            | stringPattern
+            | literalPattern
+            | identifierPattern
+            | holePattern
+
+patternAliasable ::= pattern [AS IDENTIFIER]
 
 shortHandLabeledArgument ::= identifierDiscardable COLON
 labeledArgument ::= identifierDiscardable COLON expression
@@ -278,8 +291,7 @@ recordExpr ::= (constructorIdentifier | remoteConstructorIdentifier) [recordArgu
 
 listExpr ::= LBRACK [expression ((COMMA expression)*)? [COMMA] [DOT_DOT expression]] RBRACK
 
-anonymousFunctionParameterArgs ::= identifierDiscardable
-anonymousFunctionParameter ::= anonymousFunctionParameterArgs [typeAnnotation]
+anonymousFunctionParameter ::= identifierDiscardable [typeAnnotation]
 anonymousFunctionParameters ::= LPAREN [anonymousFunctionParameter (COMMA anonymousFunctionParameter)* [COMMA]] RPAREN
 anonymousFunctionExpr ::= FN anonymousFunctionParameters [R_ARROW typeReference] functionBody
 
@@ -293,7 +305,7 @@ caseClauseGuardExpression ::= caseClauseGuardUnit caseClauseGuardTail*
 caseClauseGuardTail ::= caseClauseGuardBinaryOperator caseClauseGuardUnit
 
 caseClauseGuard ::= IF caseClauseGuardExpression
-caseClausePattern ::= pattern (COMMA pattern)* [COMMA]
+caseClausePattern ::= patternAliasable (COMMA patternAliasable)* [COMMA]
 caseClausePatterns ::= caseClausePattern (VBAR caseClausePattern)* [VBAR]
 caseClause ::= caseClausePatterns [caseClauseGuard] R_ARROW expression
 caseClauses ::= caseClause+
@@ -304,10 +316,7 @@ caseExpr ::= CASE caseSubjects caseExprBody
 useArgs ::= identifierDiscardable | identifierDiscardable COMMA useArgs
 useExpr ::= USE [useArgs] L_ARROW expression
 
-assignment ::= pattern [typeAnnotation] EQUAL expression
-simpleLetExpr ::= LET assignment {pin=1}
-assertLetExpr ::= LET ASSERT assignment {pin=2}
-letExpr ::= assertLetExpr | simpleLetExpr
+letExpr ::= LET ASSERT? patternAliasable [typeAnnotation] EQUAL expression {pin=1}
 
 panicExpr ::= PANIC (AS stringLiteral)?
 todoExpr ::= TODO (AS stringLiteral)?
@@ -315,7 +324,6 @@ todoExpr ::= TODO (AS stringLiteral)?
 recordUpdateArgument ::= label COLON expression
 recordUpdateArguments ::= recordUpdateArgument (COMMA recordUpdateArgument)* [COMMA]
 recordUpdateExpr ::= (constructorIdentifier | remoteConstructorIdentifier) LPAREN DOT_DOT expression COMMA recordUpdateArguments RPAREN
-
 
 callArgument ::= labeledArgument | unlabeledArgument | hole
 callArguments ::= LPAREN [callArgument (COMMA callArgument)* [COMMA]] RPAREN
@@ -356,7 +364,7 @@ expression ::=
              | accessExpr
              | recordExpr { recoverWhile=expressionRecoverWhile }
 
-private expressionRecoverWhile ::= !(RBRACE | RPAREN | RBRACK | EOL)
+private expressionRecoverWhile ::= !(RBRACE | RPAREN | RBRACK | EOL | LET | expression)
 
 binaryExpr ::= expression binaryOperator expression
 binaryOperator ::= EQUAL_EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | LESS_DOT
@@ -369,7 +377,7 @@ unaryExpr ::= unaryOperator expression
 unaryOperator ::= BANG | MINUS
 
 // ===== Tuple =====
-tuplePattern ::= HASH LPAREN [pattern (COMMA pattern)* [COMMA]] RPAREN
+tuplePattern ::= HASH LPAREN [patternAliasable (COMMA patternAliasable)* [COMMA]] RPAREN {pin=2}
 tupleExpr ::= HASH LPAREN [expression (COMMA expression)* [COMMA]] RPAREN {pin=2}
 
 // ===== BitArray =====
@@ -379,9 +387,9 @@ bitArraySegmentOptions ::= bitArraySegmentOption (MINUS bitArraySegmentOption)*
 
 bitArraySegment ::= expression [COLON bitArraySegmentOptions]
 
-patternBitArraySegment ::= pattern [COLON bitArraySegmentOptions]
+patternBitArraySegment ::= patternAliasable [COLON bitArraySegmentOptions]
 
-patternBitArray ::= LT_LT [patternBitArraySegment (COMMA patternBitArraySegment)* [COMMA]] GT_GT
+bitArrayPattern ::= LT_LT [patternBitArraySegment (COMMA patternBitArraySegment)* [COMMA]] GT_GT {pin=1}
 bitArrayExpr ::= LT_LT [bitArraySegment (COMMA bitArraySegment)* [COMMA]] GT_GT {pin=1}
 
 // ===== Types =====

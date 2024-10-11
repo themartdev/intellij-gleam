@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamRecordPattern extends PsiElement {
+public interface GleamRecordPattern extends GleamPattern {
 
   @Nullable
   GleamConstructorIdentifier getConstructorIdentifier();

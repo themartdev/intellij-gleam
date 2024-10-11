@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public abstract class GleamLetExprImpl extends GleamExpressionImpl implements GleamLetExpr {
+public class GleamLetExprImpl extends GleamExpressionImpl implements GleamLetExpr {
 
   public GleamLetExprImpl(@NotNull ASTNode node) {
     super(node);
@@ -25,6 +25,24 @@ public abstract class GleamLetExprImpl extends GleamExpressionImpl implements Gl
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof GleamVisitor) accept((GleamVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @Nullable
+  public GleamExpression getExpression() {
+    return findChildByClass(GleamExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamPatternAliasable getPatternAliasable() {
+    return findChildByClass(GleamPatternAliasable.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamTypeAnnotation getTypeAnnotation() {
+    return findChildByClass(GleamTypeAnnotation.class);
   }
 
 }

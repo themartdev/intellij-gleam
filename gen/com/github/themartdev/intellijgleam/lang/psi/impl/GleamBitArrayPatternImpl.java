@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamSimpleLetExprImpl extends GleamExpressionImpl implements GleamSimpleLetExpr {
+public class GleamBitArrayPatternImpl extends GleamPatternImpl implements GleamBitArrayPattern {
 
-  public GleamSimpleLetExprImpl(@NotNull ASTNode node) {
+  public GleamBitArrayPatternImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitSimpleLetExpr(this);
+    visitor.visitBitArrayPattern(this);
   }
 
   @Override
@@ -28,9 +28,9 @@ public class GleamSimpleLetExprImpl extends GleamExpressionImpl implements Gleam
   }
 
   @Override
-  @Nullable
-  public GleamAssignment getAssignment() {
-    return findChildByClass(GleamAssignment.class);
+  @NotNull
+  public List<GleamPatternBitArraySegment> getPatternBitArraySegmentList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamPatternBitArraySegment.class);
   }
 
 }

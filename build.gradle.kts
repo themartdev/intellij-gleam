@@ -154,6 +154,15 @@ tasks {
 }
 
 tasks {
+    prepareSandbox {
+        val pluginName = "one-dark-theme"
+        val pluginSourceDir = layout.projectDirectory.dir("bin/$pluginName")
+
+        from(pluginSourceDir) {
+            into(pluginName)
+        }
+    }
+
     runIde {
         doFirst {
             systemProperty("idea.log.debug.categories", "com.redhat.devtools")

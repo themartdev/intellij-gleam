@@ -9,6 +9,11 @@
 - Added "Gleam file" in the _New_ dialog
 - Syntax highlighting for function parameters
 
+### Fix
+
+- Fixed grammar for qualified record expressions
+- Fixed grammar for dicard (`_`) names
+
 ## [0.2.1] - 2024-10-10
 
 ### Added

@@ -279,10 +279,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitHolePattern(@NotNull GleamHolePattern o) {
-    visitPattern(o);
-  }
-
   public void visitIdentifierDiscardable(@NotNull GleamIdentifierDiscardable o) {
     visitPsiElement(o);
   }

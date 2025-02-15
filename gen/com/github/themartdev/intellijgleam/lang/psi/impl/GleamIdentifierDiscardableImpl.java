@@ -45,7 +45,7 @@ public class GleamIdentifierDiscardableImpl extends ASTWrapperPsiElement impleme
   }
 
   @Override
-  public @NotNull PsiElement getActualElement() {
+  public @Nullable PsiElement getActualElement() {
     return GleamPsiImplUtil.getActualElement(this);
   }
 

@@ -37,12 +37,12 @@ class GleamPsiImplUtil {
 
         @JvmStatic
         fun isDiscard(identifierDiscardable: GleamIdentifierDiscardable): Boolean {
-            return identifierDiscardable.discardName != null
+            return identifierDiscardable.identifier == null
         }
 
         @JvmStatic
-        fun getActualElement(identifierDiscardable: GleamIdentifierDiscardable): PsiElement {
-            return identifierDiscardable.identifier ?: identifierDiscardable.discardName!!
+        fun getActualElement(identifierDiscardable: GleamIdentifierDiscardable): PsiElement? {
+            return identifierDiscardable.identifier ?: identifierDiscardable.discardName
         }
     }
 }

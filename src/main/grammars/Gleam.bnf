@@ -261,7 +261,6 @@ patternSpread ::= DOT_DOT [COMMA]
 recordPatternArgument ::= [label COLON] patternAliasable
 recordPatternArguments ::= LPAREN [recordPatternArgument (COMMA recordPatternArgument)* [COMMA]] [patternSpread] RPAREN
 recordPattern ::= (constructorIdentifier | remoteConstructorIdentifier) [recordPatternArguments] {pin=1}
-holePattern ::= HOLE
 literalPattern ::= literal
 identifierPattern ::= identifierDiscardable
 pattern ::=
@@ -272,7 +271,6 @@ pattern ::=
             | stringPattern
             | literalPattern
             | identifierPattern
-            | holePattern
 
 patternAliasable ::= pattern [AS IDENTIFIER]
 
@@ -426,7 +424,7 @@ stringLiteral ::= OPEN_QUOTE (REGULAR_STRING_PART | stringEscapeSegment)* CLOSE_
 
 
 // Aliases
-identifierDiscardable ::= IDENTIFIER | DISCARD_NAME {
+identifierDiscardable ::= IDENTIFIER | DISCARD_NAME | HOLE {
   methods=[isDiscard getActualElement]
 }
 private upIdentifier ::= UP_IDENTIFIER

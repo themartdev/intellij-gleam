@@ -41,9 +41,9 @@ public class GleamParser implements PsiParser, LightPsiParser {
       OTHER_ANNOTATION, TARGET_ANNOTATION, TYPE_ANNOTATION),
     create_token_set_(BIT_ARRAY_EXPR_CONST, EXPRESSION_CONST, FIELD_ACCESS_EXPR_CONST, IDENTIFIER_EXPR_CONST,
       LIST_EXPR_CONST, LITERAL_EXPR_CONST, RECORD_EXPR_CONST, TUPLE_EXPR_CONST),
-    create_token_set_(BIT_ARRAY_PATTERN, CASE_CLAUSE_PATTERN, HOLE_PATTERN, IDENTIFIER_PATTERN,
-      LIST_PATTERN, LITERAL_PATTERN, PATTERN, RECORD_PATTERN,
-      STRING_PATTERN, TUPLE_PATTERN),
+    create_token_set_(BIT_ARRAY_PATTERN, CASE_CLAUSE_PATTERN, IDENTIFIER_PATTERN, LIST_PATTERN,
+      LITERAL_PATTERN, PATTERN, RECORD_PATTERN, STRING_PATTERN,
+      TUPLE_PATTERN),
     create_token_set_(ACCESS_EXPR, ANONYMOUS_FUNCTION_EXPR, BINARY_EXPR, BIT_ARRAY_EXPR,
       BLOCK_EXPR, CALL_EXPR, CASE_EXPR, EXPRESSION,
       LET_EXPR, LIST_EXPR, LITERAL_EXPR, PANIC_EXPR,
@@ -55,7 +55,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // identifierDiscardable
   public static boolean aliasIdentifier(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "aliasIdentifier")) return false;
-    if (!nextTokenIs(b, "<alias identifier>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, ALIAS_IDENTIFIER, "<alias identifier>");
     r = identifierDiscardable(b, l + 1);
@@ -115,7 +114,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // identifierDiscardable [typeAnnotation]
   public static boolean anonymousFunctionParameter(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "anonymousFunctionParameter")) return false;
-    if (!nextTokenIs(b, "<anonymous function parameter>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, ANONYMOUS_FUNCTION_PARAMETER, "<anonymous function parameter>");
     r = identifierDiscardable(b, l + 1);
@@ -1659,7 +1657,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // (label identifierDiscardable | identifierDiscardable) [typeAnnotation]
   public static boolean functionParameter(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "functionParameter")) return false;
-    if (!nextTokenIs(b, "<function parameter>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FUNCTION_PARAMETER, "<function parameter>");
     r = functionParameter_0(b, l + 1);
@@ -1848,7 +1845,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // identifierDiscardable
   public static boolean genericType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "genericType")) return false;
-    if (!nextTokenIs(b, "<generic type>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, GENERIC_TYPE, "<generic type>");
     r = identifierDiscardable(b, l + 1);
@@ -1897,26 +1893,14 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // HOLE
-  public static boolean holePattern(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "holePattern")) return false;
-    if (!nextTokenIs(b, HOLE)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, HOLE);
-    exit_section_(b, m, HOLE_PATTERN, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // IDENTIFIER | DISCARD_NAME
+  // IDENTIFIER | DISCARD_NAME | HOLE
   public static boolean identifierDiscardable(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "identifierDiscardable")) return false;
-    if (!nextTokenIs(b, "<identifier discardable>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, IDENTIFIER_DISCARDABLE, "<identifier discardable>");
     r = consumeToken(b, IDENTIFIER);
     if (!r) r = consumeToken(b, DISCARD_NAME);
+    if (!r) r = consumeToken(b, HOLE);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -1925,7 +1909,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // identifierDiscardable
   public static boolean identifierExprConst(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "identifierExprConst")) return false;
-    if (!nextTokenIs(b, "<identifier expr const>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, IDENTIFIER_EXPR_CONST, "<identifier expr const>");
     r = identifierDiscardable(b, l + 1);
@@ -1937,7 +1920,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // identifierDiscardable
   public static boolean identifierPattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "identifierPattern")) return false;
-    if (!nextTokenIs(b, "<identifier pattern>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, IDENTIFIER_PATTERN, "<identifier pattern>");
     r = identifierDiscardable(b, l + 1);
@@ -2025,7 +2007,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // identifierDiscardable COLON expression
   public static boolean labeledArgument(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "labeledArgument")) return false;
-    if (!nextTokenIs(b, "<labeled argument>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, LABELED_ARGUMENT, "<labeled argument>");
     r = identifierDiscardable(b, l + 1);
@@ -2405,7 +2386,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   //             | stringPattern
   //             | literalPattern
   //             | identifierPattern
-  //             | holePattern
   public static boolean pattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "pattern")) return false;
     boolean r;
@@ -2417,7 +2397,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!r) r = stringPattern(b, l + 1);
     if (!r) r = literalPattern(b, l + 1);
     if (!r) r = identifierPattern(b, l + 1);
-    if (!r) r = holePattern(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -2495,7 +2474,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // identifierDiscardable DOT upIdentifier
   public static boolean qualifiedTypeName(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "qualifiedTypeName")) return false;
-    if (!nextTokenIs(b, "<qualified type name>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, QUALIFIED_TYPE_NAME, "<qualified type name>");
     r = identifierDiscardable(b, l + 1);
@@ -2946,7 +2924,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // identifierDiscardable COLON
   public static boolean shortHandLabeledArgument(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "shortHandLabeledArgument")) return false;
-    if (!nextTokenIs(b, "<short hand labeled argument>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, SHORT_HAND_LABELED_ARGUMENT, "<short hand labeled argument>");
     r = identifierDiscardable(b, l + 1);
@@ -3612,7 +3589,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // identifierDiscardable (AS aliasIdentifier)?
   public static boolean unqualifiedImport(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "unqualifiedImport")) return false;
-    if (!nextTokenIs(b, "<unqualified import>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, UNQUALIFIED_IMPORT, "<unqualified import>");
     r = identifierDiscardable(b, l + 1);
@@ -3765,7 +3741,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // identifierDiscardable | identifierDiscardable COMMA useArgs
   public static boolean useArgs(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "useArgs")) return false;
-    if (!nextTokenIs(b, "<use args>", DISCARD_NAME, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, USE_ARGS, "<use args>");
     r = identifierDiscardable(b, l + 1);

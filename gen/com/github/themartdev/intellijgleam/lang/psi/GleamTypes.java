@@ -76,7 +76,6 @@ public interface GleamTypes {
   IElementType FUNCTION_TYPE = new GleamElementType("FUNCTION_TYPE");
   IElementType GENERIC_TYPE = new GleamElementType("GENERIC_TYPE");
   IElementType HEX_INTEGER_LITERAL = new GleamElementType("HEX_INTEGER_LITERAL");
-  IElementType HOLE_PATTERN = new GleamElementType("HOLE_PATTERN");
   IElementType IDENTIFIER_DISCARDABLE = new GleamElementType("IDENTIFIER_DISCARDABLE");
   IElementType IDENTIFIER_EXPR_CONST = new GleamElementType("IDENTIFIER_EXPR_CONST");
   IElementType IDENTIFIER_PATTERN = new GleamElementType("IDENTIFIER_PATTERN");
@@ -448,9 +447,6 @@ public interface GleamTypes {
       }
       else if (type == HEX_INTEGER_LITERAL) {
         return new GleamHexIntegerLiteralImpl(node);
-      }
-      else if (type == HOLE_PATTERN) {
-        return new GleamHolePatternImpl(node);
       }
       else if (type == IDENTIFIER_DISCARDABLE) {
         return new GleamIdentifierDiscardableImpl(node);

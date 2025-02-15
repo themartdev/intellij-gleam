@@ -15,6 +15,6 @@ public interface GleamIdentifierDiscardable extends PsiElement {
 
   boolean isDiscard();
 
-  @NotNull PsiElement getActualElement();
+  @Nullable PsiElement getActualElement();
 
 }

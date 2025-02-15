@@ -59,11 +59,6 @@
         <langCodeStyleSettingsProvider
                 implementation="com.github.themartdev.intellijgleam.ide.formatter.GleamLanguageCodeStyleSettingsProvider"/>
 
-        <formattingService id="GleamLspFormattingOnlyServiceProxy"
-                           implementation="com.github.themartdev.intellijgleam.ide.formatter.lsp.GleamLspFormattingOnlyServiceProxy"/>
-        <formattingService id="ZigLSPFormattingAndRangeBothServiceProxy"
-                           implementation="com.github.themartdev.intellijgleam.ide.formatter.lsp.GleamLspFormattingAndRangeBothServiceProxy"/>
-
         <projectConfigurable id="settings.gleam"
                              groupId="language"
                              instance="com.github.themartdev.intellijgleam.ide.ui.GleamSettingsConfigurable"

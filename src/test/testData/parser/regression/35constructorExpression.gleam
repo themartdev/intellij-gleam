@@ -1,5 +1,5 @@
 import mylib/mod
 
-fn myFn() {
+fn my_fn() {
   mod.Cons()
 }

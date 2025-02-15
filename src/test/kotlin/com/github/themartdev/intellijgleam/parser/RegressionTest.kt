@@ -4,4 +4,6 @@ class RegressionTest : GleamParsingTestCase() {
     override fun getTestDataPath(): String = super.getTestDataPath() + "/regression"
 
     fun test35constructorExpression() = assertParsedCorrectly()
+
+    fun test52misc() = assertParsedCorrectly()
 }

@@ -356,13 +356,13 @@ expression ::=
 
              // Potentially ambiguous expressions
              | recordUpdateExpr
-             | referenceExpr
              // Binary must come before unary for negation/subtraction precedence
              | binaryExpr
              | unaryExpr
              | callExpr
              | accessExpr
-             | recordExpr { recoverWhile=expressionRecoverWhile }
+             | recordExpr
+             | referenceExpr { recoverWhile=expressionRecoverWhile }
 
 private expressionRecoverWhile ::= !(RBRACE | RPAREN | RBRACK | EOL | LET | expression)
 

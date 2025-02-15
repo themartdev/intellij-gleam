@@ -6,7 +6,7 @@ import com.redhat.devtools.lsp4ij.client.features.LSPCompletionFeature
 import org.eclipse.lsp4j.CompletionItem
 import org.eclipse.lsp4j.CompletionItemKind
 
-val LOG = Logger.getInstance(GleamLSPCompletionFeature::class.java)
+private val LOG = Logger.getInstance(GleamLSPCompletionFeature::class.java)
 
 @Suppress("UnstableApiUsage")
 class GleamLSPCompletionFeature : LSPCompletionFeature() {

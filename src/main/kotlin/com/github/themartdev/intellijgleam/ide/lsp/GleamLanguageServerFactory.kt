@@ -61,5 +61,6 @@ class GleamLanguageServerFactory : LanguageServerFactory, LanguageServerEnableme
     override fun createClientFeatures(): LSPClientFeatures {
         return LSPClientFeatures()
             .setFormattingFeature(GleamLSPFormatFeature())
+            .setDiagnosticFeature(GleamLSPDiagnosticFeature())
     }
 }

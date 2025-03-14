@@ -1,8 +1,8 @@
-# intellij-gleam
+# IntelliJ Gleam
 
 ![Build](https://github.com/themartdev/intellij-gleam/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/25254-gleam-language.svg)](https://plugins.jetbrains.com/plugin/25254-gleam-language)
-<!-- [![Downloads](https://img.shields.io/jetbrains/plugin/d/25254-gleam-language.svg)](https://plugins.jetbrains.com/plugin/25254-gleam-language) -->
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/25254-gleam-language.svg)](https://plugins.jetbrains.com/plugin/25254-gleam-language)
 
 <!-- Plugin description -->
 Gleam language support for JetBrains IDEs.
@@ -20,10 +20,10 @@ Provides syntax highlighting and LSP-provided features like code completion, nav
 
 - Using JetBrains Marketplace:
 
-  Go to [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID) and install it by clicking
+  Go to [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/25254-gleam-language) and install it by clicking
   the <kbd>Install to ...</kbd> button in case your IDE is running.
 
-  You can also download the [latest release](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID/versions) from
+  You can also download the [latest release](https://plugins.jetbrains.com/plugin/25254-gleam-language/versions) from
   JetBrains Marketplace and install it manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 

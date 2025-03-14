@@ -113,9 +113,6 @@ public interface GleamTypes {
   IElementType RECORD_PATTERN_ARGUMENT = new GleamElementType("RECORD_PATTERN_ARGUMENT");
   IElementType RECORD_PATTERN_ARGUMENTS = new GleamElementType("RECORD_PATTERN_ARGUMENTS");
   IElementType RECORD_UPDATE = new GleamElementType("RECORD_UPDATE");
-  IElementType RECORD_UPDATE_ARGUMENT = new GleamElementType("RECORD_UPDATE_ARGUMENT");
-  IElementType RECORD_UPDATE_ARGUMENTS = new GleamElementType("RECORD_UPDATE_ARGUMENTS");
-  IElementType RECORD_UPDATE_EXPR = new GleamElementType("RECORD_UPDATE_EXPR");
   IElementType REFERENCE_EXPR = new GleamElementType("REFERENCE_EXPR");
   IElementType REMOTE_CONSTRUCTOR_IDENTIFIER = new GleamElementType("REMOTE_CONSTRUCTOR_IDENTIFIER");
   IElementType SHORT_HAND_LABELED_ARGUMENT = new GleamElementType("SHORT_HAND_LABELED_ARGUMENT");
@@ -555,15 +552,6 @@ public interface GleamTypes {
       }
       else if (type == RECORD_UPDATE) {
         return new GleamRecordUpdateImpl(node);
-      }
-      else if (type == RECORD_UPDATE_ARGUMENT) {
-        return new GleamRecordUpdateArgumentImpl(node);
-      }
-      else if (type == RECORD_UPDATE_ARGUMENTS) {
-        return new GleamRecordUpdateArgumentsImpl(node);
-      }
-      else if (type == RECORD_UPDATE_EXPR) {
-        return new GleamRecordUpdateExprImpl(node);
       }
       else if (type == REFERENCE_EXPR) {
         return new GleamReferenceExprImpl(node);

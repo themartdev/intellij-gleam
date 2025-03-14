@@ -6,4 +6,6 @@ class UseTest : GleamParsingTestCase() {
     fun testSimple() = assertParsedCorrectly()
 
     fun testDiscardVariable() = assertParsedCorrectly()
+
+    fun testMultipleVariables() = assertParsedCorrectly()
 }

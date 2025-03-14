@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface GleamUseArgs extends PsiElement {
 
   @NotNull
-  GleamIdentifierDiscardable getIdentifierDiscardable();
-
-  @Nullable
-  GleamUseArgs getUseArgs();
+  List<GleamIdentifierDiscardable> getIdentifierDiscardableList();
 
 }

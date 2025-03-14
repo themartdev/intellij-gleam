@@ -427,18 +427,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitRecordUpdateArgument(@NotNull GleamRecordUpdateArgument o) {
-    visitPsiElement(o);
-  }
-
-  public void visitRecordUpdateArguments(@NotNull GleamRecordUpdateArguments o) {
-    visitPsiElement(o);
-  }
-
-  public void visitRecordUpdateExpr(@NotNull GleamRecordUpdateExpr o) {
-    visitExpression(o);
-  }
-
   public void visitReferenceExpr(@NotNull GleamReferenceExpr o) {
     visitExpression(o);
   }

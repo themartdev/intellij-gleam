@@ -311,17 +311,13 @@ caseSubjects ::= expression (COMMA expression)*
 caseExprBody ::= LBRACE caseClauses RBRACE {pin=1}
 caseExpr ::= CASE caseSubjects caseExprBody
 
-useArgs ::= identifierDiscardable | identifierDiscardable COMMA useArgs
+useArgs ::= identifierDiscardable (COMMA identifierDiscardable)* [COMMA]
 useExpr ::= USE [useArgs] L_ARROW expression
 
 letExpr ::= LET ASSERT? patternAliasable [typeAnnotation] EQUAL expression {pin=1}
 
 panicExpr ::= PANIC (AS stringLiteral)?
 todoExpr ::= TODO (AS stringLiteral)?
-
-recordUpdateArgument ::= label COLON expression
-recordUpdateArguments ::= recordUpdateArgument (COMMA recordUpdateArgument)* [COMMA]
-recordUpdateExpr ::= (constructorIdentifier | remoteConstructorIdentifier) LPAREN DOT_DOT expression COMMA recordUpdateArguments RPAREN
 
 callArgument ::= labeledArgument | unlabeledArgument | hole
 callArguments ::= LPAREN [callArgument (COMMA callArgument)* [COMMA]] RPAREN

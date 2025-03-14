@@ -2166,16 +2166,24 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // DOT_DOT identifierDiscardable
+  // DOT_DOT [identifierDiscardable]
   public static boolean listPatternTail(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "listPatternTail")) return false;
     if (!nextTokenIs(b, DOT_DOT)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, LIST_PATTERN_TAIL, null);
     r = consumeToken(b, DOT_DOT);
-    r = r && identifierDiscardable(b, l + 1);
-    exit_section_(b, m, LIST_PATTERN_TAIL, r);
-    return r;
+    p = r; // pin = 1
+    r = r && listPatternTail_1(b, l + 1);
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // [identifierDiscardable]
+  private static boolean listPatternTail_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "listPatternTail_1")) return false;
+    identifierDiscardable(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */

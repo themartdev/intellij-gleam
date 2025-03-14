@@ -28,9 +28,9 @@ public class GleamListPatternTailImpl extends ASTWrapperPsiElement implements Gl
   }
 
   @Override
-  @NotNull
+  @Nullable
   public GleamIdentifierDiscardable getIdentifierDiscardable() {
-    return findNotNullChildByClass(GleamIdentifierDiscardable.class);
+    return findChildByClass(GleamIdentifierDiscardable.class);
   }
 
 }

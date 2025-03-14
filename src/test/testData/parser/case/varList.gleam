@@ -10,7 +10,7 @@ pub fn main() {
     [] -> "Empty list"
     [1] -> "List of just 1"
     [4, ..rest] -> "List starting with 4 followed by " <> case rest {
-      [next, ..rest] -> next
+[next, ..] -> next
       _ -> panic()
     }
     [_, _] -> "List of 2 elements"

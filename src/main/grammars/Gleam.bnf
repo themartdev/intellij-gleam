@@ -252,7 +252,7 @@ functionDeclaration ::= (annotation)* [visibilityModifier] FN functionNameDefini
 }
 functionNameDefinition::= IDENTIFIER
 
-listPatternTail ::= DOT_DOT identifierDiscardable
+listPatternTail ::= DOT_DOT [identifierDiscardable] {pin=1}
 listPattern ::= LBRACK [patternAliasable (COMMA patternAliasable)* [COMMA]] [listPatternTail] RBRACK {pin=1}
 
 stringPattern ::= stringLiteral LT_GT identifierDiscardable {pin=2}

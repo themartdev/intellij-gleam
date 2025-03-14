@@ -4,6 +4,14 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed grammar for:
+  - Record expressions with both a record update pattern and shorthand labeled arguments
+  - `use` expressions with multiple variables
+  - In `case` expressions, list pattern with a double dot `..` and omitting the variable name (e.g. `["one", ..]`)
+  - `todo as` and `panic as` used with an expression
+
 ## [0.3.0] - 2025-02-15
 
 ### Added
@@ -11,7 +19,7 @@
 - Added "Gleam file" in the _New_ dialog
 - Syntax highlighting for function parameters
 
-### Fix
+### Fixed
 
 - Fixed grammar for qualified record expressions
 - Fixed grammar for dicard (`_`) names

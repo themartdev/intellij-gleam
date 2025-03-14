@@ -2896,6 +2896,32 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // (constructorIdentifier | remoteConstructorIdentifier) LPAREN DOT_DOT expression COMMA recordUpdateArguments RPAREN
+  public static boolean recordUpdateExpr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordUpdateExpr")) return false;
+    if (!nextTokenIs(b, "<record update expr>", IDENTIFIER, UP_IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, RECORD_UPDATE_EXPR, "<record update expr>");
+    r = recordUpdateExpr_0(b, l + 1);
+    r = r && consumeTokens(b, 0, LPAREN, DOT_DOT);
+    r = r && expression(b, l + 1, -1);
+    r = r && consumeToken(b, COMMA);
+    r = r && recordUpdateArguments(b, l + 1);
+    r = r && consumeToken(b, RPAREN);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // constructorIdentifier | remoteConstructorIdentifier
+  private static boolean recordUpdateExpr_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordUpdateExpr_0")) return false;
+    boolean r;
+    r = constructorIdentifier(b, l + 1);
+    if (!r) r = remoteConstructorIdentifier(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
   // IDENTIFIER DOT constructorIdentifier
   public static boolean remoteConstructorIdentifier(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "remoteConstructorIdentifier")) return false;
@@ -3831,13 +3857,12 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // 6: ATOM(anonymousFunctionExpr)
   // 7: ATOM(listExpr)
   // 8: ATOM(blockExpr)
-  // 9: PREFIX(recordUpdateExpr)
-  // 10: BINARY(binaryExpr)
-  // 11: PREFIX(unaryExpr)
-  // 12: POSTFIX(callExpr)
-  // 13: POSTFIX(accessExpr)
-  // 14: ATOM(recordExpr)
-  // 15: ATOM(referenceExpr)
+  // 9: BINARY(binaryExpr)
+  // 10: PREFIX(unaryExpr)
+  // 11: POSTFIX(callExpr)
+  // 12: POSTFIX(accessExpr)
+  // 13: ATOM(recordExpr)
+  // 14: ATOM(referenceExpr)
   public static boolean expression(PsiBuilder b, int l, int g) {
     if (!recursion_guard_(b, l, "expression")) return false;
     addVariant(b, "<expression>");
@@ -3854,7 +3879,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!r) r = anonymousFunctionExpr(b, l + 1);
     if (!r) r = listExpr(b, l + 1);
     if (!r) r = blockExpr(b, l + 1);
-    if (!r) r = recordUpdateExpr(b, l + 1);
     if (!r) r = unaryExpr(b, l + 1);
     if (!r) r = recordExpr(b, l + 1);
     if (!r) r = referenceExpr(b, l + 1);
@@ -3869,15 +3893,15 @@ public class GleamParser implements PsiParser, LightPsiParser {
     boolean r = true;
     while (true) {
       Marker m = enter_section_(b, l, _LEFT_, null);
-      if (g < 10 && binaryOperator(b, l + 1)) {
-        r = expression(b, l, 10);
+      if (g < 9 && binaryOperator(b, l + 1)) {
+        r = expression(b, l, 9);
         exit_section_(b, l, m, BINARY_EXPR, r, true, null);
       }
-      else if (g < 12 && callArguments(b, l + 1)) {
+      else if (g < 11 && callArguments(b, l + 1)) {
         r = true;
         exit_section_(b, l, m, CALL_EXPR, r, true, null);
       }
-      else if (g < 13 && accessExpr_0(b, l + 1)) {
+      else if (g < 12 && accessExpr_0(b, l + 1)) {
         r = true;
         exit_section_(b, l, m, ACCESS_EXPR, r, true, null);
       }
@@ -4301,51 +4325,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  public static boolean recordUpdateExpr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "recordUpdateExpr")) return false;
-    if (!nextTokenIsSmart(b, IDENTIFIER, UP_IDENTIFIER)) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, null);
-    r = recordUpdateExpr_0(b, l + 1);
-    p = r;
-    r = p && expression(b, l, 9);
-    r = p && report_error_(b, recordUpdateExpr_1(b, l + 1)) && r;
-    exit_section_(b, l, m, RECORD_UPDATE_EXPR, r, p, null);
-    return r || p;
-  }
-
-  // (constructorIdentifier | remoteConstructorIdentifier) LPAREN DOT_DOT
-  private static boolean recordUpdateExpr_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "recordUpdateExpr_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = recordUpdateExpr_0_0(b, l + 1);
-    r = r && consumeTokensSmart(b, 0, LPAREN, DOT_DOT);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // constructorIdentifier | remoteConstructorIdentifier
-  private static boolean recordUpdateExpr_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "recordUpdateExpr_0_0")) return false;
-    boolean r;
-    r = constructorIdentifier(b, l + 1);
-    if (!r) r = remoteConstructorIdentifier(b, l + 1);
-    return r;
-  }
-
-  // COMMA recordUpdateArguments RPAREN
-  private static boolean recordUpdateExpr_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "recordUpdateExpr_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, COMMA);
-    r = r && recordUpdateArguments(b, l + 1);
-    r = r && consumeToken(b, RPAREN);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
   public static boolean unaryExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "unaryExpr")) return false;
     if (!nextTokenIsSmart(b, BANG, MINUS)) return false;
@@ -4353,7 +4332,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, null);
     r = unaryOperator(b, l + 1);
     p = r;
-    r = p && expression(b, l, 11);
+    r = p && expression(b, l, 10);
     exit_section_(b, l, m, UNARY_EXPR, r, p, null);
     return r || p;
   }

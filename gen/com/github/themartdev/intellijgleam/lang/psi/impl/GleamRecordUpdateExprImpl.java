@@ -34,15 +34,15 @@ public class GleamRecordUpdateExprImpl extends GleamExpressionImpl implements Gl
   }
 
   @Override
-  @Nullable
+  @NotNull
   public GleamExpression getExpression() {
-    return findChildByClass(GleamExpression.class);
+    return findNotNullChildByClass(GleamExpression.class);
   }
 
   @Override
-  @Nullable
+  @NotNull
   public GleamRecordUpdateArguments getRecordUpdateArguments() {
-    return findChildByClass(GleamRecordUpdateArguments.class);
+    return findNotNullChildByClass(GleamRecordUpdateArguments.class);
   }
 
   @Override

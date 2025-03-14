@@ -10,10 +10,10 @@ public interface GleamRecordUpdateExpr extends GleamExpression {
   @Nullable
   GleamConstructorIdentifier getConstructorIdentifier();
 
-  @Nullable
+  @NotNull
   GleamExpression getExpression();
 
-  @Nullable
+  @NotNull
   GleamRecordUpdateArguments getRecordUpdateArguments();
 
   @Nullable

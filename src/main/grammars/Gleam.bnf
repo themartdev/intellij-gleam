@@ -353,7 +353,7 @@ expression ::=
              | blockExpr
 
              // Potentially ambiguous expressions
-             | recordUpdateExpr
+//             | recordUpdateExpr
              // Binary must come before unary for negation/subtraction precedence
              | binaryExpr
              | unaryExpr

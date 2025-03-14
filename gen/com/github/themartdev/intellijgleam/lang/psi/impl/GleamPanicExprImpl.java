@@ -29,8 +29,8 @@ public class GleamPanicExprImpl extends GleamExpressionImpl implements GleamPani
 
   @Override
   @Nullable
-  public GleamStringLiteral getStringLiteral() {
-    return findChildByClass(GleamStringLiteral.class);
+  public GleamExpression getExpression() {
+    return findChildByClass(GleamExpression.class);
   }
 
 }

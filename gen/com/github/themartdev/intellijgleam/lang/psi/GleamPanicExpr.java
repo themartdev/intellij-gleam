@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface GleamPanicExpr extends GleamExpression {
 
   @Nullable
-  GleamStringLiteral getStringLiteral();
+  GleamExpression getExpression();
 
 }

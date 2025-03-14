@@ -29,8 +29,8 @@ public class GleamTodoExprImpl extends GleamExpressionImpl implements GleamTodoE
 
   @Override
   @Nullable
-  public GleamStringLiteral getStringLiteral() {
-    return findChildByClass(GleamStringLiteral.class);
+  public GleamExpression getExpression() {
+    return findChildByClass(GleamExpression.class);
   }
 
 }

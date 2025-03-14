@@ -3887,7 +3887,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // PANIC (AS stringLiteral)?
+  // PANIC (AS expression)?
   public static boolean panicExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "panicExpr")) return false;
     if (!nextTokenIsSmart(b, PANIC)) return false;
@@ -3899,25 +3899,25 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (AS stringLiteral)?
+  // (AS expression)?
   private static boolean panicExpr_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "panicExpr_1")) return false;
     panicExpr_1_0(b, l + 1);
     return true;
   }
 
-  // AS stringLiteral
+  // AS expression
   private static boolean panicExpr_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "panicExpr_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokenSmart(b, AS);
-    r = r && stringLiteral(b, l + 1);
+    r = r && expression(b, l + 1, -1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // TODO (AS stringLiteral)?
+  // TODO (AS expression)?
   public static boolean todoExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "todoExpr")) return false;
     if (!nextTokenIsSmart(b, TODO)) return false;
@@ -3929,20 +3929,20 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (AS stringLiteral)?
+  // (AS expression)?
   private static boolean todoExpr_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "todoExpr_1")) return false;
     todoExpr_1_0(b, l + 1);
     return true;
   }
 
-  // AS stringLiteral
+  // AS expression
   private static boolean todoExpr_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "todoExpr_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokenSmart(b, AS);
-    r = r && stringLiteral(b, l + 1);
+    r = r && expression(b, l + 1, -1);
     exit_section_(b, m, null, r);
     return r;
   }

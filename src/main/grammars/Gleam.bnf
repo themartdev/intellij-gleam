@@ -316,8 +316,8 @@ useExpr ::= USE [useArgs] L_ARROW expression
 
 letExpr ::= LET ASSERT? patternAliasable [typeAnnotation] EQUAL expression {pin=1}
 
-panicExpr ::= PANIC (AS stringLiteral)?
-todoExpr ::= TODO (AS stringLiteral)?
+panicExpr ::= PANIC (AS expression)?
+todoExpr ::= TODO (AS expression)?
 
 callArgument ::= labeledArgument | unlabeledArgument | hole
 callArguments ::= LPAREN [callArgument (COMMA callArgument)* [COMMA]] RPAREN

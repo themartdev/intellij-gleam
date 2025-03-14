@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface GleamTodoExpr extends GleamExpression {
 
   @Nullable
-  GleamStringLiteral getStringLiteral();
+  GleamExpression getExpression();
 
 }

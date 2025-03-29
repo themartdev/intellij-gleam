@@ -12,4 +12,8 @@ class TypeTest : GleamParsingTestCase() {
     fun testGenericCustom() = assertParsedCorrectly()
 
     fun testGenericUsage() = assertParsedCorrectly()
+
+    fun testFunctionChain() = assertParsedCorrectly()
+
+    fun testFunctionReturnTuple() = assertParsedCorrectly()
 }

@@ -4125,7 +4125,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // FN anonymousFunctionParameters [R_ARROW typeReference] functionBody
+  // FN anonymousFunctionParameters [R_ARROW typeBase] functionBody
   public static boolean anonymousFunctionExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "anonymousFunctionExpr")) return false;
     if (!nextTokenIsSmart(b, FN)) return false;
@@ -4139,20 +4139,20 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // [R_ARROW typeReference]
+  // [R_ARROW typeBase]
   private static boolean anonymousFunctionExpr_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "anonymousFunctionExpr_2")) return false;
     anonymousFunctionExpr_2_0(b, l + 1);
     return true;
   }
 
-  // R_ARROW typeReference
+  // R_ARROW typeBase
   private static boolean anonymousFunctionExpr_2_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "anonymousFunctionExpr_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokenSmart(b, R_ARROW);
-    r = r && typeReference(b, l + 1);
+    r = r && typeBase(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }

@@ -291,7 +291,7 @@ listExpr ::= LBRACK [expression ((COMMA expression)*)? [COMMA] [DOT_DOT expressi
 
 anonymousFunctionParameter ::= identifierDiscardable [typeAnnotation]
 anonymousFunctionParameters ::= LPAREN [anonymousFunctionParameter (COMMA anonymousFunctionParameter)* [COMMA]] RPAREN
-anonymousFunctionExpr ::= FN anonymousFunctionParameters [R_ARROW typeReference] functionBody
+anonymousFunctionExpr ::= FN anonymousFunctionParameters [R_ARROW typeBase] functionBody
 
 blockExpr ::= LBRACE expression* RBRACE
 

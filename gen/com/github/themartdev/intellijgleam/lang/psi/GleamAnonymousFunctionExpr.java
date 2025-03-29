@@ -14,6 +14,6 @@ public interface GleamAnonymousFunctionExpr extends GleamExpression {
   GleamFunctionBody getFunctionBody();
 
   @Nullable
-  GleamTypeReference getTypeReference();
+  GleamTypeBase getTypeBase();
 
 }

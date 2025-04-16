@@ -605,99 +605,15 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IF caseClauseGuardExpression
+  // IF expression
   public static boolean caseClauseGuard(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "caseClauseGuard")) return false;
     if (!nextTokenIs(b, IF)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, IF);
-    r = r && caseClauseGuardExpression(b, l + 1);
+    r = r && expression(b, l + 1, -1);
     exit_section_(b, m, CASE_CLAUSE_GUARD, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // VBAR_VBAR | AMPER_AMPER | EQUAL_EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | LESS_DOT
-  //                                 | LESS_EQUAL_DOT | GREATER | GREATER_EQUAL | GREATER_DOT | GREATER_EQUAL_DOT
-  public static boolean caseClauseGuardBinaryOperator(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "caseClauseGuardBinaryOperator")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, CASE_CLAUSE_GUARD_BINARY_OPERATOR, "<case clause guard binary operator>");
-    r = consumeToken(b, VBAR_VBAR);
-    if (!r) r = consumeToken(b, AMPER_AMPER);
-    if (!r) r = consumeToken(b, EQUAL_EQUAL);
-    if (!r) r = consumeToken(b, NOT_EQUAL);
-    if (!r) r = consumeToken(b, LESS);
-    if (!r) r = consumeToken(b, LESS_EQUAL);
-    if (!r) r = consumeToken(b, LESS_DOT);
-    if (!r) r = consumeToken(b, LESS_EQUAL_DOT);
-    if (!r) r = consumeToken(b, GREATER);
-    if (!r) r = consumeToken(b, GREATER_EQUAL);
-    if (!r) r = consumeToken(b, GREATER_DOT);
-    if (!r) r = consumeToken(b, GREATER_EQUAL_DOT);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // caseClauseGuardUnit caseClauseGuardTail*
-  public static boolean caseClauseGuardExpression(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "caseClauseGuardExpression")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, CASE_CLAUSE_GUARD_EXPRESSION, "<case clause guard expression>");
-    r = caseClauseGuardUnit(b, l + 1);
-    r = r && caseClauseGuardExpression_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // caseClauseGuardTail*
-  private static boolean caseClauseGuardExpression_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "caseClauseGuardExpression_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!caseClauseGuardTail(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "caseClauseGuardExpression_1", c)) break;
-    }
-    return true;
-  }
-
-  /* ********************************************************** */
-  // caseClauseGuardBinaryOperator caseClauseGuardUnit
-  public static boolean caseClauseGuardTail(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "caseClauseGuardTail")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, CASE_CLAUSE_GUARD_TAIL, "<case clause guard tail>");
-    r = caseClauseGuardBinaryOperator(b, l + 1);
-    r = r && caseClauseGuardUnit(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // IDENTIFIER | caseClauseTupleAccess | LBRACE caseClauseGuardExpression RBRACE | expressionConst
-  public static boolean caseClauseGuardUnit(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "caseClauseGuardUnit")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, CASE_CLAUSE_GUARD_UNIT, "<case clause guard unit>");
-    r = consumeToken(b, IDENTIFIER);
-    if (!r) r = caseClauseTupleAccess(b, l + 1);
-    if (!r) r = caseClauseGuardUnit_2(b, l + 1);
-    if (!r) r = expressionConst(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // LBRACE caseClauseGuardExpression RBRACE
-  private static boolean caseClauseGuardUnit_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "caseClauseGuardUnit_2")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, LBRACE);
-    r = r && caseClauseGuardExpression(b, l + 1);
-    r = r && consumeToken(b, RBRACE);
-    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -786,32 +702,17 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IDENTIFIER DOT wholeNumber
-  public static boolean caseClauseTupleAccess(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "caseClauseTupleAccess")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, IDENTIFIER, DOT);
-    r = r && wholeNumber(b, l + 1);
-    exit_section_(b, m, CASE_CLAUSE_TUPLE_ACCESS, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // caseClause+
+  // caseClause*
   public static boolean caseClauses(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "caseClauses")) return false;
-    boolean r;
     Marker m = enter_section_(b, l, _NONE_, CASE_CLAUSES, "<case clauses>");
-    r = caseClause(b, l + 1);
-    while (r) {
+    while (true) {
       int c = current_position_(b);
       if (!caseClause(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "caseClauses", c)) break;
     }
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    exit_section_(b, l, m, true, false, null);
+    return true;
   }
 
   /* ********************************************************** */

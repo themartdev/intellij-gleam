@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface GleamCaseClauseGuard extends PsiElement {
 
   @NotNull
-  GleamCaseClauseGuardExpression getCaseClauseGuardExpression();
+  GleamExpression getExpression();
 
 }

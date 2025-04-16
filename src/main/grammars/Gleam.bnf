@@ -294,18 +294,12 @@ anonymousFunctionExpr ::= FN anonymousFunctionParameters [R_ARROW typeBase] func
 
 blockExpr ::= LBRACE expression* RBRACE
 
-caseClauseTupleAccess ::= IDENTIFIER DOT wholeNumber
-caseClauseGuardUnit ::= IDENTIFIER | caseClauseTupleAccess | LBRACE caseClauseGuardExpression RBRACE | expressionConst
-caseClauseGuardBinaryOperator ::= VBAR_VBAR | AMPER_AMPER | EQUAL_EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | LESS_DOT
-                                | LESS_EQUAL_DOT | GREATER | GREATER_EQUAL | GREATER_DOT | GREATER_EQUAL_DOT
-caseClauseGuardExpression ::= caseClauseGuardUnit caseClauseGuardTail*
-caseClauseGuardTail ::= caseClauseGuardBinaryOperator caseClauseGuardUnit
+caseClauseGuard ::= IF expression
 
-caseClauseGuard ::= IF caseClauseGuardExpression
 caseClausePattern ::= patternAliasable (COMMA patternAliasable)* [COMMA]
 caseClausePatterns ::= caseClausePattern (VBAR caseClausePattern)* [VBAR]
 caseClause ::= caseClausePatterns [caseClauseGuard] R_ARROW expression
-caseClauses ::= caseClause+
+caseClauses ::= caseClause*
 caseSubjects ::= expression (COMMA expression)*
 caseExprBody ::= LBRACE caseClauses RBRACE {pin=1}
 caseExpr ::= CASE caseSubjects caseExprBody

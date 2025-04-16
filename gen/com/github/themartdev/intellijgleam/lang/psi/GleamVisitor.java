@@ -99,31 +99,11 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitCaseClauseGuardBinaryOperator(@NotNull GleamCaseClauseGuardBinaryOperator o) {
-    visitPsiElement(o);
-  }
-
-  public void visitCaseClauseGuardExpression(@NotNull GleamCaseClauseGuardExpression o) {
-    visitPsiElement(o);
-  }
-
-  public void visitCaseClauseGuardTail(@NotNull GleamCaseClauseGuardTail o) {
-    visitPsiElement(o);
-  }
-
-  public void visitCaseClauseGuardUnit(@NotNull GleamCaseClauseGuardUnit o) {
-    visitPsiElement(o);
-  }
-
   public void visitCaseClausePattern(@NotNull GleamCaseClausePattern o) {
     visitPattern(o);
   }
 
   public void visitCaseClausePatterns(@NotNull GleamCaseClausePatterns o) {
-    visitPsiElement(o);
-  }
-
-  public void visitCaseClauseTupleAccess(@NotNull GleamCaseClauseTupleAccess o) {
     visitPsiElement(o);
   }
 

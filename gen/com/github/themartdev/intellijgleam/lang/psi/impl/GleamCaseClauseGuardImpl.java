@@ -29,8 +29,8 @@ public class GleamCaseClauseGuardImpl extends ASTWrapperPsiElement implements Gl
 
   @Override
   @NotNull
-  public GleamCaseClauseGuardExpression getCaseClauseGuardExpression() {
-    return findNotNullChildByClass(GleamCaseClauseGuardExpression.class);
+  public GleamExpression getExpression() {
+    return findNotNullChildByClass(GleamExpression.class);
   }
 
 }

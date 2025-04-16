@@ -32,13 +32,8 @@ public interface GleamTypes {
   IElementType CASE_CLAUSE = new GleamElementType("CASE_CLAUSE");
   IElementType CASE_CLAUSES = new GleamElementType("CASE_CLAUSES");
   IElementType CASE_CLAUSE_GUARD = new GleamElementType("CASE_CLAUSE_GUARD");
-  IElementType CASE_CLAUSE_GUARD_BINARY_OPERATOR = new GleamElementType("CASE_CLAUSE_GUARD_BINARY_OPERATOR");
-  IElementType CASE_CLAUSE_GUARD_EXPRESSION = new GleamElementType("CASE_CLAUSE_GUARD_EXPRESSION");
-  IElementType CASE_CLAUSE_GUARD_TAIL = new GleamElementType("CASE_CLAUSE_GUARD_TAIL");
-  IElementType CASE_CLAUSE_GUARD_UNIT = new GleamElementType("CASE_CLAUSE_GUARD_UNIT");
   IElementType CASE_CLAUSE_PATTERN = new GleamElementType("CASE_CLAUSE_PATTERN");
   IElementType CASE_CLAUSE_PATTERNS = new GleamElementType("CASE_CLAUSE_PATTERNS");
-  IElementType CASE_CLAUSE_TUPLE_ACCESS = new GleamElementType("CASE_CLAUSE_TUPLE_ACCESS");
   IElementType CASE_EXPR = new GleamElementType("CASE_EXPR");
   IElementType CASE_EXPR_BODY = new GleamElementType("CASE_EXPR_BODY");
   IElementType CASE_SUBJECTS = new GleamElementType("CASE_SUBJECTS");
@@ -316,26 +311,11 @@ public interface GleamTypes {
       else if (type == CASE_CLAUSE_GUARD) {
         return new GleamCaseClauseGuardImpl(node);
       }
-      else if (type == CASE_CLAUSE_GUARD_BINARY_OPERATOR) {
-        return new GleamCaseClauseGuardBinaryOperatorImpl(node);
-      }
-      else if (type == CASE_CLAUSE_GUARD_EXPRESSION) {
-        return new GleamCaseClauseGuardExpressionImpl(node);
-      }
-      else if (type == CASE_CLAUSE_GUARD_TAIL) {
-        return new GleamCaseClauseGuardTailImpl(node);
-      }
-      else if (type == CASE_CLAUSE_GUARD_UNIT) {
-        return new GleamCaseClauseGuardUnitImpl(node);
-      }
       else if (type == CASE_CLAUSE_PATTERN) {
         return new GleamCaseClausePatternImpl(node);
       }
       else if (type == CASE_CLAUSE_PATTERNS) {
         return new GleamCaseClausePatternsImpl(node);
-      }
-      else if (type == CASE_CLAUSE_TUPLE_ACCESS) {
-        return new GleamCaseClauseTupleAccessImpl(node);
       }
       else if (type == CASE_EXPR) {
         return new GleamCaseExprImpl(node);

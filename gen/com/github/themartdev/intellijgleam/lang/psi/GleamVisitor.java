@@ -7,10 +7,6 @@ import com.intellij.psi.PsiElement;
 
 public class GleamVisitor extends PsiElementVisitor {
 
-  public void visitAccessExpr(@NotNull GleamAccessExpr o) {
-    visitExpression(o);
-  }
-
   public void visitAliasIdentifier(@NotNull GleamAliasIdentifier o) {
     visitPsiElement(o);
   }
@@ -235,6 +231,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitFieldAccessExpr(@NotNull GleamFieldAccessExpr o) {
+    visitExpression(o);
+  }
+
   public void visitFieldAccessExprConst(@NotNull GleamFieldAccessExprConst o) {
     visitExpressionConst(o);
   }
@@ -293,6 +293,10 @@ public class GleamVisitor extends PsiElementVisitor {
 
   public void visitImportDeclaration(@NotNull GleamImportDeclaration o) {
     visitPsiElement(o);
+  }
+
+  public void visitIndexAccessExpr(@NotNull GleamIndexAccessExpr o) {
+    visitExpression(o);
   }
 
   public void visitIntegerLiteral(@NotNull GleamIntegerLiteral o) {

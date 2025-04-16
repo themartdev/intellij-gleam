@@ -219,7 +219,7 @@ NUMBER_SEPARATOR = "_"
 }
 
 <DECIMAL_NUMBER> {
-  \.                             { yybegin(DECIMAL_FRACTION); return GleamTypes.DECIMAL_MARK; }
+  \.                             { yybegin(DECIMAL_FRACTION); return GleamTypes.DOT; }
 }
 
 <DECIMAL_FRACTION> {

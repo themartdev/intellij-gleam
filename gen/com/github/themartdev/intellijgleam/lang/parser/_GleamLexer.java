@@ -886,7 +886,7 @@ public class _GleamLexer implements FlexLexer {
           // fall through
           case 139: break;
           case 41:
-            { yybegin(DECIMAL_FRACTION); return GleamTypes.DECIMAL_MARK;
+            { yybegin(DECIMAL_FRACTION); return GleamTypes.DOT;
             }
           // fall through
           case 140: break;

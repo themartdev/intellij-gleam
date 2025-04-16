@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamAccessExprImpl extends GleamExpressionImpl implements GleamAccessExpr {
+public class GleamIndexAccessExprImpl extends GleamExpressionImpl implements GleamIndexAccessExpr {
 
-  public GleamAccessExprImpl(@NotNull ASTNode node) {
+  public GleamIndexAccessExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitAccessExpr(this);
+    visitor.visitIndexAccessExpr(this);
   }
 
   @Override
@@ -34,15 +34,9 @@ public class GleamAccessExprImpl extends GleamExpressionImpl implements GleamAcc
   }
 
   @Override
-  @Nullable
-  public GleamLabel getLabel() {
-    return findChildByClass(GleamLabel.class);
-  }
-
-  @Override
-  @Nullable
+  @NotNull
   public GleamWholeNumber getWholeNumber() {
-    return findChildByClass(GleamWholeNumber.class);
+    return findNotNullChildByClass(GleamWholeNumber.class);
   }
 
 }

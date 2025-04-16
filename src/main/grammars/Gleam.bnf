@@ -110,7 +110,6 @@
     INVALID_DECIMAL_DIGIT = "regexp:[a-zA-Z]+"
     NUMBER_SEPARATOR = "_"
     EXPONENT_MARK = "e (exponent)"
-    DECIMAL_MARK = ". (decimal separator)"
     EXPONENT_SIGN = "regexp:[+-]"
 
     BASE_NUMBER_PREFIX = "0"
@@ -324,7 +323,9 @@ callArguments ::= LPAREN [callArgument (COMMA callArgument)* [COMMA]] RPAREN
 
 callExpr ::= expression callArguments
 
-accessExpr ::= expression DOT (label | wholeNumber)
+indexAccessExpr ::= expression DOT wholeNumber
+
+fieldAccessExpr ::= expression DOT label
 
 referenceExpr ::= IDENTIFIER
 
@@ -335,10 +336,14 @@ private literal ::= floatLiteral
 
 literalExpr ::= literal
 
-private simpleKeywordExpr ::= letExpr | panicExpr | todoExpr
-expression ::=
-             // Unambiguous expressions - each has a unique pinnable first token
-               simpleKeywordExpr
+private postfixGroup ::= fieldAccessExpr
+                       | indexAccessExpr
+                       | callExpr
+
+private primaryGroup ::= recordExpr
+             | letExpr
+             | panicExpr
+             | todoExpr
              | useExpr
              | caseExpr
              | tupleExpr
@@ -347,16 +352,12 @@ expression ::=
              | anonymousFunctionExpr
              | listExpr
              | blockExpr
-
-             // Potentially ambiguous expressions
-//             | recordUpdateExpr
-             // Binary must come before unary for negation/subtraction precedence
-             | binaryExpr
-             | unaryExpr
-             | callExpr
-             | accessExpr
-             | recordExpr
              | referenceExpr { recoverWhile=expressionRecoverWhile }
+
+expression ::= binaryExpr
+             | unaryExpr
+             | postfixGroup
+             | primaryGroup
 
 private expressionRecoverWhile ::= !(RBRACE | RPAREN | RBRACK | EOL | LET | expression)
 
@@ -411,7 +412,7 @@ wholeNumber ::= VALID_DECIMAL_DIGIT (NUMBER_SEPARATOR VALID_DECIMAL_DIGIT)*
 decimalIntegerLiteral ::= wholeNumber
 negativeDecimalIntegerLiteral ::= MINUS wholeNumber
 
-floatLiteral ::= MINUS? wholeNumber DECIMAL_MARK wholeNumber? (EXPONENT_MARK EXPONENT_SIGN? wholeNumber)?
+floatLiteral ::= MINUS? wholeNumber DOT wholeNumber? (EXPONENT_MARK EXPONENT_SIGN? wholeNumber)?
 integerLiteral ::= binaryIntegerLiteral | octalIntegerLiteral | hexIntegerLiteral | decimalIntegerLiteral
 
 //// Strings

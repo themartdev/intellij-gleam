@@ -8,7 +8,6 @@ import com.github.themartdev.intellijgleam.lang.psi.impl.*;
 
 public interface GleamTypes {
 
-  IElementType ACCESS_EXPR = new GleamElementType("ACCESS_EXPR");
   IElementType ALIAS_IDENTIFIER = new GleamElementType("ALIAS_IDENTIFIER");
   IElementType ALIAS_TYPE_VALUE = new GleamElementType("ALIAS_TYPE_VALUE");
   IElementType ALIAS_UP_IDENTIFIER = new GleamElementType("ALIAS_UP_IDENTIFIER");
@@ -65,6 +64,7 @@ public interface GleamTypes {
   IElementType EXTERNAL_ANNOTATION = new GleamElementType("EXTERNAL_ANNOTATION");
   IElementType EXTERNAL_ANNOTATION_NAME = new GleamElementType("EXTERNAL_ANNOTATION_NAME");
   IElementType EXTERNAL_TARGET = new GleamElementType("EXTERNAL_TARGET");
+  IElementType FIELD_ACCESS_EXPR = new GleamElementType("FIELD_ACCESS_EXPR");
   IElementType FIELD_ACCESS_EXPR_CONST = new GleamElementType("FIELD_ACCESS_EXPR_CONST");
   IElementType FLOAT_LITERAL = new GleamElementType("FLOAT_LITERAL");
   IElementType FUNCTION_BODY = new GleamElementType("FUNCTION_BODY");
@@ -80,6 +80,7 @@ public interface GleamTypes {
   IElementType IDENTIFIER_EXPR_CONST = new GleamElementType("IDENTIFIER_EXPR_CONST");
   IElementType IDENTIFIER_PATTERN = new GleamElementType("IDENTIFIER_PATTERN");
   IElementType IMPORT_DECLARATION = new GleamElementType("IMPORT_DECLARATION");
+  IElementType INDEX_ACCESS_EXPR = new GleamElementType("INDEX_ACCESS_EXPR");
   IElementType INTEGER_LITERAL = new GleamElementType("INTEGER_LITERAL");
   IElementType LABEL = new GleamElementType("LABEL");
   IElementType LABELED_ARGUMENT = new GleamElementType("LABELED_ARGUMENT");
@@ -164,7 +165,6 @@ public interface GleamTypes {
   IElementType COLON = new GleamTokenType(":");
   IElementType COMMA = new GleamTokenType(",");
   IElementType CONST = new GleamTokenType("const");
-  IElementType DECIMAL_MARK = new GleamTokenType(". (decimal separator)");
   IElementType DISCARD_NAME = new GleamTokenType("DISCARD_NAME");
   IElementType DOT = new GleamTokenType(".");
   IElementType DOT_DOT = new GleamTokenType("..");
@@ -247,10 +247,7 @@ public interface GleamTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == ACCESS_EXPR) {
-        return new GleamAccessExprImpl(node);
-      }
-      else if (type == ALIAS_IDENTIFIER) {
+      if (type == ALIAS_IDENTIFIER) {
         return new GleamAliasIdentifierImpl(node);
       }
       else if (type == ALIAS_TYPE_VALUE) {
@@ -400,9 +397,6 @@ public interface GleamTypes {
       else if (type == DEPRECATED_ANNOTATION_NAME) {
         return new GleamDeprecatedAnnotationNameImpl(node);
       }
-      else if (type == EXPRESSION) {
-        return new GleamExpressionImpl(node);
-      }
       else if (type == EXTERNAL_ANNOTATION) {
         return new GleamExternalAnnotationImpl(node);
       }
@@ -411,6 +405,9 @@ public interface GleamTypes {
       }
       else if (type == EXTERNAL_TARGET) {
         return new GleamExternalTargetImpl(node);
+      }
+      else if (type == FIELD_ACCESS_EXPR) {
+        return new GleamFieldAccessExprImpl(node);
       }
       else if (type == FIELD_ACCESS_EXPR_CONST) {
         return new GleamFieldAccessExprConstImpl(node);
@@ -456,6 +453,9 @@ public interface GleamTypes {
       }
       else if (type == IMPORT_DECLARATION) {
         return new GleamImportDeclarationImpl(node);
+      }
+      else if (type == INDEX_ACCESS_EXPR) {
+        return new GleamIndexAccessExprImpl(node);
       }
       else if (type == INTEGER_LITERAL) {
         return new GleamIntegerLiteralImpl(node);

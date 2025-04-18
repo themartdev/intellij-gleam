@@ -3575,48 +3575,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifierDiscardable (COMMA identifierDiscardable)* [COMMA]
-  public static boolean useArgs(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "useArgs")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, USE_ARGS, "<use args>");
-    r = identifierDiscardable(b, l + 1);
-    r = r && useArgs_1(b, l + 1);
-    r = r && useArgs_2(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // (COMMA identifierDiscardable)*
-  private static boolean useArgs_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "useArgs_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!useArgs_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "useArgs_1", c)) break;
-    }
-    return true;
-  }
-
-  // COMMA identifierDiscardable
-  private static boolean useArgs_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "useArgs_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, COMMA);
-    r = r && identifierDiscardable(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // [COMMA]
-  private static boolean useArgs_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "useArgs_2")) return false;
-    consumeToken(b, COMMA);
-    return true;
-  }
-
-  /* ********************************************************** */
   // IDENTIFIER
   public static boolean variableReference(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "variableReference")) return false;
@@ -3903,22 +3861,23 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r || p;
   }
 
-  // USE [useArgs] L_ARROW
+  // USE patternAliasable [typeAnnotation] L_ARROW
   private static boolean useExpr_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "useExpr_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokenSmart(b, USE);
-    r = r && useExpr_0_1(b, l + 1);
+    r = r && patternAliasable(b, l + 1);
+    r = r && useExpr_0_2(b, l + 1);
     r = r && consumeToken(b, L_ARROW);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // [useArgs]
-  private static boolean useExpr_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "useExpr_0_1")) return false;
-    useArgs(b, l + 1);
+  // [typeAnnotation]
+  private static boolean useExpr_0_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "useExpr_0_2")) return false;
+    typeAnnotation(b, l + 1);
     return true;
   }
 

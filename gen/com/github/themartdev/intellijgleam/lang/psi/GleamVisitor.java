@@ -523,10 +523,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitUseArgs(@NotNull GleamUseArgs o) {
-    visitPsiElement(o);
-  }
-
   public void visitUseExpr(@NotNull GleamUseExpr o) {
     visitExpression(o);
   }

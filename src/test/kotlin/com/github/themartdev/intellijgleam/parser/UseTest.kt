@@ -8,4 +8,6 @@ class UseTest : GleamParsingTestCase() {
     fun testDiscardVariable() = assertParsedCorrectly()
 
     fun testMultipleVariables() = assertParsedCorrectly()
+
+    fun testPattern() = assertParsedCorrectly()
 }

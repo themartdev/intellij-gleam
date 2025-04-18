@@ -10,7 +10,10 @@ public interface GleamUseExpr extends GleamExpression {
   @Nullable
   GleamExpression getExpression();
 
+  @NotNull
+  GleamPatternAliasable getPatternAliasable();
+
   @Nullable
-  GleamUseArgs getUseArgs();
+  GleamTypeAnnotation getTypeAnnotation();
 
 }

@@ -34,9 +34,15 @@ public class GleamUseExprImpl extends GleamExpressionImpl implements GleamUseExp
   }
 
   @Override
+  @NotNull
+  public GleamPatternAliasable getPatternAliasable() {
+    return findNotNullChildByClass(GleamPatternAliasable.class);
+  }
+
+  @Override
   @Nullable
-  public GleamUseArgs getUseArgs() {
-    return findChildByClass(GleamUseArgs.class);
+  public GleamTypeAnnotation getTypeAnnotation() {
+    return findChildByClass(GleamTypeAnnotation.class);
   }
 
 }

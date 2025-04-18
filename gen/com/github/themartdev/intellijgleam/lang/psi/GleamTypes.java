@@ -137,7 +137,6 @@ public interface GleamTypes {
   IElementType UNQUALIFIED_IMPORTS = new GleamElementType("UNQUALIFIED_IMPORTS");
   IElementType UNQUALIFIED_TYPE_NAME = new GleamElementType("UNQUALIFIED_TYPE_NAME");
   IElementType UP_UNQUALIFIED_IMPORT = new GleamElementType("UP_UNQUALIFIED_IMPORT");
-  IElementType USE_ARGS = new GleamElementType("USE_ARGS");
   IElementType USE_EXPR = new GleamElementType("USE_EXPR");
   IElementType VARIABLE_REFERENCE = new GleamElementType("VARIABLE_REFERENCE");
   IElementType VISIBILITY_MODIFIER = new GleamElementType("VISIBILITY_MODIFIER");
@@ -613,9 +612,6 @@ public interface GleamTypes {
       }
       else if (type == UP_UNQUALIFIED_IMPORT) {
         return new GleamUpUnqualifiedImportImpl(node);
-      }
-      else if (type == USE_ARGS) {
-        return new GleamUseArgsImpl(node);
       }
       else if (type == USE_EXPR) {
         return new GleamUseExprImpl(node);

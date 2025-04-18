@@ -303,7 +303,7 @@ caseSubjects ::= expression (COMMA expression)*
 caseExprBody ::= LBRACE caseClauses RBRACE {pin=1}
 caseExpr ::= CASE caseSubjects caseExprBody
 
-useExpr ::= USE patternAliasable [typeAnnotation] L_ARROW expression
+useExpr ::= USE [patternAliasable (COMMA patternAliasable)*] [typeAnnotation] L_ARROW expression
 
 letExpr ::= LET ASSERT? patternAliasable [typeAnnotation] EQUAL expression {pin=1}
 

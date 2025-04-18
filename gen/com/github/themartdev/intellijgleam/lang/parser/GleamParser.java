@@ -3918,15 +3918,55 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r || p;
   }
 
-  // USE patternAliasable [typeAnnotation] L_ARROW
+  // USE [patternAliasable (COMMA patternAliasable)*] [typeAnnotation] L_ARROW
   private static boolean useExpr_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "useExpr_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokenSmart(b, USE);
-    r = r && patternAliasable(b, l + 1);
+    r = r && useExpr_0_1(b, l + 1);
     r = r && useExpr_0_2(b, l + 1);
     r = r && consumeToken(b, L_ARROW);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [patternAliasable (COMMA patternAliasable)*]
+  private static boolean useExpr_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "useExpr_0_1")) return false;
+    useExpr_0_1_0(b, l + 1);
+    return true;
+  }
+
+  // patternAliasable (COMMA patternAliasable)*
+  private static boolean useExpr_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "useExpr_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = patternAliasable(b, l + 1);
+    r = r && useExpr_0_1_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (COMMA patternAliasable)*
+  private static boolean useExpr_0_1_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "useExpr_0_1_0_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!useExpr_0_1_0_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "useExpr_0_1_0_1", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA patternAliasable
+  private static boolean useExpr_0_1_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "useExpr_0_1_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokenSmart(b, COMMA);
+    r = r && patternAliasable(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }

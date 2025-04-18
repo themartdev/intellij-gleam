@@ -35,8 +35,8 @@ public class GleamUseExprImpl extends GleamExpressionImpl implements GleamUseExp
 
   @Override
   @NotNull
-  public GleamPatternAliasable getPatternAliasable() {
-    return findNotNullChildByClass(GleamPatternAliasable.class);
+  public List<GleamPatternAliasable> getPatternAliasableList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamPatternAliasable.class);
   }
 
   @Override

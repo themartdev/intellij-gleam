@@ -8,10 +8,16 @@ import com.intellij.psi.PsiElement;
 public interface GleamTypeDeclaration extends PsiElement {
 
   @Nullable
+  GleamCustomType getCustomType();
+
+  @Nullable
+  GleamTypeBase getTypeBase();
+
+  @Nullable
   GleamTypeDeclarationName getTypeDeclarationName();
 
   @Nullable
-  GleamTypeValue getTypeValue();
+  GleamTypeGenerics getTypeGenerics();
 
   @Nullable
   GleamVisibilityModifier getVisibilityModifier();

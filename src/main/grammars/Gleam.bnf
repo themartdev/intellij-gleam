@@ -133,7 +133,6 @@
   extends(".*Expr")=expression
   extends(".*ExprConst")=expressionConst
   extends(".*Annotation")=annotation
-  extends(".*TypeValue")=typeValue
   extends(".*Pattern")=pattern
 }
 
@@ -389,12 +388,9 @@ recordConstructorParameters ::= LPAREN [recordConstructorParameter (COMMA record
 recordConstructor ::= constructorIdentifier [recordConstructorParameters]
 
 typeGenerics ::= LPAREN [IDENTIFIER (COMMA IDENTIFIER)* [COMMA]] RPAREN
-aliasTypeValue ::= typeGenerics? EQUAL typeBase
-customTypeValue ::= typeGenerics? LBRACE recordConstructor* RBRACE {pin=2}
-omittedTypeValue ::=
-typeValue ::= aliasTypeValue | customTypeValue | omittedTypeValue
+customType ::= LBRACE recordConstructor* RBRACE {pin=2}
 typeDeclarationName ::= UP_IDENTIFIER
-typeDeclaration ::= [visibilityModifier] [OPAQUE] TYPE typeDeclarationName typeValue {pin=3}
+typeDeclaration ::= [visibilityModifier] [OPAQUE] TYPE typeDeclarationName typeGenerics? (EQUAL typeBase | customType)? {pin=3}
 
 // ===== Literals =====
 // Numbers

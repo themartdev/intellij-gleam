@@ -27,7 +27,7 @@ class GleamFoldingBuilder : FoldingBuilderEx(), DumbAware {
             is GleamFunctionBody,
             is GleamBlockExpr,
             is GleamCaseExprBody,
-            is GleamTypeValue -> "{...}"
+            is GleamCustomType -> "{...}"
 
             else -> "..."
         }
@@ -47,7 +47,7 @@ class GleamFoldingBuilder : FoldingBuilderEx(), DumbAware {
                 is GleamBlockExpr,
                 is GleamCaseExprBody -> addFoldingDescriptor(element)
 
-                is GleamTypeValue -> addFoldingDescriptorIfApplicable(element)
+                is GleamCustomType -> addFoldingDescriptorIfApplicable(element)
             }
         }
 

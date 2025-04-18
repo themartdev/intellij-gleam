@@ -5,6 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamTypeValue extends PsiElement {
+public interface GleamCustomType extends PsiElement {
+
+  @NotNull
+  List<GleamRecordConstructor> getRecordConstructorList();
 
 }

@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamAliasTypeValueImpl extends GleamTypeValueImpl implements GleamAliasTypeValue {
+public class GleamCustomTypeImpl extends ASTWrapperPsiElement implements GleamCustomType {
 
-  public GleamAliasTypeValueImpl(@NotNull ASTNode node) {
+  public GleamCustomTypeImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitAliasTypeValue(this);
+    visitor.visitCustomType(this);
   }
 
   @Override
@@ -29,14 +29,8 @@ public class GleamAliasTypeValueImpl extends GleamTypeValueImpl implements Gleam
 
   @Override
   @NotNull
-  public GleamTypeBase getTypeBase() {
-    return findNotNullChildByClass(GleamTypeBase.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamTypeGenerics getTypeGenerics() {
-    return findChildByClass(GleamTypeGenerics.class);
+  public List<GleamRecordConstructor> getRecordConstructorList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamRecordConstructor.class);
   }
 
 }

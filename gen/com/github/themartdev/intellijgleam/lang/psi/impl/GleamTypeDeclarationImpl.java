@@ -29,14 +29,26 @@ public class GleamTypeDeclarationImpl extends ASTWrapperPsiElement implements Gl
 
   @Override
   @Nullable
+  public GleamCustomType getCustomType() {
+    return findChildByClass(GleamCustomType.class);
+  }
+
+  @Override
+  @Nullable
+  public GleamTypeBase getTypeBase() {
+    return findChildByClass(GleamTypeBase.class);
+  }
+
+  @Override
+  @Nullable
   public GleamTypeDeclarationName getTypeDeclarationName() {
     return findChildByClass(GleamTypeDeclarationName.class);
   }
 
   @Override
   @Nullable
-  public GleamTypeValue getTypeValue() {
-    return findChildByClass(GleamTypeValue.class);
+  public GleamTypeGenerics getTypeGenerics() {
+    return findChildByClass(GleamTypeGenerics.class);
   }
 
   @Override

@@ -11,10 +11,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitAliasTypeValue(@NotNull GleamAliasTypeValue o) {
-    visitTypeValue(o);
-  }
-
   public void visitAliasUpIdentifier(@NotNull GleamAliasUpIdentifier o) {
     visitPsiElement(o);
   }
@@ -175,8 +171,8 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitCustomTypeValue(@NotNull GleamCustomTypeValue o) {
-    visitTypeValue(o);
+  public void visitCustomType(@NotNull GleamCustomType o) {
+    visitPsiElement(o);
   }
 
   public void visitDecimalIntegerLiteral(@NotNull GleamDecimalIntegerLiteral o) {
@@ -339,10 +335,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitOmittedTypeValue(@NotNull GleamOmittedTypeValue o) {
-    visitTypeValue(o);
-  }
-
   public void visitOtherAnnotation(@NotNull GleamOtherAnnotation o) {
     visitAnnotation(o);
   }
@@ -492,10 +484,6 @@ public class GleamVisitor extends PsiElementVisitor {
   }
 
   public void visitTypeUnqualifiedImport(@NotNull GleamTypeUnqualifiedImport o) {
-    visitPsiElement(o);
-  }
-
-  public void visitTypeValue(@NotNull GleamTypeValue o) {
     visitPsiElement(o);
   }
 

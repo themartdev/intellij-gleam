@@ -8,3 +8,5 @@ pub type MyGeneric2(e) =
 
 pub type MyGeneric3 =
   MyGeneric2(String)
+
+pub type Dict(key, value)

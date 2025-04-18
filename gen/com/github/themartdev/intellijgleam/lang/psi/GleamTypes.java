@@ -9,7 +9,6 @@ import com.github.themartdev.intellijgleam.lang.psi.impl.*;
 public interface GleamTypes {
 
   IElementType ALIAS_IDENTIFIER = new GleamElementType("ALIAS_IDENTIFIER");
-  IElementType ALIAS_TYPE_VALUE = new GleamElementType("ALIAS_TYPE_VALUE");
   IElementType ALIAS_UP_IDENTIFIER = new GleamElementType("ALIAS_UP_IDENTIFIER");
   IElementType ANNOTATION = new GleamElementType("ANNOTATION");
   IElementType ANONYMOUS_FUNCTION_EXPR = new GleamElementType("ANONYMOUS_FUNCTION_EXPR");
@@ -50,7 +49,7 @@ public interface GleamTypes {
   IElementType CONSTANT_TYPE_SPECIAL = new GleamElementType("CONSTANT_TYPE_SPECIAL");
   IElementType CONSTANT_TYPE_TUPLE = new GleamElementType("CONSTANT_TYPE_TUPLE");
   IElementType CONSTRUCTOR_IDENTIFIER = new GleamElementType("CONSTRUCTOR_IDENTIFIER");
-  IElementType CUSTOM_TYPE_VALUE = new GleamElementType("CUSTOM_TYPE_VALUE");
+  IElementType CUSTOM_TYPE = new GleamElementType("CUSTOM_TYPE");
   IElementType DECIMAL_INTEGER_LITERAL = new GleamElementType("DECIMAL_INTEGER_LITERAL");
   IElementType DEPRECATED_ANNOTATION = new GleamElementType("DEPRECATED_ANNOTATION");
   IElementType DEPRECATED_ANNOTATION_NAME = new GleamElementType("DEPRECATED_ANNOTATION_NAME");
@@ -91,7 +90,6 @@ public interface GleamTypes {
   IElementType MODULE_PATH = new GleamElementType("MODULE_PATH");
   IElementType NEGATIVE_DECIMAL_INTEGER_LITERAL = new GleamElementType("NEGATIVE_DECIMAL_INTEGER_LITERAL");
   IElementType OCTAL_INTEGER_LITERAL = new GleamElementType("OCTAL_INTEGER_LITERAL");
-  IElementType OMITTED_TYPE_VALUE = new GleamElementType("OMITTED_TYPE_VALUE");
   IElementType OTHER_ANNOTATION = new GleamElementType("OTHER_ANNOTATION");
   IElementType PANIC_EXPR = new GleamElementType("PANIC_EXPR");
   IElementType PATTERN = new GleamElementType("PATTERN");
@@ -130,7 +128,6 @@ public interface GleamTypes {
   IElementType TYPE_GENERICS = new GleamElementType("TYPE_GENERICS");
   IElementType TYPE_REFERENCE = new GleamElementType("TYPE_REFERENCE");
   IElementType TYPE_UNQUALIFIED_IMPORT = new GleamElementType("TYPE_UNQUALIFIED_IMPORT");
-  IElementType TYPE_VALUE = new GleamElementType("TYPE_VALUE");
   IElementType UNARY_EXPR = new GleamElementType("UNARY_EXPR");
   IElementType UNARY_OPERATOR = new GleamElementType("UNARY_OPERATOR");
   IElementType UNKNOWN_ANNOTATION_NAME = new GleamElementType("UNKNOWN_ANNOTATION_NAME");
@@ -244,9 +241,6 @@ public interface GleamTypes {
       IElementType type = node.getElementType();
       if (type == ALIAS_IDENTIFIER) {
         return new GleamAliasIdentifierImpl(node);
-      }
-      else if (type == ALIAS_TYPE_VALUE) {
-        return new GleamAliasTypeValueImpl(node);
       }
       else if (type == ALIAS_UP_IDENTIFIER) {
         return new GleamAliasUpIdentifierImpl(node);
@@ -365,8 +359,8 @@ public interface GleamTypes {
       else if (type == CONSTRUCTOR_IDENTIFIER) {
         return new GleamConstructorIdentifierImpl(node);
       }
-      else if (type == CUSTOM_TYPE_VALUE) {
-        return new GleamCustomTypeValueImpl(node);
+      else if (type == CUSTOM_TYPE) {
+        return new GleamCustomTypeImpl(node);
       }
       else if (type == DECIMAL_INTEGER_LITERAL) {
         return new GleamDecimalIntegerLiteralImpl(node);
@@ -481,9 +475,6 @@ public interface GleamTypes {
       }
       else if (type == OCTAL_INTEGER_LITERAL) {
         return new GleamOctalIntegerLiteralImpl(node);
-      }
-      else if (type == OMITTED_TYPE_VALUE) {
-        return new GleamOmittedTypeValueImpl(node);
       }
       else if (type == OTHER_ANNOTATION) {
         return new GleamOtherAnnotationImpl(node);

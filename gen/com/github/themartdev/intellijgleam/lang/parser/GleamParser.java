@@ -36,7 +36,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
-    create_token_set_(ALIAS_TYPE_VALUE, CUSTOM_TYPE_VALUE, OMITTED_TYPE_VALUE, TYPE_VALUE),
     create_token_set_(ANNOTATION, CONSTANT_TYPE_ANNOTATION, DEPRECATED_ANNOTATION, EXTERNAL_ANNOTATION,
       OTHER_ANNOTATION, TARGET_ANNOTATION, TYPE_ANNOTATION),
     create_token_set_(BIT_ARRAY_EXPR_CONST, EXPRESSION_CONST, FIELD_ACCESS_EXPR_CONST, IDENTIFIER_EXPR_CONST,
@@ -60,27 +59,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = identifierDiscardable(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
-  }
-
-  /* ********************************************************** */
-  // typeGenerics? EQUAL typeBase
-  public static boolean aliasTypeValue(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "aliasTypeValue")) return false;
-    if (!nextTokenIs(b, "<alias type value>", EQUAL, LPAREN)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, ALIAS_TYPE_VALUE, "<alias type value>");
-    r = aliasTypeValue_0(b, l + 1);
-    r = r && consumeToken(b, EQUAL);
-    r = r && typeBase(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // typeGenerics?
-  private static boolean aliasTypeValue_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "aliasTypeValue_0")) return false;
-    typeGenerics(b, l + 1);
-    return true;
   }
 
   /* ********************************************************** */
@@ -1198,35 +1176,27 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // typeGenerics? LBRACE recordConstructor* RBRACE
-  public static boolean customTypeValue(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "customTypeValue")) return false;
-    if (!nextTokenIs(b, "<custom type value>", LBRACE, LPAREN)) return false;
+  // LBRACE recordConstructor* RBRACE
+  public static boolean customType(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "customType")) return false;
+    if (!nextTokenIs(b, LBRACE)) return false;
     boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, CUSTOM_TYPE_VALUE, "<custom type value>");
-    r = customTypeValue_0(b, l + 1);
-    r = r && consumeToken(b, LBRACE);
+    Marker m = enter_section_(b, l, _NONE_, CUSTOM_TYPE, null);
+    r = consumeToken(b, LBRACE);
+    r = r && customType_1(b, l + 1);
     p = r; // pin = 2
-    r = r && report_error_(b, customTypeValue_2(b, l + 1));
-    r = p && consumeToken(b, RBRACE) && r;
+    r = r && consumeToken(b, RBRACE);
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
-  // typeGenerics?
-  private static boolean customTypeValue_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "customTypeValue_0")) return false;
-    typeGenerics(b, l + 1);
-    return true;
-  }
-
   // recordConstructor*
-  private static boolean customTypeValue_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "customTypeValue_2")) return false;
+  private static boolean customType_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "customType_1")) return false;
     while (true) {
       int c = current_position_(b);
       if (!recordConstructor(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "customTypeValue_2", c)) break;
+      if (!empty_element_parsed_guard_(b, "customType_1", c)) break;
     }
     return true;
   }
@@ -2203,13 +2173,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = consumeTokens(b, 0, NUMBER_SEPARATOR, VALID_OCTAL_DIGIT);
     exit_section_(b, m, null, r);
     return r;
-  }
-
-  /* ********************************************************** */
-  public static boolean omittedTypeValue(PsiBuilder b, int l) {
-    Marker m = enter_section_(b);
-    exit_section_(b, m, OMITTED_TYPE_VALUE, true);
-    return true;
   }
 
   /* ********************************************************** */
@@ -3201,7 +3164,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // [visibilityModifier] [OPAQUE] TYPE typeDeclarationName typeValue
+  // [visibilityModifier] [OPAQUE] TYPE typeDeclarationName typeGenerics? (EQUAL typeBase | customType)?
   public static boolean typeDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "typeDeclaration")) return false;
     boolean r, p;
@@ -3211,7 +3174,8 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = r && consumeToken(b, TYPE);
     p = r; // pin = 3
     r = r && report_error_(b, typeDeclarationName(b, l + 1));
-    r = p && typeValue(b, l + 1) && r;
+    r = p && report_error_(b, typeDeclaration_4(b, l + 1)) && r;
+    r = p && typeDeclaration_5(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -3228,6 +3192,42 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "typeDeclaration_1")) return false;
     consumeToken(b, OPAQUE);
     return true;
+  }
+
+  // typeGenerics?
+  private static boolean typeDeclaration_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "typeDeclaration_4")) return false;
+    typeGenerics(b, l + 1);
+    return true;
+  }
+
+  // (EQUAL typeBase | customType)?
+  private static boolean typeDeclaration_5(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "typeDeclaration_5")) return false;
+    typeDeclaration_5_0(b, l + 1);
+    return true;
+  }
+
+  // EQUAL typeBase | customType
+  private static boolean typeDeclaration_5_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "typeDeclaration_5_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = typeDeclaration_5_0_0(b, l + 1);
+    if (!r) r = customType(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // EQUAL typeBase
+  private static boolean typeDeclaration_5_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "typeDeclaration_5_0_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, EQUAL);
+    r = r && typeBase(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -3362,19 +3362,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, AS);
     r = r && aliasUpIdentifier(b, l + 1);
     exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // aliasTypeValue | customTypeValue | omittedTypeValue
-  public static boolean typeValue(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeValue")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _COLLAPSE_, TYPE_VALUE, "<type value>");
-    r = aliasTypeValue(b, l + 1);
-    if (!r) r = customTypeValue(b, l + 1);
-    if (!r) r = omittedTypeValue(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

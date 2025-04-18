@@ -17,7 +17,7 @@ class GleamIndentProcessor {
         if (parentType == GleamTypes.FUNCTION_BODY ||
             parentType == GleamTypes.BLOCK_EXPR ||
             parentType == GleamTypes.CASE_EXPR_BODY ||
-            parentType == GleamTypes.CUSTOM_TYPE_VALUE
+            parentType == GleamTypes.CUSTOM_TYPE
         ) {
             return if (elementType == GleamTypes.RBRACE || elementType == GleamTypes.LBRACE) {
                 Indent.getNoneIndent()

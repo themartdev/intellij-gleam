@@ -773,32 +773,53 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUAL expressionConst
+  // (annotation)* [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUAL expressionConst
   public static boolean constantDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "constantDeclaration")) return false;
-    if (!nextTokenIs(b, "<constant declaration>", CONST, PUB)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, CONSTANT_DECLARATION, "<constant declaration>");
     r = constantDeclaration_0(b, l + 1);
+    r = r && constantDeclaration_1(b, l + 1);
     r = r && consumeTokens(b, 1, CONST, IDENTIFIER);
-    p = r; // pin = 2
-    r = r && report_error_(b, constantDeclaration_3(b, l + 1));
+    p = r; // pin = CONST
+    r = r && report_error_(b, constantDeclaration_4(b, l + 1));
     r = p && report_error_(b, consumeToken(b, EQUAL)) && r;
     r = p && expressionConst(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
-  // [visibilityModifier]
+  // (annotation)*
   private static boolean constantDeclaration_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "constantDeclaration_0")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!constantDeclaration_0_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "constantDeclaration_0", c)) break;
+    }
+    return true;
+  }
+
+  // (annotation)
+  private static boolean constantDeclaration_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "constantDeclaration_0_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = annotation(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [visibilityModifier]
+  private static boolean constantDeclaration_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "constantDeclaration_1")) return false;
     visibilityModifier(b, l + 1);
     return true;
   }
 
   // [constantTypeAnnotation]
-  private static boolean constantDeclaration_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "constantDeclaration_3")) return false;
+  private static boolean constantDeclaration_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "constantDeclaration_4")) return false;
     constantTypeAnnotation(b, l + 1);
     return true;
   }
@@ -1448,7 +1469,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = functionDeclaration_0(b, l + 1);
     r = r && functionDeclaration_1(b, l + 1);
     r = r && consumeToken(b, FN);
-    p = r; // pin = 3
+    p = r; // pin = FN
     r = r && report_error_(b, functionNameDefinition(b, l + 1));
     r = p && report_error_(b, functionParameters(b, l + 1)) && r;
     r = p && report_error_(b, functionDeclaration_5(b, l + 1)) && r;
@@ -1797,7 +1818,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // targetAnnotation? IMPORT modulePath [DOT unqualifiedImports] [AS IDENTIFIER]
+  // (annotation)* IMPORT modulePath [DOT unqualifiedImports] [AS IDENTIFIER]
   public static boolean importDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "importDeclaration")) return false;
     if (!nextTokenIs(b, "<import declaration>", ANNOTATION_MARK, IMPORT)) return false;
@@ -1813,11 +1834,25 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r || p;
   }
 
-  // targetAnnotation?
+  // (annotation)*
   private static boolean importDeclaration_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "importDeclaration_0")) return false;
-    targetAnnotation(b, l + 1);
+    while (true) {
+      int c = current_position_(b);
+      if (!importDeclaration_0_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "importDeclaration_0", c)) break;
+    }
     return true;
+  }
+
+  // (annotation)
+  private static boolean importDeclaration_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "importDeclaration_0_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = annotation(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   // [DOT unqualifiedImports]
@@ -3164,64 +3199,86 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // [visibilityModifier] [OPAQUE] TYPE typeDeclarationName typeGenerics? (EQUAL typeBase | customType)?
+  // (annotation)* [visibilityModifier] [OPAQUE] TYPE typeDeclarationName typeGenerics? (EQUAL typeBase | customType)?
   public static boolean typeDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "typeDeclaration")) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, TYPE_DECLARATION, "<type declaration>");
     r = typeDeclaration_0(b, l + 1);
     r = r && typeDeclaration_1(b, l + 1);
+    r = r && typeDeclaration_2(b, l + 1);
     r = r && consumeToken(b, TYPE);
-    p = r; // pin = 3
+    p = r; // pin = TYPE
     r = r && report_error_(b, typeDeclarationName(b, l + 1));
-    r = p && report_error_(b, typeDeclaration_4(b, l + 1)) && r;
-    r = p && typeDeclaration_5(b, l + 1) && r;
+    r = p && report_error_(b, typeDeclaration_5(b, l + 1)) && r;
+    r = p && typeDeclaration_6(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
-  // [visibilityModifier]
+  // (annotation)*
   private static boolean typeDeclaration_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "typeDeclaration_0")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!typeDeclaration_0_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "typeDeclaration_0", c)) break;
+    }
+    return true;
+  }
+
+  // (annotation)
+  private static boolean typeDeclaration_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "typeDeclaration_0_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = annotation(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [visibilityModifier]
+  private static boolean typeDeclaration_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "typeDeclaration_1")) return false;
     visibilityModifier(b, l + 1);
     return true;
   }
 
   // [OPAQUE]
-  private static boolean typeDeclaration_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeDeclaration_1")) return false;
+  private static boolean typeDeclaration_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "typeDeclaration_2")) return false;
     consumeToken(b, OPAQUE);
     return true;
   }
 
   // typeGenerics?
-  private static boolean typeDeclaration_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeDeclaration_4")) return false;
+  private static boolean typeDeclaration_5(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "typeDeclaration_5")) return false;
     typeGenerics(b, l + 1);
     return true;
   }
 
   // (EQUAL typeBase | customType)?
-  private static boolean typeDeclaration_5(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeDeclaration_5")) return false;
-    typeDeclaration_5_0(b, l + 1);
+  private static boolean typeDeclaration_6(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "typeDeclaration_6")) return false;
+    typeDeclaration_6_0(b, l + 1);
     return true;
   }
 
   // EQUAL typeBase | customType
-  private static boolean typeDeclaration_5_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeDeclaration_5_0")) return false;
+  private static boolean typeDeclaration_6_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "typeDeclaration_6_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = typeDeclaration_5_0_0(b, l + 1);
+    r = typeDeclaration_6_0_0(b, l + 1);
     if (!r) r = customType(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // EQUAL typeBase
-  private static boolean typeDeclaration_5_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "typeDeclaration_5_0_0")) return false;
+  private static boolean typeDeclaration_6_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "typeDeclaration_6_0_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, EQUAL);

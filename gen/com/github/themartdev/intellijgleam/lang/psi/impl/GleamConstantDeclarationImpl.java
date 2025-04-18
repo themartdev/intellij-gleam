@@ -28,6 +28,12 @@ public class GleamConstantDeclarationImpl extends ASTWrapperPsiElement implement
   }
 
   @Override
+  @NotNull
+  public List<GleamAnnotation> getAnnotationList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamAnnotation.class);
+  }
+
+  @Override
   @Nullable
   public GleamConstantTypeAnnotation getConstantTypeAnnotation() {
     return findChildByClass(GleamConstantTypeAnnotation.class);

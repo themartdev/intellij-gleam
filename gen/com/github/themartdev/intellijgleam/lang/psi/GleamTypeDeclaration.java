@@ -7,6 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface GleamTypeDeclaration extends PsiElement {
 
+  @NotNull
+  List<GleamAnnotation> getAnnotationList();
+
   @Nullable
   GleamCustomType getCustomType();
 

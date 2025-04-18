@@ -150,7 +150,7 @@ private topLevelDeclaration ::= importDeclaration
 private declarationRecover ::= !topLevelKeyword
 private topLevelKeyword ::= IMPORT | CONST | TYPE | FN | PUB | OPAQUE | ANNOTATION_MARK
 
-constantDeclaration ::= [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUAL expressionConst {pin=2}
+constantDeclaration ::= (annotation)* [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUAL expressionConst {pin="CONST"}
 
 // ===== Imports =====
 unqualifiedImport ::= identifierDiscardable (AS aliasIdentifier)? {
@@ -170,7 +170,7 @@ modulePath ::= IDENTIFIER (SLASH IDENTIFIER)* {
   methods=[getModuleName]
 }
 
-importDeclaration ::= targetAnnotation? IMPORT modulePath [DOT unqualifiedImports] [AS IDENTIFIER] {
+importDeclaration ::= (annotation)* IMPORT modulePath [DOT unqualifiedImports] [AS IDENTIFIER] {
   pin=2
   methods=[getNameOrAlias]
 }
@@ -246,7 +246,7 @@ functionParameter ::= (label identifierDiscardable | identifierDiscardable) [typ
 functionParameters ::= LPAREN [functionParameter (COMMA functionParameter)* [COMMA]] RPAREN
 functionBody ::= LBRACE expression* RBRACE {pin=1}
 functionDeclaration ::= (annotation)* [visibilityModifier] FN functionNameDefinition functionParameters [R_ARROW typeBase] functionBody? {
-  pin=3
+  pin="FN"
 }
 functionNameDefinition::= IDENTIFIER
 
@@ -389,7 +389,7 @@ recordConstructor ::= constructorIdentifier [recordConstructorParameters]
 typeGenerics ::= LPAREN [IDENTIFIER (COMMA IDENTIFIER)* [COMMA]] RPAREN
 customType ::= LBRACE recordConstructor* RBRACE {pin=2}
 typeDeclarationName ::= UP_IDENTIFIER
-typeDeclaration ::= [visibilityModifier] [OPAQUE] TYPE typeDeclarationName typeGenerics? (EQUAL typeBase | customType)? {pin=3}
+typeDeclaration ::= (annotation)* [visibilityModifier] [OPAQUE] TYPE typeDeclarationName typeGenerics? (EQUAL typeBase | customType)? {pin="TYPE"}
 
 // ===== Literals =====
 // Numbers

@@ -7,11 +7,11 @@ import com.intellij.psi.PsiElement;
 
 public interface GleamImportDeclaration extends PsiElement {
 
-  @Nullable
-  GleamModulePath getModulePath();
+  @NotNull
+  List<GleamAnnotation> getAnnotationList();
 
   @Nullable
-  GleamTargetAnnotation getTargetAnnotation();
+  GleamModulePath getModulePath();
 
   @Nullable
   GleamUnqualifiedImports getUnqualifiedImports();

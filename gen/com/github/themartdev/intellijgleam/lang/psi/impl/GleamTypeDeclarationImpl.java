@@ -28,6 +28,12 @@ public class GleamTypeDeclarationImpl extends ASTWrapperPsiElement implements Gl
   }
 
   @Override
+  @NotNull
+  public List<GleamAnnotation> getAnnotationList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamAnnotation.class);
+  }
+
+  @Override
   @Nullable
   public GleamCustomType getCustomType() {
     return findChildByClass(GleamCustomType.class);

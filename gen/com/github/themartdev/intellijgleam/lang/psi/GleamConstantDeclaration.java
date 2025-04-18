@@ -7,6 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface GleamConstantDeclaration extends PsiElement {
 
+  @NotNull
+  List<GleamAnnotation> getAnnotationList();
+
   @Nullable
   GleamConstantTypeAnnotation getConstantTypeAnnotation();
 

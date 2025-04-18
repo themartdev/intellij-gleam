@@ -28,15 +28,15 @@ public class GleamImportDeclarationImpl extends ASTWrapperPsiElement implements 
   }
 
   @Override
-  @Nullable
-  public GleamModulePath getModulePath() {
-    return findChildByClass(GleamModulePath.class);
+  @NotNull
+  public List<GleamAnnotation> getAnnotationList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamAnnotation.class);
   }
 
   @Override
   @Nullable
-  public GleamTargetAnnotation getTargetAnnotation() {
-    return findChildByClass(GleamTargetAnnotation.class);
+  public GleamModulePath getModulePath() {
+    return findChildByClass(GleamModulePath.class);
   }
 
   @Override

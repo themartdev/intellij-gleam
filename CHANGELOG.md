@@ -4,6 +4,21 @@
 
 ## [Unreleased]
 
+## [0.4.0] - 2025-04-17
+
+### Added
+
+- Support for IntelliJ platform 2025.1
+
+### Fixed
+
+- Several parsing issues: 
+  - Function returning a function type annotation
+  - Case clause guards with access operators
+  - Nested tuple access
+  - Generic type declaration without value
+  - Use expression with pattern on the left side
+
 ## [0.3.1] - 2025-03-13
 
 ### Fixed
@@ -87,7 +102,8 @@
     - Root keyword completion
     - Auto indentation, brace matching, etc.
 
-[Unreleased]: https://github.com/themartdev/intellij-gleam/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/themartdev/intellij-gleam/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/themartdev/intellij-gleam/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/themartdev/intellij-gleam/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/themartdev/intellij-gleam/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/themartdev/intellij-gleam/compare/v0.2.0...v0.2.1

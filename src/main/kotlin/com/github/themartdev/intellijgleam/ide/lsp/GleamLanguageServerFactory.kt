@@ -1,9 +1,5 @@
 package com.github.themartdev.intellijgleam.ide.lsp
 
-import com.github.themartdev.intellijgleam.ide.common.FsUtils
-import com.intellij.notification.Notification
-import com.intellij.notification.NotificationType
-import com.intellij.notification.Notifications
 import com.intellij.openapi.project.Project
 import com.redhat.devtools.lsp4ij.LanguageServerEnablementSupport
 import com.redhat.devtools.lsp4ij.LanguageServerFactory
@@ -20,24 +16,7 @@ class GleamLanguageServerFactory : LanguageServerFactory, LanguageServerEnableme
             return false
         }
         val settings = GleamServiceSettings.getInstance(project)
-        if (settings.lspMode != GleamLspMode.ENABLED) {
-            return false
-        }
-        val isValidPath = FsUtils.validateGleamPath(settings.gleamPath)
-        if (isValidPath) {
-            return true
-        } else {
-            settings.lspMode = GleamLspMode.DISABLED
-            Notifications.Bus.notify(
-                Notification(
-                    "intellij-gleam.gleam-ls",
-                    "Gleam language server",
-                    "Gleam path is invalid. Please configure it in settings. LSP services have been disabled",
-                    NotificationType.ERROR
-                )
-            )
-            return false
-        }
+        return settings.lspMode == GleamLspMode.ENABLED
     }
 
     private fun validateLSP4IJCompatibility(): Boolean {

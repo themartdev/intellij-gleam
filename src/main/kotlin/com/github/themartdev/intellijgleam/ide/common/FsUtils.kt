@@ -5,11 +5,7 @@ import com.intellij.openapi.util.SystemInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import java.nio.file.Path
-import kotlin.io.path.Path
-import kotlin.io.path.exists
-import kotlin.io.path.isDirectory
-import kotlin.io.path.isExecutable
-import kotlin.io.path.isRegularFile
+import kotlin.io.path.*
 
 object FsUtils {
     fun validateGleamPath(path: String): Boolean {

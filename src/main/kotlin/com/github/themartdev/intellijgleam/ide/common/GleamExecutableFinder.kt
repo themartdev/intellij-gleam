@@ -3,12 +3,7 @@ package com.github.themartdev.intellijgleam.ide.common
 import com.intellij.openapi.util.SystemInfo
 import java.io.File
 import java.nio.file.Path
-import kotlin.io.path.Path
-import kotlin.io.path.exists
-import kotlin.io.path.isDirectory
-import kotlin.io.path.isExecutable
-import kotlin.io.path.isRegularFile
-import kotlin.io.path.listDirectoryEntries
+import kotlin.io.path.*
 
 class GleamExecutable(val path: String, val valid: Boolean, val version: String? = null)
 
@@ -19,8 +14,7 @@ object GleamExecutableFinder {
         findGleamInAsdf().forEach { candidates.add(it) }
         return candidates
             .filter { it.isExecutable() }
-            .map { captureGleam(it) }
-            .filterNotNull()
+            .mapNotNull { captureGleam(it) }
     }
 
     private fun findGleamInAsdf(): List<Path> {

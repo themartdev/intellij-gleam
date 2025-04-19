@@ -56,6 +56,9 @@
         <lang.formatter language="Gleam"
                         implementationClass="com.github.themartdev.intellijgleam.ide.formatter.GleamFormattingModelBuilder"/>
 
+        <codeInsight.parameterInfo language="Gleam"
+                                   implementationClass="com.redhat.devtools.lsp4ij.features.signatureHelp.LSPParameterInfoHandler"/>
+
         <langCodeStyleSettingsProvider
                 implementation="com.github.themartdev.intellijgleam.ide.formatter.GleamLanguageCodeStyleSettingsProvider"/>
 

@@ -3,8 +3,6 @@ package com.github.themartdev.intellijgleam.ide.runconf.run
 import com.github.themartdev.intellijgleam.GleamBundle
 import com.github.themartdev.intellijgleam.ide.common.GleamExecutableFinder
 import com.github.themartdev.intellijgleam.ide.ui.components.GleamPathComboBox
-import com.github.themartdev.intellijgleam.ide.ui.components.PathItem
-import com.github.themartdev.intellijgleam.ide.ui.components.fromExecutable
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ModalityState
 import com.intellij.openapi.options.SettingsEditor
@@ -23,13 +21,13 @@ class GleamRunConfigurationEditor(project: Project) : SettingsEditor<GleamRunCon
 
     override fun resetEditorFrom(s: GleamRunConfiguration) {
         modulePathField.text = s.options.filePath ?: ""
-        customGleamField.selectedPath = s.options.customGleamPath ?: ""
+        customGleamField.selectedItem = s.options.customGleamPath ?: ""
         useCustomGleam.component.isSelected = s.options.useCustomGleam
     }
 
     override fun applyEditorTo(s: GleamRunConfiguration) {
         s.options.filePath = modulePathField.text
-        s.options.customGleamPath = customGleamField.selectedPath
+        s.options.customGleamPath = customGleamField.selectedItem as String
         s.options.useCustomGleam = useCustomGleam.component.isSelected
     }
 
@@ -57,7 +55,7 @@ class GleamRunConfigurationEditor(project: Project) : SettingsEditor<GleamRunCon
         val modalityState = ModalityState.current()
         ApplicationManager.getApplication().executeOnPooledThread {
             val detectedGleamPaths = GleamExecutableFinder.findGleamInstalls()
-            val pathItems = detectedGleamPaths.map { PathItem.Value.fromExecutable(it) }
+            val pathItems = detectedGleamPaths.map { it -> it.path }
             ApplicationManager.getApplication().invokeLater({
                 customGleamField.addItems(pathItems)
             }, modalityState)

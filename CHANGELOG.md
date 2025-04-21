@@ -4,6 +4,16 @@
 
 ## [Unreleased]
 
+### Added
+
+- In the settings UI, allow Erlang SDK and Gleam paths to be set manually by text input
+- Added parameter info (`textDocument/signatureHelp` from LSP)
+
+### Fixed
+
+- Fixed frequent expensive call that may cause IDE to freeze (
+  see [#59](https://github.com/themartdev/intellij-gleam/issues/59))
+
 ## [0.4.0] - 2025-04-17
 
 ### Added
@@ -12,22 +22,22 @@
 
 ### Fixed
 
-- Several parsing issues: 
-  - Function returning a function type annotation
-  - Case clause guards with access operators
-  - Nested tuple access
-  - Generic type declaration without value
-  - Use expression with pattern on the left side
+- Several parsing issues:
+    - Function returning a function type annotation
+    - Case clause guards with access operators
+    - Nested tuple access
+    - Generic type declaration without value
+    - Use expression with pattern on the left side
 
 ## [0.3.1] - 2025-03-13
 
 ### Fixed
 
 - Fixed grammar for:
-  - Record expressions with both a record update pattern and shorthand labeled arguments
-  - `use` expressions with multiple variables
-  - In `case` expressions, list pattern with a double dot `..` and omitting the variable name (e.g. `["one", ..]`)
-  - `todo as` and `panic as` used with an expression
+    - Record expressions with both a record update pattern and shorthand labeled arguments
+    - `use` expressions with multiple variables
+    - In `case` expressions, list pattern with a double dot `..` and omitting the variable name (e.g. `["one", ..]`)
+    - `todo as` and `panic as` used with an expression
 
 ## [0.3.0] - 2025-02-15
 
@@ -103,13 +113,23 @@
     - Auto indentation, brace matching, etc.
 
 [Unreleased]: https://github.com/themartdev/intellij-gleam/compare/v0.4.0...HEAD
+
 [0.4.0]: https://github.com/themartdev/intellij-gleam/compare/v0.3.1...v0.4.0
+
 [0.3.1]: https://github.com/themartdev/intellij-gleam/compare/v0.3.0...v0.3.1
+
 [0.3.0]: https://github.com/themartdev/intellij-gleam/compare/v0.2.1...v0.3.0
+
 [0.2.1]: https://github.com/themartdev/intellij-gleam/compare/v0.2.0...v0.2.1
+
 [0.2.0]: https://github.com/themartdev/intellij-gleam/compare/v0.1.2...v0.2.0
+
 [0.1.2]: https://github.com/themartdev/intellij-gleam/compare/v0.1.1...v0.1.2
+
 [0.1.1]: https://github.com/themartdev/intellij-gleam/compare/v0.1.0...v0.1.1
+
 [0.1.0]: https://github.com/themartdev/intellij-gleam/compare/v0.0.1-alpha.1...v0.1.0
+
 [0.0.1-alpha.2]: https://github.com/themartdev/intellij-gleam/compare/v0.0.1-alpha.1...v0.0.1-alpha.2
+
 [0.0.1-alpha.1]: https://github.com/themartdev/intellij-gleam/commits/v0.0.1-alpha.1

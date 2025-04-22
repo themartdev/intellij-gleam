@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [0.4.1] - 2025-04-21
+
 ### Added
 
 - In the settings UI, allow Erlang SDK and Gleam paths to be set manually by text input
@@ -14,7 +16,7 @@
 - Fixed frequent expensive call that may cause IDE to freeze (
   see [#59](https://github.com/themartdev/intellij-gleam/issues/59))
 
-### Changed 
+### Changed
 
 - Minimum version of LSP4IJ is now 0.12.0
 
@@ -116,24 +118,15 @@
     - Root keyword completion
     - Auto indentation, brace matching, etc.
 
-[Unreleased]: https://github.com/themartdev/intellij-gleam/compare/v0.4.0...HEAD
-
+[Unreleased]: https://github.com/themartdev/intellij-gleam/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/themartdev/intellij-gleam/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/themartdev/intellij-gleam/compare/v0.3.1...v0.4.0
-
 [0.3.1]: https://github.com/themartdev/intellij-gleam/compare/v0.3.0...v0.3.1
-
 [0.3.0]: https://github.com/themartdev/intellij-gleam/compare/v0.2.1...v0.3.0
-
 [0.2.1]: https://github.com/themartdev/intellij-gleam/compare/v0.2.0...v0.2.1
-
 [0.2.0]: https://github.com/themartdev/intellij-gleam/compare/v0.1.2...v0.2.0
-
 [0.1.2]: https://github.com/themartdev/intellij-gleam/compare/v0.1.1...v0.1.2
-
 [0.1.1]: https://github.com/themartdev/intellij-gleam/compare/v0.1.0...v0.1.1
-
 [0.1.0]: https://github.com/themartdev/intellij-gleam/compare/v0.0.1-alpha.1...v0.1.0
-
 [0.0.1-alpha.2]: https://github.com/themartdev/intellij-gleam/compare/v0.0.1-alpha.1...v0.0.1-alpha.2
-
 [0.0.1-alpha.1]: https://github.com/themartdev/intellij-gleam/commits/v0.0.1-alpha.1

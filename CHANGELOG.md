@@ -14,6 +14,10 @@
 - Fixed frequent expensive call that may cause IDE to freeze (
   see [#59](https://github.com/themartdev/intellij-gleam/issues/59))
 
+### Changed 
+
+- Minimum version of LSP4IJ is now 0.12.0
+
 ## [0.4.0] - 2025-04-17
 
 ### Added

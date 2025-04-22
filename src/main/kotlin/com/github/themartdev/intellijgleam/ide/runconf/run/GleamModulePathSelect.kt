@@ -17,10 +17,10 @@ class GleamModulePathSelect(val project: Project? = null) : TextFieldWithBrowseB
         }
 
         addBrowseFolderListener(
+            "Select the Gleam Module Path",
+            "Select the gleam module path",
             project,
             fileChooserDescriptor
-                .withTitle("Select the Gleam Module Path")
-                .withDescription("Select the gleam module path")
         )
     }
 }

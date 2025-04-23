@@ -53,6 +53,7 @@ public interface GleamTypes {
   IElementType DECIMAL_INTEGER_LITERAL = new GleamElementType("DECIMAL_INTEGER_LITERAL");
   IElementType DEPRECATED_ANNOTATION = new GleamElementType("DEPRECATED_ANNOTATION");
   IElementType DEPRECATED_ANNOTATION_NAME = new GleamElementType("DEPRECATED_ANNOTATION_NAME");
+  IElementType ECHO_EXPR = new GleamElementType("ECHO_EXPR");
   IElementType EXPRESSION = new GleamElementType("EXPRESSION");
   IElementType EXPRESSION_CONST = new GleamElementType("EXPRESSION_CONST");
   IElementType EXTERNAL_ANNOTATION = new GleamElementType("EXTERNAL_ANNOTATION");
@@ -159,6 +160,7 @@ public interface GleamTypes {
   IElementType DISCARD_NAME = new GleamTokenType("DISCARD_NAME");
   IElementType DOT = new GleamTokenType(".");
   IElementType DOT_DOT = new GleamTokenType("..");
+  IElementType ECHO = new GleamTokenType("ECHO");
   IElementType EOL = new GleamTokenType("\\\\n, \\\\r\\\\n");
   IElementType EQUAL = new GleamTokenType("=");
   IElementType EQUAL_EQUAL = new GleamTokenType("==");
@@ -369,6 +371,9 @@ public interface GleamTypes {
       }
       else if (type == DEPRECATED_ANNOTATION_NAME) {
         return new GleamDeprecatedAnnotationNameImpl(node);
+      }
+      else if (type == ECHO_EXPR) {
+        return new GleamEchoExprImpl(node);
       }
       else if (type == EXTERNAL_ANNOTATION) {
         return new GleamExternalAnnotationImpl(node);

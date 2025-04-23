@@ -44,10 +44,10 @@ public class GleamParser implements PsiParser, LightPsiParser {
       LITERAL_PATTERN, PATTERN, RECORD_PATTERN, STRING_PATTERN,
       TUPLE_PATTERN),
     create_token_set_(ANONYMOUS_FUNCTION_EXPR, BINARY_EXPR, BIT_ARRAY_EXPR, BLOCK_EXPR,
-      CALL_EXPR, CASE_EXPR, EXPRESSION, FIELD_ACCESS_EXPR,
-      INDEX_ACCESS_EXPR, LET_EXPR, LIST_EXPR, LITERAL_EXPR,
-      PANIC_EXPR, RECORD_EXPR, REFERENCE_EXPR, TODO_EXPR,
-      TUPLE_EXPR, UNARY_EXPR, USE_EXPR),
+      CALL_EXPR, CASE_EXPR, ECHO_EXPR, EXPRESSION,
+      FIELD_ACCESS_EXPR, INDEX_ACCESS_EXPR, LET_EXPR, LIST_EXPR,
+      LITERAL_EXPR, PANIC_EXPR, RECORD_EXPR, REFERENCE_EXPR,
+      TODO_EXPR, TUPLE_EXPR, UNARY_EXPR, USE_EXPR),
   };
 
   /* ********************************************************** */
@@ -3695,10 +3695,10 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // 0: BINARY(binaryExpr)
   // 1: PREFIX(unaryExpr)
   // 2: POSTFIX(fieldAccessExpr) POSTFIX(indexAccessExpr) POSTFIX(callExpr)
-  // 3: ATOM(recordExpr) ATOM(letExpr) ATOM(panicExpr) ATOM(todoExpr)
-  //    PREFIX(useExpr) ATOM(caseExpr) ATOM(tupleExpr) ATOM(literalExpr)
-  //    ATOM(bitArrayExpr) ATOM(anonymousFunctionExpr) ATOM(listExpr) ATOM(blockExpr)
-  //    ATOM(referenceExpr)
+  // 3: ATOM(recordExpr) ATOM(letExpr) PREFIX(echoExpr) ATOM(panicExpr)
+  //    ATOM(todoExpr) PREFIX(useExpr) ATOM(caseExpr) ATOM(tupleExpr)
+  //    ATOM(literalExpr) ATOM(bitArrayExpr) ATOM(anonymousFunctionExpr) ATOM(listExpr)
+  //    ATOM(blockExpr) ATOM(referenceExpr)
   public static boolean expression(PsiBuilder b, int l, int g) {
     if (!recursion_guard_(b, l, "expression")) return false;
     addVariant(b, "<expression>");
@@ -3707,6 +3707,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = unaryExpr(b, l + 1);
     if (!r) r = recordExpr(b, l + 1);
     if (!r) r = letExpr(b, l + 1);
+    if (!r) r = echoExpr(b, l + 1);
     if (!r) r = panicExpr(b, l + 1);
     if (!r) r = todoExpr(b, l + 1);
     if (!r) r = useExpr(b, l + 1);
@@ -3844,6 +3845,18 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "letExpr_3")) return false;
     typeAnnotation(b, l + 1);
     return true;
+  }
+
+  public static boolean echoExpr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "echoExpr")) return false;
+    if (!nextTokenIsSmart(b, ECHO)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, null);
+    r = consumeTokenSmart(b, ECHO);
+    p = r;
+    r = p && expression(b, l, -1);
+    exit_section_(b, l, m, ECHO_EXPR, r, p, null);
+    return r || p;
   }
 
   // PANIC (AS expression)?

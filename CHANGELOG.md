@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+### Added
+- Support `echo` keyword (new in Gleam 1.9.0)
+
 ## [0.4.1] - 2025-04-21
 
 ### Added

@@ -307,6 +307,8 @@ useExpr ::= USE [patternAliasable (COMMA patternAliasable)*] [typeAnnotation] L_
 
 letExpr ::= LET ASSERT? patternAliasable [typeAnnotation] EQUAL expression {pin=1}
 
+echoExpr ::= ECHO expression
+
 panicExpr ::= PANIC (AS expression)?
 todoExpr ::= TODO (AS expression)?
 
@@ -334,6 +336,7 @@ private postfixGroup ::= fieldAccessExpr
 
 private primaryGroup ::= recordExpr
              | letExpr
+             | echoExpr
              | panicExpr
              | todoExpr
              | useExpr

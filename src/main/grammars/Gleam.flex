@@ -98,6 +98,7 @@ NUMBER_SEPARATOR = "_"
   "assert"                 { return GleamTypes.ASSERT; }
   "case"                   { return GleamTypes.CASE; }
   "const"                  { return GleamTypes.CONST; }
+  "echo"                   { return GleamTypes.ECHO; }
   "fn"                     { return GleamTypes.FN; }
   "if"                     { return GleamTypes.IF; }
   "import"                 { return GleamTypes.IMPORT; }

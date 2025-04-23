@@ -1,6 +1,7 @@
 [versions]
 # libraries
 junit = "4.13.2"
+mockk = "1.13.8"
 
 # plugins
 changelog = "2.2.1"
@@ -11,8 +12,10 @@ kover = "0.9.1"
 qodana = "2024.3.4"
 
 
+
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 [plugins]
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }

@@ -80,7 +80,9 @@ abstract class AbstractExecutablePathComboBox(protected val project: Project?) :
     fun addItem(item: String, version: String?) {
         if (collectionModel.items.contains(item)) return
         collectionModel.add(item)
-        versionHints[item] = version
+        version?.let {
+            versionHints[item] = version
+        }
     }
 
     override fun setSelectedItem(anObject: Any?) {
@@ -96,7 +98,9 @@ abstract class AbstractExecutablePathComboBox(protected val project: Project?) :
         ApplicationManager.getApplication().executeOnPooledThread {
             val version = computeVersionInline(path)
             ApplicationManager.getApplication().invokeLater({
-                versionHints[path] = version
+                version?.let {
+                    versionHints[path] = it
+                }
                 collectionModel.contentsChanged(path)
             }, modality)
         }

@@ -99,6 +99,9 @@
 
         <postStartupActivity implementation="com.github.themartdev.intellijgleam.ide.lifecycle.GleamStartupActivity"/>
 
+        <lang.psiStructureViewFactory
+                language="Gleam"
+                implementationClass="com.redhat.devtools.lsp4ij.features.documentSymbol.LSPDocumentSymbolStructureViewFactory"/>
     </extensions>
 
     <actions>

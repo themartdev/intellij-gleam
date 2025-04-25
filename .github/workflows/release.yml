@@ -4,60 +4,42 @@
 
 name: Release
 on:
-  release:
-    types: [prereleased, released]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release'
+        required: true
 
 jobs:
-
-  # Prepare and publish the plugin to JetBrains Marketplace repository
   release:
     name: Publish Plugin
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
-    steps:
 
-      # Check out the current repository
-      - name: Fetch Sources
+    steps:
+      - name: Check out code
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.release.tag_name }}
+          fetch-depth: 0 # need full history for tagging
 
-      # Set up Java environment for the next steps
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: zulu
           java-version: 17
 
-      # Setup Gradle
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-home-cache-cleanup: true
 
-      # Set environment variables
-      - name: Export Properties
-        id: properties
-        shell: bash
+      - name: Bump gradle.properties → release version
         run: |
-          CHANGELOG="$(cat << 'EOM' | sed -e 's/^[[:space:]]*$//g' -e '/./,$!d'
-          ${{ github.event.release.body }}
-          EOM
-          )"
-          
-          echo "changelog<<EOF" >> $GITHUB_OUTPUT
-          echo "$CHANGELOG" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      # Update the Unreleased section with the current release note
-      - name: Patch Changelog
-        if: ${{ steps.properties.outputs.changelog != '' }}
-        env:
-          CHANGELOG: ${{ steps.properties.outputs.changelog }}
-        run: |
-          ./gradlew patchChangelog --release-note="$CHANGELOG"
+          PLUGIN_VERSION=${{ inputs.version }}
+          ./scripts/set_release_version.sh $PLUGIN_VERSION
+          echo "Release version: $PLUGIN_VERSION"
+          echo "PLUGIN_VERSION=${PLUGIN_VERSION}" >> $GITHUB_ENV
 
       # Publish the plugin to JetBrains Marketplace
       - name: Publish Plugin
@@ -68,36 +50,34 @@ jobs:
           PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
         run: ./gradlew publishPlugin
 
-      # Upload artifact as a release asset
-      - name: Upload Release Asset
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload ${{ github.event.release.tag_name }} ./build/distributions/*
+      - name: Patch CHANGELOG
+        run: |
+          ./gradlew patchChangelog
 
-      # Create a pull request
-      - name: Create Pull Request
-        if: ${{ steps.properties.outputs.changelog != '' }}
+      - name: Commit and tag release
+        run: |
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          git diff --quiet || git commit -am "chore(release): v${PLUGIN_VERSION}"
+          git tag "v${PLUGIN_VERSION}"
+          git push origin HEAD:main
+          git push origin "v${PLUGIN_VERSION}"
+
+
+# Upload artifact as a release asset
+      - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          VERSION="${{ github.event.release.tag_name }}"
-          BRANCH="changelog-update-$VERSION"
-          LABEL="release changelog"
+          gh release create "${PLUGIN_VERSION}" \
+            build/distributions/* \
+            --title "${PLUGIN_VERSION}" \
+            --notes-file CHANGELOG.md
 
-          git config user.email "action@github.com"
-          git config user.name "GitHub Action"
+      - name: Bump gradle.properties → next SNAPSHOT version
+        run: |
+          NEW_VERSION=$(./scripts/ci_new_snapshot.sh)
+          echo "Set $NEW_VERSION in gradle.properties"
+          git commit -am "chore(skip-release): set version to $NEW_VERSION"
+          git push origin ${{ github.ref }}
 
-          git checkout -b $BRANCH
-          git commit -am "Changelog update - $VERSION"
-          git push --set-upstream origin $BRANCH
-          
-          gh label create "$LABEL" \
-            --description "Pull requests with release changelog update" \
-            --force \
-            || true
-
-          gh pr create \
-            --title "Changelog update - \`$VERSION\`" \
-            --body "Current pull request contains patched \`CHANGELOG.md\` file for the \`$VERSION\` version." \
-            --label "$LABEL" \
-            --head $BRANCH

@@ -98,9 +98,26 @@ intellijPlatform {
     }
 
     signing {
-        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
-        privateKey = providers.environmentVariable("PRIVATE_KEY")
-        password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
+        val certChainEnv = providers.environmentVariable("CERTIFICATE_CHAIN")
+        val privateKeyEnv = providers.environmentVariable("PRIVATE_KEY")
+        val privateKeyPwEnv = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
+
+        // if the ENV is present use it; otherwise read from disk
+        certificateChain.set(
+            certChainEnv.orElse(
+                providers
+                    .fileContents(layout.projectDirectory.file("secrets/chain.crt"))
+                    .asText
+            )
+        )
+        privateKey.set(
+            privateKeyEnv.orElse(
+                providers
+                    .fileContents(layout.projectDirectory.file("secrets/private.pem"))
+                    .asText
+            )
+        )
+        password.set(privateKeyPwEnv)
     }
 
     publishing {
@@ -163,14 +180,6 @@ tasks {
         doFirst {
             systemProperty("idea.log.debug.categories", "com.redhat.devtools")
         }
-    }
-    signPlugin {
-        certificateChainFile.set(file("secrets/chain.crt"))
-        privateKeyFile.set(file("secrets/private.pem"))
-        password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
-    }
-    publishPlugin {
-        token.set(providers.environmentVariable("PUBLISH_TOKEN"))
     }
 }
 

@@ -4,8 +4,13 @@
 
 ## [Unreleased]
 
+## [0.4.2] - 2025-04-25
+
 ### Added
+
 - Support `echo` keyword (new in Gleam 1.9.0)
+- The language server now restarts when the gleam path is changed in settings
+- Added structure view for gleam files, through the language server
 
 ## [0.4.1] - 2025-04-21
 
@@ -121,7 +126,8 @@
     - Root keyword completion
     - Auto indentation, brace matching, etc.
 
-[Unreleased]: https://github.com/themartdev/intellij-gleam/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/themartdev/intellij-gleam/compare/v0.4.2...HEAD
+[0.4.2]: https://github.com/themartdev/intellij-gleam/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/themartdev/intellij-gleam/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/themartdev/intellij-gleam/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/themartdev/intellij-gleam/compare/v0.3.0...v0.3.1

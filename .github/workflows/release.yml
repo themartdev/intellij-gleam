@@ -1,14 +1,10 @@
-# GitHub Actions Workflow created for handling the release process based on the draft release prepared with the Build workflow.
-# Running the publishPlugin task requires all following secrets to be provided: PUBLISH_TOKEN, PRIVATE_KEY, PRIVATE_KEY_PASSWORD, CERTIFICATE_CHAIN.
-# See https://plugins.jetbrains.com/docs/intellij/plugin-signing.html for more information.
-
 name: Release
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to release'
-        required: true
+        description: 'Version to release (omit to auto-detect from gradle.properties)'
+        required: false
 
 jobs:
   release:
@@ -21,7 +17,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # need full history for tagging
+          fetch-depth: 0
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -34,14 +30,23 @@ jobs:
         with:
           gradle-home-cache-cleanup: true
 
+      - name: Determine release version
+        id: vars
+        run: |
+          if [ -z "${{ inputs.version }}" ]; then
+            RAW=$(grep '^pluginVersion=' gradle.properties | cut -d= -f2)
+            PLUGIN_VERSION=${RAW%-SNAPSHOT}
+          else
+            PLUGIN_VERSION="${{ inputs.version }}"
+          fi
+          echo "PLUGIN_VERSION=${PLUGIN_VERSION}" >> $GITHUB_ENV
+          echo "::set-output name=version::${PLUGIN_VERSION}"
+
       - name: Bump gradle.properties → release version
         run: |
-          PLUGIN_VERSION=${{ inputs.version }}
-          ./scripts/set_release_version.sh $PLUGIN_VERSION
-          echo "Release version: $PLUGIN_VERSION"
-          echo "PLUGIN_VERSION=${PLUGIN_VERSION}" >> $GITHUB_ENV
+          ./scripts/set_release_version.sh "${{ steps.vars.outputs.version }}"
+          echo "Releasing v${{ steps.vars.outputs.version }}"
 
-      # Publish the plugin to JetBrains Marketplace
       - name: Publish Plugin
         env:
           PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
@@ -51,33 +56,28 @@ jobs:
         run: ./gradlew publishPlugin
 
       - name: Patch CHANGELOG
-        run: |
-          ./gradlew patchChangelog
+        run: ./gradlew patchChangelog
 
       - name: Commit and tag release
         run: |
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
-          git diff --quiet || git commit -am "chore(release): v${PLUGIN_VERSION}"
-          git tag "v${PLUGIN_VERSION}"
+          git diff --quiet || git commit -am "chore(release): v${{ steps.vars.outputs.version }}"
+          git tag "v${{ steps.vars.outputs.version }}"
           git push origin HEAD:main
-          git push origin "v${PLUGIN_VERSION}"
+          git push origin "v${{ steps.vars.outputs.version }}"
 
-
-# Upload artifact as a release asset
       - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "${PLUGIN_VERSION}" \
+          gh release create "v${{ steps.vars.outputs.version }}" \
             build/distributions/* \
-            --title "${PLUGIN_VERSION}" \
+            --title "v${{ steps.vars.outputs.version }}" \
             --notes-file CHANGELOG.md
 
       - name: Bump gradle.properties → next SNAPSHOT version
         run: |
           NEW_VERSION=$(./scripts/ci_new_snapshot.sh)
-          echo "Set $NEW_VERSION in gradle.properties"
-          git commit -am "chore(skip-release): set version to $NEW_VERSION"
-          git push origin ${{ github.ref }}
-
+          git diff --quiet || git commit -am "chore(bump): ${NEW_VERSION}"
+          git push origin HEAD:main

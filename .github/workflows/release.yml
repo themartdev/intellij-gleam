@@ -40,7 +40,7 @@ jobs:
             PLUGIN_VERSION="${{ inputs.version }}"
           fi
           echo "PLUGIN_VERSION=${PLUGIN_VERSION}" >> $GITHUB_ENV
-          echo "::set-output name=version::${PLUGIN_VERSION}"
+          echo "version=${PLUGIN_VERSION}" >> $GITHUB_OUTPUT
 
       - name: Bump gradle.properties → release version
         run: |
@@ -61,9 +61,24 @@ jobs:
       - name: Grab changelog
         id: changelog
         run: |
-          CHANGELOG=$(./gradlew getChangelog --no-header --console=plain -q)
+          set +e
+          OUTPUT=$(./gradlew getChangelog \
+            --no-header \
+            --project-version="${{ steps.vars.outputs.version }}" \
+            -q \
+            --console=plain \
+            --no-summary 2>/dev/null)
+          STATUS=$?
+          set -e
+          
+          if [ $STATUS -ne 0 ]; then
+            # version missing → empty
+            OUTPUT=""
+          fi
+          
+          # export to GitHub Actions output
           echo "changelog<<EOF" >> $GITHUB_OUTPUT
-          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "$OUTPUT" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Commit and tag release

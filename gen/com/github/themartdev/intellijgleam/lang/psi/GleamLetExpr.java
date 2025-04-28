@@ -7,8 +7,8 @@ import com.intellij.psi.PsiElement;
 
 public interface GleamLetExpr extends GleamExpression {
 
-  @Nullable
-  GleamExpression getExpression();
+  @NotNull
+  List<GleamExpression> getExpressionList();
 
   @Nullable
   GleamPatternAliasable getPatternAliasable();

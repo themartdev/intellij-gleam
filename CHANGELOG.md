@@ -4,6 +4,14 @@
 
 ## [Unreleased]
 
+### Added
+
+- Early support for standalone `assert` (new in Gleam 1.11.0)
+
+### Fixed
+
+- Fixed grammar `let assert` with `as`
+
 ## [0.4.2] - 2025-04-25
 
 ### Added

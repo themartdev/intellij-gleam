@@ -28,9 +28,9 @@ public class GleamLetExprImpl extends GleamExpressionImpl implements GleamLetExp
   }
 
   @Override
-  @Nullable
-  public GleamExpression getExpression() {
-    return findChildByClass(GleamExpression.class);
+  @NotNull
+  public List<GleamExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamExpression.class);
   }
 
   @Override

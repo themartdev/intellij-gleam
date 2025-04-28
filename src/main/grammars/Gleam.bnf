@@ -305,7 +305,7 @@ caseExpr ::= CASE caseSubjects caseExprBody
 
 useExpr ::= USE [patternAliasable (COMMA patternAliasable)*] [typeAnnotation] L_ARROW expression
 
-letExpr ::= LET ASSERT? patternAliasable [typeAnnotation] EQUAL expression {pin=1}
+letExpr ::= LET ASSERT? patternAliasable [typeAnnotation] EQUAL expression (AS expression)? {pin=1}
 
 assertExpr ::= ASSERT expression (AS expression)?
 

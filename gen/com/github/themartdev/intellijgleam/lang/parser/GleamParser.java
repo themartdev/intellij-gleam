@@ -3818,7 +3818,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // LET ASSERT? patternAliasable [typeAnnotation] EQUAL expression
+  // LET ASSERT? patternAliasable [typeAnnotation] EQUAL expression (AS expression)?
   public static boolean letExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "letExpr")) return false;
     if (!nextTokenIsSmart(b, LET)) return false;
@@ -3830,7 +3830,8 @@ public class GleamParser implements PsiParser, LightPsiParser {
     r = p && report_error_(b, patternAliasable(b, l + 1)) && r;
     r = p && report_error_(b, letExpr_3(b, l + 1)) && r;
     r = p && report_error_(b, consumeToken(b, EQUAL)) && r;
-    r = p && expression(b, l + 1, -1) && r;
+    r = p && report_error_(b, expression(b, l + 1, -1)) && r;
+    r = p && letExpr_6(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -3847,6 +3848,24 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "letExpr_3")) return false;
     typeAnnotation(b, l + 1);
     return true;
+  }
+
+  // (AS expression)?
+  private static boolean letExpr_6(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "letExpr_6")) return false;
+    letExpr_6_0(b, l + 1);
+    return true;
+  }
+
+  // AS expression
+  private static boolean letExpr_6_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "letExpr_6_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokenSmart(b, AS);
+    r = r && expression(b, l + 1, -1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   // ASSERT expression (AS expression)?

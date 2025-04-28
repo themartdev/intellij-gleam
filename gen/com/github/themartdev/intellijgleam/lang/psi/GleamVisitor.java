@@ -31,6 +31,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitAssertExpr(@NotNull GleamAssertExpr o) {
+    visitExpression(o);
+  }
+
   public void visitBinaryExpr(@NotNull GleamBinaryExpr o) {
     visitExpression(o);
   }

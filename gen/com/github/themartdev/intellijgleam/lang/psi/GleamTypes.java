@@ -14,6 +14,7 @@ public interface GleamTypes {
   IElementType ANONYMOUS_FUNCTION_EXPR = new GleamElementType("ANONYMOUS_FUNCTION_EXPR");
   IElementType ANONYMOUS_FUNCTION_PARAMETER = new GleamElementType("ANONYMOUS_FUNCTION_PARAMETER");
   IElementType ANONYMOUS_FUNCTION_PARAMETERS = new GleamElementType("ANONYMOUS_FUNCTION_PARAMETERS");
+  IElementType ASSERT_EXPR = new GleamElementType("ASSERT_EXPR");
   IElementType BINARY_EXPR = new GleamElementType("BINARY_EXPR");
   IElementType BINARY_INTEGER_LITERAL = new GleamElementType("BINARY_INTEGER_LITERAL");
   IElementType BINARY_OPERATOR = new GleamElementType("BINARY_OPERATOR");
@@ -254,6 +255,9 @@ public interface GleamTypes {
       }
       else if (type == ANONYMOUS_FUNCTION_PARAMETERS) {
         return new GleamAnonymousFunctionParametersImpl(node);
+      }
+      else if (type == ASSERT_EXPR) {
+        return new GleamAssertExprImpl(node);
       }
       else if (type == BINARY_EXPR) {
         return new GleamBinaryExprImpl(node);

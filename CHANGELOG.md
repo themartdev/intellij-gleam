@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [0.5.0] - 2025-04-30
+
 ### Added
 
 - Early support for standalone `assert` (new in Gleam 1.11.0)
@@ -134,7 +136,8 @@
     - Root keyword completion
     - Auto indentation, brace matching, etc.
 
-[Unreleased]: https://github.com/themartdev/intellij-gleam/compare/v0.4.2...HEAD
+[Unreleased]: https://github.com/themartdev/intellij-gleam/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/themartdev/intellij-gleam/compare/v0.4.2...v0.5.0
 [0.4.2]: https://github.com/themartdev/intellij-gleam/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/themartdev/intellij-gleam/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/themartdev/intellij-gleam/compare/v0.3.1...v0.4.0

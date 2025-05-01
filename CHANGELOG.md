@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed grammar for `echo` used in pipe expressions
+
 ## [0.5.0] - 2025-04-30
 
 ### Added

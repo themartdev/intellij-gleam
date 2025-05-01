@@ -367,6 +367,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitPipeExpr(@NotNull GleamPipeExpr o) {
+    visitExpression(o);
+  }
+
   public void visitQualifiedTypeName(@NotNull GleamQualifiedTypeName o) {
     visitPsiElement(o);
   }

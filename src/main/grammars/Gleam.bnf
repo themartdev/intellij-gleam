@@ -352,17 +352,22 @@ private primaryGroup ::= recordExpr
              | blockExpr
              | referenceExpr { recoverWhile=expressionRecoverWhile }
 
-expression ::= binaryExpr
+private expressionRecoverWhile ::= !(RBRACE | RPAREN | RBRACK | EOL | LET | expression)
+
+expression ::= binaryGroup
              | unaryExpr
              | postfixGroup
              | primaryGroup
 
-private expressionRecoverWhile ::= !(RBRACE | RPAREN | RBRACK | EOL | LET | expression)
+// Match echo first to prevent pipeExpr from matching (echo behaves like a reference in pipes)
+pipeExpr ::= expression PIPE (ECHO | expression)
+
+private binaryGroup ::= binaryExpr | pipeExpr
 
 binaryExpr ::= expression binaryOperator expression
 binaryOperator ::= EQUAL_EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | LESS_DOT
                  | LESS_EQUAL_DOT | GREATER | GREATER_EQUAL | GREATER_DOT
-                 | GREATER_EQUAL_DOT | LT_GT | PIPE | PLUS | PLUS_DOT
+                 | GREATER_EQUAL_DOT | LT_GT | PLUS | PLUS_DOT
                  | MINUS | MINUS_DOT | STAR | STAR_DOT | SLASH | SLASH_DOT
                  | PERCENT | AMPER_AMPER | VBAR_VBAR
 

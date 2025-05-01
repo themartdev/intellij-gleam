@@ -46,9 +46,9 @@ public class GleamParser implements PsiParser, LightPsiParser {
     create_token_set_(ANONYMOUS_FUNCTION_EXPR, ASSERT_EXPR, BINARY_EXPR, BIT_ARRAY_EXPR,
       BLOCK_EXPR, CALL_EXPR, CASE_EXPR, ECHO_EXPR,
       EXPRESSION, FIELD_ACCESS_EXPR, INDEX_ACCESS_EXPR, LET_EXPR,
-      LIST_EXPR, LITERAL_EXPR, PANIC_EXPR, RECORD_EXPR,
-      REFERENCE_EXPR, TODO_EXPR, TUPLE_EXPR, UNARY_EXPR,
-      USE_EXPR),
+      LIST_EXPR, LITERAL_EXPR, PANIC_EXPR, PIPE_EXPR,
+      RECORD_EXPR, REFERENCE_EXPR, TODO_EXPR, TUPLE_EXPR,
+      UNARY_EXPR, USE_EXPR),
   };
 
   /* ********************************************************** */
@@ -207,7 +207,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // EQUAL_EQUAL | NOT_EQUAL | LESS | LESS_EQUAL | LESS_DOT
   //                  | LESS_EQUAL_DOT | GREATER | GREATER_EQUAL | GREATER_DOT
-  //                  | GREATER_EQUAL_DOT | LT_GT | PIPE | PLUS | PLUS_DOT
+  //                  | GREATER_EQUAL_DOT | LT_GT | PLUS | PLUS_DOT
   //                  | MINUS | MINUS_DOT | STAR | STAR_DOT | SLASH | SLASH_DOT
   //                  | PERCENT | AMPER_AMPER | VBAR_VBAR
   public static boolean binaryOperator(PsiBuilder b, int l) {
@@ -225,7 +225,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, GREATER_DOT);
     if (!r) r = consumeToken(b, GREATER_EQUAL_DOT);
     if (!r) r = consumeToken(b, LT_GT);
-    if (!r) r = consumeToken(b, PIPE);
     if (!r) r = consumeToken(b, PLUS);
     if (!r) r = consumeToken(b, PLUS_DOT);
     if (!r) r = consumeToken(b, MINUS);
@@ -3693,7 +3692,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // Expression root: expression
   // Operator priority table:
-  // 0: BINARY(binaryExpr)
+  // 0: BINARY(binaryExpr) POSTFIX(pipeExpr)
   // 1: PREFIX(unaryExpr)
   // 2: POSTFIX(fieldAccessExpr) POSTFIX(indexAccessExpr) POSTFIX(callExpr)
   // 3: ATOM(recordExpr) ATOM(letExpr) ATOM(assertExpr) PREFIX(echoExpr)
@@ -3736,6 +3735,10 @@ public class GleamParser implements PsiParser, LightPsiParser {
         r = expression(b, l, 0);
         exit_section_(b, l, m, BINARY_EXPR, r, true, null);
       }
+      else if (g < 0 && pipeExpr_0(b, l + 1)) {
+        r = true;
+        exit_section_(b, l, m, PIPE_EXPR, r, true, null);
+      }
       else if (g < 2 && fieldAccessExpr_0(b, l + 1)) {
         r = true;
         exit_section_(b, l, m, FIELD_ACCESS_EXPR, r, true, null);
@@ -3753,6 +3756,26 @@ public class GleamParser implements PsiParser, LightPsiParser {
         break;
       }
     }
+    return r;
+  }
+
+  // PIPE (ECHO | expression)
+  private static boolean pipeExpr_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "pipeExpr_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokenSmart(b, PIPE);
+    r = r && pipeExpr_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // ECHO | expression
+  private static boolean pipeExpr_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "pipeExpr_0_1")) return false;
+    boolean r;
+    r = consumeTokenSmart(b, ECHO);
+    if (!r) r = expression(b, l + 1, -1);
     return r;
   }
 

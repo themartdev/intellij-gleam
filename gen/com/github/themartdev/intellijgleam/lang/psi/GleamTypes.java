@@ -98,6 +98,7 @@ public interface GleamTypes {
   IElementType PATTERN_ALIASABLE = new GleamElementType("PATTERN_ALIASABLE");
   IElementType PATTERN_BIT_ARRAY_SEGMENT = new GleamElementType("PATTERN_BIT_ARRAY_SEGMENT");
   IElementType PATTERN_SPREAD = new GleamElementType("PATTERN_SPREAD");
+  IElementType PIPE_EXPR = new GleamElementType("PIPE_EXPR");
   IElementType QUALIFIED_TYPE_NAME = new GleamElementType("QUALIFIED_TYPE_NAME");
   IElementType RECORD_ARGUMENT = new GleamElementType("RECORD_ARGUMENT");
   IElementType RECORD_ARGUMENTS = new GleamElementType("RECORD_ARGUMENTS");
@@ -498,6 +499,9 @@ public interface GleamTypes {
       }
       else if (type == PATTERN_SPREAD) {
         return new GleamPatternSpreadImpl(node);
+      }
+      else if (type == PIPE_EXPR) {
+        return new GleamPipeExprImpl(node);
       }
       else if (type == QUALIFIED_TYPE_NAME) {
         return new GleamQualifiedTypeNameImpl(node);

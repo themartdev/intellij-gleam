@@ -94,10 +94,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          echo "${{ steps.changelog.outputs.changelog }}" > changelog-release.md
           gh release create "v${{ steps.vars.outputs.version }}" \
             build/distributions/* \
             --title "v${{ steps.vars.outputs.version }}" \
-            --notes "${{ steps.changelog.outputs.changelog }}"
+            --notes-file changelog-release.md \
 
       - name: Bump gradle.properties → next SNAPSHOT version
         run: |

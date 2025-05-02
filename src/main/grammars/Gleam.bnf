@@ -132,7 +132,8 @@
 
   extends(".*Expr")=expression
   extends(".*ExprConst")=expressionConst
-  extends(".*Annotation")=annotation
+  // Can't just use .*Annotation because of type annotations
+  extends("(external|deprecated|target|other)Annotation")=annotation
   extends(".*Pattern")=pattern
 }
 
@@ -150,7 +151,7 @@ private topLevelDeclaration ::= importDeclaration
 private declarationRecover ::= !topLevelKeyword
 private topLevelKeyword ::= IMPORT | CONST | TYPE | FN | PUB | OPAQUE | ANNOTATION_MARK
 
-constantDeclaration ::= (annotation)* [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUAL expressionConst {pin="CONST"}
+constantDeclaration ::= (annotation)* [visibilityModifier] CONST IDENTIFIER [COLON constantType] EQUAL expressionConst {pin="CONST"}
 
 // ===== Imports =====
 unqualifiedImport ::= identifierDiscardable (AS aliasIdentifier)? {
@@ -176,20 +177,20 @@ importDeclaration ::= (annotation)* IMPORT modulePath [DOT unqualifiedImports] [
 }
 
 // ===== Annotations =====
-externalTarget ::= "javascript" | "erlang"
-externalAnnotationName ::= "external"
-externalAnnotation ::= ANNOTATION_MARK externalAnnotationName LPAREN externalTarget COMMA stringLiteral COMMA stringLiteral RPAREN {pin=2}
+private externalTarget ::= "javascript" | "erlang"
+externalAnnotation ::= ANNOTATION_MARK "external" LPAREN externalTarget COMMA stringLiteral COMMA stringLiteral RPAREN {pin=2}
 
-deprecatedAnnotationName ::= "deprecated"
-deprecatedAnnotation ::= ANNOTATION_MARK deprecatedAnnotationName LPAREN stringLiteral RPAREN {pin=2}
+deprecatedAnnotation ::= ANNOTATION_MARK "deprecated" LPAREN stringLiteral RPAREN {pin=2}
 
 targetAnnotation ::= ANNOTATION_MARK "target" LPAREN IDENTIFIER RPAREN {pin=2}
 
-unknownAnnotationName ::= ANNOTATION_NAME
 private unknownAnnotationArgument ::= literalExpr | IDENTIFIER
-otherAnnotation ::= ANNOTATION_MARK unknownAnnotationName [LPAREN [unknownAnnotationArgument (COMMA unknownAnnotationArgument)*] RPAREN]
+otherAnnotation ::= ANNOTATION_MARK ANNOTATION_NAME [LPAREN [unknownAnnotationArgument (COMMA unknownAnnotationArgument)*] RPAREN]
 
-annotation ::= externalAnnotation | deprecatedAnnotation | targetAnnotation | otherAnnotation
+annotation ::= externalAnnotation
+             | deprecatedAnnotation
+             | targetAnnotation
+             | otherAnnotation
 
 // ===== Rest =====
 constantFunctionParameterTypes ::= LPAREN [constantTypeSpecial (COMMA constantTypeSpecial)* [COMMA]] RPAREN
@@ -206,8 +207,6 @@ constantTypeSpecial ::= typeName
                       | constantTypeTuple
                       | constantTypeFunction
                       | constantType
-constantTypeAnnotation ::= COLON constantType
-
 
 // ===== Constant expressions =====
 expressionConst ::= literalExprConst
@@ -218,6 +217,7 @@ expressionConst ::= literalExprConst
             | fieldAccessExprConst
             // Can refer to another constant
             | identifierExprConst
+
 // Special for negative number constants - in expressions the '-' is a unary operator, but in constants it's part of the number
 literalExprConst ::= literal | negativeDecimalIntegerLiteral
 tupleExprConst ::= HASH LPAREN [expressionConst (COMMA expressionConst)* [COMMA]] RPAREN {pin=2}
@@ -282,8 +282,6 @@ recordUpdate ::= DOT_DOT variableReference {pin=1}
 // Record update can only be at the start of record arguments
 recordArguments ::=  LPAREN (recordUpdate COMMA recordArgumentList | recordUpdate | recordArgumentList) RPAREN
 recordExpr ::= (constructorIdentifier | remoteConstructorIdentifier) [recordArguments]
-
-//private bitArrayRecover ::= !(GT_GT | LT_LT)
 
 listExpr ::= LBRACK [expression ((COMMA expression)*)? [COMMA] [DOT_DOT expression]] RBRACK
 
@@ -352,7 +350,7 @@ private primaryGroup ::= recordExpr
              | blockExpr
              | referenceExpr { recoverWhile=expressionRecoverWhile }
 
-private expressionRecoverWhile ::= !(RBRACE | RPAREN | RBRACK | EOL | LET | expression)
+private expressionRecoverWhile ::= !(RBRACE | RPAREN | RBRACK | LET | EOL)
 
 expression ::= binaryGroup
              | unaryExpr

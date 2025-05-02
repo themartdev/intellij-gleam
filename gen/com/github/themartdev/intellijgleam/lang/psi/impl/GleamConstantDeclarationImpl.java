@@ -35,8 +35,8 @@ public class GleamConstantDeclarationImpl extends ASTWrapperPsiElement implement
 
   @Override
   @Nullable
-  public GleamConstantTypeAnnotation getConstantTypeAnnotation() {
-    return findChildByClass(GleamConstantTypeAnnotation.class);
+  public GleamConstantType getConstantType() {
+    return findChildByClass(GleamConstantType.class);
   }
 
   @Override

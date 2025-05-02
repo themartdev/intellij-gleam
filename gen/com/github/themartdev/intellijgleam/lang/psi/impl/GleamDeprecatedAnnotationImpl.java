@@ -28,12 +28,6 @@ public class GleamDeprecatedAnnotationImpl extends GleamAnnotationImpl implement
   }
 
   @Override
-  @NotNull
-  public GleamDeprecatedAnnotationName getDeprecatedAnnotationName() {
-    return findNotNullChildByClass(GleamDeprecatedAnnotationName.class);
-  }
-
-  @Override
   @Nullable
   public GleamStringLiteral getStringLiteral() {
     return findChildByClass(GleamStringLiteral.class);

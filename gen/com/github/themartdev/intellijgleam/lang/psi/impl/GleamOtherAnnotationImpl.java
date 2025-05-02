@@ -35,8 +35,8 @@ public class GleamOtherAnnotationImpl extends GleamAnnotationImpl implements Gle
 
   @Override
   @NotNull
-  public GleamUnknownAnnotationName getUnknownAnnotationName() {
-    return findNotNullChildByClass(GleamUnknownAnnotationName.class);
+  public PsiElement getAnnotationName() {
+    return findNotNullChildByType(ANNOTATION_NAME);
   }
 
 }

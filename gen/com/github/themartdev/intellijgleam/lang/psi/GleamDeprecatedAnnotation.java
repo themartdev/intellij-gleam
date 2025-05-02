@@ -7,9 +7,6 @@ import com.intellij.psi.PsiElement;
 
 public interface GleamDeprecatedAnnotation extends GleamAnnotation {
 
-  @NotNull
-  GleamDeprecatedAnnotationName getDeprecatedAnnotationName();
-
   @Nullable
   GleamStringLiteral getStringLiteral();
 

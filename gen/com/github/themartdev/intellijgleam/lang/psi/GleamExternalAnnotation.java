@@ -8,12 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface GleamExternalAnnotation extends GleamAnnotation {
 
   @NotNull
-  GleamExternalAnnotationName getExternalAnnotationName();
-
-  @Nullable
-  GleamExternalTarget getExternalTarget();
-
-  @NotNull
   List<GleamStringLiteral> getStringLiteralList();
 
 }

@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamTypeAnnotationImpl extends GleamAnnotationImpl implements GleamTypeAnnotation {
+public class GleamTypeAnnotationImpl extends ASTWrapperPsiElement implements GleamTypeAnnotation {
 
   public GleamTypeAnnotationImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull GleamVisitor visitor) {
     visitor.visitTypeAnnotation(this);
   }

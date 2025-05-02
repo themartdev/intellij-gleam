@@ -29,18 +29,6 @@ public class GleamExternalAnnotationImpl extends GleamAnnotationImpl implements 
 
   @Override
   @NotNull
-  public GleamExternalAnnotationName getExternalAnnotationName() {
-    return findNotNullChildByClass(GleamExternalAnnotationName.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamExternalTarget getExternalTarget() {
-    return findChildByClass(GleamExternalTarget.class);
-  }
-
-  @Override
-  @NotNull
   public List<GleamStringLiteral> getStringLiteralList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamStringLiteral.class);
   }

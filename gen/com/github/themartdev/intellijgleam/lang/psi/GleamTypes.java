@@ -53,13 +53,10 @@ public interface GleamTypes {
   IElementType CUSTOM_TYPE = new GleamElementType("CUSTOM_TYPE");
   IElementType DECIMAL_INTEGER_LITERAL = new GleamElementType("DECIMAL_INTEGER_LITERAL");
   IElementType DEPRECATED_ANNOTATION = new GleamElementType("DEPRECATED_ANNOTATION");
-  IElementType DEPRECATED_ANNOTATION_NAME = new GleamElementType("DEPRECATED_ANNOTATION_NAME");
   IElementType ECHO_EXPR = new GleamElementType("ECHO_EXPR");
   IElementType EXPRESSION = new GleamElementType("EXPRESSION");
   IElementType EXPRESSION_CONST = new GleamElementType("EXPRESSION_CONST");
   IElementType EXTERNAL_ANNOTATION = new GleamElementType("EXTERNAL_ANNOTATION");
-  IElementType EXTERNAL_ANNOTATION_NAME = new GleamElementType("EXTERNAL_ANNOTATION_NAME");
-  IElementType EXTERNAL_TARGET = new GleamElementType("EXTERNAL_TARGET");
   IElementType FIELD_ACCESS_EXPR = new GleamElementType("FIELD_ACCESS_EXPR");
   IElementType FIELD_ACCESS_EXPR_CONST = new GleamElementType("FIELD_ACCESS_EXPR_CONST");
   IElementType FLOAT_LITERAL = new GleamElementType("FLOAT_LITERAL");
@@ -133,7 +130,6 @@ public interface GleamTypes {
   IElementType TYPE_UNQUALIFIED_IMPORT = new GleamElementType("TYPE_UNQUALIFIED_IMPORT");
   IElementType UNARY_EXPR = new GleamElementType("UNARY_EXPR");
   IElementType UNARY_OPERATOR = new GleamElementType("UNARY_OPERATOR");
-  IElementType UNKNOWN_ANNOTATION_NAME = new GleamElementType("UNKNOWN_ANNOTATION_NAME");
   IElementType UNLABELED_ARGUMENT = new GleamElementType("UNLABELED_ARGUMENT");
   IElementType UNLABELED_PARAMETER = new GleamElementType("UNLABELED_PARAMETER");
   IElementType UNQUALIFIED_IMPORT = new GleamElementType("UNQUALIFIED_IMPORT");
@@ -374,20 +370,11 @@ public interface GleamTypes {
       else if (type == DEPRECATED_ANNOTATION) {
         return new GleamDeprecatedAnnotationImpl(node);
       }
-      else if (type == DEPRECATED_ANNOTATION_NAME) {
-        return new GleamDeprecatedAnnotationNameImpl(node);
-      }
       else if (type == ECHO_EXPR) {
         return new GleamEchoExprImpl(node);
       }
       else if (type == EXTERNAL_ANNOTATION) {
         return new GleamExternalAnnotationImpl(node);
-      }
-      else if (type == EXTERNAL_ANNOTATION_NAME) {
-        return new GleamExternalAnnotationNameImpl(node);
-      }
-      else if (type == EXTERNAL_TARGET) {
-        return new GleamExternalTargetImpl(node);
       }
       else if (type == FIELD_ACCESS_EXPR) {
         return new GleamFieldAccessExprImpl(node);
@@ -604,9 +591,6 @@ public interface GleamTypes {
       }
       else if (type == UNARY_OPERATOR) {
         return new GleamUnaryOperatorImpl(node);
-      }
-      else if (type == UNKNOWN_ANNOTATION_NAME) {
-        return new GleamUnknownAnnotationNameImpl(node);
       }
       else if (type == UNLABELED_ARGUMENT) {
         return new GleamUnlabeledArgumentImpl(node);

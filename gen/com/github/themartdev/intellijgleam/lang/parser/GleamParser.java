@@ -36,8 +36,8 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
-    create_token_set_(ANNOTATION, CONSTANT_TYPE_ANNOTATION, DEPRECATED_ANNOTATION, EXTERNAL_ANNOTATION,
-      OTHER_ANNOTATION, TARGET_ANNOTATION, TYPE_ANNOTATION),
+    create_token_set_(ANNOTATION, DEPRECATED_ANNOTATION, EXTERNAL_ANNOTATION, OTHER_ANNOTATION,
+      TARGET_ANNOTATION),
     create_token_set_(BIT_ARRAY_EXPR_CONST, EXPRESSION_CONST, FIELD_ACCESS_EXPR_CONST, IDENTIFIER_EXPR_CONST,
       LIST_EXPR_CONST, LITERAL_EXPR_CONST, RECORD_EXPR_CONST, TUPLE_EXPR_CONST),
     create_token_set_(BIT_ARRAY_PATTERN, CASE_CLAUSE_PATTERN, IDENTIFIER_PATTERN, LIST_PATTERN,
@@ -75,7 +75,10 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // externalAnnotation | deprecatedAnnotation | targetAnnotation | otherAnnotation
+  // externalAnnotation
+  //              | deprecatedAnnotation
+  //              | targetAnnotation
+  //              | otherAnnotation
   public static boolean annotation(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "annotation")) return false;
     if (!nextTokenIs(b, ANNOTATION_MARK)) return false;
@@ -773,7 +776,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (annotation)* [visibilityModifier] CONST IDENTIFIER [constantTypeAnnotation] EQUAL expressionConst
+  // (annotation)* [visibilityModifier] CONST IDENTIFIER [COLON constantType] EQUAL expressionConst
   public static boolean constantDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "constantDeclaration")) return false;
     boolean r, p;
@@ -817,11 +820,22 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // [constantTypeAnnotation]
+  // [COLON constantType]
   private static boolean constantDeclaration_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "constantDeclaration_4")) return false;
-    constantTypeAnnotation(b, l + 1);
+    constantDeclaration_4_0(b, l + 1);
     return true;
+  }
+
+  // COLON constantType
+  private static boolean constantDeclaration_4_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "constantDeclaration_4_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COLON);
+    r = r && constantType(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -1246,31 +1260,20 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ANNOTATION_MARK deprecatedAnnotationName LPAREN stringLiteral RPAREN
+  // ANNOTATION_MARK "deprecated" LPAREN stringLiteral RPAREN
   public static boolean deprecatedAnnotation(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "deprecatedAnnotation")) return false;
     if (!nextTokenIs(b, ANNOTATION_MARK)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, DEPRECATED_ANNOTATION, null);
     r = consumeToken(b, ANNOTATION_MARK);
-    r = r && deprecatedAnnotationName(b, l + 1);
+    r = r && consumeToken(b, "deprecated");
     p = r; // pin = 2
     r = r && report_error_(b, consumeToken(b, LPAREN));
     r = p && report_error_(b, stringLiteral(b, l + 1)) && r;
     r = p && consumeToken(b, RPAREN) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
-  }
-
-  /* ********************************************************** */
-  // "deprecated"
-  public static boolean deprecatedAnnotationName(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "deprecatedAnnotationName")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, DEPRECATED_ANNOTATION_NAME, "<deprecated annotation name>");
-    r = consumeToken(b, "deprecated");
-    exit_section_(b, l, m, r, false, null);
-    return r;
   }
 
   /* ********************************************************** */
@@ -1298,7 +1301,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !(RBRACE | RPAREN | RBRACK | EOL | LET | expression)
+  // !(RBRACE | RPAREN | RBRACK | LET | EOL)
   static boolean expressionRecoverWhile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expressionRecoverWhile")) return false;
     boolean r;
@@ -1308,28 +1311,27 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // RBRACE | RPAREN | RBRACK | EOL | LET | expression
+  // RBRACE | RPAREN | RBRACK | LET | EOL
   private static boolean expressionRecoverWhile_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expressionRecoverWhile_0")) return false;
     boolean r;
     r = consumeToken(b, RBRACE);
     if (!r) r = consumeToken(b, RPAREN);
     if (!r) r = consumeToken(b, RBRACK);
-    if (!r) r = consumeToken(b, EOL);
     if (!r) r = consumeToken(b, LET);
-    if (!r) r = expression(b, l + 1, -1);
+    if (!r) r = consumeToken(b, EOL);
     return r;
   }
 
   /* ********************************************************** */
-  // ANNOTATION_MARK externalAnnotationName LPAREN externalTarget COMMA stringLiteral COMMA stringLiteral RPAREN
+  // ANNOTATION_MARK "external" LPAREN externalTarget COMMA stringLiteral COMMA stringLiteral RPAREN
   public static boolean externalAnnotation(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "externalAnnotation")) return false;
     if (!nextTokenIs(b, ANNOTATION_MARK)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, EXTERNAL_ANNOTATION, null);
     r = consumeToken(b, ANNOTATION_MARK);
-    r = r && externalAnnotationName(b, l + 1);
+    r = r && consumeToken(b, "external");
     p = r; // pin = 2
     r = r && report_error_(b, consumeToken(b, LPAREN));
     r = p && report_error_(b, externalTarget(b, l + 1)) && r;
@@ -1343,25 +1345,12 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "external"
-  public static boolean externalAnnotationName(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "externalAnnotationName")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, EXTERNAL_ANNOTATION_NAME, "<external annotation name>");
-    r = consumeToken(b, "external");
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
   // "javascript" | "erlang"
-  public static boolean externalTarget(PsiBuilder b, int l) {
+  static boolean externalTarget(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "externalTarget")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, EXTERNAL_TARGET, "<external target>");
     r = consumeToken(b, "javascript");
     if (!r) r = consumeToken(b, "erlang");
-    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -2211,14 +2200,13 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ANNOTATION_MARK unknownAnnotationName [LPAREN [unknownAnnotationArgument (COMMA unknownAnnotationArgument)*] RPAREN]
+  // ANNOTATION_MARK ANNOTATION_NAME [LPAREN [unknownAnnotationArgument (COMMA unknownAnnotationArgument)*] RPAREN]
   public static boolean otherAnnotation(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "otherAnnotation")) return false;
     if (!nextTokenIs(b, ANNOTATION_MARK)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, ANNOTATION_MARK);
-    r = r && unknownAnnotationName(b, l + 1);
+    r = consumeTokens(b, 0, ANNOTATION_MARK, ANNOTATION_NAME);
     r = r && otherAnnotation_2(b, l + 1);
     exit_section_(b, m, OTHER_ANNOTATION, r);
     return r;
@@ -3442,18 +3430,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     boolean r;
     r = literalExpr(b, l + 1);
     if (!r) r = consumeToken(b, IDENTIFIER);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // ANNOTATION_NAME
-  public static boolean unknownAnnotationName(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "unknownAnnotationName")) return false;
-    if (!nextTokenIs(b, ANNOTATION_NAME)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, ANNOTATION_NAME);
-    exit_section_(b, m, UNKNOWN_ANNOTATION_NAME, r);
     return r;
   }
 

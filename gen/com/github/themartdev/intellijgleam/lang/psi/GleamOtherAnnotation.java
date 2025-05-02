@@ -11,6 +11,6 @@ public interface GleamOtherAnnotation extends GleamAnnotation {
   List<GleamLiteralExpr> getLiteralExprList();
 
   @NotNull
-  GleamUnknownAnnotationName getUnknownAnnotationName();
+  PsiElement getAnnotationName();
 
 }

@@ -196,7 +196,6 @@ annotation ::= externalAnnotation
 constantFunctionParameterTypes ::= LPAREN [constantTypeSpecial (COMMA constantTypeSpecial)* [COMMA]] RPAREN
 constantTypeFunction ::= FN [constantFunctionParameterTypes] R_ARROW constantTypeSpecial
 
-
 constantTypeArgument ::= constantTypeSpecial
 constantTypeArguments ::= LPAREN [constantTypeArgument (COMMA constantTypeArgument)* [COMMA]] RPAREN
 
@@ -355,7 +354,7 @@ private expressionRecoverWhile ::= !(RBRACE | RPAREN | RBRACK | LET | EOL)
 expression ::= binaryGroup
              | unaryExpr
              | postfixGroup
-             | primaryGroup
+             | primaryGroup {name="expression"}
 
 // Match echo first to prevent pipeExpr from matching (echo behaves like a reference in pipes)
 pipeExpr ::= expression PIPE (ECHO | expression)

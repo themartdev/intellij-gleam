@@ -147,10 +147,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitConstantTypeAnnotation(@NotNull GleamConstantTypeAnnotation o) {
-    visitPsiElement(o);
-  }
-
   public void visitConstantTypeArgument(@NotNull GleamConstantTypeArgument o) {
     visitPsiElement(o);
   }

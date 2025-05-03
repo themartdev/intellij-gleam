@@ -1012,19 +1012,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // COLON constantType
-  public static boolean constantTypeAnnotation(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "constantTypeAnnotation")) return false;
-    if (!nextTokenIs(b, COLON)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, COLON);
-    r = r && constantType(b, l + 1);
-    exit_section_(b, m, CONSTANT_TYPE_ANNOTATION, r);
-    return r;
-  }
-
-  /* ********************************************************** */
   // constantTypeSpecial
   public static boolean constantTypeArgument(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "constantTypeArgument")) return false;

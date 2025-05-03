@@ -43,7 +43,6 @@ public interface GleamTypes {
   IElementType CONSTANT_RECORD_ARGUMENT = new GleamElementType("CONSTANT_RECORD_ARGUMENT");
   IElementType CONSTANT_RECORD_ARGUMENTS = new GleamElementType("CONSTANT_RECORD_ARGUMENTS");
   IElementType CONSTANT_TYPE = new GleamElementType("CONSTANT_TYPE");
-  IElementType CONSTANT_TYPE_ANNOTATION = new GleamElementType("CONSTANT_TYPE_ANNOTATION");
   IElementType CONSTANT_TYPE_ARGUMENT = new GleamElementType("CONSTANT_TYPE_ARGUMENT");
   IElementType CONSTANT_TYPE_ARGUMENTS = new GleamElementType("CONSTANT_TYPE_ARGUMENTS");
   IElementType CONSTANT_TYPE_FUNCTION = new GleamElementType("CONSTANT_TYPE_FUNCTION");
@@ -339,9 +338,6 @@ public interface GleamTypes {
       }
       else if (type == CONSTANT_TYPE) {
         return new GleamConstantTypeImpl(node);
-      }
-      else if (type == CONSTANT_TYPE_ANNOTATION) {
-        return new GleamConstantTypeAnnotationImpl(node);
       }
       else if (type == CONSTANT_TYPE_ARGUMENT) {
         return new GleamConstantTypeArgumentImpl(node);

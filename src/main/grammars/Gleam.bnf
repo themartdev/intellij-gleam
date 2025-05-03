@@ -212,10 +212,12 @@ expressionConst ::= literalExprConst
             | tupleExprConst
             | bitArrayExprConst
             | listExprConst
+            // The record can be a qualified module reference (name.UpName)
             | recordExprConst
-            | fieldAccessExprConst
-            // Can refer to another constant
-            | identifierExprConst
+            // Reference to a module constant/fn (name.name)
+            | moduleConstantExprConst
+            // Reference to another const (name)
+            | referenceExprConst
 
 // Special for negative number constants - in expressions the '-' is a unary operator, but in constants it's part of the number
 literalExprConst ::= literal | negativeDecimalIntegerLiteral
@@ -226,8 +228,8 @@ listExprConst ::= LBRACK [expressionConst (COMMA expressionConst)* [COMMA]] RBRA
 constantRecordArgument ::= [label COLON] expressionConst
 constantRecordArguments ::= LPAREN [constantRecordArgument (COMMA constantRecordArgument)* [COMMA]] RPAREN
 recordExprConst ::= typeName [constantRecordArguments]
-fieldAccessExprConst ::= IDENTIFIER DOT label
-identifierExprConst ::= identifierDiscardable
+moduleConstantExprConst ::= IDENTIFIER DOT IDENTIFIER
+referenceExprConst ::= identifierDiscardable
 // ============
 
 functionParameterTypes ::= LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN

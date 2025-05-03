@@ -203,10 +203,6 @@ public class GleamVisitor extends PsiElementVisitor {
     visitExpression(o);
   }
 
-  public void visitFieldAccessExprConst(@NotNull GleamFieldAccessExprConst o) {
-    visitExpressionConst(o);
-  }
-
   public void visitFloatLiteral(@NotNull GleamFloatLiteral o) {
     visitPsiElement(o);
   }
@@ -313,6 +309,10 @@ public class GleamVisitor extends PsiElementVisitor {
 
   public void visitLiteralPattern(@NotNull GleamLiteralPattern o) {
     visitPattern(o);
+  }
+
+  public void visitModuleAccessExprConst(@NotNull GleamModuleAccessExprConst o) {
+    visitExpressionConst(o);
   }
 
   public void visitModulePath(@NotNull GleamModulePath o) {

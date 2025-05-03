@@ -57,7 +57,6 @@ public interface GleamTypes {
   IElementType EXPRESSION_CONST = new GleamElementType("EXPRESSION_CONST");
   IElementType EXTERNAL_ANNOTATION = new GleamElementType("EXTERNAL_ANNOTATION");
   IElementType FIELD_ACCESS_EXPR = new GleamElementType("FIELD_ACCESS_EXPR");
-  IElementType FIELD_ACCESS_EXPR_CONST = new GleamElementType("FIELD_ACCESS_EXPR_CONST");
   IElementType FLOAT_LITERAL = new GleamElementType("FLOAT_LITERAL");
   IElementType FUNCTION_BODY = new GleamElementType("FUNCTION_BODY");
   IElementType FUNCTION_DECLARATION = new GleamElementType("FUNCTION_DECLARATION");
@@ -85,6 +84,7 @@ public interface GleamTypes {
   IElementType LITERAL_EXPR = new GleamElementType("LITERAL_EXPR");
   IElementType LITERAL_EXPR_CONST = new GleamElementType("LITERAL_EXPR_CONST");
   IElementType LITERAL_PATTERN = new GleamElementType("LITERAL_PATTERN");
+  IElementType MODULE_ACCESS_EXPR_CONST = new GleamElementType("MODULE_ACCESS_EXPR_CONST");
   IElementType MODULE_PATH = new GleamElementType("MODULE_PATH");
   IElementType NEGATIVE_DECIMAL_INTEGER_LITERAL = new GleamElementType("NEGATIVE_DECIMAL_INTEGER_LITERAL");
   IElementType OCTAL_INTEGER_LITERAL = new GleamElementType("OCTAL_INTEGER_LITERAL");
@@ -375,9 +375,6 @@ public interface GleamTypes {
       else if (type == FIELD_ACCESS_EXPR) {
         return new GleamFieldAccessExprImpl(node);
       }
-      else if (type == FIELD_ACCESS_EXPR_CONST) {
-        return new GleamFieldAccessExprConstImpl(node);
-      }
       else if (type == FLOAT_LITERAL) {
         return new GleamFloatLiteralImpl(node);
       }
@@ -458,6 +455,9 @@ public interface GleamTypes {
       }
       else if (type == LITERAL_PATTERN) {
         return new GleamLiteralPatternImpl(node);
+      }
+      else if (type == MODULE_ACCESS_EXPR_CONST) {
+        return new GleamModuleAccessExprConstImpl(node);
       }
       else if (type == MODULE_PATH) {
         return new GleamModulePathImpl(node);

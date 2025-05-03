@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamFieldAccessExprConst extends GleamExpressionConst {
+public interface GleamModuleAccessExprConst extends GleamExpressionConst {
 
   @NotNull
   GleamLabel getLabel();

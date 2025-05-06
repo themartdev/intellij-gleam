@@ -9,7 +9,7 @@ class GleamTokenType(debugName: String) : IElementType(debugName, GleamLanguage)
 
 val GLEAM_KEYWORDS = create(
     AS, ASSERT, CASE, CONST, FN, IF, IMPORT, LET,
-    OPAQUE, PANIC, PUB, TEST, TODO, TYPE, USE
+    OPAQUE, PANIC, PUB, TEST, TODO, TYPE, USE, ECHO
 )
 
 val TOP_LEVEL_KEYWORDS = create(
@@ -19,7 +19,6 @@ val TOP_LEVEL_KEYWORDS = create(
 val IN_FUNCTION_KEYWORDS = create(
     FN, IF, LET, CASE, ASSERT, TODO, PANIC, USE
 )
-
 
 val GLEAM_BRACES = create(LBRACE, RBRACE)
 val GLEAM_PARENTHESES = create(LPAREN, RPAREN)

@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [0.6.0] - 2025-05-06
+
 ### Fixed
 
 - Fixed grammar for `echo` used in pipe expressions
@@ -140,7 +142,8 @@
     - Root keyword completion
     - Auto indentation, brace matching, etc.
 
-[Unreleased]: https://github.com/themartdev/intellij-gleam/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/themartdev/intellij-gleam/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/themartdev/intellij-gleam/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/themartdev/intellij-gleam/compare/v0.4.2...v0.5.0
 [0.4.2]: https://github.com/themartdev/intellij-gleam/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/themartdev/intellij-gleam/compare/v0.4.0...v0.4.1

@@ -15,4 +15,5 @@ class CaseTest : GleamParsingTestCase() {
     fun testVarList() = assertParsedCorrectly()
     fun testVarString() = assertParsedCorrectly()
     fun testVarTuple() = assertParsedCorrectly()
+    fun testRecursiveRecord() = assertParsedCorrectly()
 }

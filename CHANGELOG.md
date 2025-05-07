@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## Fixed
+
+- Restore highlighting for function calls
+- Highlight `echo` as a keyword
+
 ## [0.6.0] - 2025-05-06
 
 ### Fixed

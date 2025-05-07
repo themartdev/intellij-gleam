@@ -39,9 +39,9 @@ class GleamHighlightingAnnotator : Annotator, DumbAware {
                 }
             }
 
-//            is GleamCallExpr -> {
-//                highlightFunctionCall(element, holder)
-//            }
+            is GleamCallExpr -> {
+                highlightFunctionCall(element, holder)
+            }
 
             is GleamFunctionParameter -> {
                 newAnnotation(holder, element.identifierDiscardable, GleamColors.FUNCTION_PARAMETERS)
@@ -55,17 +55,17 @@ class GleamHighlightingAnnotator : Annotator, DumbAware {
         highlightLabels(element, holder)
     }
 
-//    private fun highlightFunctionCall(element: GleamCallExpr, holder: AnnotationHolder) {
-//        when (val inner = element.expression) {
-//            is GleamAccessExpr -> {
-//                inner.label?.let { newAnnotation(holder, it, GleamColors.FUNCTION_CALL) }
-//            }
-//
-//            is GleamReferenceExpr -> {
-//                newAnnotation(holder, inner.identifier, GleamColors.FUNCTION_CALL)
-//            }
-//        }
-//    }
+    private fun highlightFunctionCall(element: GleamCallExpr, holder: AnnotationHolder) {
+        when (val inner = element.expression) {
+            is GleamFieldAccessExpr -> {
+                newAnnotation(holder, inner.label, GleamColors.FUNCTION_CALL)
+            }
+
+            is GleamReferenceExpr -> {
+                newAnnotation(holder, inner.identifier, GleamColors.FUNCTION_CALL)
+            }
+        }
+    }
 
     private fun highlightLabels(element: PsiElement, holder: AnnotationHolder) {
         when (element) {

@@ -4,7 +4,7 @@
 
 ## [Unreleased]
 
-## Fixed
+### Fixed
 
 - Restore highlighting for function calls
 - Highlight `echo` as a keyword

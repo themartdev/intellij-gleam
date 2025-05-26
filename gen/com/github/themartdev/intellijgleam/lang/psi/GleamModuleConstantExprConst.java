@@ -5,9 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamIdentifierExprConst extends GleamExpressionConst {
-
-  @NotNull
-  GleamIdentifierDiscardable getIdentifierDiscardable();
+public interface GleamModuleConstantExprConst extends GleamExpressionConst {
 
 }

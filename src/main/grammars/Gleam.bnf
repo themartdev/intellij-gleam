@@ -279,7 +279,7 @@ unlabeledArgument ::= expression
 
 recordArgument ::= labeledArgument | shortHandLabeledArgument | unlabeledArgument
 private recordArgumentList ::= [recordArgument (COMMA recordArgument)* [COMMA]]
-recordUpdate ::= DOT_DOT variableReference {pin=1}
+recordUpdate ::= DOT_DOT expression {pin=1}
 // Record update can only be at the start of record arguments
 recordArguments ::=  LPAREN (recordUpdate COMMA recordArgumentList | recordUpdate | recordArgumentList) RPAREN
 recordExpr ::= (constructorIdentifier | remoteConstructorIdentifier) [recordArguments]

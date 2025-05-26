@@ -68,7 +68,6 @@ public interface GleamTypes {
   IElementType GENERIC_TYPE = new GleamElementType("GENERIC_TYPE");
   IElementType HEX_INTEGER_LITERAL = new GleamElementType("HEX_INTEGER_LITERAL");
   IElementType IDENTIFIER_DISCARDABLE = new GleamElementType("IDENTIFIER_DISCARDABLE");
-  IElementType IDENTIFIER_EXPR_CONST = new GleamElementType("IDENTIFIER_EXPR_CONST");
   IElementType IDENTIFIER_PATTERN = new GleamElementType("IDENTIFIER_PATTERN");
   IElementType IMPORT_DECLARATION = new GleamElementType("IMPORT_DECLARATION");
   IElementType INDEX_ACCESS_EXPR = new GleamElementType("INDEX_ACCESS_EXPR");
@@ -84,7 +83,7 @@ public interface GleamTypes {
   IElementType LITERAL_EXPR = new GleamElementType("LITERAL_EXPR");
   IElementType LITERAL_EXPR_CONST = new GleamElementType("LITERAL_EXPR_CONST");
   IElementType LITERAL_PATTERN = new GleamElementType("LITERAL_PATTERN");
-  IElementType MODULE_ACCESS_EXPR_CONST = new GleamElementType("MODULE_ACCESS_EXPR_CONST");
+  IElementType MODULE_CONSTANT_EXPR_CONST = new GleamElementType("MODULE_CONSTANT_EXPR_CONST");
   IElementType MODULE_PATH = new GleamElementType("MODULE_PATH");
   IElementType NEGATIVE_DECIMAL_INTEGER_LITERAL = new GleamElementType("NEGATIVE_DECIMAL_INTEGER_LITERAL");
   IElementType OCTAL_INTEGER_LITERAL = new GleamElementType("OCTAL_INTEGER_LITERAL");
@@ -107,6 +106,7 @@ public interface GleamTypes {
   IElementType RECORD_PATTERN_ARGUMENTS = new GleamElementType("RECORD_PATTERN_ARGUMENTS");
   IElementType RECORD_UPDATE = new GleamElementType("RECORD_UPDATE");
   IElementType REFERENCE_EXPR = new GleamElementType("REFERENCE_EXPR");
+  IElementType REFERENCE_EXPR_CONST = new GleamElementType("REFERENCE_EXPR_CONST");
   IElementType REMOTE_CONSTRUCTOR_IDENTIFIER = new GleamElementType("REMOTE_CONSTRUCTOR_IDENTIFIER");
   IElementType SHORT_HAND_LABELED_ARGUMENT = new GleamElementType("SHORT_HAND_LABELED_ARGUMENT");
   IElementType STRING_ESCAPE_SEGMENT = new GleamElementType("STRING_ESCAPE_SEGMENT");
@@ -408,9 +408,6 @@ public interface GleamTypes {
       else if (type == IDENTIFIER_DISCARDABLE) {
         return new GleamIdentifierDiscardableImpl(node);
       }
-      else if (type == IDENTIFIER_EXPR_CONST) {
-        return new GleamIdentifierExprConstImpl(node);
-      }
       else if (type == IDENTIFIER_PATTERN) {
         return new GleamIdentifierPatternImpl(node);
       }
@@ -456,8 +453,8 @@ public interface GleamTypes {
       else if (type == LITERAL_PATTERN) {
         return new GleamLiteralPatternImpl(node);
       }
-      else if (type == MODULE_ACCESS_EXPR_CONST) {
-        return new GleamModuleAccessExprConstImpl(node);
+      else if (type == MODULE_CONSTANT_EXPR_CONST) {
+        return new GleamModuleConstantExprConstImpl(node);
       }
       else if (type == MODULE_PATH) {
         return new GleamModulePathImpl(node);
@@ -521,6 +518,9 @@ public interface GleamTypes {
       }
       else if (type == REFERENCE_EXPR) {
         return new GleamReferenceExprImpl(node);
+      }
+      else if (type == REFERENCE_EXPR_CONST) {
+        return new GleamReferenceExprConstImpl(node);
       }
       else if (type == REMOTE_CONSTRUCTOR_IDENTIFIER) {
         return new GleamRemoteConstructorIdentifierImpl(node);

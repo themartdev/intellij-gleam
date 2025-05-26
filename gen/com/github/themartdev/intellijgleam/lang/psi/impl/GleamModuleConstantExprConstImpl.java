@@ -10,33 +10,21 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamModuleAccessExprConstImpl extends GleamExpressionConstImpl implements GleamModuleAccessExprConst {
+public class GleamModuleConstantExprConstImpl extends GleamExpressionConstImpl implements GleamModuleConstantExprConst {
 
-  public GleamModuleAccessExprConstImpl(@NotNull ASTNode node) {
+  public GleamModuleConstantExprConstImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitModuleAccessExprConst(this);
+    visitor.visitModuleConstantExprConst(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof GleamVisitor) accept((GleamVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public GleamLabel getLabel() {
-    return findNotNullChildByClass(GleamLabel.class);
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getIdentifier() {
-    return findNotNullChildByType(IDENTIFIER);
   }
 
 }

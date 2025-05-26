@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamIdentifierExprConstImpl extends GleamExpressionConstImpl implements GleamIdentifierExprConst {
+public class GleamReferenceExprConstImpl extends GleamExpressionConstImpl implements GleamReferenceExprConst {
 
-  public GleamIdentifierExprConstImpl(@NotNull ASTNode node) {
+  public GleamReferenceExprConstImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitIdentifierExprConst(this);
+    visitor.visitReferenceExprConst(this);
   }
 
   @Override

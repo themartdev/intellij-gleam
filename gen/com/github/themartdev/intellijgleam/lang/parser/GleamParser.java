@@ -38,8 +38,8 @@ public class GleamParser implements PsiParser, LightPsiParser {
   public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
     create_token_set_(ANNOTATION, DEPRECATED_ANNOTATION, EXTERNAL_ANNOTATION, OTHER_ANNOTATION,
       TARGET_ANNOTATION),
-    create_token_set_(BIT_ARRAY_EXPR_CONST, EXPRESSION_CONST, IDENTIFIER_EXPR_CONST, LIST_EXPR_CONST,
-      LITERAL_EXPR_CONST, MODULE_ACCESS_EXPR_CONST, RECORD_EXPR_CONST, TUPLE_EXPR_CONST),
+    create_token_set_(BIT_ARRAY_EXPR_CONST, EXPRESSION_CONST, LIST_EXPR_CONST, LITERAL_EXPR_CONST,
+      MODULE_CONSTANT_EXPR_CONST, RECORD_EXPR_CONST, REFERENCE_EXPR_CONST, TUPLE_EXPR_CONST),
     create_token_set_(BIT_ARRAY_PATTERN, CASE_CLAUSE_PATTERN, IDENTIFIER_PATTERN, LIST_PATTERN,
       LITERAL_PATTERN, PATTERN, RECORD_PATTERN, STRING_PATTERN,
       TUPLE_PATTERN),
@@ -1268,10 +1268,12 @@ public class GleamParser implements PsiParser, LightPsiParser {
   //             | tupleExprConst
   //             | bitArrayExprConst
   //             | listExprConst
+  //             // The record can be a qualified module reference (name.UpName)
   //             | recordExprConst
-  //             | moduleAccessExprConst
-  //             // Can refer to another constant
-  //             | identifierExprConst
+  //             // Reference to a module constant/fn (name.name)
+  //             | moduleConstantExprConst
+  //             // Reference to another const (name)
+  //             | referenceExprConst
   public static boolean expressionConst(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expressionConst")) return false;
     boolean r;
@@ -1281,8 +1283,8 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!r) r = bitArrayExprConst(b, l + 1);
     if (!r) r = listExprConst(b, l + 1);
     if (!r) r = recordExprConst(b, l + 1);
-    if (!r) r = moduleAccessExprConst(b, l + 1);
-    if (!r) r = identifierExprConst(b, l + 1);
+    if (!r) r = moduleConstantExprConst(b, l + 1);
+    if (!r) r = referenceExprConst(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -1760,17 +1762,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // identifierDiscardable
-  public static boolean identifierExprConst(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "identifierExprConst")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, IDENTIFIER_EXPR_CONST, "<identifier expr const>");
-    r = identifierDiscardable(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // identifierDiscardable
   public static boolean identifierPattern(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "identifierPattern")) return false;
     boolean r;
@@ -2092,15 +2083,14 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IDENTIFIER DOT label
-  public static boolean moduleAccessExprConst(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "moduleAccessExprConst")) return false;
+  // IDENTIFIER DOT IDENTIFIER
+  public static boolean moduleConstantExprConst(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "moduleConstantExprConst")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, IDENTIFIER, DOT);
-    r = r && label(b, l + 1);
-    exit_section_(b, m, MODULE_ACCESS_EXPR_CONST, r);
+    r = consumeTokens(b, 0, IDENTIFIER, DOT, IDENTIFIER);
+    exit_section_(b, m, MODULE_CONSTANT_EXPR_CONST, r);
     return r;
   }
 
@@ -2705,7 +2695,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // DOT_DOT variableReference
+  // DOT_DOT expression
   public static boolean recordUpdate(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "recordUpdate")) return false;
     if (!nextTokenIs(b, DOT_DOT)) return false;
@@ -2713,9 +2703,20 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, RECORD_UPDATE, null);
     r = consumeToken(b, DOT_DOT);
     p = r; // pin = 1
-    r = r && variableReference(b, l + 1);
+    r = r && expression(b, l + 1, -1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
+  }
+
+  /* ********************************************************** */
+  // identifierDiscardable
+  public static boolean referenceExprConst(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "referenceExprConst")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, REFERENCE_EXPR_CONST, "<reference expr const>");
+    r = identifierDiscardable(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
   /* ********************************************************** */

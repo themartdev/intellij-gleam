@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface GleamRecordUpdate extends PsiElement {
 
   @Nullable
-  GleamVariableReference getVariableReference();
+  GleamExpression getExpression();
 
 }

@@ -7,4 +7,6 @@ class RecordTest : GleamParsingTestCase() {
 
     fun testShorthandPlusRecordUpdate() = assertParsedCorrectly()
 
+    fun testRecordUpdateWithExpression() = assertParsedCorrectly()
+
 }

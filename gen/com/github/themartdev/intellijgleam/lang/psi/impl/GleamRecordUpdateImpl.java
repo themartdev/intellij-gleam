@@ -29,8 +29,8 @@ public class GleamRecordUpdateImpl extends ASTWrapperPsiElement implements Gleam
 
   @Override
   @Nullable
-  public GleamVariableReference getVariableReference() {
-    return findChildByClass(GleamVariableReference.class);
+  public GleamExpression getExpression() {
+    return findChildByClass(GleamExpression.class);
   }
 
 }

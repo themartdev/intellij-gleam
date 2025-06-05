@@ -257,7 +257,7 @@ listPattern ::= LBRACK [patternAliasable (COMMA patternAliasable)* [COMMA]] [lis
 stringPattern ::= stringLiteral LT_GT identifierDiscardable {pin=2}
 
 patternSpread ::= DOT_DOT [COMMA]
-recordPatternArgument ::= [label COLON] patternAliasable
+recordPatternArgument ::= [label COLON] patternAliasable | label COLON
 recordPatternArguments ::= LPAREN [recordPatternArgument (COMMA recordPatternArgument)* [COMMA]] [patternSpread] RPAREN
 recordPattern ::= (constructorIdentifier | remoteConstructorIdentifier) [recordPatternArguments] {pin=1}
 literalPattern ::= literal

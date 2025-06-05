@@ -10,7 +10,7 @@ public interface GleamRecordPatternArgument extends PsiElement {
   @Nullable
   GleamLabel getLabel();
 
-  @NotNull
+  @Nullable
   GleamPatternAliasable getPatternAliasable();
 
 }

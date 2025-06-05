@@ -2595,27 +2595,49 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // [label COLON] patternAliasable
+  // [label COLON] patternAliasable | label COLON
   public static boolean recordPatternArgument(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "recordPatternArgument")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, RECORD_PATTERN_ARGUMENT, "<record pattern argument>");
     r = recordPatternArgument_0(b, l + 1);
-    r = r && patternAliasable(b, l + 1);
+    if (!r) r = recordPatternArgument_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // [label COLON]
+  // [label COLON] patternAliasable
   private static boolean recordPatternArgument_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "recordPatternArgument_0")) return false;
-    recordPatternArgument_0_0(b, l + 1);
+    boolean r;
+    Marker m = enter_section_(b);
+    r = recordPatternArgument_0_0(b, l + 1);
+    r = r && patternAliasable(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // [label COLON]
+  private static boolean recordPatternArgument_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordPatternArgument_0_0")) return false;
+    recordPatternArgument_0_0_0(b, l + 1);
     return true;
   }
 
   // label COLON
-  private static boolean recordPatternArgument_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "recordPatternArgument_0_0")) return false;
+  private static boolean recordPatternArgument_0_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordPatternArgument_0_0_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = label(b, l + 1);
+    r = r && consumeToken(b, COLON);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // label COLON
+  private static boolean recordPatternArgument_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordPatternArgument_1")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = label(b, l + 1);

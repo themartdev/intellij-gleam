@@ -1,7 +1,7 @@
 [versions]
 # libraries
 junit = "4.13.2"
-mockk = "1.14.2"
+mockk = "1.14.4"
 
 # plugins
 changelog = "2.2.1"

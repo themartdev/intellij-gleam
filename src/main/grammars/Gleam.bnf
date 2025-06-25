@@ -313,7 +313,7 @@ echoExpr ::= ECHO expression
 panicExpr ::= PANIC (AS expression)?
 todoExpr ::= TODO (AS expression)?
 
-callArgument ::= labeledArgument | unlabeledArgument | hole
+callArgument ::= labeledArgument | shortHandLabeledArgument | unlabeledArgument | hole
 callArguments ::= LPAREN [callArgument (COMMA callArgument)* [COMMA]] RPAREN
 
 callExpr ::= expression callArguments

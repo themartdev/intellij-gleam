@@ -35,6 +35,12 @@ public class GleamCallArgumentImpl extends ASTWrapperPsiElement implements Gleam
 
   @Override
   @Nullable
+  public GleamShortHandLabeledArgument getShortHandLabeledArgument() {
+    return findChildByClass(GleamShortHandLabeledArgument.class);
+  }
+
+  @Override
+  @Nullable
   public GleamUnlabeledArgument getUnlabeledArgument() {
     return findChildByClass(GleamUnlabeledArgument.class);
   }

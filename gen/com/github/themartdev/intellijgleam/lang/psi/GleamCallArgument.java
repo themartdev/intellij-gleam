@@ -11,6 +11,9 @@ public interface GleamCallArgument extends PsiElement {
   GleamLabeledArgument getLabeledArgument();
 
   @Nullable
+  GleamShortHandLabeledArgument getShortHandLabeledArgument();
+
+  @Nullable
   GleamUnlabeledArgument getUnlabeledArgument();
 
 }

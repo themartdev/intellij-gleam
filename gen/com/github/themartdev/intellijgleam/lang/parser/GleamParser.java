@@ -490,12 +490,13 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // labeledArgument | unlabeledArgument | hole
+  // labeledArgument | shortHandLabeledArgument | unlabeledArgument | hole
   public static boolean callArgument(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "callArgument")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, CALL_ARGUMENT, "<call argument>");
     r = labeledArgument(b, l + 1);
+    if (!r) r = shortHandLabeledArgument(b, l + 1);
     if (!r) r = unlabeledArgument(b, l + 1);
     if (!r) r = hole(b, l + 1);
     exit_section_(b, l, m, r, false, null);

@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed grammar for shorthand labeled arguments in function calls
+
 ## [0.8.0] - 2025-06-03
 
 ### Fixed

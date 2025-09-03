@@ -69,7 +69,8 @@ object ErlangSdkFinder {
         val pathDirs = System.getenv("PATH").split(File.pathSeparator)
 
         for (dir in pathDirs) {
-            var path = Path(dir)
+            val cleaned = FsUtils.sanitizeUserPath(dir)
+            var path = Path(cleaned)
             try {
                 path = path.toAbsolutePath()
             } catch (_: Exception) {

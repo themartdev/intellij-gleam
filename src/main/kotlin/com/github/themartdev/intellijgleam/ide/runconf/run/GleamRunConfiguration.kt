@@ -2,7 +2,6 @@ package com.github.themartdev.intellijgleam.ide.runconf.run
 
 import com.github.themartdev.intellijgleam.ide.common.FsUtils
 import com.github.themartdev.intellijgleam.ide.common.GleamProjectUtils
-import com.github.themartdev.intellijgleam.ide.common.validateErlangSdkShape
 import com.github.themartdev.intellijgleam.ide.lsp.GleamServiceSettings
 import com.intellij.execution.Executor
 import com.intellij.execution.configurations.*
@@ -10,7 +9,6 @@ import com.intellij.execution.runners.ExecutionEnvironment
 import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.project.Project
 import java.io.File
-import java.nio.file.Path
 
 class GleamRunConfiguration(project: Project, configurationFactory: ConfigurationFactory, name: String) :
     RunConfigurationBase<GleamRunConfigurationOptions>(project, configurationFactory, name) {
@@ -24,15 +22,15 @@ class GleamRunConfiguration(project: Project, configurationFactory: Configuratio
     }
 
     fun getActualErlangPath(): String {
-        return GleamServiceSettings.getInstance(project).erlangPath
+        val raw = GleamServiceSettings.getInstance(project).erlangPath
+        return FsUtils.sanitizeUserPath(raw)
     }
 
     // Returns Erlang SDK root directory normalized from user-provided path.
     fun getNormalizedErlangSdkRoot(): String {
         val raw = getActualErlangPath().trim()
         if (raw.isEmpty()) return ""
-        val p = java.nio.file.Paths.get(raw)
-        val f = p.toFile()
+        val f = File(raw)
         // If user selected erl(.exe)
         if (f.isFile) {
             val parent = f.parentFile // bin
@@ -59,10 +57,25 @@ class GleamRunConfiguration(project: Project, configurationFactory: Configuratio
             return fp.removeSuffix(".gleam")
         }
         val srcDirStr = GleamProjectUtils.getSrcDir(project) ?: return null
-        val srcDir = java.nio.file.Paths.get(srcDirStr).normalize()
-        val normFilePath = java.nio.file.Paths.get(fp.replace('/', File.separatorChar)).normalize()
-        val rel = if (normFilePath.startsWith(srcDir)) srcDir.relativize(normFilePath) else normFilePath.fileName
-        val withoutExt = rel.toString().removeSuffix(".gleam")
+        // Normalize separators to system default for comparison
+        val normSrc = File(srcDirStr).absolutePath.replace('/', File.separatorChar).trimEnd(File.separatorChar)
+        val normFile = File(fp.replace('/', File.separatorChar)).absolutePath
+        var rel = normFile
+        // On Windows compare case-insensitively; elsewhere case-sensitively
+        val isWindows = com.intellij.openapi.util.SystemInfo.isWindows
+        val startsWith = if (isWindows) {
+            normFile.lowercase().startsWith((normSrc + File.separator).lowercase())
+        } else {
+            normFile.startsWith(normSrc + File.separator)
+        }
+        if (startsWith) {
+            rel = normFile.substring((normSrc + File.separator).length)
+        } else {
+            // Fallback to filename only
+            rel = File(normFile).name
+        }
+        val withoutExt = if (rel.endsWith(".gleam", ignoreCase = true)) rel.dropLast(6) else rel
+        // Convert to Gleam module qualifier with forward slashes
         return withoutExt.replace('\\', '/')
     }
 
@@ -85,12 +98,19 @@ class GleamRunConfiguration(project: Project, configurationFactory: Configuratio
         if (erlangSdkRoot.isEmpty()) {
             throw RuntimeConfigurationException("Erlang SDK path is not set")
         }
-        val sdkPath = try {
-            Path.of(erlangSdkRoot)
-        } catch (_: Exception) {
-            throw RuntimeConfigurationException("Erlang SDK path is malformed: '${getActualErlangPath()}'")
+        val sdkRoot = File(erlangSdkRoot)
+        if (!sdkRoot.exists() || !sdkRoot.isDirectory) {
+            throw RuntimeConfigurationException("Erlang SDK path is invalid: '${getActualErlangPath()}' (expected a directory containing bin, lib, and releases)")
         }
-        if (!validateErlangSdkShape(sdkPath)) {
+        val binDir = File(sdkRoot, "bin")
+        val libDir = File(sdkRoot, "lib")
+        val releasesDir = File(sdkRoot, "releases")
+        val erlExeName = if (com.intellij.openapi.util.SystemInfo.isWindows) "erl.exe" else "erl"
+        val erlExecutable = File(binDir, erlExeName)
+        if (!(binDir.exists() && binDir.isDirectory &&
+                    libDir.exists() && libDir.isDirectory &&
+                    releasesDir.exists() && releasesDir.isDirectory &&
+                    erlExecutable.exists() && erlExecutable.canExecute())) {
             throw RuntimeConfigurationException("Erlang SDK path is invalid: '${getActualErlangPath()}' (expected a directory containing bin, lib, and releases)")
         }
     }

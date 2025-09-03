@@ -8,6 +8,20 @@ import java.nio.file.Path
 import kotlin.io.path.*
 
 object FsUtils {
+    private val INVISIBLE_CONTROL_CHARS = "\u200E\u200F\u202A\u202B\u202C\u202D\u202E".toCharArray().toSet()
+
+    fun sanitizeUserPath(input: String): String {
+        var s = input.trim()
+        // Remove invisible Unicode directionality/control marks that can sneak from clipboard
+        s = s.filter { ch -> !INVISIBLE_CONTROL_CHARS.contains(ch) }
+        // On Windows, normalize forward slashes to backslashes
+        if (SystemInfo.isWindows) {
+            s = s.replace('/', '\\')
+            // Collapse duplicate backslashes (but keep UNC prefix if present)
+            s = s.replace(Regex("""\\\\+"""), "\\") // Replace multiple backslashes with one
+        }
+        return s
+    }
     fun validateGleamPath(path: String): Boolean {
         val path = Path(path)
         if (!(path.exists() && path.isRegularFile() && path.isExecutable())) {

@@ -5,17 +5,12 @@ import com.github.themartdev.intellijgleam.ide.common.GleamProjectUtils
 import com.github.themartdev.intellijgleam.ide.common.validateErlangSdkShape
 import com.github.themartdev.intellijgleam.ide.lsp.GleamServiceSettings
 import com.intellij.execution.Executor
-import com.intellij.execution.configurations.ConfigurationFactory
-import com.intellij.execution.configurations.RunConfiguration
-import com.intellij.execution.configurations.RunConfigurationBase
-import com.intellij.execution.configurations.RunProfileState
-import com.intellij.execution.configurations.RuntimeConfigurationException
+import com.intellij.execution.configurations.*
 import com.intellij.execution.runners.ExecutionEnvironment
 import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.project.Project
 import java.io.File
-import kotlin.io.path.Path
-import kotlin.jvm.Throws
+import java.nio.file.Path
 
 class GleamRunConfiguration(project: Project, configurationFactory: ConfigurationFactory, name: String) :
     RunConfigurationBase<GleamRunConfigurationOptions>(project, configurationFactory, name) {
@@ -32,10 +27,43 @@ class GleamRunConfiguration(project: Project, configurationFactory: Configuratio
         return GleamServiceSettings.getInstance(project).erlangPath
     }
 
+    // Returns Erlang SDK root directory normalized from user-provided path.
+    fun getNormalizedErlangSdkRoot(): String {
+        val raw = getActualErlangPath().trim()
+        if (raw.isEmpty()) return ""
+        val p = java.nio.file.Paths.get(raw)
+        val f = p.toFile()
+        // If user selected erl(.exe)
+        if (f.isFile) {
+            val parent = f.parentFile // bin
+            val root = parent?.parentFile // SDK root
+            return root?.absolutePath ?: parent?.absolutePath ?: f.absolutePath
+        }
+        // If user selected bin directory
+        if (f.isDirectory && f.name.equals("bin", ignoreCase = true)) {
+            return f.parentFile?.absolutePath ?: f.absolutePath
+        }
+        // If directory that already looks like SDK root (has bin)
+        val binDir = File(f, "bin")
+        if (binDir.exists() && binDir.isDirectory) {
+            return f.absolutePath
+        }
+        // As a fallback return as-is
+        return f.absolutePath
+    }
+
     fun getModuleQualifier(): String? {
-        val srcDir = GleamProjectUtils.getSrcDir(project) ?: return ""
         val fp = options.filePath ?: return null
-        return fp.removePrefix(srcDir + File.separator).removeSuffix(".gleam").replace(File.separator, "/")
+        // If user typed module name directly
+        if (!fp.contains('/') && !fp.contains('\\')) {
+            return fp.removeSuffix(".gleam")
+        }
+        val srcDirStr = GleamProjectUtils.getSrcDir(project) ?: return null
+        val srcDir = java.nio.file.Paths.get(srcDirStr).normalize()
+        val normFilePath = java.nio.file.Paths.get(fp.replace('/', File.separatorChar)).normalize()
+        val rel = if (normFilePath.startsWith(srcDir)) srcDir.relativize(normFilePath) else normFilePath.fileName
+        val withoutExt = rel.toString().removeSuffix(".gleam")
+        return withoutExt.replace('\\', '/')
     }
 
     public override fun getOptions(): GleamRunConfigurationOptions {
@@ -53,9 +81,17 @@ class GleamRunConfiguration(project: Project, configurationFactory: Configuratio
             throw RuntimeConfigurationException("Gleam executable is invalid: '$gleamPath'")
         }
 
-        val erlangPath = getActualErlangPath()
-        if (!validateErlangSdkShape(Path(erlangPath))) {
-            throw RuntimeConfigurationException("Erlang executable is invalid: '$erlangPath'")
+        val erlangSdkRoot = getNormalizedErlangSdkRoot()
+        if (erlangSdkRoot.isEmpty()) {
+            throw RuntimeConfigurationException("Erlang SDK path is not set")
+        }
+        val sdkPath = try {
+            Path.of(erlangSdkRoot)
+        } catch (_: Exception) {
+            throw RuntimeConfigurationException("Erlang SDK path is malformed: '${getActualErlangPath()}'")
+        }
+        if (!validateErlangSdkShape(sdkPath)) {
+            throw RuntimeConfigurationException("Erlang SDK path is invalid: '${getActualErlangPath()}' (expected a directory containing bin, lib, and releases)")
         }
     }
 

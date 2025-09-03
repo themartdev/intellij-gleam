@@ -5,7 +5,6 @@ import com.github.themartdev.intellijgleam.ide.common.captureErlang
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.project.Project
-import kotlin.io.path.Path
 
 class ErlangPathComboBox(project: Project) : AbstractExecutablePathComboBox(project) {
     override fun computeVersionInline(path: String): String? {

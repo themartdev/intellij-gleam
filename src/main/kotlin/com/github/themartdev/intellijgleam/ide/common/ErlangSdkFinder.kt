@@ -113,7 +113,7 @@ fun validateErlangSdkShape(path: Path): Boolean {
             erlExecutable.exists() && erlExecutable.isExecutable()
 }
 
-fun captureErlang(path: Path): ErlangSdk? {
+fun captureErlang(path: Path): ErlangSdk {
     if (!path.exists() || !path.isDirectory()) {
         return ErlangSdk(path.toString(), false)
     }

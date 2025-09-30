@@ -5,6 +5,7 @@
     <vendor>themartdev</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
     <depends>com.redhat.devtools.lsp4ij</depends>
 
     <resource-bundle>messages.GleamBundle</resource-bundle>
@@ -98,6 +99,8 @@
                 implementation="com.github.themartdev.intellijgleam.ide.runconf.run.GleamRunConfigurationProducer"/>
 
         <postStartupActivity implementation="com.github.themartdev.intellijgleam.ide.lifecycle.GleamStartupActivity"/>
+
+        <newProjectWizard.languageGenerator implementation="com.github.themartdev.intellijgleam.ide.wizard.GleamNewProjectWizard" />
 
         <lang.psiStructureViewFactory
                 language="Gleam"

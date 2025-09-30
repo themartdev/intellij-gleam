@@ -18,6 +18,7 @@ class GleamNewProjectWizard : GeneratorNewProjectWizard {
         return RootNewProjectWizardStep(context)
             .nextStep(::NewGleamProjectStep)
             .nextStep(::NewGleamProjectGitStep)
+            .nextStep(::NewGleamProjectTargetStep)
             .nextStep(::NewGleamProjectAssetsStep)
     }
 

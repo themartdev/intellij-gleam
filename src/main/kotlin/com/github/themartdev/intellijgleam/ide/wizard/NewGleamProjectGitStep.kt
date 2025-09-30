@@ -23,7 +23,8 @@ import com.intellij.ui.dsl.builder.whenStateChangedFromUi
 import java.nio.file.Path
 
 /**
- * A re-implementation of GitNewProjectWizardStep, to fit with the NewProjectWizardBaseStep re-implementation
+ * A re-implementation of GitNewProjectWizardStep, to fit with the NewProjectWizardBaseStep re-implementation.
+ * Identical to the original, other than dropping the internal-only `whenProjectCreated()` call.
  *
  * @see com.intellij.ide.wizard.GitNewProjectWizardStep
  */
@@ -60,11 +61,9 @@ class NewGleamProjectGitStep(
             if (git) {
                 val rootDirectory = Path.of(path).resolve(name).refreshAndFindVirtualDirectory()
                 if (rootDirectory != null) {
-                    whenProjectCreated(project) {
-                        runBackgroundableTask(IdeBundle.message("progress.title.creating.git.repository"), project) {
-                            setupProjectSafe(project, UIBundle.message("error.project.wizard.new.project.git")) {
-                                gitRepositoryInitializer!!.initRepository(project, rootDirectory, true)
-                            }
+                    runBackgroundableTask(IdeBundle.message("progress.title.creating.git.repository"), project) {
+                        setupProjectSafe(project, UIBundle.message("error.project.wizard.new.project.git")) {
+                            gitRepositoryInitializer!!.initRepository(project, rootDirectory, true)
                         }
                     }
                 }

@@ -21,8 +21,4 @@ class GleamNewProjectWizard : GeneratorNewProjectWizard {
             .nextStep(::NewGleamProjectAssetsStep)
     }
 
-    // override fun createStep(parent: NewProjectWizardStep): NewProjectWizardStep {
-    //     return NewGleamProjectStep(parent).nextStep(::NewGleamProjectAssetsStep)
-    // }
-
 }

@@ -100,7 +100,7 @@
 
         <postStartupActivity implementation="com.github.themartdev.intellijgleam.ide.lifecycle.GleamStartupActivity"/>
 
-        <newProjectWizard.languageGenerator implementation="com.github.themartdev.intellijgleam.ide.wizard.GleamNewProjectWizard" />
+        <newProjectWizard.generator implementation="com.github.themartdev.intellijgleam.ide.wizard.GleamNewProjectWizard" />
 
         <lang.psiStructureViewFactory
                 language="Gleam"

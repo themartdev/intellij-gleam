@@ -43,9 +43,9 @@ class GleamRunConfigurationState(
 
     private fun adjustPathWithErlang(path: String): String {
         val pathDirs = path.split(File.pathSeparator).toMutableList()
-        val erlangSdkPath = configuration.getActualErlangPath()
-        val erlangBin = File(erlangSdkPath).resolve("bin").absolutePath
-        if (erlangSdkPath.isNotEmpty()) {
+        val erlangSdkRoot = configuration.getNormalizedErlangSdkRoot()
+        if (erlangSdkRoot.isNotEmpty()) {
+            val erlangBin = File(erlangSdkRoot).resolve("bin").absolutePath
             pathDirs.add(0, erlangBin)
         }
         return pathDirs.joinToString(File.pathSeparator)

@@ -59,7 +59,7 @@ class GleamRunConfigurationProducer : LazyRunConfigurationProducer<GleamRunConfi
 
     private fun getModulePath(element: PsiElement): String {
         val virtualFile = element.containingFile.virtualFile ?: return ""
-        return virtualFile.path
+        //return virtualFile.path
         val projectBasePath = element.project.basePath ?: return ""
         return virtualFile.path.removePrefix(projectBasePath).trimStart('/')
     }

@@ -1,14 +1,14 @@
 package com.github.themartdev.intellijgleam.ide.ui.components
 
+import com.github.themartdev.intellijgleam.ide.common.FsUtils
 import com.github.themartdev.intellijgleam.ide.common.captureErlang
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.project.Project
-import kotlin.io.path.Path
 
 class ErlangPathComboBox(project: Project) : AbstractExecutablePathComboBox(project) {
     override fun computeVersionInline(path: String): String? {
-        val executable = captureErlang(Path(path))
+        val executable = captureErlang(kotlin.io.path.Path(FsUtils.sanitizeUserPath(path)))
         return executable?.version
     }
 
@@ -18,7 +18,7 @@ class ErlangPathComboBox(project: Project) : AbstractExecutablePathComboBox(proj
         val selectedFiles = FileChooser.chooseFiles(fileChooserDescriptor, project, null)
         if (selectedFiles.isNotEmpty()) {
             val path = selectedFiles[0].path
-            selectedPath = path
+            selectedPath = FsUtils.sanitizeUserPath(path)
         }
     }
 }

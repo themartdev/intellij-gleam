@@ -1,11 +1,11 @@
 package com.github.themartdev.intellijgleam.ide.common
 
 import com.intellij.openapi.project.Project
-import kotlin.io.path.Path
 
 object GleamProjectUtils {
     fun getSrcDir(project: Project): String? {
         val projectPath = project.basePath ?: return null
-        return Path(projectPath).resolve("src").toString()
+        val sep = java.io.File.separator
+        return if (projectPath.endsWith(sep)) projectPath + "src" else projectPath + sep + "src"
     }
 }

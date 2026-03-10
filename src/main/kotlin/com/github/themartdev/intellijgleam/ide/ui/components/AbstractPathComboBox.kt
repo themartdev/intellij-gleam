@@ -1,5 +1,6 @@
 package com.github.themartdev.intellijgleam.ide.ui.components
 
+import com.github.themartdev.intellijgleam.ide.common.FsUtils
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ModalityState
 import com.intellij.openapi.project.Project
@@ -58,8 +59,9 @@ abstract class AbstractExecutablePathComboBox(protected val project: Project?) :
                 selectedItem = null
                 return
             }
-            addItem(value)
-            selectedItem = value
+            val sanitized = FsUtils.sanitizeUserPath(value)
+            addItem(sanitized)
+            selectedItem = sanitized
         }
 
     abstract fun showBrowseDialog()

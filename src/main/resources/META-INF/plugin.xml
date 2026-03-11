@@ -7,6 +7,11 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>com.redhat.devtools.lsp4ij</depends>
 
+    <!-- Required to use AssetsNewProjectWizardStep -->
+    <depends optional="true" config-file="com.github.themartdev.intellijgleam-withJava.xml">
+      com.intellij.java
+    </depends>
+
     <resource-bundle>messages.GleamBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.redhat.devtools.lsp4ij">
@@ -98,6 +103,9 @@
                 implementation="com.github.themartdev.intellijgleam.ide.runconf.run.GleamRunConfigurationProducer"/>
 
         <postStartupActivity implementation="com.github.themartdev.intellijgleam.ide.lifecycle.GleamStartupActivity"/>
+
+        <newProjectWizard.generator implementation="com.github.themartdev.intellijgleam.ide.wizard.GleamNewProjectWizard" />
+        <directoryProjectGenerator implementation="com.github.themartdev.intellijgleam.ide.wizard.GleamDirectoryProjectGenerator" />
 
         <lang.psiStructureViewFactory
                 language="Gleam"

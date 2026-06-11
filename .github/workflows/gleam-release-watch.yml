@@ -1,0 +1,188 @@
+# Watches gleam-lang/gleam for new releases and validates this plugin's parser against
+# the language test suite (test/language) and the stdlib at that release.
+#
+# Idempotency is handled via issue titles: if an issue named
+# "Gleam <tag> parser validation ..." already exists (open or closed), the release is
+# considered handled and the run exits quietly.
+#
+# Results (pass or fail) are reported as a GitHub issue, which triggers a notification.
+#
+# Manual runs: use workflow_dispatch with an optional tag (e.g. "v1.14.0") to (re)validate
+# any release - useful after fixing the grammar. Manual runs always execute, even if an
+# issue for that tag already exists, but they only open a NEW issue on failure.
+#
+# NOTE: GitHub disables scheduled workflows after 60 days without repository activity.
+# You will get an email and can re-enable it with one click. If the repo goes fully dormant,
+# consider a keepalive step (e.g. gautamkrishnar/keepalive-workflow).
+
+name: Gleam Release Watch
+
+on:
+  schedule:
+    - cron: '23 6 * * *'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Gleam tag to validate (e.g. v1.14.0). Defaults to the latest release.'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: gleam-release-watch
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Check for new Gleam release
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.resolve.outputs.tag }}
+      prev_tag: ${{ steps.resolve.outputs.prev_tag }}
+      should_run: ${{ steps.decide.outputs.should_run }}
+    steps:
+      - name: Resolve target and previous Gleam release
+        id: resolve
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INPUT_TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          # Stable releases only, newest first (prereleases like v1.15.0-rc1 are skipped;
+          # drop the select() to get early warnings from release candidates instead).
+          RELEASES=$(gh api 'repos/gleam-lang/gleam/releases?per_page=30' \
+            --jq '[.[] | select(.prerelease == false) | .tag_name]')
+
+          if [ -n "${INPUT_TAG:-}" ]; then
+            TAG="$INPUT_TAG"
+          else
+            TAG=$(echo "$RELEASES" | jq -r '.[0]')
+          fi
+
+          # Previous release = the one right after TAG in the list (for the parser-diff link).
+          PREV=$(echo "$RELEASES" | jq -r --arg tag "$TAG" \
+            'to_entries | map(select(.value == $tag)) | first as $m
+             | if $m and ($m.key + 1) < length then .[$m.key + 1].value else "" end')
+
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "prev_tag=$PREV" >> "$GITHUB_OUTPUT"
+          echo "Target: $TAG (previous: ${PREV:-unknown})"
+
+      - name: Check whether this release was already validated
+        id: decide
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.resolve.outputs.tag }}
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual run - validating regardless of existing issues."
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          EXISTING=$(gh issue list --repo "${{ github.repository }}" \
+            --state all --label gleam-validation \
+            --search "\"Gleam $TAG parser validation\" in:title" \
+            --json number --jq 'length')
+          if [ "$EXISTING" -gt 0 ]; then
+            echo "Issue for $TAG already exists - nothing to do."
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "New release $TAG detected."
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  validate:
+    name: Validate parser against ${{ needs.check.outputs.tag }}
+    needs: check
+    if: needs.check.outputs.should_run == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch sources
+        uses: actions/checkout@v6
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: zulu
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Fetch Gleam corpus
+        env:
+          TAG: ${{ needs.check.outputs.tag }}
+        run: ./scripts/fetch-gleam-corpus.sh "$TAG" build/gleam-corpus --with-stdlib
+
+      - name: Run corpus parser validation
+        id: corpus
+        continue-on-error: true
+        run: |
+          ./gradlew test --tests '*GleamExternalCorpusTest' \
+            -Pgleam.corpus.dir="$PWD/build/gleam-corpus" \
+            -Pgleam.corpus.report="$PWD/build/gleam-corpus-report.md"
+
+      - name: Ensure labels exist
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create gleam-validation --repo "${{ github.repository }}" \
+            --description "Automated Gleam release parser validation" --color 8d6fdb --force
+          gh label create validation-pass --repo "${{ github.repository }}" --color 2da44e --force
+          gh label create validation-fail --repo "${{ github.repository }}" --color d1242f --force
+
+      - name: Open results issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.check.outputs.tag }}
+          PREV_TAG: ${{ needs.check.outputs.prev_tag }}
+          OUTCOME: ${{ steps.corpus.outcome }}
+        run: |
+          set -euo pipefail
+          if [ "$OUTCOME" = "success" ]; then
+            STATUS="PASS"; STATUS_LABEL="validation-pass"
+          else
+            STATUS="FAIL"; STATUS_LABEL="validation-fail"
+          fi
+          TITLE="Gleam $TAG parser validation - $STATUS"
+
+          {
+            echo "Automated parser validation of [\`$TAG\`](https://github.com/gleam-lang/gleam/releases/tag/$TAG) (corpus: \`test/language\` at \`$TAG\` + latest stdlib)."
+            echo
+            if [ -n "$PREV_TAG" ]; then
+              echo "Useful links for triage:"
+              echo "- [Parser changes $PREV_TAG...$TAG](https://github.com/gleam-lang/gleam/compare/$PREV_TAG...$TAG) (look at \`compiler-core/src/parse/\`)"
+            fi
+            echo "- [Release notes](https://github.com/gleam-lang/gleam/releases/tag/$TAG)"
+            echo "- Re-run manually: Actions > Gleam Release Watch > Run workflow with tag \`$TAG\`"
+            echo
+            if [ -f build/gleam-corpus-report.md ]; then
+              cat build/gleam-corpus-report.md
+            else
+              echo "No report file was produced - the build itself likely failed before the test ran."
+              echo "Check the [workflow run]($GITHUB_SERVER_URL/${{ github.repository }}/actions/runs/${{ github.run_id }}) logs."
+            fi
+          } > issue-body.md
+
+          # On manual re-runs that pass, don't open another issue - the run log is enough.
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "$STATUS" = "PASS" ]; then
+            echo "Manual run passed - skipping issue creation."
+            cat issue-body.md
+            exit 0
+          fi
+
+          URL=$(gh issue create --repo "${{ github.repository }}" \
+            --title "$TITLE" \
+            --label gleam-validation --label "$STATUS_LABEL" \
+            --body-file issue-body.md)
+          echo "Created $URL"
+
+          # Passing issues are just a paper trail (and the idempotency marker) - close them.
+          if [ "$STATUS" = "PASS" ]; then
+            gh issue close "$URL" --repo "${{ github.repository }}" \
+              --comment "Validation passed - closing automatically."
+          fi

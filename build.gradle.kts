@@ -161,6 +161,15 @@ tasks {
         gradleVersion = providers.gradleProperty("gradleVersion").get()
     }
 
+    // Forward external-corpus properties (-Pgleam.corpus.*) into the test JVM.
+    // GleamExternalCorpusTest is a no-op when gleam.corpus.dir is absent, so regular
+    // `./gradlew test` runs are unaffected. See scripts/fetch-gleam-corpus.sh.
+    withType<Test> {
+        listOf("gleam.corpus.dir", "gleam.corpus.report", "gleam.corpus.exclusions").forEach { name ->
+            providers.gradleProperty(name).orNull?.let { systemProperty(name, it) }
+        }
+    }
+
     publishPlugin {
         dependsOn(patchChangelog)
     }

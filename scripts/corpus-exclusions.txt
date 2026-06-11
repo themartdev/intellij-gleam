@@ -1,0 +1,8 @@
+# Files excluded from external corpus parser validation (GleamExternalCorpusTest).
+#
+# One entry per line, relative to the corpus root, glob patterns supported.
+# Always add a comment explaining WHY a file is excluded, e.g.:
+#
+#   gleam-test-language/test/language/some_test.gleam  # uses vX.Y syntax, tracked in issue #42
+#
+# Lines starting with # and inline trailing comments are ignored.

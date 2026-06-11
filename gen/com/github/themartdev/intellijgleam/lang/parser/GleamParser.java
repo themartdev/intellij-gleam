@@ -412,7 +412,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // bitArrayOptionName [LPAREN wholeNumber RPAREN] | wholeNumber
+  // bitArrayOptionName [LPAREN bitArraySegmentOptionValue RPAREN] | wholeNumber
   public static boolean bitArraySegmentOption(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitArraySegmentOption")) return false;
     if (!nextTokenIs(b, "<bit array segment option>", IDENTIFIER, VALID_DECIMAL_DIGIT)) return false;
@@ -424,7 +424,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // bitArrayOptionName [LPAREN wholeNumber RPAREN]
+  // bitArrayOptionName [LPAREN bitArraySegmentOptionValue RPAREN]
   private static boolean bitArraySegmentOption_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitArraySegmentOption_0")) return false;
     boolean r;
@@ -435,22 +435,33 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // [LPAREN wholeNumber RPAREN]
+  // [LPAREN bitArraySegmentOptionValue RPAREN]
   private static boolean bitArraySegmentOption_0_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitArraySegmentOption_0_1")) return false;
     bitArraySegmentOption_0_1_0(b, l + 1);
     return true;
   }
 
-  // LPAREN wholeNumber RPAREN
+  // LPAREN bitArraySegmentOptionValue RPAREN
   private static boolean bitArraySegmentOption_0_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitArraySegmentOption_0_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, LPAREN);
-    r = r && wholeNumber(b, l + 1);
+    r = r && bitArraySegmentOptionValue(b, l + 1);
     r = r && consumeToken(b, RPAREN);
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // expression
+  public static boolean bitArraySegmentOptionValue(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bitArraySegmentOptionValue")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, BIT_ARRAY_SEGMENT_OPTION_VALUE, "<bit array segment option value>");
+    r = expression(b, l + 1, -1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

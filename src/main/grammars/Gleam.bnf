@@ -379,7 +379,8 @@ tupleExpr ::= HASH LPAREN [expression (COMMA expression)* [COMMA]] RPAREN {pin=2
 
 // ===== BitArray =====
 bitArrayOptionName ::= IDENTIFIER
-bitArraySegmentOption ::= bitArrayOptionName [LPAREN wholeNumber RPAREN] | wholeNumber
+bitArraySegmentOptionValue ::= expression
+bitArraySegmentOption ::= bitArrayOptionName [LPAREN bitArraySegmentOptionValue RPAREN] | wholeNumber
 bitArraySegmentOptions ::= bitArraySegmentOption (MINUS bitArraySegmentOption)*
 
 bitArraySegment ::= expression [COLON bitArraySegmentOptions]

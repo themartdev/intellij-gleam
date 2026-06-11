@@ -11,14 +11,14 @@ import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamBitArraySegmentOptionImpl extends ASTWrapperPsiElement implements GleamBitArraySegmentOption {
+public class GleamBitArraySegmentOptionValueImpl extends ASTWrapperPsiElement implements GleamBitArraySegmentOptionValue {
 
-  public GleamBitArraySegmentOptionImpl(@NotNull ASTNode node) {
+  public GleamBitArraySegmentOptionValueImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitBitArraySegmentOption(this);
+    visitor.visitBitArraySegmentOptionValue(this);
   }
 
   @Override
@@ -28,21 +28,9 @@ public class GleamBitArraySegmentOptionImpl extends ASTWrapperPsiElement impleme
   }
 
   @Override
-  @Nullable
-  public GleamBitArrayOptionName getBitArrayOptionName() {
-    return findChildByClass(GleamBitArrayOptionName.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamBitArraySegmentOptionValue getBitArraySegmentOptionValue() {
-    return findChildByClass(GleamBitArraySegmentOptionValue.class);
-  }
-
-  @Override
-  @Nullable
-  public GleamWholeNumber getWholeNumber() {
-    return findChildByClass(GleamWholeNumber.class);
+  @NotNull
+  public GleamExpression getExpression() {
+    return findNotNullChildByClass(GleamExpression.class);
   }
 
 }

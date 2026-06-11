@@ -25,6 +25,7 @@ public interface GleamTypes {
   IElementType BIT_ARRAY_SEGMENT = new GleamElementType("BIT_ARRAY_SEGMENT");
   IElementType BIT_ARRAY_SEGMENT_OPTION = new GleamElementType("BIT_ARRAY_SEGMENT_OPTION");
   IElementType BIT_ARRAY_SEGMENT_OPTIONS = new GleamElementType("BIT_ARRAY_SEGMENT_OPTIONS");
+  IElementType BIT_ARRAY_SEGMENT_OPTION_VALUE = new GleamElementType("BIT_ARRAY_SEGMENT_OPTION_VALUE");
   IElementType BLOCK_EXPR = new GleamElementType("BLOCK_EXPR");
   IElementType CALL_ARGUMENT = new GleamElementType("CALL_ARGUMENT");
   IElementType CALL_ARGUMENTS = new GleamElementType("CALL_ARGUMENTS");
@@ -284,6 +285,9 @@ public interface GleamTypes {
       }
       else if (type == BIT_ARRAY_SEGMENT_OPTIONS) {
         return new GleamBitArraySegmentOptionsImpl(node);
+      }
+      else if (type == BIT_ARRAY_SEGMENT_OPTION_VALUE) {
+        return new GleamBitArraySegmentOptionValueImpl(node);
       }
       else if (type == BLOCK_EXPR) {
         return new GleamBlockExprImpl(node);

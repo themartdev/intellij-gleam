@@ -11,6 +11,9 @@ public interface GleamBitArraySegmentOption extends PsiElement {
   GleamBitArrayOptionName getBitArrayOptionName();
 
   @Nullable
+  GleamBitArraySegmentOptionValue getBitArraySegmentOptionValue();
+
+  @Nullable
   GleamWholeNumber getWholeNumber();
 
 }

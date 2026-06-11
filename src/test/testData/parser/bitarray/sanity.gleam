@@ -15,3 +15,8 @@ pub fn main() {
   let second = <<2>>
   io.debug(<<first:bits, second:bits>>)
 }
+
+fn segments(len: Int, data: BitArray) {
+  let assert <<head:size(len), mid:size(len * 8 - 1), tail:size({ len + 1 }), _:bits>> = data
+  <<0:size(len), 1:size(compute(len)), 2:unit(8)-size(4)>>
+}

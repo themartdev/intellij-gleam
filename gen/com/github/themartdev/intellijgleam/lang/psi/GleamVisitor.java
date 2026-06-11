@@ -71,6 +71,10 @@ public class GleamVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitBitArraySegmentOptionValue(@NotNull GleamBitArraySegmentOptionValue o) {
+    visitPsiElement(o);
+  }
+
   public void visitBitArraySegmentOptions(@NotNull GleamBitArraySegmentOptions o) {
     visitPsiElement(o);
   }

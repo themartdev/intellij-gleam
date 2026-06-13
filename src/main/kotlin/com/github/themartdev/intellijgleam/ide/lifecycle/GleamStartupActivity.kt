@@ -27,10 +27,10 @@ class GleamStartupActivity : ProjectActivity {
                 "Required peer dependency LSP4IJ is not installed. Please install it."
             )
 
-            VersionComparatorUtil.compare(descriptor.version, "0.12.0") < 0 -> notifyError(
+            VersionComparatorUtil.compare(descriptor.version, "0.19.4") < 0 -> notifyError(
                 "Gleam language server",
                 "The installed version of peer dependency LSP4IJ is ${descriptor.version}," +
-                        " but a minimum version of 0.12.0 is required. Please upgrade to 0.12.0 or newer."
+                        " but a minimum version of 0.19.4 is required. Please upgrade to 0.19.4 or newer."
             )
         }
     }

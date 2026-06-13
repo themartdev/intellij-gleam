@@ -12,3 +12,6 @@ secrets
 JFlex.jar
 jflex-*.jar
 idea-flex.skeleton
+
+# JFlex writes a backup of the previous output next to the generated lexer
+*.java~

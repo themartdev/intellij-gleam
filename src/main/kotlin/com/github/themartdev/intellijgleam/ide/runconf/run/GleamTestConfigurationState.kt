@@ -8,10 +8,16 @@ import com.intellij.execution.process.ProcessHandlerFactory
 import com.intellij.execution.process.ProcessTerminatedListener
 import com.intellij.execution.runners.ExecutionEnvironment
 
-class GleamRunConfigurationState(
+class GleamTestConfigurationState(
     environment: ExecutionEnvironment,
-    private val configuration: GleamRunConfiguration
+    private val configuration: GleamTestConfiguration
 ) : CommandLineState(environment) {
+
+    init {
+        // Make `test: <module>.<function>` failure lines from gleeunit clickable.
+        addConsoleFilters(GleamTestOutputFilter(environment.project))
+    }
+
     override fun startProcess(): ProcessHandler {
         val cmdLine = buildCommandLine()
         val processHandler = ProcessHandlerFactory.getInstance().createColoredProcessHandler(cmdLine)
@@ -20,17 +26,19 @@ class GleamRunConfigurationState(
     }
 
     private fun buildCommandLine(): GeneralCommandLine {
-        val cmdLine = PtyCommandLine()
+        return PtyCommandLine()
             .withExePath(configuration.getActualGleamPath())
-            .withParameters("run")
+            .withParameters(gleamTestParameters(configuration.getOptions().target))
             .withWorkDirectory(configuration.project.basePath)
             .withEnvironment(GleamToolchain.environmentWithErlang(configuration.project))
-
-        configuration.getModuleQualifier()?.let {
-            cmdLine.addParameters("-m", it)
-        }
-
-        return cmdLine
     }
 
+    companion object {
+        /** Builds the `gleam` arguments for a test run. `--target` is added only when set. */
+        fun gleamTestParameters(target: String?): List<String> {
+            val params = mutableListOf("test")
+            target?.takeIf { it.isNotBlank() }?.let { params += listOf("--target", it) }
+            return params
+        }
+    }
 }

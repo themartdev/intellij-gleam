@@ -21,34 +21,10 @@ class GleamRunConfiguration(project: Project, configurationFactory: Configuratio
         }
     }
 
-    fun getActualErlangPath(): String {
-        val raw = GleamServiceSettings.getInstance(project).erlangPath
-        return FsUtils.sanitizeUserPath(raw)
-    }
+    fun getActualErlangPath(): String = GleamToolchain.actualErlangPath(project)
 
     // Returns Erlang SDK root directory normalized from user-provided path.
-    fun getNormalizedErlangSdkRoot(): String {
-        val raw = getActualErlangPath().trim()
-        if (raw.isEmpty()) return ""
-        val f = File(raw)
-        // If user selected erl(.exe)
-        if (f.isFile) {
-            val parent = f.parentFile // bin
-            val root = parent?.parentFile // SDK root
-            return root?.absolutePath ?: parent?.absolutePath ?: f.absolutePath
-        }
-        // If user selected bin directory
-        if (f.isDirectory && f.name.equals("bin", ignoreCase = true)) {
-            return f.parentFile?.absolutePath ?: f.absolutePath
-        }
-        // If directory that already looks like SDK root (has bin)
-        val binDir = File(f, "bin")
-        if (binDir.exists() && binDir.isDirectory) {
-            return f.absolutePath
-        }
-        // As a fallback return as-is
-        return f.absolutePath
-    }
+    fun getNormalizedErlangSdkRoot(): String = GleamToolchain.normalizedErlangSdkRoot(project)
 
     fun getModuleQualifier(): String? {
         val fpRaw = options.filePath ?: return null
@@ -122,25 +98,7 @@ class GleamRunConfiguration(project: Project, configurationFactory: Configuratio
             throw RuntimeConfigurationException("Gleam executable is invalid: '$gleamPath'")
         }
 
-        val erlangSdkRoot = getNormalizedErlangSdkRoot()
-        if (erlangSdkRoot.isEmpty()) {
-            throw RuntimeConfigurationException("Erlang SDK path is not set")
-        }
-        val sdkRoot = File(erlangSdkRoot)
-        if (!sdkRoot.exists() || !sdkRoot.isDirectory) {
-            throw RuntimeConfigurationException("Erlang SDK path is invalid: '${getActualErlangPath()}' (expected a directory containing bin, lib, and releases)")
-        }
-        val binDir = File(sdkRoot, "bin")
-        val libDir = File(sdkRoot, "lib")
-        val releasesDir = File(sdkRoot, "releases")
-        val erlExeName = if (com.intellij.openapi.util.SystemInfo.isWindows) "erl.exe" else "erl"
-        val erlExecutable = File(binDir, erlExeName)
-        if (!(binDir.exists() && binDir.isDirectory &&
-                    libDir.exists() && libDir.isDirectory &&
-                    releasesDir.exists() && releasesDir.isDirectory &&
-                    erlExecutable.exists() && erlExecutable.canExecute())) {
-            throw RuntimeConfigurationException("Erlang SDK path is invalid: '${getActualErlangPath()}' (expected a directory containing bin, lib, and releases)")
-        }
+        GleamToolchain.validateErlangSdkRoot(project)
     }
 
     override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration?> {

@@ -16,6 +16,7 @@ class GleamRunConfigurationType :
 
     init {
         addFactory(GleamConfigurationFactory(this))
+        addFactory(GleamTestConfigurationFactory(this))
     }
 
 }

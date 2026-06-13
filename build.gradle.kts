@@ -1,6 +1,7 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import org.jetbrains.intellij.platform.gradle.models.ProductRelease
 
 plugins {
     id("java") // Java support
@@ -131,7 +132,15 @@ intellijPlatform {
 
     pluginVerification {
         ides {
-            recommended()
+            // recommended() enumerates every release from sinceBuild with no upper bound,
+            // which currently includes IC-2025.3 — its product-releases entry is published
+            // but the ideaIC:2025.3 installer/Maven artifact isn't mirrored yet, so dependency
+            // resolution fails before verification even runs. Bound to released, resolvable
+            // builds; raise untilBuild once the 253 artifact lands.
+            select {
+                channels = listOf(ProductRelease.Channel.RELEASE)
+                untilBuild = "252.*"
+            }
         }
     }
 }

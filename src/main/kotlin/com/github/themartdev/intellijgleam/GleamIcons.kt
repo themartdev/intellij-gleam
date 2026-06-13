@@ -6,4 +6,7 @@ import javax.swing.Icon
 object GleamIcons {
     @JvmField
     val GLEAM: Icon = IconLoader.getIcon("/icons/gleam.svg", javaClass)
+
+    @JvmField
+    val GLEAM_TEST: Icon = IconLoader.getIcon("/icons/gleam_test.svg", javaClass)
 }

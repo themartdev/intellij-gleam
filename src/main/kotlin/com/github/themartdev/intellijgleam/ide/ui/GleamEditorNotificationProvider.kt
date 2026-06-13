@@ -12,7 +12,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotificationPanel
 import com.intellij.ui.EditorNotificationProvider
-import kotlinx.coroutines.Runnable
 import java.util.function.Function
 import javax.swing.JComponent
 
@@ -26,7 +25,7 @@ class GleamEditorNotificationProvider : EditorNotificationProvider, DumbAware {
 
 
         val settings = GleamServiceSettings.getInstance(project)
-        if (settings.gleamPath.isNotEmpty() && settings.erlangPath.isNotEmpty()) return null
+        if (settings.effectiveGleamPath.isNotEmpty() && settings.effectiveErlangPath.isNotEmpty()) return null
 
         return Function {
             object : EditorNotificationPanel(EditorColors.GUTTER_BACKGROUND, Status.Info) {

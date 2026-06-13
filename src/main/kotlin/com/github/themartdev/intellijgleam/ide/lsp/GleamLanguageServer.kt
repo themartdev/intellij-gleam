@@ -18,8 +18,7 @@ class GleamLanguageServer(private val project: Project) : OSProcessStreamConnect
     private fun buildCommandLine(): GeneralCommandLine? {
         val settings = getGleamSettings()
 
-        autoSetGleamPathIfEmpty()
-        val gleamPath = settings.gleamPath
+        val gleamPath = settings.effectiveGleamPath
         if (gleamPath.isEmpty()) {
             settings.lspMode = GleamLspMode.DISABLED
             Notification(
@@ -43,10 +42,5 @@ class GleamLanguageServer(private val project: Project) : OSProcessStreamConnect
         }
 
         return GeneralCommandLine(gleamPath, "lsp")
-    }
-
-    private fun autoSetGleamPathIfEmpty() {
-        val settings = getGleamSettings()
-        if (settings.gleamPath.isNotEmpty()) return
     }
 }

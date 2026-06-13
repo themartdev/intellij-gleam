@@ -20,7 +20,7 @@ class GleamTestConfiguration(project: Project, configurationFactory: Configurati
         return if (getOptions().useCustomGleam) {
             getOptions().customGleamPath ?: ""
         } else {
-            GleamServiceSettings.getInstance(project).gleamPath
+            GleamServiceSettings.getInstance(project).effectiveGleamPath
         }
     }
 

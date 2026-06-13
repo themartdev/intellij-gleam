@@ -16,6 +16,7 @@ class GleamSettingsConfigurableMockKTest : LightPlatformTestCase() {
     fun `test if Gleam path changes and LS is enabled, then server is restarted`() {
         // arrange
         val settings = GleamServiceSettings.getInstance(project)
+        settings.overrideGlobalToolchain = true
         settings.gleamPath = "old/path"
         settings.lspMode = GleamLspMode.ENABLED
         val configurable = GleamSettingsConfigurable(project)

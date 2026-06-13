@@ -3,45 +3,40 @@ package com.github.themartdev.intellijgleam.ide.ui
 import com.github.themartdev.intellijgleam.GleamBundle
 import com.github.themartdev.intellijgleam.ide.common.ErlangSdkFinder
 import com.github.themartdev.intellijgleam.ide.common.GleamExecutableFinder
-import com.github.themartdev.intellijgleam.ide.lsp.GleamLspMode
-import com.github.themartdev.intellijgleam.ide.lsp.GleamServiceSettings
+import com.github.themartdev.intellijgleam.ide.lsp.GleamGlobalSettings
 import com.github.themartdev.intellijgleam.ide.ui.components.ErlangPathComboBox
 import com.github.themartdev.intellijgleam.ide.ui.components.GleamPathComboBox
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ModalityState
 import com.intellij.openapi.options.BoundConfigurable
 import com.intellij.openapi.options.Configurable
-import com.intellij.openapi.project.Project
-import com.intellij.ui.components.JBCheckBox
-import com.intellij.ui.dsl.builder.*
-import com.redhat.devtools.lsp4ij.LanguageServerManager
+import com.intellij.ui.dsl.builder.AlignX
+import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.dsl.builder.toMutableProperty
 
-class GleamSettingsConfigurable(private val project: Project) :
-    BoundConfigurable(GleamBundle.message("gleam.settings.configurable.title")), Configurable {
+/**
+ * Application-level settings for the global Gleam toolchain (Gleam executable + Erlang SDK paths).
+ * Projects use these defaults unless they opt into a per-project override (see [GleamSettingsConfigurable]).
+ */
+class GleamGlobalSettingsConfigurable :
+    BoundConfigurable(GleamBundle.message("gleam.settings.global.configurable.title")), Configurable {
 
-    private val settings = GleamServiceSettings.getInstance(project)
-    private var originalGleamPath = settings.effectiveGleamPath
+    private val settings = GleamGlobalSettings.getInstance()
 
-    private val gleamPathComboBox = GleamPathComboBox(project)
-    private val erlangPathComboBox = ErlangPathComboBox(project)
+    private val gleamPathComboBox = GleamPathComboBox(null)
+    private val erlangPathComboBox = ErlangPathComboBox(null)
 
     override fun createPanel() = panel {
         loadDetectedGleamPaths()
         loadDetectedErlangPaths()
         group(GleamBundle.message("gleam.settings.configurable.group.sdk")) {
-            lateinit var overrideCheckBox: Cell<JBCheckBox>
-            row {
-                overrideCheckBox = checkBox(GleamBundle.message("gleam.settings.configurable.sdk.override"))
-                    .comment(GleamBundle.message("gleam.settings.configurable.sdk.override.help"))
-                    .bindSelected(settings::overrideGlobalToolchain)
-            }
             row(GleamBundle.message("gleam.settings.configurable.sdk.gleamPath")) {
                 cell(gleamPathComboBox).align(AlignX.FILL).bind(
                     { it.selectedPath ?: "" },
                     { a, b -> a.selectedPath = b },
                     settings::gleamPath.toMutableProperty()
                 )
-            }.enabledIf(overrideCheckBox.selected)
+            }
 
             row(GleamBundle.message("gleam.settings.configurable.sdk.erlangPath")) {
                 cell(erlangPathComboBox).align(AlignX.FILL).bind(
@@ -49,17 +44,6 @@ class GleamSettingsConfigurable(private val project: Project) :
                     { a, b -> a.selectedPath = b },
                     settings::erlangPath.toMutableProperty()
                 )
-            }.enabledIf(overrideCheckBox.selected)
-
-        }
-        group(GleamBundle.message("gleam.settings.configurable.group.lsp")) {
-            row {
-                checkBox(GleamBundle.message("gleam.settings.lsp.configurable.lsp.enabled"))
-                    .comment(GleamBundle.message("gleam.settings.lsp.configurable.lsp.enabled.help"))
-                    .bindSelected(
-                        { settings.lspMode == GleamLspMode.ENABLED },
-                        { settings.lspMode = if (it) GleamLspMode.ENABLED else GleamLspMode.DISABLED }
-                    )
             }
         }
     }
@@ -86,23 +70,5 @@ class GleamSettingsConfigurable(private val project: Project) :
                 }
             }, modalityState)
         }
-    }
-
-    override fun apply() {
-        super.apply()
-        val newPath = settings.effectiveGleamPath
-        if (newPath != originalGleamPath) {
-            originalGleamPath = newPath
-            if (settings.lspMode == GleamLspMode.ENABLED) {
-                restartLanguageServer()
-            }
-        }
-    }
-
-    private fun restartLanguageServer() {
-        val stopOptions = LanguageServerManager.StopOptions()
-        stopOptions.isWillDisable = false
-        LanguageServerManager.getInstance(project).stop("gleam-ls", stopOptions)
-        LanguageServerManager.getInstance(project).start("gleam-ls")
     }
 }

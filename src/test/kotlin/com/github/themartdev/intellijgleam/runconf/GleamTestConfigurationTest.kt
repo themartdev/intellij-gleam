@@ -10,6 +10,7 @@ class GleamTestConfigurationTest : LightPlatformTestCase() {
     override fun tearDown() {
         try {
             GleamServiceSettings.getInstance(project).gleamPath = ""
+            GleamServiceSettings.getInstance(project).overrideGlobalToolchain = false
         } finally {
             super.tearDown()
         }
@@ -30,6 +31,7 @@ class GleamTestConfigurationTest : LightPlatformTestCase() {
     }
 
     fun `test getActualGleamPath uses settings path by default`() {
+        GleamServiceSettings.getInstance(project).overrideGlobalToolchain = true
         GleamServiceSettings.getInstance(project).gleamPath = "/from/settings/gleam"
         val config = newConfig()
         config.getOptions().useCustomGleam = false

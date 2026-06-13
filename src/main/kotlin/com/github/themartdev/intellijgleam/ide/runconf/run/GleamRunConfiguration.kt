@@ -17,7 +17,7 @@ class GleamRunConfiguration(project: Project, configurationFactory: Configuratio
         return if (options.useCustomGleam) {
             options.customGleamPath ?: ""
         } else {
-            GleamServiceSettings.getInstance(project).gleamPath
+            GleamServiceSettings.getInstance(project).effectiveGleamPath
         }
     }
 

@@ -1,5 +1,6 @@
 package com.github.themartdev.intellijgleam.ide.lifecycle
 
+import com.github.themartdev.intellijgleam.ide.lsp.GleamGlobalSettings
 import com.github.themartdev.intellijgleam.ide.lsp.GleamLspMode
 import com.github.themartdev.intellijgleam.ide.lsp.GleamServiceSettings
 import com.intellij.ide.plugins.PluginManagerCore
@@ -13,8 +14,21 @@ import com.intellij.util.text.VersionComparatorUtil
 
 class GleamStartupActivity : ProjectActivity {
     override suspend fun execute(project: Project) {
+        seedGlobalToolchainFromProject(project)
         checkLSP4IJVersion()
         checkLSPEnabled(project)
+    }
+
+    /**
+     * Migration for users upgrading from the project-only settings model: if the global toolchain
+     * paths are still empty but this project has paths saved in workspace.xml, copy them up so the
+     * global defaults are populated and existing projects keep working.
+     */
+    private fun seedGlobalToolchainFromProject(project: Project) {
+        val global = GleamGlobalSettings.getInstance()
+        val proj = GleamServiceSettings.getInstance(project)
+        if (global.gleamPath.isEmpty() && proj.gleamPath.isNotEmpty()) global.gleamPath = proj.gleamPath
+        if (global.erlangPath.isEmpty() && proj.erlangPath.isNotEmpty()) global.erlangPath = proj.erlangPath
     }
 
     private fun checkLSP4IJVersion() {

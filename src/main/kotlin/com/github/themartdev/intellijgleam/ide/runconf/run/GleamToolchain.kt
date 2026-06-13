@@ -18,7 +18,7 @@ object GleamToolchain {
 
     /** The Erlang path the user configured in settings, sanitized. */
     fun actualErlangPath(project: Project): String =
-        FsUtils.sanitizeUserPath(GleamServiceSettings.getInstance(project).erlangPath)
+        FsUtils.sanitizeUserPath(GleamServiceSettings.getInstance(project).effectiveErlangPath)
 
     /**
      * Normalizes a user-provided Erlang path (which may point at `erl`, the `bin` directory, or the

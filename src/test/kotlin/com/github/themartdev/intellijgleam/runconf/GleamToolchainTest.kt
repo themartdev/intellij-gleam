@@ -23,11 +23,14 @@ class GleamToolchainTest : LightPlatformTestCase() {
         File(sdkRoot, "releases").mkdirs()
         val erlName = if (SystemInfo.isWindows) "erl.exe" else "erl"
         erl = File(binDir, erlName).apply { writeText(""); setExecutable(true) }
+        // Exercise project-supplied paths rather than the global toolchain defaults.
+        settings().overrideGlobalToolchain = true
     }
 
     override fun tearDown() {
         try {
             settings().erlangPath = ""
+            settings().overrideGlobalToolchain = false
             FileUtil.delete(sdkRoot)
         } finally {
             super.tearDown()

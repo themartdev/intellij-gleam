@@ -8,13 +8,22 @@ import kotlin.io.path.*
 class GleamExecutable(val path: String, val valid: Boolean, val version: String? = null)
 
 object GleamExecutableFinder {
-    fun findGleamInstalls(): List<GleamExecutable> {
+    fun findGleamInstalls(): List<GleamExecutable> =
+        candidatePaths().mapNotNull { captureGleam(it) }
+
+    /**
+     * Candidate `gleam` executable paths without running them (no `--version` subprocess), so it is
+     * safe to call on the EDT — e.g. to populate the new-project wizard combo box, which then fills
+     * in version hints lazily off the EDT.
+     */
+    fun findGleamExecutablePaths(): List<String> =
+        candidatePaths().map { it.toString() }
+
+    private fun candidatePaths(): List<Path> {
         val candidates = mutableListOf<Path>()
         findGleamInPath()?.let { candidates.add(it) }
         findGleamInAsdf().forEach { candidates.add(it) }
-        return candidates
-            .filter { it.isExecutable() }
-            .mapNotNull { captureGleam(it) }
+        return candidates.filter { it.isExecutable() }
     }
 
     private fun findGleamInAsdf(): List<Path> {

@@ -6,6 +6,7 @@
 
 ### Added
 
+- Added a **New Project** wizard for Gleam (delegates to `gleam new`, with an Erlang/JavaScript target choice)
 - Added a `gleam test` run configuration (alongside `gleam run -m <module>`)
 - Added a Gleam color settings page (Settings → Editor → Color Scheme → Gleam) for customizing syntax colors
 - `TODO`/`FIXME` comments now appear in the TODO tool window and are highlighted

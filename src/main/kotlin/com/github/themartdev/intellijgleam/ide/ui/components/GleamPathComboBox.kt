@@ -6,7 +6,7 @@ import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.project.Project
 import kotlin.io.path.Path
 
-class GleamPathComboBox(project: Project) : AbstractExecutablePathComboBox(project) {
+class GleamPathComboBox(project: Project?) : AbstractExecutablePathComboBox(project) {
     override fun computeVersionInline(path: String): String? {
         val exe = captureGleam(Path(path))
         return exe?.version

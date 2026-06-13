@@ -108,6 +108,9 @@
 
         <postStartupActivity implementation="com.github.themartdev.intellijgleam.ide.lifecycle.GleamStartupActivity"/>
 
+        <newProjectWizard.generator
+                implementation="com.github.themartdev.intellijgleam.ide.newproject.GleamNewProjectWizard"/>
+
         <lang.psiStructureViewFactory
                 language="Gleam"
                 implementationClass="com.redhat.devtools.lsp4ij.features.documentSymbol.LSPDocumentSymbolStructureViewFactory"/>

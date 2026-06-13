@@ -4,11 +4,44 @@
 
 ## [Unreleased]
 
+### Added
+
+- Added a `gleam test` run configuration (alongside `gleam run -m <module>`)
+
+### Changed
+
+- Updated to LSP4IJ 0.19.4, which lets the plugin be enabled/disabled and updated without
+  restarting the IDE (dynamic plugin). The minimum supported IDE is now 2024.2 (since-build 242).
+
+### Fixed
+
+- Fixed parsing of bit array expressions ([#149](https://github.com/themartdev/intellij-gleam/issues/149))
+- Several grammar fixes:
+    - Import aliases using a discard name
+    - Constant expressions: string concatenation (`<>`), `todo`/`todo as`, and record updates (`Type(..a, ...)`)
+    - Constant record arguments using shorthand labels
+    - String patterns with `as` before `<>`
+    - Negative number literals in patterns and the `-` sign vs. binary-minus disambiguation
+    - `use` assignments with per-binding type annotations
+    - `echo ... as <message>`, including in pipe expressions
+
+## [0.11.0] - 2026-06-06
+
+### Fixed
+
+- Improved Erlang SDK path normalization on Windows ([#107](https://github.com/themartdev/intellij-gleam/issues/107))
+
 ## [0.10.0] - 2025-06-25
 
 ### Fixed
 
 - Fixed grammar for shorthand labeled arguments in function calls
+
+## [0.9.0] - 2025-06-08
+
+### Fixed
+
+- Fixed grammar for record patterns with only a label (`:label`) ([#89](https://github.com/themartdev/intellij-gleam/issues/89))
 
 ## [0.8.0] - 2025-06-03
 
@@ -161,8 +194,10 @@
     - Root keyword completion
     - Auto indentation, brace matching, etc.
 
-[Unreleased]: https://github.com/themartdev/intellij-gleam/compare/v0.10.0...HEAD
-[0.10.0]: https://github.com/themartdev/intellij-gleam/compare/v0.8.0...v0.10.0
+[Unreleased]: https://github.com/themartdev/intellij-gleam/compare/v0.11.0...HEAD
+[0.11.0]: https://github.com/themartdev/intellij-gleam/compare/v0.10.0...v0.11.0
+[0.10.0]: https://github.com/themartdev/intellij-gleam/compare/v0.9.0...v0.10.0
+[0.9.0]: https://github.com/themartdev/intellij-gleam/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/themartdev/intellij-gleam/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/themartdev/intellij-gleam/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/themartdev/intellij-gleam/compare/v0.5.0...v0.6.0

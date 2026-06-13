@@ -41,6 +41,9 @@
         <indexPatternBuilder
                 implementation="com.github.themartdev.intellijgleam.ide.editor.GleamTodoIndexer"/>
 
+        <spellchecker.support language="Gleam"
+                              implementationClass="com.github.themartdev.intellijgleam.ide.editor.GleamSpellcheckingStrategy"/>
+
         <annotator language="Gleam"
                    implementationClass="com.github.themartdev.intellijgleam.ide.annotator.GleamHighlightingAnnotator"/>
 

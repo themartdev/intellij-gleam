@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamEchoExpr extends GleamExpression {
+public interface GleamUseAssignment extends PsiElement {
 
   @NotNull
-  List<GleamExpression> getExpressionList();
+  GleamPatternAliasable getPatternAliasable();
+
+  @Nullable
+  GleamTypeAnnotation getTypeAnnotation();
 
 }

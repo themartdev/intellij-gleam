@@ -127,15 +127,15 @@ public class _GleamLexer implements FlexLexer {
     "\1\64\1\65\1\66\1\67\1\70\1\71\1\72\1\73"+
     "\1\74\1\75\1\76\1\77\1\100\1\101\1\102\1\103"+
     "\1\104\1\105\1\106\1\107\1\110\1\111\1\112\1\113"+
-    "\1\114\1\115\2\26\1\116\1\31\1\116\1\117\3\32"+
-    "\1\120\1\121\10\32\1\122\1\123\1\47\1\103\1\124"+
-    "\1\125\1\126\2\26\5\32\1\127\2\32\1\130\2\32"+
-    "\1\131\1\47\1\124\1\132\1\133\1\32\1\134\1\32"+
-    "\1\135\3\32\1\136\1\137\1\47\1\32\1\140\2\32"+
-    "\1\141\1\47\1\142\1\143\1\144\1\47";
+    "\1\114\1\115\1\116\2\26\1\117\1\31\1\117\1\120"+
+    "\3\32\1\121\1\122\10\32\1\123\1\124\1\47\1\104"+
+    "\1\125\1\126\1\127\2\26\5\32\1\130\2\32\1\131"+
+    "\2\32\1\132\1\47\1\125\1\133\1\134\1\32\1\135"+
+    "\1\32\1\136\3\32\1\137\1\140\1\47\1\32\1\141"+
+    "\2\32\1\142\1\47\1\143\1\144\1\145\1\47";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[172];
+    int [] result = new int[173];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -172,19 +172,19 @@ public class _GleamLexer implements FlexLexer {
     "\0\u0c4e\0\u03b1\0\u03b1\0\u03b1\0\u03b1\0\u03b1\0\u0c8d\0\u0ccc"+
     "\0\u0d0b\0\u0d4a\0\u0d89\0\u0dc8\0\u0e07\0\u0e46\0\u0c4e\0\u03b1"+
     "\0\u03b1\0\u03b1\0\u03b1\0\u03b1\0\u03b1\0\u03b1\0\u03b1\0\u03b1"+
-    "\0\u03b1\0\u0e85\0\u03b1\0\u03b1\0\u03b1\0\u03b1\0\u0ec4\0\u03b1"+
-    "\0\u03b1\0\u03b1\0\u0f03\0\u03b1\0\u0f42\0\u0f81\0\u03b1\0\u0fc0"+
-    "\0\u0fc0\0\u0fff\0\u103e\0\u107d\0\u10bc\0\u085e\0\u085e\0\u10fb"+
-    "\0\u113a\0\u1179\0\u11b8\0\u11f7\0\u1236\0\u1275\0\u12b4\0\u03b1"+
-    "\0\u03b1\0\u12f3\0\u1332\0\u1371\0\u03b1\0\u03b1\0\u13b0\0\u13ef"+
-    "\0\u142e\0\u146d\0\u14ac\0\u14eb\0\u152a\0\u085e\0\u1569\0\u15a8"+
-    "\0\u085e\0\u15e7\0\u1626\0\u085e\0\u1665\0\u16a4\0\u16e3\0\u0723"+
-    "\0\u1722\0\u085e\0\u1761\0\u085e\0\u17a0\0\u17df\0\u181e\0\u085e"+
-    "\0\u085e\0\u185d\0\u189c\0\u085e\0\u18db\0\u191a\0\u085e\0\u1959"+
-    "\0\u085e\0\u085e\0\u085e\0\u03b1";
+    "\0\u03b1\0\u03b1\0\u0e85\0\u03b1\0\u03b1\0\u03b1\0\u03b1\0\u0ec4"+
+    "\0\u03b1\0\u03b1\0\u03b1\0\u0f03\0\u03b1\0\u0f42\0\u0f81\0\u03b1"+
+    "\0\u0fc0\0\u0fc0\0\u0fff\0\u103e\0\u107d\0\u10bc\0\u085e\0\u085e"+
+    "\0\u10fb\0\u113a\0\u1179\0\u11b8\0\u11f7\0\u1236\0\u1275\0\u12b4"+
+    "\0\u03b1\0\u03b1\0\u12f3\0\u1332\0\u1371\0\u03b1\0\u03b1\0\u13b0"+
+    "\0\u13ef\0\u142e\0\u146d\0\u14ac\0\u14eb\0\u152a\0\u085e\0\u1569"+
+    "\0\u15a8\0\u085e\0\u15e7\0\u1626\0\u085e\0\u1665\0\u16a4\0\u16e3"+
+    "\0\u0723\0\u1722\0\u085e\0\u1761\0\u085e\0\u17a0\0\u17df\0\u181e"+
+    "\0\u085e\0\u085e\0\u185d\0\u189c\0\u085e\0\u18db\0\u191a\0\u085e"+
+    "\0\u1959\0\u085e\0\u085e\0\u085e\0\u03b1";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[172];
+    int [] result = new int[173];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -229,75 +229,75 @@ public class _GleamLexer implements FlexLexer {
     "\5\72\7\111\3\72\1\112\25\111\3\72\16\130\1\131"+
     "\1\130\1\131\56\130\100\0\2\21\1\0\2\21\122\0"+
     "\1\132\57\0\1\133\105\0\1\134\76\0\1\135\76\0"+
-    "\1\136\10\0\1\137\65\0\1\140\76\0\1\141\1\142"+
-    "\77\0\4\40\5\0\7\143\4\0\25\143\26\0\4\40"+
-    "\70\0\1\144\1\145\6\0\1\146\1\147\1\150\75\0"+
-    "\1\151\66\0\1\152\7\0\1\153\1\154\67\0\4\46"+
-    "\5\0\7\46\3\0\26\46\26\0\4\46\5\0\7\46"+
-    "\3\0\1\46\1\155\24\46\26\0\4\46\5\0\7\46"+
-    "\3\0\20\46\1\156\5\46\3\0\23\157\4\160\5\157"+
-    "\7\55\3\157\1\161\25\160\3\157\23\0\4\55\5\0"+
-    "\7\55\3\0\21\55\1\162\4\55\26\0\4\55\5\0"+
-    "\7\55\3\0\26\55\26\0\4\55\5\0\7\55\3\0"+
-    "\1\55\1\163\13\55\1\164\10\55\26\0\4\55\5\0"+
-    "\7\55\3\0\3\55\1\165\22\55\26\0\4\55\5\0"+
-    "\7\55\3\0\14\55\1\166\11\55\26\0\4\55\5\0"+
-    "\7\55\3\0\6\55\1\167\4\55\1\170\12\55\26\0"+
-    "\4\55\5\0\7\55\3\0\5\55\1\171\20\55\26\0"+
-    "\4\55\5\0\7\55\3\0\16\55\1\172\7\55\26\0"+
-    "\4\55\5\0\7\55\3\0\1\55\1\173\21\55\1\174"+
-    "\2\55\26\0\4\55\5\0\7\55\3\0\15\55\1\175"+
-    "\7\55\1\176\26\0\4\55\5\0\7\55\3\0\21\55"+
-    "\1\177\4\55\35\0\1\200\42\0\1\201\24\0\4\73"+
-    "\5\0\7\73\3\0\26\73\3\0\7\74\1\0\34\74"+
-    "\1\0\32\74\2\0\1\100\117\0\4\202\5\0\3\202"+
-    "\10\0\6\202\45\0\4\110\104\0\7\111\4\0\25\111"+
-    "\26\0\2\117\75\0\1\117\1\120\2\121\5\0\7\121"+
-    "\4\0\25\121\27\0\3\121\5\0\7\121\4\0\25\121"+
-    "\26\0\4\122\5\0\3\122\10\0\6\122\61\0\4\123"+
-    "\12\0\17\123\26\0\3\124\77\0\1\125\5\0\7\125"+
-    "\4\0\25\125\26\0\4\126\5\0\7\126\4\0\25\126"+
-    "\3\0\2\203\1\0\17\203\1\204\54\203\21\0\1\205"+
-    "\76\0\1\206\100\0\4\46\5\0\7\46\3\0\12\46"+
-    "\1\207\13\46\26\0\4\46\5\0\7\46\3\0\23\46"+
-    "\1\210\2\46\26\0\4\160\5\0\7\55\3\0\26\160"+
-    "\26\0\4\55\5\0\7\55\3\0\21\55\1\211\4\55"+
-    "\26\0\4\55\5\0\7\55\3\0\21\55\1\212\4\55"+
-    "\26\0\4\55\5\0\7\55\3\0\14\55\1\213\11\55"+
-    "\26\0\4\55\5\0\7\55\3\0\10\55\1\214\15\55"+
-    "\26\0\4\55\5\0\7\55\3\0\16\55\1\215\7\55"+
-    "\26\0\4\55\5\0\7\55\3\0\22\55\1\216\3\55"+
-    "\26\0\4\55\5\0\7\55\3\0\1\55\1\217\24\55"+
-    "\26\0\4\55\5\0\7\55\3\0\14\55\1\220\11\55"+
-    "\26\0\4\55\5\0\7\55\3\0\2\55\1\221\23\55"+
-    "\26\0\4\55\5\0\7\55\3\0\4\55\1\222\21\55"+
-    "\26\0\4\55\5\0\7\55\3\0\16\55\1\223\7\55"+
-    "\26\0\4\55\5\0\7\55\3\0\5\55\1\224\20\55"+
-    "\26\0\4\225\5\0\3\225\10\0\6\225\22\0\2\203"+
-    "\1\0\74\203\2\226\1\0\17\226\1\227\54\226\23\0"+
-    "\4\46\5\0\7\46\3\0\21\46\1\210\4\46\26\0"+
-    "\4\46\5\0\7\46\3\0\5\46\1\230\20\46\26\0"+
-    "\4\55\5\0\7\55\3\0\5\55\1\231\20\55\26\0"+
-    "\4\55\5\0\7\55\3\0\5\55\1\232\20\55\26\0"+
-    "\4\55\5\0\7\55\3\0\21\55\1\233\4\55\26\0"+
-    "\4\55\5\0\7\55\3\0\15\55\1\234\10\55\26\0"+
-    "\4\55\5\0\7\55\3\0\15\55\1\235\10\55\26\0"+
-    "\4\55\5\0\7\55\3\0\17\55\1\236\6\55\26\0"+
-    "\4\55\5\0\7\55\3\0\11\55\1\237\14\55\26\0"+
-    "\4\55\5\0\7\55\3\0\15\55\1\240\10\55\26\0"+
-    "\4\55\5\0\7\55\3\0\5\55\1\241\20\55\26\0"+
-    "\4\242\5\0\3\242\10\0\6\242\22\0\2\226\1\0"+
-    "\74\226\2\227\1\0\74\227\23\0\4\55\5\0\7\55"+
-    "\3\0\20\55\1\243\5\55\26\0\4\55\5\0\7\55"+
-    "\3\0\22\55\1\244\3\55\26\0\4\55\5\0\7\55"+
-    "\3\0\20\55\1\245\5\55\26\0\4\55\5\0\7\55"+
-    "\3\0\23\55\1\246\2\55\26\0\4\55\5\0\7\55"+
-    "\3\0\3\55\1\247\22\55\26\0\4\250\5\0\3\250"+
-    "\10\0\6\250\45\0\4\55\5\0\7\55\3\0\22\55"+
-    "\1\251\3\55\26\0\4\55\5\0\7\55\3\0\22\55"+
-    "\1\252\3\55\26\0\4\55\5\0\7\55\3\0\5\55"+
-    "\1\253\20\55\26\0\4\254\5\0\3\254\10\0\6\254"+
-    "\22\0";
+    "\1\136\1\0\4\137\3\0\1\140\65\0\1\141\76\0"+
+    "\1\142\1\143\77\0\4\40\5\0\7\144\4\0\25\144"+
+    "\26\0\4\40\70\0\1\145\1\146\6\0\1\147\1\150"+
+    "\1\151\75\0\1\152\66\0\1\153\7\0\1\154\1\155"+
+    "\67\0\4\46\5\0\7\46\3\0\26\46\26\0\4\46"+
+    "\5\0\7\46\3\0\1\46\1\156\24\46\26\0\4\46"+
+    "\5\0\7\46\3\0\20\46\1\157\5\46\3\0\23\160"+
+    "\4\161\5\160\7\55\3\160\1\162\25\161\3\160\23\0"+
+    "\4\55\5\0\7\55\3\0\21\55\1\163\4\55\26\0"+
+    "\4\55\5\0\7\55\3\0\26\55\26\0\4\55\5\0"+
+    "\7\55\3\0\1\55\1\164\13\55\1\165\10\55\26\0"+
+    "\4\55\5\0\7\55\3\0\3\55\1\166\22\55\26\0"+
+    "\4\55\5\0\7\55\3\0\14\55\1\167\11\55\26\0"+
+    "\4\55\5\0\7\55\3\0\6\55\1\170\4\55\1\171"+
+    "\12\55\26\0\4\55\5\0\7\55\3\0\5\55\1\172"+
+    "\20\55\26\0\4\55\5\0\7\55\3\0\16\55\1\173"+
+    "\7\55\26\0\4\55\5\0\7\55\3\0\1\55\1\174"+
+    "\21\55\1\175\2\55\26\0\4\55\5\0\7\55\3\0"+
+    "\15\55\1\176\7\55\1\177\26\0\4\55\5\0\7\55"+
+    "\3\0\21\55\1\200\4\55\35\0\1\201\42\0\1\202"+
+    "\24\0\4\73\5\0\7\73\3\0\26\73\3\0\7\74"+
+    "\1\0\34\74\1\0\32\74\2\0\1\100\117\0\4\203"+
+    "\5\0\3\203\10\0\6\203\45\0\4\110\104\0\7\111"+
+    "\4\0\25\111\26\0\2\117\75\0\1\117\1\120\2\121"+
+    "\5\0\7\121\4\0\25\121\27\0\3\121\5\0\7\121"+
+    "\4\0\25\121\26\0\4\122\5\0\3\122\10\0\6\122"+
+    "\61\0\4\123\12\0\17\123\26\0\3\124\77\0\1\125"+
+    "\5\0\7\125\4\0\25\125\26\0\4\126\5\0\7\126"+
+    "\4\0\25\126\3\0\2\204\1\0\17\204\1\205\54\204"+
+    "\21\0\1\206\76\0\1\207\100\0\4\46\5\0\7\46"+
+    "\3\0\12\46\1\210\13\46\26\0\4\46\5\0\7\46"+
+    "\3\0\23\46\1\211\2\46\26\0\4\161\5\0\7\55"+
+    "\3\0\26\161\26\0\4\55\5\0\7\55\3\0\21\55"+
+    "\1\212\4\55\26\0\4\55\5\0\7\55\3\0\21\55"+
+    "\1\213\4\55\26\0\4\55\5\0\7\55\3\0\14\55"+
+    "\1\214\11\55\26\0\4\55\5\0\7\55\3\0\10\55"+
+    "\1\215\15\55\26\0\4\55\5\0\7\55\3\0\16\55"+
+    "\1\216\7\55\26\0\4\55\5\0\7\55\3\0\22\55"+
+    "\1\217\3\55\26\0\4\55\5\0\7\55\3\0\1\55"+
+    "\1\220\24\55\26\0\4\55\5\0\7\55\3\0\14\55"+
+    "\1\221\11\55\26\0\4\55\5\0\7\55\3\0\2\55"+
+    "\1\222\23\55\26\0\4\55\5\0\7\55\3\0\4\55"+
+    "\1\223\21\55\26\0\4\55\5\0\7\55\3\0\16\55"+
+    "\1\224\7\55\26\0\4\55\5\0\7\55\3\0\5\55"+
+    "\1\225\20\55\26\0\4\226\5\0\3\226\10\0\6\226"+
+    "\22\0\2\204\1\0\74\204\2\227\1\0\17\227\1\230"+
+    "\54\227\23\0\4\46\5\0\7\46\3\0\21\46\1\211"+
+    "\4\46\26\0\4\46\5\0\7\46\3\0\5\46\1\231"+
+    "\20\46\26\0\4\55\5\0\7\55\3\0\5\55\1\232"+
+    "\20\55\26\0\4\55\5\0\7\55\3\0\5\55\1\233"+
+    "\20\55\26\0\4\55\5\0\7\55\3\0\21\55\1\234"+
+    "\4\55\26\0\4\55\5\0\7\55\3\0\15\55\1\235"+
+    "\10\55\26\0\4\55\5\0\7\55\3\0\15\55\1\236"+
+    "\10\55\26\0\4\55\5\0\7\55\3\0\17\55\1\237"+
+    "\6\55\26\0\4\55\5\0\7\55\3\0\11\55\1\240"+
+    "\14\55\26\0\4\55\5\0\7\55\3\0\15\55\1\241"+
+    "\10\55\26\0\4\55\5\0\7\55\3\0\5\55\1\242"+
+    "\20\55\26\0\4\243\5\0\3\243\10\0\6\243\22\0"+
+    "\2\227\1\0\74\227\2\230\1\0\74\230\23\0\4\55"+
+    "\5\0\7\55\3\0\20\55\1\244\5\55\26\0\4\55"+
+    "\5\0\7\55\3\0\22\55\1\245\3\55\26\0\4\55"+
+    "\5\0\7\55\3\0\20\55\1\246\5\55\26\0\4\55"+
+    "\5\0\7\55\3\0\23\55\1\247\2\55\26\0\4\55"+
+    "\5\0\7\55\3\0\3\55\1\250\22\55\26\0\4\251"+
+    "\5\0\3\251\10\0\6\251\45\0\4\55\5\0\7\55"+
+    "\3\0\22\55\1\252\3\55\26\0\4\55\5\0\7\55"+
+    "\3\0\22\55\1\253\3\55\26\0\4\55\5\0\7\55"+
+    "\3\0\5\55\1\254\20\55\26\0\4\255\5\0\3\255"+
+    "\10\0\6\255\22\0";
 
   private static int [] zzUnpacktrans() {
     int [] result = new int[6552];
@@ -341,12 +341,12 @@ public class _GleamLexer implements FlexLexer {
     "\2\0\1\1\14\0\1\11\2\1\3\11\1\1\2\11"+
     "\2\1\1\11\5\1\1\11\3\1\1\11\3\1\2\11"+
     "\14\1\1\11\1\1\2\11\2\1\4\11\1\1\3\11"+
-    "\1\1\2\11\2\1\5\11\11\1\12\11\1\1\4\11"+
+    "\1\1\2\11\2\1\5\11\11\1\13\11\1\1\4\11"+
     "\1\1\3\11\1\1\1\11\2\1\1\11\20\1\2\11"+
     "\3\1\2\11\45\1\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[172];
+    int [] result = new int[173];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -443,6 +443,17 @@ public class _GleamLexer implements FlexLexer {
     yypushback(yylength());
     popState();
   }
+
+    // Mirrors the compiler's check_for_minus (lexer.rs): '-' followed by a digit
+    // is a number sign unless it directly follows a name or number token.
+    // Previous-char approximation: names/numbers always end in a word character,
+    // and no other token does.
+    private boolean isMinusBinary() {
+      int prev = zzStartRead - 1;
+      if (prev < 0) return false;
+      char c = zzBuffer.charAt(prev);
+      return c == '_' || Character.isLetterOrDigit(c);
+    }
 
   public _GleamLexer() {
     this((java.io.Reader)null);
@@ -694,508 +705,516 @@ public class _GleamLexer implements FlexLexer {
             { return GleamTypes.REGULAR_STRING_PART;
             }
           // fall through
-          case 101: break;
+          case 102: break;
           case 2:
             { return TokenType.BAD_CHARACTER;
             }
           // fall through
-          case 102: break;
+          case 103: break;
           case 3:
             { return TokenType.WHITE_SPACE;
             }
           // fall through
-          case 103: break;
+          case 104: break;
           case 4:
             { return GleamTypes.BANG;
             }
           // fall through
-          case 104: break;
+          case 105: break;
           case 5:
             { pushState(IN_STRING); return GleamTypes.OPEN_QUOTE;
             }
           // fall through
-          case 105: break;
+          case 106: break;
           case 6:
             { return GleamTypes.HASH;
             }
           // fall through
-          case 106: break;
+          case 107: break;
           case 7:
             { return GleamTypes.PERCENT;
             }
           // fall through
-          case 107: break;
+          case 108: break;
           case 8:
             { return GleamTypes.LPAREN;
             }
           // fall through
-          case 108: break;
+          case 109: break;
           case 9:
             { return GleamTypes.RPAREN;
             }
           // fall through
-          case 109: break;
+          case 110: break;
           case 10:
             { return GleamTypes.STAR;
             }
           // fall through
-          case 110: break;
+          case 111: break;
           case 11:
             { return GleamTypes.PLUS;
             }
           // fall through
-          case 111: break;
+          case 112: break;
           case 12:
             { return GleamTypes.COMMA;
             }
           // fall through
-          case 112: break;
+          case 113: break;
           case 13:
             { return GleamTypes.MINUS;
             }
           // fall through
-          case 113: break;
+          case 114: break;
           case 14:
             { return GleamTypes.DOT;
             }
           // fall through
-          case 114: break;
+          case 115: break;
           case 15:
             { return GleamTypes.SLASH;
             }
           // fall through
-          case 115: break;
+          case 116: break;
           case 16:
             { pushState(DECIMAL_NUMBER); return GleamTypes.VALID_DECIMAL_DIGIT;
             }
           // fall through
-          case 116: break;
+          case 117: break;
           case 17:
             { return GleamTypes.COLON;
             }
           // fall through
-          case 117: break;
+          case 118: break;
           case 18:
             { return GleamTypes.LESS;
             }
           // fall through
-          case 118: break;
+          case 119: break;
           case 19:
             { return GleamTypes.EQUAL;
             }
           // fall through
-          case 119: break;
+          case 120: break;
           case 20:
             { return GleamTypes.GREATER;
             }
           // fall through
-          case 120: break;
+          case 121: break;
           case 21:
             { pushState(WAITING_ANNOTATION_NAME); return GleamTypes.ANNOTATION_MARK;
             }
           // fall through
-          case 121: break;
+          case 122: break;
           case 22:
             { return GleamTypes.UP_IDENTIFIER;
             }
           // fall through
-          case 122: break;
+          case 123: break;
           case 23:
             { return GleamTypes.LBRACK;
             }
           // fall through
-          case 123: break;
+          case 124: break;
           case 24:
             { return GleamTypes.RBRACK;
             }
           // fall through
-          case 124: break;
+          case 125: break;
           case 25:
             { return GleamTypes.DISCARD_NAME;
             }
           // fall through
-          case 125: break;
+          case 126: break;
           case 26:
             { return GleamTypes.IDENTIFIER;
             }
           // fall through
-          case 126: break;
+          case 127: break;
           case 27:
             { return GleamTypes.LBRACE;
             }
           // fall through
-          case 127: break;
+          case 128: break;
           case 28:
             { return GleamTypes.VBAR;
             }
           // fall through
-          case 128: break;
+          case 129: break;
           case 29:
             { return GleamTypes.RBRACE;
             }
           // fall through
-          case 129: break;
+          case 130: break;
           case 30:
             { handleInLastState();
             }
           // fall through
-          case 130: break;
+          case 131: break;
           case 31:
             { popState(); return GleamTypes.ANNOTATION_NAME;
             }
           // fall through
-          case 131: break;
+          case 132: break;
           case 32:
             { popState(); return GleamTypes.CLOSE_QUOTE;
             }
           // fall through
-          case 132: break;
+          case 133: break;
           case 33:
             { pushState(ESCAPE_SEQUENCE); return GleamTypes.ESCAPE;
             }
           // fall through
-          case 133: break;
+          case 134: break;
           case 34:
             { popState(); return GleamTypes.ESCAPE_CHAR;
             }
           // fall through
-          case 134: break;
+          case 135: break;
           case 35:
             { popState(); return GleamTypes.EOL;
             }
           // fall through
-          case 135: break;
+          case 136: break;
           case 36:
             { yybegin(UNICODE_ESCAPE_SEQUENCE); return GleamTypes.UNICODE_ESCAPE_CHAR;
             }
           // fall through
-          case 136: break;
+          case 137: break;
           case 37:
             { popState(); return TokenType.BAD_CHARACTER;
             }
           // fall through
-          case 137: break;
+          case 138: break;
           case 38:
             { yybegin(UNICODE_CODEPOINT_SEQUENCE); return GleamTypes.LBRACE;
             }
           // fall through
-          case 138: break;
+          case 139: break;
           case 39:
             { return GleamTypes.UNICODE_CODEPOINT;
             }
           // fall through
-          case 139: break;
+          case 140: break;
           case 40:
             { popState(); return GleamTypes.RBRACE;
             }
           // fall through
-          case 140: break;
+          case 141: break;
           case 41:
             { yybegin(DECIMAL_FRACTION); return GleamTypes.DOT;
             }
           // fall through
-          case 141: break;
+          case 142: break;
           case 42:
             { return GleamTypes.VALID_DECIMAL_DIGIT;
             }
           // fall through
-          case 142: break;
+          case 143: break;
           case 43:
             { return GleamTypes.INVALID_DECIMAL_DIGIT;
             }
           // fall through
-          case 143: break;
+          case 144: break;
           case 44:
             { return GleamTypes.NUMBER_SEPARATOR;
             }
           // fall through
-          case 144: break;
+          case 145: break;
           case 45:
             { yybegin(UNKNOWN_BASE_NUMBER); return GleamTypes.UNKNOWN_NUMBER_BASE;
             }
           // fall through
-          case 145: break;
+          case 146: break;
           case 46:
             { yybegin(BINARY_NUMBER); return GleamTypes.BINARY_NUMBER_BASE;
             }
           // fall through
-          case 146: break;
+          case 147: break;
           case 47:
             { yybegin(OCTAL_NUMBER); return GleamTypes.OCTAL_NUMBER_BASE;
             }
           // fall through
-          case 147: break;
+          case 148: break;
           case 48:
             { yybegin(HEX_NUMBER); return GleamTypes.HEX_NUMBER_BASE;
             }
           // fall through
-          case 148: break;
+          case 149: break;
           case 49:
             { return GleamTypes.VALID_BINARY_DIGIT;
             }
           // fall through
-          case 149: break;
+          case 150: break;
           case 50:
             { return GleamTypes.INVALID_BINARY_DIGIT;
             }
           // fall through
-          case 150: break;
+          case 151: break;
           case 51:
             { return GleamTypes.VALID_HEX_DIGIT;
             }
           // fall through
-          case 151: break;
+          case 152: break;
           case 52:
             { return GleamTypes.INVALID_HEX_DIGIT;
             }
           // fall through
-          case 152: break;
+          case 153: break;
           case 53:
             { return GleamTypes.VALID_OCTAL_DIGIT;
             }
           // fall through
-          case 153: break;
+          case 154: break;
           case 54:
             { return GleamTypes.INVALID_OCTAL_DIGIT;
             }
           // fall through
-          case 154: break;
+          case 155: break;
           case 55:
             { return GleamTypes.INVALID_UNKNOWN_BASE_DIGIT;
             }
           // fall through
-          case 155: break;
+          case 156: break;
           case 56:
             { yybegin(DECIMAL_EXPONENT_SIGN); return GleamTypes.EXPONENT_MARK;
             }
           // fall through
-          case 156: break;
+          case 157: break;
           case 57:
             { yypushback(yylength()); yybegin(DECIMAL_EXPONENT);
             }
           // fall through
-          case 157: break;
+          case 158: break;
           case 58:
             { yybegin(DECIMAL_EXPONENT); return GleamTypes.EXPONENT_SIGN;
             }
           // fall through
-          case 158: break;
+          case 159: break;
           case 59:
             { return GleamTypes.NOT_EQUAL;
             }
           // fall through
-          case 159: break;
+          case 160: break;
           case 60:
             { return GleamTypes.AMPER_AMPER;
             }
           // fall through
-          case 160: break;
+          case 161: break;
           case 61:
             { return GleamTypes.STAR_DOT;
             }
           // fall through
-          case 161: break;
+          case 162: break;
           case 62:
             { return GleamTypes.PLUS_DOT;
             }
           // fall through
-          case 162: break;
+          case 163: break;
           case 63:
             { return GleamTypes.MINUS_DOT;
             }
           // fall through
-          case 163: break;
-          case 64:
-            { return GleamTypes.R_ARROW;
-            }
-          // fall through
           case 164: break;
-          case 65:
-            { return GleamTypes.DOT_DOT;
+          case 64:
+            // lookahead expression with fixed base length
+            zzMarkedPos = Character.offsetByCodePoints
+                (zzBufferL, zzStartRead, 1);
+            { return isMinusBinary() ? GleamTypes.MINUS : GleamTypes.SIGN_MINUS;
             }
           // fall through
           case 165: break;
-          case 66:
-            { return GleamTypes.SLASH_DOT;
+          case 65:
+            { return GleamTypes.R_ARROW;
             }
           // fall through
           case 166: break;
-          case 67:
-            { return GleamTypes.LINE_COMMENT;
+          case 66:
+            { return GleamTypes.DOT_DOT;
             }
           // fall through
           case 167: break;
+          case 67:
+            { return GleamTypes.SLASH_DOT;
+            }
+          // fall through
+          case 168: break;
           case 68:
+            { return GleamTypes.LINE_COMMENT;
+            }
+          // fall through
+          case 169: break;
+          case 69:
             // lookahead expression with fixed base length
             zzMarkedPos = Character.offsetByCodePoints
                 (zzBufferL, zzStartRead, 1);
             { pushState(BASE_NUMBER_BASE); return GleamTypes.BASE_NUMBER_PREFIX;
             }
           // fall through
-          case 168: break;
-          case 69:
+          case 170: break;
+          case 70:
             { return GleamTypes.L_ARROW;
             }
           // fall through
-          case 169: break;
-          case 70:
+          case 171: break;
+          case 71:
             { return GleamTypes.LESS_DOT;
             }
           // fall through
-          case 170: break;
-          case 71:
+          case 172: break;
+          case 72:
             { return GleamTypes.LT_LT;
             }
           // fall through
-          case 171: break;
-          case 72:
+          case 173: break;
+          case 73:
             { return GleamTypes.LESS_EQUAL;
             }
           // fall through
-          case 172: break;
-          case 73:
+          case 174: break;
+          case 74:
             { return GleamTypes.LT_GT;
             }
           // fall through
-          case 173: break;
-          case 74:
+          case 175: break;
+          case 75:
             { return GleamTypes.EQUAL_EQUAL;
             }
           // fall through
-          case 174: break;
-          case 75:
+          case 176: break;
+          case 76:
             { return GleamTypes.GREATER_DOT;
             }
           // fall through
-          case 175: break;
-          case 76:
+          case 177: break;
+          case 77:
             { return GleamTypes.GREATER_EQUAL;
             }
           // fall through
-          case 176: break;
-          case 77:
+          case 178: break;
+          case 78:
             { return GleamTypes.GT_GT;
             }
           // fall through
-          case 177: break;
-          case 78:
+          case 179: break;
+          case 79:
             // lookahead expression with fixed base length
             zzMarkedPos = Character.offsetByCodePoints
                 (zzBufferL, zzStartRead, 1);
             { return GleamTypes.HOLE;
             }
           // fall through
-          case 178: break;
-          case 79:
+          case 180: break;
+          case 80:
             { return GleamTypes.AS;
             }
           // fall through
-          case 179: break;
-          case 80:
+          case 181: break;
+          case 81:
             { return GleamTypes.FN;
             }
           // fall through
-          case 180: break;
-          case 81:
+          case 182: break;
+          case 82:
             { return GleamTypes.IF;
             }
           // fall through
-          case 181: break;
-          case 82:
+          case 183: break;
+          case 83:
             { return GleamTypes.PIPE;
             }
           // fall through
-          case 182: break;
-          case 83:
+          case 184: break;
+          case 84:
             { return GleamTypes.VBAR_VBAR;
             }
           // fall through
-          case 183: break;
-          case 84:
+          case 185: break;
+          case 85:
             { return GleamTypes.FUNCTION_COMMENT;
             }
           // fall through
-          case 184: break;
-          case 85:
+          case 186: break;
+          case 86:
             { return GleamTypes.LESS_EQUAL_DOT;
             }
           // fall through
-          case 185: break;
-          case 86:
+          case 187: break;
+          case 87:
             { return GleamTypes.GREATER_EQUAL_DOT;
             }
           // fall through
-          case 186: break;
-          case 87:
+          case 188: break;
+          case 88:
             { return GleamTypes.LET;
             }
           // fall through
-          case 187: break;
-          case 88:
+          case 189: break;
+          case 89:
             { return GleamTypes.PUB;
             }
           // fall through
-          case 188: break;
-          case 89:
+          case 190: break;
+          case 90:
             { return GleamTypes.USE;
             }
           // fall through
-          case 189: break;
-          case 90:
+          case 191: break;
+          case 91:
             { return GleamTypes.MODULE_COMMENT;
             }
           // fall through
-          case 190: break;
-          case 91:
+          case 192: break;
+          case 92:
             { return GleamTypes.BOOLEAN_LITERAL;
             }
           // fall through
-          case 191: break;
-          case 92:
+          case 193: break;
+          case 93:
             { return GleamTypes.CASE;
             }
           // fall through
-          case 192: break;
-          case 93:
+          case 194: break;
+          case 94:
             { return GleamTypes.ECHO;
             }
           // fall through
-          case 193: break;
-          case 94:
+          case 195: break;
+          case 95:
             { return GleamTypes.TODO;
             }
           // fall through
-          case 194: break;
-          case 95:
+          case 196: break;
+          case 96:
             { return GleamTypes.TYPE;
             }
           // fall through
-          case 195: break;
-          case 96:
+          case 197: break;
+          case 97:
             { return GleamTypes.CONST;
             }
           // fall through
-          case 196: break;
-          case 97:
+          case 198: break;
+          case 98:
             { return GleamTypes.PANIC;
             }
           // fall through
-          case 197: break;
-          case 98:
+          case 199: break;
+          case 99:
             { return GleamTypes.ASSERT;
             }
           // fall through
-          case 198: break;
-          case 99:
+          case 200: break;
+          case 100:
             { return GleamTypes.IMPORT;
             }
           // fall through
-          case 199: break;
-          case 100:
+          case 201: break;
+          case 101:
             { return GleamTypes.OPAQUE;
             }
           // fall through
-          case 200: break;
+          case 202: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

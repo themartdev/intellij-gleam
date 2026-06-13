@@ -39,6 +39,17 @@ import com.github.themartdev.intellijgleam.lang.psi.GleamTypes;
     popState();
   }
 
+    // Mirrors the compiler's check_for_minus (lexer.rs): '-' followed by a digit
+    // is a number sign unless it directly follows a name or number token.
+    // Previous-char approximation: names/numbers always end in a word character,
+    // and no other token does.
+    private boolean isMinusBinary() {
+      int prev = zzStartRead - 1;
+      if (prev < 0) return false;
+      char c = zzBuffer.charAt(prev);
+      return c == '_' || Character.isLetterOrDigit(c);
+    }
+
   public _GleamLexer() {
     this((java.io.Reader)null);
   }
@@ -134,6 +145,7 @@ NUMBER_SEPARATOR = "_"
   "<-"                     { return GleamTypes.L_ARROW; }
   ".."                     { return GleamTypes.DOT_DOT; }
   "+"                      { return GleamTypes.PLUS; }
+  "-" / [0-9]              { return isMinusBinary() ? GleamTypes.MINUS : GleamTypes.SIGN_MINUS; }
   "-"                      { return GleamTypes.MINUS; }
   "*"                      { return GleamTypes.STAR; }
   "/"                      { return GleamTypes.SLASH; }

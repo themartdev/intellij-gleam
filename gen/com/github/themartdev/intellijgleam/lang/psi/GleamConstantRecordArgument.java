@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface GleamConstantRecordArgument extends PsiElement {
 
-  @NotNull
+  @Nullable
   GleamExpressionConst getExpressionConst();
 
   @Nullable

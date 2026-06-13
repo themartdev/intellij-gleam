@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GleamEchoExpr extends GleamExpression {
+public interface GleamTodoExprConst extends GleamExpressionConst {
 
-  @NotNull
-  List<GleamExpression> getExpressionList();
+  @Nullable
+  GleamExpressionConst getExpressionConst();
 
 }

@@ -14,6 +14,9 @@ public interface GleamLiteralPattern extends GleamPattern {
   GleamIntegerLiteral getIntegerLiteral();
 
   @Nullable
+  GleamNegativeDecimalIntegerLiteral getNegativeDecimalIntegerLiteral();
+
+  @Nullable
   GleamStringLiteral getStringLiteral();
 
   @Nullable

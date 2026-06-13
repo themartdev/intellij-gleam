@@ -11,9 +11,6 @@ public interface GleamUseExpr extends GleamExpression {
   GleamExpression getExpression();
 
   @NotNull
-  List<GleamPatternAliasable> getPatternAliasableList();
-
-  @Nullable
-  GleamTypeAnnotation getTypeAnnotation();
+  List<GleamUseAssignment> getUseAssignmentList();
 
 }

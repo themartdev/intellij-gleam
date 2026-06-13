@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamUseExprImpl extends GleamExpressionImpl implements GleamUseExpr {
+public class GleamConstantRecordUpdateImpl extends ASTWrapperPsiElement implements GleamConstantRecordUpdate {
 
-  public GleamUseExprImpl(@NotNull ASTNode node) {
+  public GleamConstantRecordUpdateImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitUseExpr(this);
+    visitor.visitConstantRecordUpdate(this);
   }
 
   @Override
@@ -29,14 +29,8 @@ public class GleamUseExprImpl extends GleamExpressionImpl implements GleamUseExp
 
   @Override
   @Nullable
-  public GleamExpression getExpression() {
-    return findChildByClass(GleamExpression.class);
-  }
-
-  @Override
-  @NotNull
-  public List<GleamUseAssignment> getUseAssignmentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamUseAssignment.class);
+  public GleamExpressionConst getExpressionConst() {
+    return findChildByClass(GleamExpressionConst.class);
   }
 
 }

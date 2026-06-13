@@ -38,11 +38,13 @@ public interface GleamTypes {
   IElementType CASE_EXPR = new GleamElementType("CASE_EXPR");
   IElementType CASE_EXPR_BODY = new GleamElementType("CASE_EXPR_BODY");
   IElementType CASE_SUBJECTS = new GleamElementType("CASE_SUBJECTS");
+  IElementType CONCAT_EXPR_CONST = new GleamElementType("CONCAT_EXPR_CONST");
   IElementType CONSTANT_BIT_ARRAY_SEGMENT = new GleamElementType("CONSTANT_BIT_ARRAY_SEGMENT");
   IElementType CONSTANT_DECLARATION = new GleamElementType("CONSTANT_DECLARATION");
   IElementType CONSTANT_FUNCTION_PARAMETER_TYPES = new GleamElementType("CONSTANT_FUNCTION_PARAMETER_TYPES");
   IElementType CONSTANT_RECORD_ARGUMENT = new GleamElementType("CONSTANT_RECORD_ARGUMENT");
   IElementType CONSTANT_RECORD_ARGUMENTS = new GleamElementType("CONSTANT_RECORD_ARGUMENTS");
+  IElementType CONSTANT_RECORD_UPDATE = new GleamElementType("CONSTANT_RECORD_UPDATE");
   IElementType CONSTANT_TYPE = new GleamElementType("CONSTANT_TYPE");
   IElementType CONSTANT_TYPE_ARGUMENT = new GleamElementType("CONSTANT_TYPE_ARGUMENT");
   IElementType CONSTANT_TYPE_ARGUMENTS = new GleamElementType("CONSTANT_TYPE_ARGUMENTS");
@@ -115,6 +117,7 @@ public interface GleamTypes {
   IElementType STRING_PATTERN = new GleamElementType("STRING_PATTERN");
   IElementType TARGET_ANNOTATION = new GleamElementType("TARGET_ANNOTATION");
   IElementType TODO_EXPR = new GleamElementType("TODO_EXPR");
+  IElementType TODO_EXPR_CONST = new GleamElementType("TODO_EXPR_CONST");
   IElementType TUPLE_EXPR = new GleamElementType("TUPLE_EXPR");
   IElementType TUPLE_EXPR_CONST = new GleamElementType("TUPLE_EXPR_CONST");
   IElementType TUPLE_PATTERN = new GleamElementType("TUPLE_PATTERN");
@@ -136,6 +139,7 @@ public interface GleamTypes {
   IElementType UNQUALIFIED_IMPORTS = new GleamElementType("UNQUALIFIED_IMPORTS");
   IElementType UNQUALIFIED_TYPE_NAME = new GleamElementType("UNQUALIFIED_TYPE_NAME");
   IElementType UP_UNQUALIFIED_IMPORT = new GleamElementType("UP_UNQUALIFIED_IMPORT");
+  IElementType USE_ASSIGNMENT = new GleamElementType("USE_ASSIGNMENT");
   IElementType USE_EXPR = new GleamElementType("USE_EXPR");
   IElementType VARIABLE_REFERENCE = new GleamElementType("VARIABLE_REFERENCE");
   IElementType VISIBILITY_MODIFIER = new GleamElementType("VISIBILITY_MODIFIER");
@@ -216,6 +220,7 @@ public interface GleamTypes {
   IElementType REGULAR_STRING_PART = new GleamTokenType("REGULAR_STRING_PART");
   IElementType RPAREN = new GleamTokenType(")");
   IElementType R_ARROW = new GleamTokenType("->");
+  IElementType SIGN_MINUS = new GleamTokenType("SIGN_MINUS");
   IElementType SLASH = new GleamTokenType("/");
   IElementType SLASH_DOT = new GleamTokenType("/.");
   IElementType STAR = new GleamTokenType("*");
@@ -325,6 +330,9 @@ public interface GleamTypes {
       else if (type == CASE_SUBJECTS) {
         return new GleamCaseSubjectsImpl(node);
       }
+      else if (type == CONCAT_EXPR_CONST) {
+        return new GleamConcatExprConstImpl(node);
+      }
       else if (type == CONSTANT_BIT_ARRAY_SEGMENT) {
         return new GleamConstantBitArraySegmentImpl(node);
       }
@@ -339,6 +347,9 @@ public interface GleamTypes {
       }
       else if (type == CONSTANT_RECORD_ARGUMENTS) {
         return new GleamConstantRecordArgumentsImpl(node);
+      }
+      else if (type == CONSTANT_RECORD_UPDATE) {
+        return new GleamConstantRecordUpdateImpl(node);
       }
       else if (type == CONSTANT_TYPE) {
         return new GleamConstantTypeImpl(node);
@@ -547,6 +558,9 @@ public interface GleamTypes {
       else if (type == TODO_EXPR) {
         return new GleamTodoExprImpl(node);
       }
+      else if (type == TODO_EXPR_CONST) {
+        return new GleamTodoExprConstImpl(node);
+      }
       else if (type == TUPLE_EXPR) {
         return new GleamTupleExprImpl(node);
       }
@@ -609,6 +623,9 @@ public interface GleamTypes {
       }
       else if (type == UP_UNQUALIFIED_IMPORT) {
         return new GleamUpUnqualifiedImportImpl(node);
+      }
+      else if (type == USE_ASSIGNMENT) {
+        return new GleamUseAssignmentImpl(node);
       }
       else if (type == USE_EXPR) {
         return new GleamUseExprImpl(node);

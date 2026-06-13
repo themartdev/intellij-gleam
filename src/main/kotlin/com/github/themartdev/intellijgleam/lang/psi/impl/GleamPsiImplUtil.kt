@@ -1,11 +1,6 @@
 package com.github.themartdev.intellijgleam.lang.psi.impl
 
-import com.github.themartdev.intellijgleam.lang.psi.GleamIdentifierDiscardable
-import com.github.themartdev.intellijgleam.lang.psi.GleamImportDeclaration
-import com.github.themartdev.intellijgleam.lang.psi.GleamModulePath
-import com.github.themartdev.intellijgleam.lang.psi.GleamTypeUnqualifiedImport
-import com.github.themartdev.intellijgleam.lang.psi.GleamUnqualifiedImport
-import com.github.themartdev.intellijgleam.lang.psi.GleamUpUnqualifiedImport
+import com.github.themartdev.intellijgleam.lang.psi.*
 import com.intellij.psi.PsiElement
 
 class GleamPsiImplUtil {
@@ -17,7 +12,7 @@ class GleamPsiImplUtil {
 
         @JvmStatic
         fun getNameOrAlias(importDeclaration: GleamImportDeclaration): PsiElement? {
-            return importDeclaration.identifier ?: importDeclaration.modulePath?.moduleName
+            return importDeclaration.identifierDiscardable ?: importDeclaration.modulePath?.moduleName
         }
 
         @JvmStatic

@@ -10,4 +10,7 @@ public interface GleamConstantRecordArguments extends PsiElement {
   @NotNull
   List<GleamConstantRecordArgument> getConstantRecordArgumentList();
 
+  @Nullable
+  GleamConstantRecordUpdate getConstantRecordUpdate();
+
 }

@@ -39,4 +39,10 @@ public class GleamStringPatternImpl extends GleamPatternImpl implements GleamStr
     return findNotNullChildByClass(GleamStringLiteral.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getIdentifier() {
+    return findChildByType(IDENTIFIER);
+  }
+
 }

@@ -13,4 +13,7 @@ public interface GleamStringPattern extends GleamPattern {
   @NotNull
   GleamStringLiteral getStringLiteral();
 
+  @Nullable
+  PsiElement getIdentifier();
+
 }

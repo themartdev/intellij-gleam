@@ -59,6 +59,7 @@
     L_ARROW         = '<-'
     DOT_DOT         = '..'
     PLUS            = '+'
+    SIGN_MINUS      = '-'
     MINUS           = '-'
     STAR            = '*'
     SLASH           = '/'
@@ -171,7 +172,7 @@ modulePath ::= IDENTIFIER (SLASH IDENTIFIER)* {
   methods=[getModuleName]
 }
 
-importDeclaration ::= (annotation)* IMPORT modulePath [DOT unqualifiedImports] [AS IDENTIFIER] {
+importDeclaration ::= (annotation)* IMPORT modulePath [DOT unqualifiedImports] [AS identifierDiscardable] {
   pin=2
   methods=[getNameOrAlias]
 }
@@ -208,7 +209,8 @@ constantTypeSpecial ::= typeName
                       | constantType
 
 // ===== Constant expressions =====
-expressionConst ::= literalExprConst
+expressionConst ::= concatExprConst
+            | literalExprConst
             | tupleExprConst
             | bitArrayExprConst
             | listExprConst
@@ -218,18 +220,24 @@ expressionConst ::= literalExprConst
             | moduleConstantExprConst
             // Reference to another const (name)
             | referenceExprConst
+            | todoExprConst
 
 // Special for negative number constants - in expressions the '-' is a unary operator, but in constants it's part of the number
+concatExprConst ::= expressionConst LT_GT expressionConst
 literalExprConst ::= literal | negativeDecimalIntegerLiteral
 tupleExprConst ::= HASH LPAREN [expressionConst (COMMA expressionConst)* [COMMA]] RPAREN {pin=2}
 constantBitArraySegment ::= expressionConst [COLON bitArraySegmentOptions]
 bitArrayExprConst ::= LT_LT [constantBitArraySegment (COMMA constantBitArraySegment)* [COMMA]] GT_GT {pin=1}
 listExprConst ::= LBRACK [expressionConst (COMMA expressionConst)* [COMMA]] RBRACK {pin=1}
-constantRecordArgument ::= [label COLON] expressionConst
-constantRecordArguments ::= LPAREN [constantRecordArgument (COMMA constantRecordArgument)* [COMMA]] RPAREN
 recordExprConst ::= typeName [constantRecordArguments]
 moduleConstantExprConst ::= IDENTIFIER DOT IDENTIFIER
 referenceExprConst ::= identifierDiscardable
+todoExprConst ::= TODO (AS expressionConst)?
+
+constantRecordUpdate ::= DOT_DOT expressionConst {pin=1}
+constantRecordArgument ::= [label COLON] expressionConst | label COLON
+private constantRecordArgumentList ::= [constantRecordArgument (COMMA constantRecordArgument)* [COMMA]]
+constantRecordArguments ::= LPAREN (constantRecordUpdate COMMA constantRecordArgumentList | constantRecordUpdate | constantRecordArgumentList) RPAREN
 // ============
 
 functionParameterTypes ::= LPAREN [typeBase (COMMA typeBase)* [COMMA]] RPAREN
@@ -254,13 +262,13 @@ functionNameDefinition::= IDENTIFIER
 listPatternTail ::= DOT_DOT [identifierDiscardable] {pin=1}
 listPattern ::= LBRACK [patternAliasable (COMMA patternAliasable)* [COMMA]] [listPatternTail] RBRACK {pin=1}
 
-stringPattern ::= stringLiteral LT_GT identifierDiscardable {pin=2}
+stringPattern ::= stringLiteral [AS IDENTIFIER] LT_GT identifierDiscardable {pin=3}
 
 patternSpread ::= DOT_DOT [COMMA]
 recordPatternArgument ::= [label COLON] patternAliasable | label COLON
 recordPatternArguments ::= LPAREN [recordPatternArgument (COMMA recordPatternArgument)* [COMMA]] [patternSpread] RPAREN
 recordPattern ::= (constructorIdentifier | remoteConstructorIdentifier) [recordPatternArguments] {pin=1}
-literalPattern ::= literal
+literalPattern ::= literal | negativeDecimalIntegerLiteral
 identifierPattern ::= identifierDiscardable
 pattern ::=
             bitArrayPattern
@@ -302,13 +310,14 @@ caseSubjects ::= expression (COMMA expression)*
 caseExprBody ::= LBRACE caseClauses RBRACE {pin=1}
 caseExpr ::= CASE caseSubjects caseExprBody
 
-useExpr ::= USE [patternAliasable (COMMA patternAliasable)*] [typeAnnotation] L_ARROW expression
+useAssignment ::= patternAliasable [typeAnnotation]
+useExpr ::= USE [useAssignment (COMMA useAssignment)*] L_ARROW expression
 
 letExpr ::= LET ASSERT? patternAliasable [typeAnnotation] EQUAL expression (AS expression)? {pin=1}
 
 assertExpr ::= ASSERT expression (AS expression)?
 
-echoExpr ::= ECHO expression
+echoExpr ::= ECHO expression (AS expression)?
 
 panicExpr ::= PANIC (AS expression)?
 todoExpr ::= TODO (AS expression)?
@@ -359,7 +368,7 @@ expression ::= binaryGroup
              | primaryGroup {name="expression"}
 
 // Match echo first to prevent pipeExpr from matching (echo behaves like a reference in pipes)
-pipeExpr ::= expression PIPE (ECHO | expression)
+pipeExpr ::= expression PIPE (ECHO (AS expression)? | expression)
 
 private binaryGroup ::= binaryExpr | pipeExpr
 
@@ -412,8 +421,8 @@ wholeNumber ::= VALID_DECIMAL_DIGIT (NUMBER_SEPARATOR VALID_DECIMAL_DIGIT)*
 decimalIntegerLiteral ::= wholeNumber
 negativeDecimalIntegerLiteral ::= MINUS wholeNumber
 
-floatLiteral ::= MINUS? wholeNumber DOT wholeNumber? (EXPONENT_MARK EXPONENT_SIGN? wholeNumber)?
-integerLiteral ::= binaryIntegerLiteral | octalIntegerLiteral | hexIntegerLiteral | decimalIntegerLiteral
+floatLiteral ::= SIGN_MINUS? wholeNumber DOT wholeNumber? (EXPONENT_MARK EXPONENT_SIGN? wholeNumber)?
+integerLiteral ::= SIGN_MINUS? (binaryIntegerLiteral | octalIntegerLiteral | hexIntegerLiteral | decimalIntegerLiteral)
 
 //// Strings
 stringEscapeSegment ::= (ESCAPE ESCAPE_CHAR) | (ESCAPE UNICODE_ESCAPE_CHAR LBRACE UNICODE_CODEPOINT RBRACE)

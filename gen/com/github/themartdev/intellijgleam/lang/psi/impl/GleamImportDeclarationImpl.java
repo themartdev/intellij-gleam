@@ -35,6 +35,12 @@ public class GleamImportDeclarationImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @Nullable
+  public GleamIdentifierDiscardable getIdentifierDiscardable() {
+    return findChildByClass(GleamIdentifierDiscardable.class);
+  }
+
+  @Override
+  @Nullable
   public GleamModulePath getModulePath() {
     return findChildByClass(GleamModulePath.class);
   }
@@ -43,12 +49,6 @@ public class GleamImportDeclarationImpl extends ASTWrapperPsiElement implements 
   @Nullable
   public GleamUnqualifiedImports getUnqualifiedImports() {
     return findChildByClass(GleamUnqualifiedImports.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getIdentifier() {
-    return findChildByType(IDENTIFIER);
   }
 
   @Override

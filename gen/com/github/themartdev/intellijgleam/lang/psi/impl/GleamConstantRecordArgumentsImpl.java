@@ -33,4 +33,10 @@ public class GleamConstantRecordArgumentsImpl extends ASTWrapperPsiElement imple
     return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamConstantRecordArgument.class);
   }
 
+  @Override
+  @Nullable
+  public GleamConstantRecordUpdate getConstantRecordUpdate() {
+    return findChildByClass(GleamConstantRecordUpdate.class);
+  }
+
 }

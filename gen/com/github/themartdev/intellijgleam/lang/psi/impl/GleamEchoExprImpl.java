@@ -28,9 +28,9 @@ public class GleamEchoExprImpl extends GleamExpressionImpl implements GleamEchoE
   }
 
   @Override
-  @Nullable
-  public GleamExpression getExpression() {
-    return findChildByClass(GleamExpression.class);
+  @NotNull
+  public List<GleamExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamExpression.class);
   }
 
 }

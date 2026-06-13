@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamUseExprImpl extends GleamExpressionImpl implements GleamUseExpr {
+public class GleamConcatExprConstImpl extends GleamExpressionConstImpl implements GleamConcatExprConst {
 
-  public GleamUseExprImpl(@NotNull ASTNode node) {
+  public GleamConcatExprConstImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitUseExpr(this);
+    visitor.visitConcatExprConst(this);
   }
 
   @Override
@@ -28,15 +28,9 @@ public class GleamUseExprImpl extends GleamExpressionImpl implements GleamUseExp
   }
 
   @Override
-  @Nullable
-  public GleamExpression getExpression() {
-    return findChildByClass(GleamExpression.class);
-  }
-
-  @Override
   @NotNull
-  public List<GleamUseAssignment> getUseAssignmentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamUseAssignment.class);
+  public List<GleamExpressionConst> getExpressionConstList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamExpressionConst.class);
   }
 
 }

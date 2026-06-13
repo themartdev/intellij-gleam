@@ -28,9 +28,9 @@ public class GleamConstantRecordArgumentImpl extends ASTWrapperPsiElement implem
   }
 
   @Override
-  @NotNull
+  @Nullable
   public GleamExpressionConst getExpressionConst() {
-    return findNotNullChildByClass(GleamExpressionConst.class);
+    return findChildByClass(GleamExpressionConst.class);
   }
 
   @Override

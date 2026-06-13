@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.themartdev.intellijgleam.lang.psi.GleamTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.themartdev.intellijgleam.lang.psi.*;
 
-public class GleamUseExprImpl extends GleamExpressionImpl implements GleamUseExpr {
+public class GleamUseAssignmentImpl extends ASTWrapperPsiElement implements GleamUseAssignment {
 
-  public GleamUseExprImpl(@NotNull ASTNode node) {
+  public GleamUseAssignmentImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull GleamVisitor visitor) {
-    visitor.visitUseExpr(this);
+    visitor.visitUseAssignment(this);
   }
 
   @Override
@@ -28,15 +28,15 @@ public class GleamUseExprImpl extends GleamExpressionImpl implements GleamUseExp
   }
 
   @Override
-  @Nullable
-  public GleamExpression getExpression() {
-    return findChildByClass(GleamExpression.class);
+  @NotNull
+  public GleamPatternAliasable getPatternAliasable() {
+    return findNotNullChildByClass(GleamPatternAliasable.class);
   }
 
   @Override
-  @NotNull
-  public List<GleamUseAssignment> getUseAssignmentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamUseAssignment.class);
+  @Nullable
+  public GleamTypeAnnotation getTypeAnnotation() {
+    return findChildByClass(GleamTypeAnnotation.class);
   }
 
 }

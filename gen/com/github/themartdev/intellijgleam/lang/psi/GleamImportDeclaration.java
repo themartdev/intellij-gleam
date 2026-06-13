@@ -11,13 +11,13 @@ public interface GleamImportDeclaration extends PsiElement {
   List<GleamAnnotation> getAnnotationList();
 
   @Nullable
+  GleamIdentifierDiscardable getIdentifierDiscardable();
+
+  @Nullable
   GleamModulePath getModulePath();
 
   @Nullable
   GleamUnqualifiedImports getUnqualifiedImports();
-
-  @Nullable
-  PsiElement getIdentifier();
 
   @Nullable PsiElement getNameOrAlias();
 

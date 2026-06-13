@@ -7,6 +7,7 @@
 ### Added
 
 - Added a `gleam test` run configuration (alongside `gleam run -m <module>`)
+- Added a Gleam color settings page (Settings → Editor → Color Scheme → Gleam) for customizing syntax colors
 
 ### Changed
 

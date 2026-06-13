@@ -35,6 +35,9 @@
         <lang.syntaxHighlighter language="Gleam"
                                 implementationClass="com.github.themartdev.intellijgleam.ide.highlighting.GleamSyntaxHighlighter"/>
 
+        <colorSettingsPage
+                implementation="com.github.themartdev.intellijgleam.ide.highlighting.GleamColorSettingsPage"/>
+
         <annotator language="Gleam"
                    implementationClass="com.github.themartdev.intellijgleam.ide.annotator.GleamHighlightingAnnotator"/>
 

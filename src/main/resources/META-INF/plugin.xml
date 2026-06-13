@@ -38,6 +38,9 @@
         <colorSettingsPage
                 implementation="com.github.themartdev.intellijgleam.ide.highlighting.GleamColorSettingsPage"/>
 
+        <indexPatternBuilder
+                implementation="com.github.themartdev.intellijgleam.ide.editor.GleamTodoIndexer"/>
+
         <annotator language="Gleam"
                    implementationClass="com.github.themartdev.intellijgleam.ide.annotator.GleamHighlightingAnnotator"/>
 

@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [0.12.0] - 2026-06-13
+
 ### Added
 
 - Added a **New Project** wizard for Gleam (delegates to `gleam new`, with an Erlang/JavaScript target choice)
@@ -199,7 +201,8 @@
     - Root keyword completion
     - Auto indentation, brace matching, etc.
 
-[Unreleased]: https://github.com/themartdev/intellij-gleam/compare/v0.11.0...HEAD
+[Unreleased]: https://github.com/themartdev/intellij-gleam/compare/v0.12.0...HEAD
+[0.12.0]: https://github.com/themartdev/intellij-gleam/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/themartdev/intellij-gleam/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/themartdev/intellij-gleam/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/themartdev/intellij-gleam/compare/v0.8.0...v0.9.0

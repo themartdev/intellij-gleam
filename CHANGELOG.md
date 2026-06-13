@@ -10,6 +10,7 @@
 - Added a Gleam color settings page (Settings → Editor → Color Scheme → Gleam) for customizing syntax colors
 - `TODO`/`FIXME` comments now appear in the TODO tool window and are highlighted
 - Added spell checking in comments and string literals
+- Brace matching for bit array delimiters (`<<` … `>>`)
 
 ### Changed
 

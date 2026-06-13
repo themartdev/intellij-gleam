@@ -18,4 +18,6 @@ private val BRACES = arrayOf(
     BracePair(GleamTypes.LBRACE, GleamTypes.RBRACE, true),
     BracePair(GleamTypes.LBRACK, GleamTypes.RBRACK, false),
     BracePair(GleamTypes.LPAREN, GleamTypes.RPAREN, false),
+    // Bit array delimiters `<<` … `>>` (Gleam has no shift operators, so these are unambiguous)
+    BracePair(GleamTypes.LT_LT, GleamTypes.GT_GT, false),
 )

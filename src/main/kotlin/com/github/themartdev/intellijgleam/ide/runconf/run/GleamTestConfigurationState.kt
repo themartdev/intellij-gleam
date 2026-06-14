@@ -5,6 +5,7 @@ import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.execution.configurations.PtyCommandLine
 import com.intellij.execution.process.ProcessHandler
 import com.intellij.execution.process.ProcessHandlerFactory
+import com.github.themartdev.intellijgleam.ide.common.GleamProject
 import com.intellij.execution.process.ProcessTerminatedListener
 import com.intellij.execution.runners.ExecutionEnvironment
 
@@ -30,7 +31,7 @@ class GleamTestConfigurationState(
         return PtyCommandLine()
             .withExePath(configuration.getActualGleamPath())
             .withParameters(gleamTestParameters(options.target, options.runtime))
-            .withWorkDirectory(configuration.project.basePath)
+            .withWorkDirectory(GleamProject.rootPath(configuration.project) ?: configuration.project.basePath)
             .withEnvironment(GleamToolchain.environmentForTarget(configuration.project, options.target))
     }
 

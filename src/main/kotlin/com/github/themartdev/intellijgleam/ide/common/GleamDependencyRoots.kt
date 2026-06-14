@@ -79,7 +79,7 @@ class GleamDependencyRoots(private val project: Project) : Disposable {
     private fun packagesDir(): VirtualFile? =
         packagesPath()?.let { LocalFileSystem.getInstance().findFileByPath(it) }
 
-    private fun packagesPath(): String? = project.basePath?.let { "$it/build/packages" }
+    private fun packagesPath(): String? = GleamProject.rootPath(project)?.let { "$it/build/packages" }
 
     private fun isUnderPackages(path: String, packagesPath: String): Boolean =
         path == packagesPath || path.startsWith("$packagesPath/")

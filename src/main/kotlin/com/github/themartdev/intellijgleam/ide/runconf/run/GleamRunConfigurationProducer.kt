@@ -1,5 +1,6 @@
 package com.github.themartdev.intellijgleam.ide.runconf.run
 
+import com.github.themartdev.intellijgleam.ide.common.GleamProject
 import com.github.themartdev.intellijgleam.lang.psi.GleamFunctionDeclaration
 import com.intellij.execution.actions.ConfigurationContext
 import com.intellij.execution.actions.LazyRunConfigurationProducer
@@ -57,10 +58,18 @@ class GleamRunConfigurationProducer : LazyRunConfigurationProducer<GleamRunConfi
         return functionName == "main" && visibility == "pub"
     }
 
+    /**
+     * The path of [element]'s file relative to its enclosing Gleam package root (e.g.
+     * `src/foo/bar.gleam`). The root is resolved by walking up to the nearest `gleam.toml`, so a
+     * file in a nested package is anchored on that package rather than the IDE root; the leading
+     * `src/` and extension are stripped later by [GleamRunConfiguration.getModuleQualifier]. Falls
+     * back to the project base path when no manifest is found.
+     */
     private fun getModulePath(element: PsiElement): String {
         val virtualFile = element.containingFile.virtualFile ?: return ""
-        //return virtualFile.path
-        val projectBasePath = element.project.basePath ?: return ""
-        return virtualFile.path.removePrefix(projectBasePath).trimStart('/')
+        val root = GleamProject.manifestFor(virtualFile)?.parent
+            ?: element.project.basePath
+            ?: return ""
+        return virtualFile.path.removePrefix(root).trimStart('/')
     }
 }

@@ -1,5 +1,6 @@
 package com.github.themartdev.intellijgleam.ide.lsp
 
+import com.github.themartdev.intellijgleam.ide.common.GleamProject
 import com.intellij.openapi.project.Project
 import com.redhat.devtools.lsp4ij.LanguageServerEnablementSupport
 import com.redhat.devtools.lsp4ij.LanguageServerFactory
@@ -13,6 +14,11 @@ class GleamLanguageServerFactory : LanguageServerFactory, LanguageServerEnableme
 
     override fun isEnabled(project: Project): Boolean {
         if (!validateLSP4IJCompatibility()) {
+            return false
+        }
+        // `gleam lsp` needs a package root (a `gleam.toml`) to operate; don't start it for a stray
+        // `.gleam` file opened outside any Gleam project.
+        if (!GleamProject.isGleamProject(project)) {
             return false
         }
         val settings = GleamServiceSettings.getInstance(project)

@@ -44,6 +44,9 @@
         <additionalLibraryRootsProvider
                 implementation="com.github.themartdev.intellijgleam.ide.common.GleamLibraryRootsProvider"/>
 
+        <fileIconProvider
+                implementation="com.github.themartdev.intellijgleam.ide.common.GleamTomlIconProvider"/>
+
         <spellchecker.support language="Gleam"
                               implementationClass="com.github.themartdev.intellijgleam.ide.editor.GleamSpellcheckingStrategy"/>
 

@@ -1,7 +1,7 @@
 package com.github.themartdev.intellijgleam.ide.runconf.run
 
 import com.github.themartdev.intellijgleam.ide.common.FsUtils
-import com.github.themartdev.intellijgleam.ide.common.GleamProjectUtils
+import com.github.themartdev.intellijgleam.ide.common.GleamProject
 import com.github.themartdev.intellijgleam.ide.lsp.GleamServiceSettings
 import com.intellij.execution.Executor
 import com.intellij.execution.configurations.*
@@ -58,7 +58,7 @@ class GleamRunConfiguration(project: Project, configurationFactory: Configuratio
 
         // Case 3: Absolute path under project src directory
         if (relFromSrc == null) {
-            val srcDirStr = GleamProjectUtils.getSrcDir(project)
+            val srcDirStr = GleamProject.getSrcDir(project)
             if (srcDirStr != null) {
                 val normSrcAbs = File(srcDirStr).absolutePath.replace('/', sysSep).trimEnd(sysSep)
                 val normAbs = File(normInput).absolutePath

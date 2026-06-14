@@ -28,7 +28,7 @@ class GleamLibraryRootsProvider : AdditionalLibraryRootsProvider() {
     }
 
     override fun getRootsToWatch(project: Project): Collection<VirtualFile> =
-        listOfNotNull(project.basePath?.let {
+        listOfNotNull(GleamProject.rootPath(project)?.let {
             LocalFileSystem.getInstance().findFileByPath("$it/build/packages")
         })
 }

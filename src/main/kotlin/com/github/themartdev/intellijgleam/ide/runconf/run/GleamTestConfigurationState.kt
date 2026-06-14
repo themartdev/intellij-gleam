@@ -26,18 +26,20 @@ class GleamTestConfigurationState(
     }
 
     private fun buildCommandLine(): GeneralCommandLine {
+        val options = configuration.getOptions()
         return PtyCommandLine()
             .withExePath(configuration.getActualGleamPath())
-            .withParameters(gleamTestParameters(configuration.getOptions().target))
+            .withParameters(gleamTestParameters(options.target, options.runtime))
             .withWorkDirectory(configuration.project.basePath)
-            .withEnvironment(GleamToolchain.environmentWithErlang(configuration.project))
+            .withEnvironment(GleamToolchain.environmentForTarget(configuration.project, options.target))
     }
 
     companion object {
-        /** Builds the `gleam` arguments for a test run. `--target` is added only when set. */
-        fun gleamTestParameters(target: String?): List<String> {
+        /** Builds the `gleam` arguments for a test run. `--target` and `--runtime` are added only when set. */
+        fun gleamTestParameters(target: String?, runtime: String? = null): List<String> {
             val params = mutableListOf("test")
             target?.takeIf { it.isNotBlank() }?.let { params += listOf("--target", it) }
+            runtime?.takeIf { it.isNotBlank() }?.let { params += listOf("--runtime", it) }
             return params
         }
     }

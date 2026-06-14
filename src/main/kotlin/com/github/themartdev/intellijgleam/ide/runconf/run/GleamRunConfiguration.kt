@@ -98,7 +98,7 @@ class GleamRunConfiguration(project: Project, configurationFactory: Configuratio
             throw RuntimeConfigurationException("Gleam executable is invalid: '$gleamPath'")
         }
 
-        GleamToolchain.validateErlangSdkRoot(project)
+        GleamToolchain.validateForTarget(project, getOptions().target)
     }
 
     override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration?> {

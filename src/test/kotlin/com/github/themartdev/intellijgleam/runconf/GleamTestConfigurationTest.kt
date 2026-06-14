@@ -68,4 +68,26 @@ class GleamTestConfigurationTest : LightPlatformTestCase() {
             GleamTestConfigurationState.gleamTestParameters("javascript")
         )
     }
+
+    fun `test gleamTestParameters adds the runtime flag for the js target`() {
+        assertEquals(
+            listOf("test", "--target", "javascript", "--runtime", "deno"),
+            GleamTestConfigurationState.gleamTestParameters("javascript", "deno")
+        )
+    }
+
+    fun `test gleamTestParameters omits a blank runtime`() {
+        assertEquals(listOf("test"), GleamTestConfigurationState.gleamTestParameters("", ""))
+    }
+
+    fun `test gleamRunParameters omits optional flags by default`() {
+        assertEquals(listOf("run"), GleamRunConfigurationState.gleamRunParameters(null, "", ""))
+    }
+
+    fun `test gleamRunParameters adds module target and runtime when set`() {
+        assertEquals(
+            listOf("run", "-m", "app", "--target", "javascript", "--runtime", "bun"),
+            GleamRunConfigurationState.gleamRunParameters("app", "javascript", "bun")
+        )
+    }
 }

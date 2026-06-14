@@ -26,6 +26,12 @@ class GleamGlobalSettings :
             state.erlangPath = value
         }
 
+    var jsRuntimePath
+        get() = state.jsRuntimePath ?: ""
+        set(value) {
+            state.jsRuntimePath = value
+        }
+
     companion object {
         fun getInstance(): GleamGlobalSettings = service()
     }
@@ -34,6 +40,7 @@ class GleamGlobalSettings :
 class GleamGlobalState : BaseState() {
     var gleamPath by string("")
     var erlangPath by string("")
+    var jsRuntimePath by string("")
 }
 
 @Service(Service.Level.PROJECT)
@@ -67,6 +74,13 @@ class GleamServiceSettings(val project: Project) :
             state.erlangPath = value
         }
 
+    /** Project-level override value; only meaningful when [overrideGlobalToolchain] is true. */
+    var jsRuntimePath
+        get() = state.jsRuntimePath ?: ""
+        set(value) {
+            state.jsRuntimePath = value
+        }
+
     /** The Gleam executable path that should actually be used: project override or global default. */
     val effectiveGleamPath: String
         get() = if (state.overrideGlobalToolchain) gleamPath else GleamGlobalSettings.getInstance().gleamPath
@@ -74,6 +88,10 @@ class GleamServiceSettings(val project: Project) :
     /** The Erlang SDK path that should actually be used: project override or global default. */
     val effectiveErlangPath: String
         get() = if (state.overrideGlobalToolchain) erlangPath else GleamGlobalSettings.getInstance().erlangPath
+
+    /** The JavaScript runtime path that should actually be used: project override or global default. */
+    val effectiveJsRuntimePath: String
+        get() = if (state.overrideGlobalToolchain) jsRuntimePath else GleamGlobalSettings.getInstance().jsRuntimePath
 
     companion object {
         fun getInstance(project: Project): GleamServiceSettings = project.service()
@@ -85,6 +103,7 @@ class GleamToolchainSettings : BaseState() {
     var overrideGlobalToolchain by property(false)
     var gleamPath by string("")
     var erlangPath by string("")
+    var jsRuntimePath by string("")
 }
 
 enum class GleamLspMode {

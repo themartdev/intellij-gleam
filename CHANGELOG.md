@@ -7,6 +7,11 @@
 ### Added
 
 - Dependency sources (the Gleam standard library, `gleeunit`, and every fetched hex package under `build/packages`) now appear as a **Gleam Dependencies** library: indexed, searchable, fully highlighted, and navigable from Go-to-Definition. The library refreshes automatically as dependencies are added or removed
+- JavaScript target support in run configurations: both `gleam run` and `gleam test` now offer a **Target** (Erlang/JavaScript) selector and, for JavaScript, a **runtime** choice (node/deno/bun) passed via `--runtime`. A configurable **JavaScript runtime path** (global, with per-project override) is auto-detected and added to `PATH` when running with the JavaScript target
+
+### Changed
+
+- Run configurations no longer require an Erlang SDK unless the Erlang target is selected. The JavaScript and default (let `gleam.toml` decide) targets only validate a runtime path when one is configured
 
 ## [0.12.0] - 2026-06-13
 

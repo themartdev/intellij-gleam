@@ -38,7 +38,7 @@ class GleamTestConfiguration(project: Project, configurationFactory: Configurati
         if (!FsUtils.validateGleamPath(gleamPath)) {
             throw RuntimeConfigurationException("Gleam executable is invalid: '$gleamPath'")
         }
-        GleamToolchain.validateErlangSdkRoot(project)
+        GleamToolchain.validateForTarget(project, getOptions().target)
     }
 
     override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration?> {

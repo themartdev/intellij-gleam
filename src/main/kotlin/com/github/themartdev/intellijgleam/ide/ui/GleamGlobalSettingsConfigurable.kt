@@ -3,9 +3,11 @@ package com.github.themartdev.intellijgleam.ide.ui
 import com.github.themartdev.intellijgleam.GleamBundle
 import com.github.themartdev.intellijgleam.ide.common.ErlangSdkFinder
 import com.github.themartdev.intellijgleam.ide.common.GleamExecutableFinder
+import com.github.themartdev.intellijgleam.ide.common.JsRuntimeFinder
 import com.github.themartdev.intellijgleam.ide.lsp.GleamGlobalSettings
 import com.github.themartdev.intellijgleam.ide.ui.components.ErlangPathComboBox
 import com.github.themartdev.intellijgleam.ide.ui.components.GleamPathComboBox
+import com.github.themartdev.intellijgleam.ide.ui.components.JsRuntimePathComboBox
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ModalityState
 import com.intellij.openapi.options.BoundConfigurable
@@ -25,10 +27,12 @@ class GleamGlobalSettingsConfigurable :
 
     private val gleamPathComboBox = GleamPathComboBox(null)
     private val erlangPathComboBox = ErlangPathComboBox(null)
+    private val jsRuntimePathComboBox = JsRuntimePathComboBox(null)
 
     override fun createPanel() = panel {
         loadDetectedGleamPaths()
         loadDetectedErlangPaths()
+        loadDetectedJsRuntimePaths()
         group(GleamBundle.message("gleam.settings.configurable.group.sdk")) {
             row(GleamBundle.message("gleam.settings.configurable.sdk.gleamPath")) {
                 cell(gleamPathComboBox).align(AlignX.FILL).bind(
@@ -45,6 +49,14 @@ class GleamGlobalSettingsConfigurable :
                     settings::erlangPath.toMutableProperty()
                 )
             }
+
+            row(GleamBundle.message("gleam.settings.configurable.sdk.jsRuntimePath")) {
+                cell(jsRuntimePathComboBox).align(AlignX.FILL).bind(
+                    { it.selectedPath ?: "" },
+                    { a, b -> a.selectedPath = b },
+                    settings::jsRuntimePath.toMutableProperty()
+                )
+            }.rowComment(GleamBundle.message("gleam.settings.configurable.sdk.jsRuntimePath.help"))
         }
     }
 
@@ -67,6 +79,18 @@ class GleamGlobalSettingsConfigurable :
             ApplicationManager.getApplication().invokeLater({
                 detectedErlangPaths.forEach { path ->
                     erlangPathComboBox.addItem(path.path, path.version)
+                }
+            }, modalityState)
+        }
+    }
+
+    private fun loadDetectedJsRuntimePaths() {
+        val modalityState = ModalityState.current()
+        ApplicationManager.getApplication().executeOnPooledThread {
+            val detectedJsRuntimes = JsRuntimeFinder.findJsRuntimes()
+            ApplicationManager.getApplication().invokeLater({
+                detectedJsRuntimes.forEach { runtime ->
+                    jsRuntimePathComboBox.addItem(runtime.path, runtime.version)
                 }
             }, modalityState)
         }

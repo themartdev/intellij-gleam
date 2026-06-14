@@ -30,6 +30,7 @@ class GleamToolchainTest : LightPlatformTestCase() {
     override fun tearDown() {
         try {
             settings().erlangPath = ""
+            settings().jsRuntimePath = ""
             settings().overrideGlobalToolchain = false
             FileUtil.delete(sdkRoot)
         } finally {
@@ -89,6 +90,85 @@ class GleamToolchainTest : LightPlatformTestCase() {
         val path = GleamToolchain.environmentWithErlang(project)["PATH"] ?: ""
         assertFalse(path.contains(binDir.absolutePath))
     }
+
+    // --- JavaScript runtime ---
+
+    fun `test normalizedJsRuntimeBinDir resolves an executable to its directory`() {
+        val node = File(binDir, if (SystemInfo.isWindows) "node.exe" else "node").apply {
+            writeText(""); setExecutable(true)
+        }
+        settings().jsRuntimePath = node.absolutePath
+        assertEquals(binDir.absolutePath, GleamToolchain.normalizedJsRuntimeBinDir(project))
+    }
+
+    fun `test normalizedJsRuntimeBinDir keeps a directory`() {
+        settings().jsRuntimePath = binDir.absolutePath
+        assertEquals(binDir.absolutePath, GleamToolchain.normalizedJsRuntimeBinDir(project))
+    }
+
+    fun `test normalizedJsRuntimeBinDir is empty when unset`() {
+        settings().jsRuntimePath = ""
+        assertEquals("", GleamToolchain.normalizedJsRuntimeBinDir(project))
+    }
+
+    fun `test validateJsRuntimePath allows an unset path`() {
+        settings().jsRuntimePath = ""
+        GleamToolchain.validateJsRuntimePath(project) // should not throw
+    }
+
+    fun `test validateJsRuntimePath throws for a nonexistent path`() {
+        settings().jsRuntimePath = File(sdkRoot, "does-not-exist").absolutePath
+        assertThrowsConfigError { GleamToolchain.validateJsRuntimePath(project) }
+    }
+
+    // --- target-aware environment ---
+
+    fun `test environmentForTarget erlang prepends erlang bin only`() {
+        settings().erlangPath = sdkRoot.absolutePath
+        settings().jsRuntimePath = jsBinDir().absolutePath
+        val path = GleamToolchain.environmentForTarget(project, "erlang")["PATH"] ?: ""
+        assertTrue(path.startsWith(binDir.absolutePath + File.pathSeparator) || path == binDir.absolutePath)
+        assertFalse(path.contains(jsBinDir().absolutePath))
+    }
+
+    fun `test environmentForTarget javascript prepends the js runtime dir only`() {
+        settings().erlangPath = sdkRoot.absolutePath
+        val jsBin = jsBinDir()
+        settings().jsRuntimePath = jsBin.absolutePath
+        val path = GleamToolchain.environmentForTarget(project, "javascript")["PATH"] ?: ""
+        assertTrue(path.startsWith(jsBin.absolutePath + File.pathSeparator) || path == jsBin.absolutePath)
+        assertFalse(path.contains(binDir.absolutePath))
+    }
+
+    fun `test environmentForTarget default prepends both`() {
+        settings().erlangPath = sdkRoot.absolutePath
+        val jsBin = jsBinDir()
+        settings().jsRuntimePath = jsBin.absolutePath
+        val path = GleamToolchain.environmentForTarget(project, "")["PATH"] ?: ""
+        assertTrue(path.contains(binDir.absolutePath))
+        assertTrue(path.contains(jsBin.absolutePath))
+    }
+
+    // --- target-aware validation ---
+
+    fun `test validateForTarget erlang requires the erlang sdk`() {
+        settings().erlangPath = ""
+        assertThrowsConfigError { GleamToolchain.validateForTarget(project, "erlang") }
+    }
+
+    fun `test validateForTarget javascript does not require erlang`() {
+        settings().erlangPath = ""
+        settings().jsRuntimePath = ""
+        GleamToolchain.validateForTarget(project, "javascript") // should not throw
+    }
+
+    fun `test validateForTarget default does not require erlang when unset`() {
+        settings().erlangPath = ""
+        settings().jsRuntimePath = ""
+        GleamToolchain.validateForTarget(project, "") // should not throw
+    }
+
+    private fun jsBinDir(): File = File(sdkRoot, "jsbin").apply { mkdirs() }
 
     private fun assertThrowsConfigError(block: () -> Unit) {
         try {

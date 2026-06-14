@@ -20,17 +20,22 @@ class GleamRunConfigurationState(
     }
 
     private fun buildCommandLine(): GeneralCommandLine {
-        val cmdLine = PtyCommandLine()
+        val options = configuration.getOptions()
+        return PtyCommandLine()
             .withExePath(configuration.getActualGleamPath())
-            .withParameters("run")
+            .withParameters(gleamRunParameters(configuration.getModuleQualifier(), options.target, options.runtime))
             .withWorkDirectory(configuration.project.basePath)
-            .withEnvironment(GleamToolchain.environmentWithErlang(configuration.project))
-
-        configuration.getModuleQualifier()?.let {
-            cmdLine.addParameters("-m", it)
-        }
-
-        return cmdLine
+            .withEnvironment(GleamToolchain.environmentForTarget(configuration.project, options.target))
     }
 
+    companion object {
+        /** Builds the `gleam` arguments for a run. `-m`, `--target` and `--runtime` are added only when set. */
+        fun gleamRunParameters(moduleQualifier: String?, target: String?, runtime: String?): List<String> {
+            val params = mutableListOf("run")
+            moduleQualifier?.takeIf { it.isNotBlank() }?.let { params += listOf("-m", it) }
+            target?.takeIf { it.isNotBlank() }?.let { params += listOf("--target", it) }
+            runtime?.takeIf { it.isNotBlank() }?.let { params += listOf("--runtime", it) }
+            return params
+        }
+    }
 }

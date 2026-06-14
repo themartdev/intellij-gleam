@@ -44,6 +44,12 @@
         <additionalLibraryRootsProvider
                 implementation="com.github.themartdev.intellijgleam.ide.common.GleamLibraryRootsProvider"/>
 
+        <fileBasedIndex
+                implementation="com.github.themartdev.intellijgleam.ide.navigation.GleamSymbolIndex"/>
+
+        <gotoSymbolContributor
+                implementation="com.github.themartdev.intellijgleam.ide.navigation.GleamChooseByNameContributor"/>
+
         <fileIconProvider
                 implementation="com.github.themartdev.intellijgleam.ide.common.GleamTomlIconProvider"/>
 

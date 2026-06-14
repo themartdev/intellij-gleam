@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- Dependency sources (the Gleam standard library, `gleeunit`, and every fetched hex package under `build/packages`) now appear as a **Gleam Dependencies** library: indexed, searchable, fully highlighted, and navigable from Go-to-Definition. The library refreshes automatically as dependencies are added or removed
+
 ## [0.12.0] - 2026-06-13
 
 ### Added

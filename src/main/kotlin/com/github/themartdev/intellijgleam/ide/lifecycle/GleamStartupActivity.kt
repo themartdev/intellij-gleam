@@ -1,5 +1,6 @@
 package com.github.themartdev.intellijgleam.ide.lifecycle
 
+import com.github.themartdev.intellijgleam.ide.common.GleamDependencyRoots
 import com.github.themartdev.intellijgleam.ide.lsp.GleamGlobalSettings
 import com.github.themartdev.intellijgleam.ide.lsp.GleamLspMode
 import com.github.themartdev.intellijgleam.ide.lsp.GleamServiceSettings
@@ -17,6 +18,9 @@ class GleamStartupActivity : ProjectActivity {
         seedGlobalToolchainFromProject(project)
         checkLSP4IJVersion()
         checkLSPEnabled(project)
+        // Instantiate eagerly so its VFS watch for added/removed dependencies is active
+        // from project open, not only once the library roots are first queried.
+        GleamDependencyRoots.getInstance(project)
     }
 
     /**

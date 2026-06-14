@@ -80,6 +80,15 @@ scripts/validate-gleam-release.sh v1.14.0 --skip-fetch  # reuse build/gleam-corp
 
 It fetches `test/language` (and optionally stdlib) via `scripts/fetch-gleam-corpus.sh` and runs the test with `-Pgleam.corpus.*` properties (forwarded to the test JVM in `build.gradle.kts`). `scripts/corpus-exclusions.txt` lists files intentionally skipped. CI runs the equivalent on new Gleam releases (`.github/workflows/gleam-release-watch.yml`).
 
+## Changelog
+
+Every user-facing feature, change, or fix must be recorded in `CHANGELOG.md` under the
+`## [Unreleased]` section as part of the same change. Add a bullet to the matching
+`### Added` / `### Changed` / `### Fixed` subsection (create the subsection if it's missing),
+following the [Keep a Changelog](https://keepachangelog.com) style already used in the file.
+Purely internal changes (refactors, tests, build/CI tweaks with no user-visible effect) don't
+need an entry.
+
 ## Releasing
 
 Version lives in `gradle.properties` (`pluginVersion`, currently a `-SNAPSHOT`). Changelog is managed by the Gradle Changelog plugin (`CHANGELOG.md`); `publishPlugin` depends on `patchChangelog`, and the published Marketplace release channel is derived from any pre-release label on the version. `scripts/set_release_version.sh` and `scripts/ci_new_snapshot.sh` handle version bumps. Signing/publishing read `CERTIFICATE_CHAIN`/`PRIVATE_KEY`/`PRIVATE_KEY_PASSWORD`/`PUBLISH_TOKEN` from the environment (falling back to `secrets/`).

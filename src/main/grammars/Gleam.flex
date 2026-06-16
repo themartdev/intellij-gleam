@@ -74,7 +74,9 @@ HOLE=_
 MODULE_COMMENT="////"[^\n]*
 FUNCTION_COMMENT="///"[^\n]*
 LINE_COMMENT="//"[^\n]*
-WHITE_SPACE=[ \r\n\t\f]+
+// \uFEFF is a byte order mark (BOM); the Gleam lexer treats it as whitespace
+// wherever it appears, not just at the start of the file (compiler-core/src/parse/lexer.rs).
+WHITE_SPACE=[ \r\n\t\f\uFEFF]+
 ANY=[^]
 
 // NUmbers

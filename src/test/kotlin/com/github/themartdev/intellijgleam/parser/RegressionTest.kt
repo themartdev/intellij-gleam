@@ -6,4 +6,7 @@ class RegressionTest : GleamParsingTestCase() {
     fun test35constructorExpression() = assertParsedCorrectly()
 
     fun test52misc() = assertParsedCorrectly()
+
+    // A byte order mark (U+FEFF) mid-source is treated as whitespace, like the Gleam compiler.
+    fun testByteOrderMark() = assertParsedCorrectly()
 }

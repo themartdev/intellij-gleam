@@ -20,6 +20,7 @@
 - Grammar: annotations (such as `@deprecated`) on a custom-type variant / record constructor no longer mark the type as a syntax error
 - Grammar: a bare `echo` / `echo as "..."` statement and a `case <subject>` with no body now parse without spurious errors
 - Improved parser error recovery for a trailing `.` (dot access): an incomplete field access no longer corrupts the parse of the surrounding block or the statements and declarations that follow
+- Grammar: a byte order mark (`U+FEFF`) anywhere in a source file is now treated as whitespace, matching the Gleam compiler's lexer, instead of producing a spurious syntax error
 
 ## [0.12.0] - 2026-06-13
 

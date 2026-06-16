@@ -52,7 +52,7 @@ public class _GleamLexer implements FlexLexer {
   private static final int [] ZZ_CMAP_TOP = zzUnpackcmap_top();
 
   private static final String ZZ_CMAP_TOP_PACKED_0 =
-    "\1\0\37\u0100\1\u0200\267\u0100\10\u0300\u1020\u0100";
+    "\1\0\37\u0100\1\u0200\267\u0100\10\u0300\36\u0100\1\u0400\u1001\u0100";
 
   private static int [] zzUnpackcmap_top() {
     int [] result = new int[4352];
@@ -90,10 +90,10 @@ public class _GleamLexer implements FlexLexer {
     "\1\54\1\55\1\56\1\57\2\55\1\60\1\61\1\62"+
     "\1\63\1\64\1\65\1\66\1\67\1\70\1\71\2\55"+
     "\1\72\1\73\1\55\1\74\1\75\1\76\7\0\1\3"+
-    "\u01a2\0\2\3\326\0\u0100\3";
+    "\u01a2\0\2\3\326\0\u0100\3\377\0\1\1";
 
   private static int [] zzUnpackcmap_blocks() {
-    int [] result = new int[1024];
+    int [] result = new int[1280];
     int offset = 0;
     offset = zzUnpackcmap_blocks(ZZ_CMAP_BLOCKS_PACKED_0, offset, result);
     return result;

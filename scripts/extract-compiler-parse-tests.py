@@ -35,7 +35,9 @@ MODULE_STARTERS = (
 
 def looks_like_module(src: str) -> bool:
     for line in src.strip().splitlines():
-        line = line.strip()
+        # A byte order mark (U+FEFF) is not Python whitespace, so str.strip() leaves it
+        # in place; drop it so a leading BOM doesn't hide a module-level starter keyword.
+        line = line.strip().lstrip("\ufeff").strip()
         if not line or line.startswith("//"):
             continue
         return line.startswith(MODULE_STARTERS)

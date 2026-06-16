@@ -3,6 +3,7 @@ package com.github.themartdev.intellijgleam.ide.lifecycle
 import com.github.themartdev.intellijgleam.ide.common.GleamDependencyRoots
 import com.github.themartdev.intellijgleam.ide.common.GleamProject
 import com.github.themartdev.intellijgleam.ide.lsp.GleamGlobalSettings
+import com.github.themartdev.intellijgleam.ide.lsp.GleamLspLifecycleListener
 import com.github.themartdev.intellijgleam.ide.lsp.GleamLspMode
 import com.github.themartdev.intellijgleam.ide.lsp.GleamServiceSettings
 import com.intellij.ide.plugins.PluginManagerCore
@@ -13,6 +14,7 @@ import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.ProjectActivity
 import com.intellij.util.text.VersionComparatorUtil
+import com.redhat.devtools.lsp4ij.lifecycle.LanguageServerLifecycleManager
 
 class GleamStartupActivity : ProjectActivity {
     override suspend fun execute(project: Project) {
@@ -25,6 +27,10 @@ class GleamStartupActivity : ProjectActivity {
         if (!GleamProject.isGleamProject(project)) return
 
         checkLSPEnabled(project)
+        // Watch the language server lifecycle so an unexpected crash surfaces a one-click restart
+        // instead of silently breaking navigation/completion.
+        LanguageServerLifecycleManager.getInstance(project)
+            .addLanguageServerLifecycleListener(GleamLspLifecycleListener(project))
         // Instantiate eagerly so its VFS watch for added/removed dependencies is active
         // from project open, not only once the library roots are first queried.
         GleamDependencyRoots.getInstance(project)

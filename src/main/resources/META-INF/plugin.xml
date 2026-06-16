@@ -139,5 +139,11 @@
                 text="Gleam File" description="Create new Gleam file">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
         </action>
+        <action id="Gleam.RestartLanguageServer"
+                class="com.github.themartdev.intellijgleam.ide.actions.RestartGleamLanguageServerAction"
+                text="Restart Gleam Language Server"
+                description="Restart the Gleam language server (gleam lsp)">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>

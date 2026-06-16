@@ -308,7 +308,8 @@ caseClause ::= caseClausePatterns [caseClauseGuard] R_ARROW expression
 caseClauses ::= caseClause*
 caseSubjects ::= expression (COMMA expression)*
 caseExprBody ::= LBRACE caseClauses RBRACE {pin=1}
-caseExpr ::= CASE caseSubjects caseExprBody
+// Case without a body is not valid gleam, but it's more convenient to mark it as optional compared to recovery
+caseExpr ::= CASE caseSubjects [caseExprBody]
 
 useAssignment ::= patternAliasable [typeAnnotation]
 useExpr ::= USE [useAssignment (COMMA useAssignment)*] L_ARROW expression
@@ -317,7 +318,7 @@ letExpr ::= LET ASSERT? patternAliasable [typeAnnotation] EQUAL expression (AS e
 
 assertExpr ::= ASSERT expression (AS expression)?
 
-echoExpr ::= ECHO expression (AS expression)?
+echoExpr ::= ECHO [expression] [AS expression]
 
 panicExpr ::= PANIC (AS expression)?
 todoExpr ::= TODO (AS expression)?

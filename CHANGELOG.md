@@ -18,6 +18,7 @@
 ### Fixed
 
 - Grammar: annotations (such as `@deprecated`) on a custom-type variant / record constructor no longer mark the type as a syntax error
+- Grammar: a bare `echo` / `echo as "..."` statement and a `case <subject>` with no body now parse without spurious errors
 
 ## [0.12.0] - 2026-06-13
 

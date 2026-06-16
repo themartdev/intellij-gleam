@@ -3820,20 +3820,27 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // ECHO expression (AS expression)?
+  // ECHO [expression] [AS expression]
   public static boolean echoExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "echoExpr")) return false;
     if (!nextTokenIsSmart(b, ECHO)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokenSmart(b, ECHO);
-    r = r && expression(b, l + 1, -1);
+    r = r && echoExpr_1(b, l + 1);
     r = r && echoExpr_2(b, l + 1);
     exit_section_(b, m, ECHO_EXPR, r);
     return r;
   }
 
-  // (AS expression)?
+  // [expression]
+  private static boolean echoExpr_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "echoExpr_1")) return false;
+    expression(b, l + 1, -1);
+    return true;
+  }
+
+  // [AS expression]
   private static boolean echoExpr_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "echoExpr_2")) return false;
     echoExpr_2_0(b, l + 1);
@@ -3975,7 +3982,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // CASE caseSubjects caseExprBody
+  // CASE caseSubjects [caseExprBody]
   public static boolean caseExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "caseExpr")) return false;
     if (!nextTokenIsSmart(b, CASE)) return false;
@@ -3983,9 +3990,16 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeTokenSmart(b, CASE);
     r = r && caseSubjects(b, l + 1);
-    r = r && caseExprBody(b, l + 1);
+    r = r && caseExpr_2(b, l + 1);
     exit_section_(b, m, CASE_EXPR, r);
     return r;
+  }
+
+  // [caseExprBody]
+  private static boolean caseExpr_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "caseExpr_2")) return false;
+    caseExprBody(b, l + 1);
+    return true;
   }
 
   // HASH LPAREN [expression (COMMA expression)* [COMMA]] RPAREN

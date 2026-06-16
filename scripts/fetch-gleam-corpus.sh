@@ -37,9 +37,15 @@ sparse_fetch() {
     cp -r "$clone_dir/$sparse_path/." "$dest/"
 }
 
-rm -rf "$OUT_DIR/gleam-test-language" "$OUT_DIR/stdlib"
+rm -rf "$OUT_DIR/gleam-test-language" "$OUT_DIR/stdlib" "$OUT_DIR/compiler-parse-tests"
 
 sparse_fetch "https://github.com/gleam-lang/gleam.git" "$TAG" "test/language" "$OUT_DIR/gleam-test-language"
+
+# Compiler parse-test snapshots: the corpus whose coverage IS parser edge cases.
+# Extracted into standalone .gleam files (positive/clean-parse cases only).
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+echo "Extracting compiler parse-test snippets at $TAG ..."
+python3 "$SCRIPT_DIR/extract-compiler-parse-tests.py" "$TAG" "$OUT_DIR/compiler-parse-tests"
 
 if [[ "$WITH_STDLIB" == "--with-stdlib" ]]; then
     STDLIB_TAG="$(git ls-remote --tags --refs https://github.com/gleam-lang/stdlib.git \

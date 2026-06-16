@@ -1,8 +1,14 @@
 # Files excluded from external corpus parser validation (GleamExternalCorpusTest).
 #
 # One entry per line, relative to the corpus root, glob patterns supported.
-# Always add a comment explaining WHY a file is excluded, e.g.:
-#
-#   gleam-test-language/test/language/some_test.gleam  # uses vX.Y syntax, tracked in issue #42
-#
+# Always add a comment explaining WHY a file is excluded, and ideally an issue link.
 # Lines starting with # and inline trailing comments are ignored.
+
+# --- Permissiveness gaps: compiler's PARSER accepts these; the error (if any) is
+# --- semantic/analysis, not syntactic. Tracked for grammar leniency work.
+# --- Remove each line as its grammar fix lands.
+
+compiler-parse-tests/case_expression_without_body.gleam       # case x {} - empty clause list; make caseClause* not +
+compiler-parse-tests/record_access_no_label.gleam             # `Wibble("a").` trailing dot; mid-edit field access recovery
+compiler-parse-tests/echo_with_no_expressions_after_it.gleam  # bare `echo`; make echo expression optional
+compiler-parse-tests/echo_with_no_expressions_after_it_but_a_message.gleam  # `echo as msg`; same

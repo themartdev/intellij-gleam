@@ -10,7 +10,7 @@ public interface GleamFieldAccessExpr extends GleamExpression {
   @NotNull
   GleamExpression getExpression();
 
-  @NotNull
+  @Nullable
   GleamLabel getLabel();
 
 }

@@ -1275,7 +1275,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !(RBRACE | RPAREN | RBRACK | LET | EOL)
+  // !(RBRACE | RPAREN | RBRACK | LET | USE | CASE | ASSERT | EOL)
   static boolean expressionRecoverWhile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expressionRecoverWhile")) return false;
     boolean r;
@@ -1285,7 +1285,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // RBRACE | RPAREN | RBRACK | LET | EOL
+  // RBRACE | RPAREN | RBRACK | LET | USE | CASE | ASSERT | EOL
   private static boolean expressionRecoverWhile_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expressionRecoverWhile_0")) return false;
     boolean r;
@@ -1293,6 +1293,9 @@ public class GleamParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, RPAREN);
     if (!r) r = consumeToken(b, RBRACK);
     if (!r) r = consumeToken(b, LET);
+    if (!r) r = consumeToken(b, USE);
+    if (!r) r = consumeToken(b, CASE);
+    if (!r) r = consumeToken(b, ASSERT);
     if (!r) r = consumeToken(b, EOL);
     return r;
   }
@@ -3561,7 +3564,7 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // Operator priority table:
   // 0: BINARY(binaryExpr) POSTFIX(pipeExpr)
   // 1: PREFIX(unaryExpr)
-  // 2: POSTFIX(fieldAccessExpr) POSTFIX(indexAccessExpr) POSTFIX(callExpr)
+  // 2: POSTFIX(indexAccessExpr) POSTFIX(fieldAccessExpr) POSTFIX(callExpr)
   // 3: ATOM(recordExpr) ATOM(letExpr) ATOM(assertExpr) ATOM(echoExpr)
   //    ATOM(panicExpr) ATOM(todoExpr) PREFIX(useExpr) ATOM(caseExpr)
   //    ATOM(tupleExpr) ATOM(literalExpr) ATOM(bitArrayExpr) ATOM(anonymousFunctionExpr)
@@ -3606,13 +3609,13 @@ public class GleamParser implements PsiParser, LightPsiParser {
         r = true;
         exit_section_(b, l, m, PIPE_EXPR, r, true, null);
       }
-      else if (g < 2 && fieldAccessExpr_0(b, l + 1)) {
-        r = true;
-        exit_section_(b, l, m, FIELD_ACCESS_EXPR, r, true, null);
-      }
       else if (g < 2 && indexAccessExpr_0(b, l + 1)) {
         r = true;
         exit_section_(b, l, m, INDEX_ACCESS_EXPR, r, true, null);
+      }
+      else if (g < 2 && fieldAccessExpr_0(b, l + 1)) {
+        r = true;
+        exit_section_(b, l, m, FIELD_ACCESS_EXPR, r, true, null);
       }
       else if (g < 2 && callArguments(b, l + 1)) {
         r = true;
@@ -3689,17 +3692,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
     return r || p;
   }
 
-  // DOT label
-  private static boolean fieldAccessExpr_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "fieldAccessExpr_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokenSmart(b, DOT);
-    r = r && label(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
   // DOT wholeNumber
   private static boolean indexAccessExpr_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "indexAccessExpr_0")) return false;
@@ -3707,6 +3699,17 @@ public class GleamParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeTokenSmart(b, DOT);
     r = r && wholeNumber(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // DOT label
+  private static boolean fieldAccessExpr_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "fieldAccessExpr_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokenSmart(b, DOT);
+    r = r && label(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }

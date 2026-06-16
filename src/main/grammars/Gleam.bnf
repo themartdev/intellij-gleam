@@ -328,10 +328,6 @@ callArguments ::= LPAREN [callArgument (COMMA callArgument)* [COMMA]] RPAREN
 
 callExpr ::= expression callArguments
 
-indexAccessExpr ::= expression DOT wholeNumber
-
-fieldAccessExpr ::= expression DOT label
-
 referenceExpr ::= IDENTIFIER
 
 private literal ::= floatLiteral
@@ -341,8 +337,11 @@ private literal ::= floatLiteral
 
 literalExpr ::= literal
 
-private postfixGroup ::= fieldAccessExpr
-                       | indexAccessExpr
+indexAccessExpr ::= expression DOT wholeNumber
+fieldAccessExpr ::= expression DOT label {pin=2}
+
+private postfixGroup ::= indexAccessExpr
+                       | fieldAccessExpr
                        | callExpr
 
 private primaryGroup ::= recordExpr
@@ -361,7 +360,7 @@ private primaryGroup ::= recordExpr
              | blockExpr
              | referenceExpr { recoverWhile=expressionRecoverWhile }
 
-private expressionRecoverWhile ::= !(RBRACE | RPAREN | RBRACK | LET | EOL)
+private expressionRecoverWhile ::= !(RBRACE | RPAREN | RBRACK | LET | USE | CASE | ASSERT | EOL)
 
 expression ::= binaryGroup
              | unaryExpr

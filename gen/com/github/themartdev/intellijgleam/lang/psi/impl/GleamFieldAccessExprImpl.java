@@ -34,9 +34,9 @@ public class GleamFieldAccessExprImpl extends GleamExpressionImpl implements Gle
   }
 
   @Override
-  @NotNull
+  @Nullable
   public GleamLabel getLabel() {
-    return findNotNullChildByClass(GleamLabel.class);
+    return findChildByClass(GleamLabel.class);
   }
 
 }

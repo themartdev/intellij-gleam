@@ -58,7 +58,9 @@ class GleamHighlightingAnnotator : Annotator, DumbAware {
     private fun highlightFunctionCall(element: GleamCallExpr, holder: AnnotationHolder) {
         when (val inner = element.expression) {
             is GleamFieldAccessExpr -> {
-                newAnnotation(holder, inner.label, GleamColors.FUNCTION_CALL)
+                inner.label?.let {
+                    newAnnotation(holder, it, GleamColors.FUNCTION_CALL)
+                }
             }
 
             is GleamReferenceExpr -> {

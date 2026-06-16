@@ -15,6 +15,10 @@
 
 - Run configurations no longer require an Erlang SDK unless the Erlang target is selected. The JavaScript and default (let `gleam.toml` decide) targets only validate a runtime path when one is configured
 
+### Fixed
+
+- Grammar: annotations (such as `@deprecated`) on a custom-type variant / record constructor no longer mark the type as a syntax error
+
 ## [0.12.0] - 2026-06-13
 
 ### Added

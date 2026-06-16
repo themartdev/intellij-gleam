@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface GleamRecordConstructor extends PsiElement {
 
   @NotNull
+  List<GleamAnnotation> getAnnotationList();
+
+  @NotNull
   GleamConstructorIdentifier getConstructorIdentifier();
 
   @Nullable

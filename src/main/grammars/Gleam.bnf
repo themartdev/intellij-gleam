@@ -404,7 +404,7 @@ labeledParameter ::= label COLON typeBase {pin=2}
 unlabeledParameter ::= typeBase
 private recordConstructorParameter ::= labeledParameter | unlabeledParameter
 recordConstructorParameters ::= LPAREN [recordConstructorParameter (COMMA recordConstructorParameter)* [COMMA]] RPAREN
-recordConstructor ::= constructorIdentifier [recordConstructorParameters]
+recordConstructor ::= (annotation)* constructorIdentifier [recordConstructorParameters]
 
 typeGenerics ::= LPAREN [IDENTIFIER (COMMA IDENTIFIER)* [COMMA]] RPAREN
 customType ::= LBRACE recordConstructor* RBRACE {pin=2}

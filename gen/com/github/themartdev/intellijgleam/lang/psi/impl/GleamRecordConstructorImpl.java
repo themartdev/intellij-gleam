@@ -29,6 +29,12 @@ public class GleamRecordConstructorImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @NotNull
+  public List<GleamAnnotation> getAnnotationList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, GleamAnnotation.class);
+  }
+
+  @Override
+  @NotNull
   public GleamConstructorIdentifier getConstructorIdentifier() {
     return findNotNullChildByClass(GleamConstructorIdentifier.class);
   }

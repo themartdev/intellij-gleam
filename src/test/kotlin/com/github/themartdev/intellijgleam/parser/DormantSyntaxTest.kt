@@ -15,4 +15,5 @@ class DormantSyntaxTest : GleamParsingTestCase() {
     fun testConstRecordUpdate() = assertParsedCorrectly()
     fun testConstTodo() = assertParsedCorrectly()
     fun testImportDiscardAlias() = assertParsedCorrectly()
+    fun testVariantDeprecation() = assertParsedCorrectly()
 }

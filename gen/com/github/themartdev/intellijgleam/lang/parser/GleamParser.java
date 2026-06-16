@@ -2379,21 +2379,43 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // constructorIdentifier [recordConstructorParameters]
+  // (annotation)* constructorIdentifier [recordConstructorParameters]
   public static boolean recordConstructor(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "recordConstructor")) return false;
-    if (!nextTokenIs(b, UP_IDENTIFIER)) return false;
+    if (!nextTokenIs(b, "<record constructor>", ANNOTATION_MARK, UP_IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, RECORD_CONSTRUCTOR, "<record constructor>");
+    r = recordConstructor_0(b, l + 1);
+    r = r && constructorIdentifier(b, l + 1);
+    r = r && recordConstructor_2(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // (annotation)*
+  private static boolean recordConstructor_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordConstructor_0")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!recordConstructor_0_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "recordConstructor_0", c)) break;
+    }
+    return true;
+  }
+
+  // (annotation)
+  private static boolean recordConstructor_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordConstructor_0_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = constructorIdentifier(b, l + 1);
-    r = r && recordConstructor_1(b, l + 1);
-    exit_section_(b, m, RECORD_CONSTRUCTOR, r);
+    r = annotation(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   // [recordConstructorParameters]
-  private static boolean recordConstructor_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "recordConstructor_1")) return false;
+  private static boolean recordConstructor_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recordConstructor_2")) return false;
     recordConstructorParameters(b, l + 1);
     return true;
   }

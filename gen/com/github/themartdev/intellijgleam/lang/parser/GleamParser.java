@@ -406,7 +406,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // bitArraySegmentOption (MINUS bitArraySegmentOption)*
   public static boolean bitArraySegmentOptions(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitArraySegmentOptions")) return false;
-    if (!nextTokenIs(b, "<bit array segment options>", IDENTIFIER, VALID_DECIMAL_DIGIT)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, BIT_ARRAY_SEGMENT_OPTIONS, "<bit array segment options>");
     r = bitArraySegmentOption(b, l + 1);

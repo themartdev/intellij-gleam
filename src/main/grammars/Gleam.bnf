@@ -389,7 +389,9 @@ tupleExpr ::= HASH LPAREN [expression (COMMA expression)* [COMMA]] RPAREN {pin=2
 // ===== BitArray =====
 bitArrayOptionName ::= IDENTIFIER
 bitArraySegmentOptionValue ::= expression
-bitArraySegmentOption ::= bitArrayOptionName [LPAREN bitArraySegmentOptionValue RPAREN] | wholeNumber
+// Size shorthand: any Int token, which the upstream lexer makes negative after `:`, e.g. `<<0:-8>>`
+// (compiler-core/src/parse.rs parse_bit_array_option).
+bitArraySegmentOption ::= bitArrayOptionName [LPAREN bitArraySegmentOptionValue RPAREN] | integerLiteral
 bitArraySegmentOptions ::= bitArraySegmentOption (MINUS bitArraySegmentOption)*
 
 bitArraySegment ::= expression [COLON bitArraySegmentOptions]

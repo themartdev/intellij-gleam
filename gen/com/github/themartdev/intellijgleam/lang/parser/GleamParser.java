@@ -350,14 +350,13 @@ public class GleamParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // bitArrayOptionName [LPAREN bitArraySegmentOptionValue RPAREN] | wholeNumber
+  // bitArrayOptionName [LPAREN bitArraySegmentOptionValue RPAREN] | integerLiteral
   public static boolean bitArraySegmentOption(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitArraySegmentOption")) return false;
-    if (!nextTokenIs(b, "<bit array segment option>", IDENTIFIER, VALID_DECIMAL_DIGIT)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, BIT_ARRAY_SEGMENT_OPTION, "<bit array segment option>");
     r = bitArraySegmentOption_0(b, l + 1);
-    if (!r) r = wholeNumber(b, l + 1);
+    if (!r) r = integerLiteral(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -407,7 +406,6 @@ public class GleamParser implements PsiParser, LightPsiParser {
   // bitArraySegmentOption (MINUS bitArraySegmentOption)*
   public static boolean bitArraySegmentOptions(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitArraySegmentOptions")) return false;
-    if (!nextTokenIs(b, "<bit array segment options>", IDENTIFIER, VALID_DECIMAL_DIGIT)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, BIT_ARRAY_SEGMENT_OPTIONS, "<bit array segment options>");
     r = bitArraySegmentOption(b, l + 1);

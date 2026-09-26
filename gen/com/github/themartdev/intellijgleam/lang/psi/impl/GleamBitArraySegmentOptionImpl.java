@@ -41,8 +41,8 @@ public class GleamBitArraySegmentOptionImpl extends ASTWrapperPsiElement impleme
 
   @Override
   @Nullable
-  public GleamWholeNumber getWholeNumber() {
-    return findChildByClass(GleamWholeNumber.class);
+  public GleamIntegerLiteral getIntegerLiteral() {
+    return findChildByClass(GleamIntegerLiteral.class);
   }
 
 }
